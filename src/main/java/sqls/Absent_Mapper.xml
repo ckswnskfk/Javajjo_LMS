@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="happy.jaj.prj.Absent_Mapper">
+
+	<!-- 신청서 조회 -->
+	<!-- 자신의 신청내역 리스트 상태별로 조회(학생) -->
+	<select id="student_absent_list" parameterType="java.util.Map" resultType="AppFormDTO">
+		SELECT FORM_SEQ, APP_DATE, COURSECODE, COURSENAME, STM, START_DATE 결석시작일
+        FROM APP_FORM JOIN IS_APPROVE
+                USING(FORM_SEQ)
+                        JOIN COURSE
+                        USING(COURSECODE)
+                WHERE STUDENT_ID = #{id} AND IS_APPROVE.STM = #{stm}
+                ORDER BY FORM_SEQ DESC;
+	</select>
+	
+	<!-- 클릭해서 각 신청을 상세조회(승인, 처리중) -->
+	<select id="absent_detail" parameterType="java.lang.String" resultType="AppFormDTO">
+		SELECT APP_DATE, COURSENAME, REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM
+		FROM APP_FORM A JOIN IS_APPROVE I USING(FORM_SEQ)
+		JOIN COURSE USING(COURSECODE)
+		WHERE FORM_SEQ = #{seq}
+	</select>
+	
+	<!-- 승인인 신청의 경우 사인 이미지 조회 -->
+	<select id="select_signature" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT SIGNATURE.NEWFILENAME
+		FROM SIGNATURE
+		JOIN APP_FORM ON APP_FORM.RECIPIENT_ID = SIGNATURE.SIGNATURE_ID
+		JOIN IS_APPROVE ON IS_APPROVE.FORM_SEQ = APP_FORM.FORM_SEQ
+		WHERE SIGNATURE.SIGNATURE_ID = #{id} AND APP_FORM.FORM_SEQ = #{seq} AND IS_APPROVE.STM = #{stm}
+	</select>
+	
+	
+	<!-- 클릭해서 각 신청을 상세조회(반려시) -->
+	<select id="absent_detail_return" parameterType="java.lang.String" resultType="AppFormDTO">
+		SELECT A.FORM_SEQ, APP_DATE, A.REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM, U.REASON
+		FROM APP_FORM A JOIN IS_APPROVE I ON A.FORM_SEQ = I.FORM_SEQ
+		JOIN UNAPPROVED U ON I.FORM_SEQ = U.FORM_SEQ
+		WHERE A.FORM_SEQ = #{seq}
+	</select>
+	
+	<!-- 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기 -->
+	<select id="recipient_absent_list" parameterType="java.util.Map" resultType="AppFormDTO">
+		SELECT A.APP_DATE,
+		I.STM,
+		S.NAME,
+		A.FORM_SEQ,
+		(SELECT COURSENAME
+			FROM COURSE
+			WHERE COURSECODE = A.COURSECODE) AS COURSENAME
+		FROM APP_FORM A JOIN IS_APPROVE I ON A.FORM_SEQ = I.FORM_SEQ
+		JOIN STUDENT S ON A.STUDENT_ID = S.ID
+		WHERE A.RECIPIENT_ID = #{id} AND I.STM = #{stm}
+		ORDER BY A.FORM_SEQ DESC
+	</select>
+	
+	
+	<!-- 결석 신청 -->
+	<!-- 결석 신청하려는 과정을 선택 -->
+	<select id="absent_course" parameterType="java.lang.String" resultType="CourseDTO">
+		SELECT COURSE.ID, COURSENAME, COURSECODE, STARTDATE
+		FROM USERCOURSE JOIN COURSE USING(COURSECODE)
+		WHERE USERCOURSE.ID = #{id}
+		ORDER BY COURSENAME
+	</select>
+	
+	<!-- 관리자를 선택 -->
+	<select id="absent_admin" resultType="AdminDTO">
+		SELECT ID, NAME
+		FROM ADMIN
+	</select>
+	
+	<!-- 학생이 결석 신청을 함 -->
+	<insert id="insert_absent_form" parameterType="AppFormDTO">
+		INSERT INTO APP_FORM
+		(FORM_SEQ, APP_DATE, STUDENT_ID, RECIPIENT_ID , --관리자ID
+		COURSECODE, REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME) --과정ID
+		VALUES
+		(APP_FORM_SEQ.NEXTVAL, SYSDATE, #{id}, #{recipient_id}, 
+		#{coursecode}, #{reason}, #{start_date}, #{ABSENT_DAYS}, #{filename}, #{newfilename})
+	</insert>
+	
+	<!-- 신청 상태 테이블 연결 -->
+	<insert id="insert_is_approve" parameterType="java.lang.String">
+		INSERT INTO IS_APPROVE(FORM_SEQ, STM)
+		VALUES((SELECT MAX(FORM_SEQ) FROM APP_FORM WHERE STUDENT_ID=#{id}), 'N');
+	</insert>
+	
+	<!-- 강사 및 관리자가 미승인 사유를 작성 -->
+	<insert id="insert_unapprove_reason" parameterType="java.util.Map">
+		INSERT INTO UNAPPROVED
+		VALUES(#{seq}, #{reason})
+	</insert>
+	
+	<!-- 동시에 승인 여부 수정 -->
+	<update id="update_is_approve" parameterType="java.util.Map">
+		UPDATE IS_APPROVE
+		SET STM = #{stm}
+		WHERE FORM_SEQ = #{seq}
+	</update>
+	
+	<!-- 강사 및 관리자가 승인을 함 -->
+	<UPDATE id="update_is_approve" parameterType="java.util.Map">
+		UPDATE IS_APPROVE
+		SET STM = #{stm}
+		WHERE FORM_SEQ = #{seq}
+	</UPDATE>
+	
+	
+</mapper>
