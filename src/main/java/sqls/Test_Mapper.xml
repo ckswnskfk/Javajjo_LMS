@@ -4,4 +4,152 @@
 
 
 
+	<!--과제 추가  -->
+	<insert id="test_insert" parameterMap="TestDTO">
+	INSERT INTO TEST(TESTCODE, TESTNAME, TESTTYPE, EXAMTYPE)
+	VALUES(((SELECT 'T'|| LPAD((TO_NUMBER(SUBSTR(MAX(TESTCODE),2))+1),5,0) FROM TEST), #{testname}, #{testtype},#{examtype})
+	</insert>
+	
+	<!-- 과목유형이 동일한 과제 조회 -->
+	<select id="test_select" parameterType="java.util.Map" resultType="TestDTO">
+	SELECT TESTCODE,TESTNAME
+	FROM TEST
+	WHERE TESTTYPE = #{testtype} AND EXMANTYPE = #{examtype}
+	</select>
+	
+	<insert id="se_insert" parameterType="SubjectTestDTO">
+	INSERT INTO SUBJECT_TEST(SUBJECTCODE, TESTCODE, TESTDAY)
+	VALUES(#{subjectcode}, #{testcode}, #{testday})
+	</insert>
+	
+	<select id="se_select" parameterType="java.util.Map" resultType="SubjectTestDTO">
+	SELECT TESTCODE, TESTNAME
+	FROM SUBJECT_TEST JOIN TEST USING(TESTCODE)
+	WHERE SUBJECTTYPE=#{subjecttype} AND EXAMTYPE=#{examtype}</select>
+	
+	
+	<select id="se_testselect" parameterType="java.lang.String" resultType="SubjectTestDTO">
+	SELECT TESTCODE,TESTNAME, TESTDAY
+	FROM SUBJECT_TEST JOIN TEST USING (TESTCODE)
+	WHERE SUBJECTCODE = #{subjectcode}
+	</select>
+	
+	<insert id="examdes_insert" parameterType="ExamDesDTO">
+	INSERT INTO EXAMDESCRIPTIVE(EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER)
+	VALUES(#{EXAM}, ((SELECT 'ED'|| LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMDESCRIPTIVE), #{explanation}, #{standard}, #{c_answer}) 
+	</insert>
+	
+	<insert id="examsel_insert" parameterType="ExamSelDTO">
+	INSERT INTO EXAMSELECT(EXAM, EXAMCODE, C_ANSWER)
+	VALUES( #{exam}, ((SELECT 'ES'|| LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMSELECT), #{c_answer}) 
+	</insert>
+	
+	<insert id="te_insert" parameterType="TestExamDTO">
+	INSERT INTO TEST_EXAM(TESTCODE, EXAMCODE, ALLOT, EXAMNUM)
+	VALUES(#{testcode}, #{examcode}, #{allot}, #{examnum})
+	</insert>
+	
+	<update id="te_modify" parameterType="TestExamDTO">
+	UPDATE TEST_EXAM SET ALLOT=#{allot}, EXAMNUM=#{examnum}
+	WHERE EXAMCODE = #{examcode}
+	</update>
+	
+	<select id="te_selectsum" parameterType="TestExamDTO" resultType="java.lang.Integer">
+	SELECT SUM(ALLOT) FROM TEST_EXAM
+	WHERE TESTCODE=#{testcode}
+	GROUP BY EXAMCODE
+	</select>
+	
+	<select id="te_select" parameterType="java.lang.String" resultType="ExamDesDTO">
+	SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT
+	FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
+	WHERE EXAMCODE=#{examcode}
+	ORDER BY EXAMNUM
+	</select>
+	
+	<select id="te_testselect" parameterType="java.lang.String" resultType="ExamDesDTO">
+	SELECT EXAMNUM, EXAM, ALLOT
+	FROM TEST_EXAM JOIN EXAM USING(EXAMCODE)
+	WHERE EXAMCODE = #{examcode}
+	ORDER BY EXAMNUM
+	</select>
+	
+	<insert id="content_insert" parameterType="ContentSelectDTO">
+	INSERT INTO CONTENTSELECT(EXAMCODE, EXAMNUM, EXAMCONTENT)
+	VALUES(#{examcode}, #{examnum}, #{examcontent})
+	</insert>
+	
+	<update id="content_modify" parameterType="java.util.Map">
+	UPDATE CONTENTSELECT 
+	SET EXAMCONTENT=#{examcontent}
+	WHERE EXAMCODE = #{examcode} AND EXAMNUM=#{examnum}
+	</update>
+	
+	<select id="content_select" parameterType="ContentSelectDTO">
+	SELECT CONTENTNUM, EXAMCONTENT
+	FROM CONTENTSELECT 
+	WHERE EXAMCODE = #{examcode}
+	ORDER BY CONTENTNUM
+	</select>
+	
+	<insert id="answerd_insert" parameterType="AnswerDesDTO">
+	INSERT INTO ANSWERDESCRIPTIVE(ID, EXAMCODE, EXAMNUM, ANSWER, ORIGINFILE, NEWFILENAME)
+	VALUES(#{id}, #{examcode}, #{examnum}, #{answer}, #{originfile}, #{newfilename})</insert>
+	
+	<update id="answerd_modify" parameterType="AnswerDesDTO">
+	UPDATE ANSWERDESCRIPTIVE
+	SET ANSWER = #{answer}, ORIGINFILE = #{orginfile}, NEWFILEANME= #{newfilename}
+	WHERE ID = #{id} AND EXAMCODE =#{examcode} AND EXAMNUM = #{examnum}</update>
+	
+	<!--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+	
+	<select id="answerd_select" parameterType="java.util.Map" resultType="">
+	SELECT CONTENTNUM, ANSWER, ORIGINFILE, NEWFILENAME
+	FROM ANSWERDESCRIPTIVE
+	WHERE ID = '01094096075' AND EXAMCODE = 'E00001'
+	ORDER BY EXAMNUM</select>
+	
+	<insert id="answers_insert">INSERT INTO ANSWERSELECT(ID, EXAMCODE, EXAMNUM, ANSWER)
+	VALUES ('01094096075', 'E00002', 3, 2)</insert>
+	
+	<update id="answers_modify">UPDATE ANSWERSELECT
+	SET ANSWER = 4
+	WHERE ID='01094096075' AND EXAMCODE = 'E00002' AND EXAMNUM = 3</update>
+	
+	<select id="answers_select">SELECT EXAMNUM, ANSWER
+	FROM ANSWERSELECT 
+	WHERE ID= '01094096075' AND EXAMCODE = 'E00002'
+	ORDER BY EXAMNUM </select>
+	
+	<insert id="score_insertd">INSERT INTO SCORE
+	(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
+	VALUES('01011111111', 'N', 'T00001', 'E00001', 0)</insert>
+	
+	<insert id="score_inserts">INSERT INTO SCORE
+	(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
+	VALUES('01011111111', 'N', 'T00001', 'E00001', (SELECT ALLOT
+	FROM ANSWERSELECT JOIN EXAMSELECT ON ANSWERSELECT.EXAMCODE=EXAMSELECT.EXAMCODE
+	JOIN TEST_EXAM ON EXAMSELECT.EXAMCODE=TEST_EXAM.EXAMCODE
+	WHERE ID= '01094096075' AND EXAMSELECT.EXAMCODE = 'E00004' AND TEST_EXAM.EXAMNUM = 3 AND C_ANSWER=ANSWER))</insert>
+	
+	<update id="score_modify">UPDATE SCORE
+	SET EXAMCHECK='Y', SCORE=30
+	WHERE ID='01011111111'
+	AND TESTCODE = 'T00001'
+	AND EXAMCODE = 'E00001'</update>
+	
+	<select id="score_select">SELECT ID,NAME ,SCORE
+	FROM SCORE JOIN STUDENT USING (ID)
+	WHERE ID = '01011111111'
+	AND TESTCODE = 'T00001'
+	AND EXAMCODE = 'E00001'</select>
+	
+	<select id="score_selectsum">SELECT SUM(SCORE), NAME,STUDENT.ID
+	FROM SCORE,STUDENT
+	WHERE SCORE.ID=STUDENT.ID
+	AND SCORE.ID = '01011111111'
+	GROUP BY EXAMCODE</select>
+
+
+
 </mapper>

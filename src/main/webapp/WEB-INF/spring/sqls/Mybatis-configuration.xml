@@ -19,6 +19,10 @@
 		 <typeAlias type="happy.jaj.prj.dtos.Subject_DTO" alias="SubjectDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Subject_Test_DTO" alias="SubjectTestDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Test_Exam_DTO" alias="TestExamDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Test_DTO" alias="TestDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Admin_DTO" alias="AdminDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Teacher_DTO" alias="TeacherDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.ContentSelect_DTO" alias="ContentSelectDTO"/>
 	</typeAliases>
 
 	<mappers>
