@@ -2,4 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Teacher_Mapper">
 
+	<!-- 로그인(강사) -->
+	<select id="teacher_login">
+		SELECT ID, NAME, COURSECODE 
+ 		FROM TEACHER
+  		WHERE ID='' AND PW=''
+  	</select>
+	
+	<!-- 본인 정보 조회(강사) -->
+	<select id="teacher_info">
+		SELECT ID, NAME, COURSECODE, PW FROM TEACHER WHERE ID=''
+	</select>
+	
+	<!-- 본인 정보 수정(강사) -->
+	<update id="teacher_modify">
+		UPDATE TEACHER SET PW='0000', NAME='홍길동' WHERE ID= '01011111111'
+	</update>
+	
+	<!-- 담당과정 수강학생 조회(강사) -->
+	<select id="teacher_student_list">
+		SELECT ID, NAME, GENDER, BIRTH, ADDR 
+		FROM (SELECT ROWNUM RNUM, ID, NAME, GENDER, BIRTH,
+		ADDR FROM STUDENT JOIN USERCOURSE USING(ID) WHERE COURSECODE = 'C00001')
+		WHERE RNUM BETWEEN 리스트시작번호 AND 리스트끝번호
+	</select>
+
 </mapper>
