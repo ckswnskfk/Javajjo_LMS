@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import happy.jaj.prj.dtos.Member_DTO;
+import happy.jaj.prj.dtos.Student_DTO;
 
 @Service
 public class Member_Service implements Member_IService {
@@ -18,7 +18,7 @@ public class Member_Service implements Member_IService {
 	private Member_Interface member_Interface;
 
 	@Override
-	public Member_DTO loginMember(Map<String, String> map) {
+	public Student_DTO loginMember(Map<String, String> map) {
 		return member_Interface.loginMember(map);
 	}
 

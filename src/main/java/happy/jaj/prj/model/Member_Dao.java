@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import happy.jaj.prj.dtos.Member_DTO;
+import happy.jaj.prj.dtos.Student_DTO;
 
 @Repository
 public class Member_Dao implements Member_Interface {
@@ -21,7 +21,7 @@ public class Member_Dao implements Member_Interface {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public Member_DTO loginMember(Map<String, String> map) {
+	public Student_DTO loginMember(Map<String, String> map) {
 		return sqlSession.selectOne(NS+"a_login", map);
 	}
 

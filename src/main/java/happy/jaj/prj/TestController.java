@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import happy.jaj.prj.dtos.Member_DTO;
+import happy.jaj.prj.dtos.Student_DTO;
 import happy.jaj.prj.model.Member_IService;
 
 @Controller
@@ -34,7 +34,7 @@ public class TestController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("pw", pw);
-		Member_DTO dto = iMember.loginMember(map);
+		Student_DTO dto = iMember.loginMember(map);
 		if(dto != null) {
 			return "main";
 		}

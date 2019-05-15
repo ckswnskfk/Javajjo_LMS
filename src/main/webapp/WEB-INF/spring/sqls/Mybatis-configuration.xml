@@ -2,11 +2,33 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<typeAliases>
-		 <typeAlias type="happy.jaj.prj.dtos.Member_DTO" alias="MemberDto"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Answer_Des_DTO" alias="AnswerDesDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Answer_Sel_DTO" alias="AnswerSelDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.App_Form_DTO" alias="AppFormDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Attended_DTO" alias="AttendedDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Course_DTO" alias="CourseDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Empty_DTO" alias="EmptyDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Exam_Des_DTO" alias="ExamDesDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Exam_Sel_DTO" alias="ExamSelDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Faq_DTO" alias="FaqDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Notice_DTO" alias="NoticeDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Room_Empty_DTO" alias="RoomEmptyDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.RowNum_DTO" alias="RowNumDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Signature_DTO" alias="SignatureDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Student_DTO" alias="StudentDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Subject_DTO" alias="SubjectDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Subject_Test_DTO" alias="SubjectTestDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Test_Exam_DTO" alias="TestExamDTO"/>
 	</typeAliases>
 
 	<mappers>
-		<mapper resource="/sqls/Member_Mapper.xml"/>
+		<mapper resource="/sqls/Admin_Mapper.xml"/>
+		<mapper resource="/sqls/EmptyBoard_Mapper.xml"/>
+		<mapper resource="/sqls/FileBoard_Mapper.xml"/>
+		<mapper resource="/sqls/NoticeBoard_Mapper.xml"/>
+		<mapper resource="/sqls/Student_Mapper.xml"/>
+		<mapper resource="/sqls/Teacher_Mapper.xml"/>
+		<mapper resource="/sqls/Test_Mapper.xml"/>
 	</mappers>
 
 </configuration>

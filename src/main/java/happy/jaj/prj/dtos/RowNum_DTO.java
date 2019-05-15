@@ -105,8 +105,8 @@ public class RowNum_DTO implements Serializable{
 		return "RowNum_DTO [pageList=" + pageList + ", index=" + index + ", pageNum=" + pageNum + ", listNum=" + listNum
 				+ ", total=" + total + "]";
 	}
-	
-	
+
+		
 	
 	
 }
