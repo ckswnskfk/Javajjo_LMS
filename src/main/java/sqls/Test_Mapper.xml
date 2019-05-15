@@ -103,7 +103,7 @@
 	
 	<!--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
 	
-	<select id="answerd_select" parameterType="java.util.Map" resultType="">
+	<select id="answerd_select" parameterType="java.util.Map">
 	SELECT CONTENTNUM, ANSWER, ORIGINFILE, NEWFILENAME
 	FROM ANSWERDESCRIPTIVE
 	WHERE ID = '01094096075' AND EXAMCODE = 'E00001'

@@ -27,6 +27,7 @@
 
 	<mappers>
 		<mapper resource="/sqls/Admin_Mapper.xml"/>
+		<mapper resource="/sqls/Absent_Mapper.xml"/>
 		<mapper resource="/sqls/EmptyBoard_Mapper.xml"/>
 		<mapper resource="/sqls/FileBoard_Mapper.xml"/>
 		<mapper resource="/sqls/NoticeBoard_Mapper.xml"/>

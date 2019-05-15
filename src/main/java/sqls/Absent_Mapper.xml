@@ -11,7 +11,7 @@
                         JOIN COURSE
                         USING(COURSECODE)
                 WHERE STUDENT_ID = #{id} AND IS_APPROVE.STM = #{stm}
-                ORDER BY FORM_SEQ DESC;
+                ORDER BY FORM_SEQ DESC
 	</select>
 	
 	<!-- 클릭해서 각 신청을 상세조회(승인, 처리중) -->
@@ -84,7 +84,7 @@
 	<!-- 신청 상태 테이블 연결 -->
 	<insert id="insert_is_approve" parameterType="java.lang.String">
 		INSERT INTO IS_APPROVE(FORM_SEQ, STM)
-		VALUES((SELECT MAX(FORM_SEQ) FROM APP_FORM WHERE STUDENT_ID=#{id}), 'N');
+		VALUES((SELECT MAX(FORM_SEQ) FROM APP_FORM WHERE STUDENT_ID=#{id}), 'N')
 	</insert>
 	
 	<!-- 강사 및 관리자가 미승인 사유를 작성 -->
@@ -101,11 +101,11 @@
 	</update>
 	
 	<!-- 강사 및 관리자가 승인을 함 -->
-	<UPDATE id="update_is_approve" parameterType="java.util.Map">
+	<update id="update_is_approve" parameterType="java.util.Map">
 		UPDATE IS_APPROVE
 		SET STM = #{stm}
 		WHERE FORM_SEQ = #{seq}
-	</UPDATE>
+	</update>
 	
 	
 </mapper>
