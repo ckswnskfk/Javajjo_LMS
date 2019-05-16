@@ -3,7 +3,7 @@
 <mapper namespace="happy.jaj.prj.Member_Mapper">
 
 	<!-- 학생 로그인 -->
-	<select id="stu_login" parameterType="java.util.Map" resultType="StudentDTO">
+	<select id="student_login" parameterType="java.util.Map" resultType="StudentDTO">
 		SELECT ID, NAME, PW 
  		FROM STUDENT WHERE ID=#{id} AND PW=#{pw}
 	</select>
