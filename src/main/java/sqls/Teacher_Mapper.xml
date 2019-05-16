@@ -3,28 +3,28 @@
 <mapper namespace="happy.jaj.prj.Teacher_Mapper">
 
 	<!-- 로그인(강사) -->
-	<select id="teacher_login">
+	<select id="teacher_login" parameterType="java.util.Map" resultType="TeacherDTO">
 		SELECT ID, NAME, COURSECODE 
  		FROM TEACHER
-  		WHERE ID='' AND PW=''
+  		WHERE ID=#{id} AND PW=#{pw}
   	</select>
 	
 	<!-- 본인 정보 조회(강사) -->
-	<select id="teacher_info">
-		SELECT ID, NAME, COURSECODE, PW FROM TEACHER WHERE ID=''
+	<select id="teacher_info" parameterType="java.lang.String" resultType="TeacherDTO">
+		SELECT ID, NAME, COURSECODE, PW FROM TEACHER WHERE ID=#{id}
 	</select>
 	
 	<!-- 본인 정보 수정(강사) -->
-	<update id="teacher_modify">
-		UPDATE TEACHER SET PW='0000', NAME='홍길동' WHERE ID= '01011111111'
+	<update id="teacher_modify" parameterType="java.util.Map">
+		UPDATE TEACHER SET PW=#{pw}, NAME=#{name} WHERE ID= #{id}
 	</update>
 	
 	<!-- 담당과정 수강학생 조회(강사) -->
-	<select id="teacher_student_list">
+	<select id="teacher_student_list" parameterType="RowNumDTO" resultType="StudentDTO">
 		SELECT ID, NAME, GENDER, BIRTH, ADDR 
 		FROM (SELECT ROWNUM RNUM, ID, NAME, GENDER, BIRTH,
-		ADDR FROM STUDENT JOIN USERCOURSE USING(ID) WHERE COURSECODE = 'C00001')
-		WHERE RNUM BETWEEN 리스트시작번호 AND 리스트끝번호
+		ADDR FROM STUDENT JOIN USERCOURSE USING(ID) WHERE COURSECODE = #{coursecode})
+		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 
 </mapper>

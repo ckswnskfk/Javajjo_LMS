@@ -3,104 +3,115 @@
 <mapper namespace="happy.jaj.prj.Admin_Mapper">
 
 	<!-- 로그인(관리자) -->
-	<select id="admin_login">
-		SELECT ID, NAME, PW  FROM ADMIN WHERE ID='' AND PW=''
+	<select id="admin_login" parameterType="java.util.Map" resultType="AdminDTO">
+		SELECT ID, NAME, PW  FROM ADMIN WHERE ID=#{id} AND PW=#{pw}
 	</select>
 	
 	<!-- 본인 정보 조회(관리자) -->
-	<select id="admin_info">
-		SELECT ID, NAME, COURSECODE, PW  FROM TEACHER WHERE ID=''
+	<select id="admin_info" parameterType="java.lang.String" resultType="AdminDTO">
+		SELECT ID, NAME  FROM ADMIN WHERE ID=#{id}
 	</select>
 	
 	<!-- 본인 정보 수정(관리자) -->
-	<update id="admin_modify">
-		UPDATE TEACHER SET PW='0000', NAME='홍길동' WHERE ID= '01011111111'
+	<update id="admin_modify" parameterType="java.util.Map">
+		UPDATE ADMIN SET PW=#{pw}, NAME=#{name} WHERE ID= #{id}
 	</update>
 	
 	<!-- 학생 회원가입 신청 조회(관리자) -->
-	<select id="admin_accept_list">
+	<select id="admin_accept_list" parameterType="RowNumDTO" resultType="StudentDTO">
 		SELECT ID, NAME, PW, GENDER, BIRTH, ADDR 
 		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, GENDER, BIRTH, ADDR,
 		DELFLAG, S_CHECKFROM STUDENT)
-		WHERE RNUM BETWEEN 리스트시작번호 AND 리스트끝번호 AND  S_CHECK='N'
+		WHERE RNUM BETWEEN #{start} AND #{last} AND  S_CHECK='N'
 	</select>
 	
 	<!-- 학생 회원가입 신청 승인(관리자) -->
-	<update id="admin_accept">
-		UPDATE STUDENT SET S_CHECK = 'Y' WHERE ID IN ('01011111111')
+	<update id="admin_accept" parameterType="java.lang.String">
+		UPDATE STUDENT SET S_CHECK = 'Y' WHERE ID IN
+		<foreach collection="list" item="id"  open="(" separator="," close=")">
+		 #{id}
+		</foreach>
 	</update>
 	
 	<!-- 학생 회원가입 신청 거절(관리자) -->
-	<delete id="admin_accept_refuse">
-		DELETE FROM STUDENT WHERE ID IN ('01011111111')
+	<delete id="admin_accept_refuse" parameterType="java.lang.String">
+		DELETE FROM STUDENT WHERE ID IN 
+		<foreach collection="list" item="id"  open="(" separator="," close=")">
+		 #{id}
+		</foreach>
 	</delete>
 	
 	<!-- 강사 조회(관리자) -->
-	<select id="admin_teacher_list">
+	<select id="admin_teacher_list" parameterType="RowNumDTO" resultType="TeacherDTO">
 		SELECT ID, NAME, PW, COURSECODE 
 		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, COURSECODE FROM TEACHER)
-		WHERE RNUM BETWEEN 리스트시작번호 AND 리스트 끝 번호
+		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
 	<!-- 강사 탈퇴(관리자) -->
-	<delete id="admin_teacher_delete">
-		DELETE FROM TEACHER WHERE ID =''
+	<delete id="admin_teacher_delete" parameterType="java.lang.String">
+		DELETE FROM TEACHER WHERE ID =#{id}
 	</delete>
 	
 	<!-- 강사 등록(관리자) -->
-	<insert id="admin_teacher_add">
-		INSERT INTO TEACHER(ID, NAME,PW,COURSECODE)SET('','','','')
+	<insert id="admin_teacher_add" parameterType="TeacherDTO">
+		INSERT INTO TEACHER(ID, NAME,PW,COURSECODE)SET(#{id},#{name},#{pw},#{coursecode})
 	</insert>
 	
 	<!-- 강사 정보 수정(관리자) -->
-	<update id="admin_teacher_modify">
-		UPDATE TEACHER ID='' PW='' NAME='' COURSCODE=''
+	<update id="admin_teacher_modify" parameterType="java.util.Map">
+		UPDATE TEACHER ID=#{id}, PW=#{pw}, NAME=#{name}, COURSCODE=#{coursecode}
+		WHERE ID=#{find_id}
 	</update>
 	
 	<!-- 전체 학생 조회(관리자) -->
-	<select id="admin_student_list">
+	<select id="admin_student_list" parameterType="RowNumDTO" resultType="StudentDTO">
 		SELECT ID, NAME, PW, GENDER, BIRTH, ADDR, DELFLAG 
 		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, GENDER, BIRTH, ADDR,
 		DELFLAG, S_CHECKFROM STUDENT) 
-		WHERE RNUM BETWEEN 리스트시작번호 AND 리스트 끝 번호 AND S_CHECK = 'Y' AND DELFLAG='N'
+		WHERE RNUM BETWEEN #{start} AND #{last} AND S_CHECK = 'Y' AND DELFLAG='N'
 	</select>
 	
 	<!-- 학생 탈퇴(관리자) -->
-	<update id="admin_student_delete">
-		UPDATE STUDENT SET DELFLAG ='N' WHERE ID IN(,)
+	<update id="admin_student_delete" parameterType="java.lang.String">
+		UPDATE STUDENT SET DELFLAG ='N' WHERE ID IN
+		<foreach collection="list" item="id"  open="(" separator="," close=")">
+		 #{id}
+		</foreach>
 	</update>
 	
 	<!-- 학생 상세 조회(관리자) -->
-	<select id="admin_student_detail">
+	<select id="admin_student_detail" parameterType="java.lang.String" resultType="StudentDTO">
 		SELECT ID, NAME, PW, GENDER, BIRTH, ADDR, DELFLAG FROM STUDENT
+		WHERE ID =#{id}
 	</select>
 	
 	<!-- 학생 정보 수정(관리자) -->
-	<update id="admin_student_modify">
-		UPDATE STUDENT SET ID ='', NAME='', PW='',GENDER='',
-		BIRTH='',ADDR='' WHERE ID=''
+	<update id="admin_student_modify" parameterType="java.util.Map">
+		UPDATE STUDENT SET ID =#{id}, NAME=#{name}, PW=#{pw},GENDER=#{gender},
+		BIRTH=#{birth},ADDR=#{addr} WHERE ID=#{find_id}
 	</update>
 	
 	<!-- 학생 과정 연결 조회(관리자) 본인 과정 -->
-	<select id="admin_student_clist_sel">
+	<select id="admin_student_clist_sel" parameterType="java.lang.String" resultType="CourseDTO">
 		SELECT COURSENAME, ID 
-		FROM USERCOURSE U JOIN COURSE CUSING (COURSECODE) 
-		WHERE COURSECODE = SELECT COURSECODE FROM USERCOURSE WHERE ID=''
+		FROM USERCOURSE JOIN COURSE USING (COURSECODE) 
+		WHERE COURSECODE = (SELECT COURSECODE FROM USERCOURSE WHERE ID=#{id})
 	</select>
 	
 	<!-- 학생 과정 연결 조회(관리자) 모든 과정 -->
-	<select id="admin_student_clist_all">
+	<select id="admin_student_clist_all" resultType="java.lang.String">
 		SELECT COURSENAME FROM COURSE
 	</select>
 	
 	<!-- 학생 과정 연결(관리자) -->
-	<insert id="admin_student_cconnect">
-		INSERT INTO USERCOURSE(ID, COURSECODE, REGDATE)VALUES('','',SYSDATE)
+	<insert id="admin_student_cconnect" parameterType="UserCourseDTO">
+		INSERT INTO USERCOURSE(ID, COURSECODE, REGDATE)VALUES(#{id},#{coursecode},SYSDATE)
 	</insert>
 	
 	<!-- 학생 과정 삭제(관리자) -->
-	<delete id="admin_student_cdelete">
-		DELETE FROM USERCOURSE WHERE ID='' AND COURSECODE=''
+	<delete id="admin_student_cdelete" parameterType="UserCourseDTO">
+		DELETE FROM USERCOURSE WHERE ID=#{id} AND COURSECODE=#{coursecode}
 	</delete>
 
 </mapper>

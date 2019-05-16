@@ -14,28 +14,28 @@
 	</update>
 	
 	<!-- 학생 회원 가입 -->
-	<insert id="student_join">
-		INSERT INTO STUDENT VALUES('01011111111',
-		 '홍길동', '1111','M', '2019-05-08','서울시 강남구 찬주동', 'N','N')
+	<insert id="student_join" parameterType="StudentDTO">
+		INSERT INTO STUDENT VALUES(#{id},
+		 #{name}, #{pw},#{gender}, #{birth}, #{addr}, 'N','N')
 	</insert>
 	
 	<!-- 학생 과정 조회 -->
-	<select id="student_course">
+	<select id="student_course" parameterType="java.lang.String" resultType="CourseDTO">
 		SELECT COURSENAME, STARTDATE, COURSECNT
-  		FROM USERCOURSE U JOIN COURSE C
-  		USING (COURSECODE) WHERE U.ID = '01011111111'
+  		FROM USERCOURSE JOIN COURSE 
+  		USING (COURSECODE) WHERE USERCOURSE.ID = #{id}
   	</select>
 	
 	<!-- 본인 정보 조회(학생) -->
-	<select id="student_info">
+	<select id="student_info" parameterType="java.lang.String" resultType="StudentDTO">
 		SELECT ID, NAME, GENDER, BIRTH, ADDR
- 		FROM STUDENT WHERE ID = ''
+ 		FROM STUDENT WHERE ID = #{id}
  	</select>
 	
 	<!-- 본인 정보 수정(학생) -->
-	<update id="student_modify">
-		UPDATE STUDENT SET PW='0000', NAME='홍길동', GENDER='F', ADDR='서울시 강남'
-		WHERE ID= '01011111111'
+	<update id="student_modify" parameterType="StudentDTO">
+		UPDATE STUDENT SET PW=#{pw}, NAME=#{name}, GENDER=#{gender}, ADDR=#{addr}
+		WHERE ID= #{id}
  	</update>
 	
 </mapper>
