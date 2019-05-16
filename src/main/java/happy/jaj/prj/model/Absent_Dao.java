@@ -99,7 +99,6 @@ public class Absent_Dao implements Absent_Interface {
 		logger.info("Absent_Dao insert_unapprove_reason 실행");
 		return sqlSessionTemplate.insert(NS+"insert_unapprove_reason", map);
 	}
-
 	// 동시에 승인 여부 수정
 	@Override
 	public int update_is_approve_Re(Map<String, String> map) {
@@ -107,6 +106,12 @@ public class Absent_Dao implements Absent_Interface {
 		return sqlSessionTemplate.insert(NS+"update_is_approve_Re", map);
 	}
 
-	
+	// 강사 및 관리자가 승인을 함
+	@Override
+	public int update_is_approve_Yes(Map<String, String> map) {
+		logger.info("Absent_Dao update_is_approve_Yes 실행");
+		return sqlSessionTemplate.update(NS+"update_is_approve_Yes", map);
+	}
+
 
 }

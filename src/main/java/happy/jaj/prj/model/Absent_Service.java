@@ -91,8 +91,23 @@ public class Absent_Service implements Absent_IService {
 	// 강사 및 관리자가 미승인 사유를 작성+동시에 승인 여부 수정
 	@Override
 	public int insert_unapprove_reason(Map<String, String> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("Absent_Interface insert_unapprove_reason 실행");
+		Map<String, String> insertMap = new HashMap<String, String>();
+		insertMap.put("seq", map.get("seq"));
+		insertMap.put("unapproved_reason", map.get("unapproved_reason"));
+		int n = absent_Interface.insert_unapprove_reason(insertMap);
+		Map<String, String> updateMap = new HashMap<String, String>();
+		updateMap.put("seq", map.get("seq"));
+		updateMap.put("stm", map.get("stm"));
+		n += absent_Interface.update_is_approve_Re(updateMap);
+		return n;
+	}
+
+	// 강사 및 관리자가 승인을 함
+	@Override
+	public int update_is_approve_Yes(Map<String, String> map) {
+		logger.info("Absent_Interface update_is_approve_Yes 실행");
+		return absent_Interface.update_is_approve_Yes(map);
 	}
 
 }

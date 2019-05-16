@@ -4,6 +4,14 @@
 	
 	<!-- 미완 -->
 	
+	<!-- (관리자)전체과정조회 -->
+	<select id="course_select" resultType="CourseDTO">
+		SELECT COURSECODE, COURSENAME, STARTDATE, COURSECNT, ID, NAME
+		FROM COURSE
+		JOIN TEACHER USING(COURSECODE)
+		ORDER BY STARTDATE DESC;
+	</select>
+	
 	<!-- (관리자)과정 등록(ID는 강사ID를 말함) -->
 	<insert id="course_insert" parameterType="CourseDTO">
 		INSERT INTO COURSE(COURSECODE, COURSENAME, STARTDATE, COURSECNT)
@@ -12,12 +20,5 @@
 		#{coursename}, #{startdate}, #{cnt})
 	</insert>
 	
-	<!-- (관리자)전체과정조회 -->
-	<select id="course_select" resultType="CourseDTO">
-		SELECT COURSECODE, COURSENAME, STARTDATE, NAME
-		FROM COURSE JOIN TEACHER
-		USING(COURSECODE)
-		ORDER BY STARTDATE
-	</select>
 	
 </mapper>

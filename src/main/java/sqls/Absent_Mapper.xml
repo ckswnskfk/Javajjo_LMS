@@ -92,7 +92,7 @@
 	<!-- 강사 및 관리자가 미승인 사유를 작성 -->
 	<insert id="insert_unapprove_reason" parameterType="java.util.Map">
 		INSERT INTO UNAPPROVED
-		VALUES(#{seq}, #{reason})
+		VALUES(#{seq}, #{unapproved_reason})
 	</insert>
 	
 	<!-- 동시에 승인 여부 수정 -->
