@@ -1,5 +1,6 @@
 package happy.jaj.prj.model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,8 +32,8 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public Test_DTO test_select(Map<String, String> map) {
-		return (Test_DTO)sqlSession.selectList(NS+"test_select",map);
+	public List<Test_DTO> test_select(Map<String, String> map) {
+		return sqlSession.selectList(NS+"test_select",map);
 	}
 
 	@Override
@@ -70,6 +71,12 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
+	public boolean examdes_modify(Exam_Des_DTO dto) {
+		int n = sqlSession.update(NS+"examdes_modify", dto);
+		return n>0? true : false;
+	}
+	
+	@Override
 	public boolean te_insert(Test_Exam_DTO dto) {
 		int n =sqlSession.insert(NS+"te_insert",dto);
 		return n>0? true:false;
@@ -92,8 +99,18 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public Exam_Des_DTO te_testselect(Map<String, String> map) {		
-		return (Exam_Des_DTO)sqlSession.selectOne(NS+"te_testselect",map);
+	public Exam_Sel_DTO te_testselect(Map<String, String> map) {		
+		return (Exam_Sel_DTO)sqlSession.selectOne(NS+"te_testselect",map);
+	}
+	
+	@Override
+	public List<Exam_Des_DTO> te_selectlist(String seq){
+		return sqlSession.selectList(NS+"te_selectlist", seq);
+	}
+	
+	@Override
+	public List<Exam_Sel_DTO> te_testselectlist(String seq){
+		return sqlSession.selectList(NS+"te_testselectlist",seq);
 	}
 
 	@Override
@@ -109,7 +126,7 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public ContentSelect_DTO content_select(String seq) {	
+	public List<ContentSelect_DTO> content_select(String seq) {	
 		return (ContentSelect_DTO)sqlSession.selectList(NS+"content_select",seq);
 	}
 
@@ -126,7 +143,7 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public Answer_Sel_DTO answerd_select(Map<String, String> map) {
+	public  Answer_Des_DTO answerd_select(Map<String, String> map) {
 		return sqlSession.selectOne(NS+"answerd_select",map);
 	}
 
@@ -171,7 +188,7 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public Score_DTO score_selectsum(String seq) {
+	public Score_DTO score_selectsum(Map<String, String> map) {
 		return sqlSession.selectOne(NS+"score_selectsum",seq);
 	}
 

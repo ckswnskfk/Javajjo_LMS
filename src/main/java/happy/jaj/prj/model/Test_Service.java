@@ -1,5 +1,6 @@
 package happy.jaj.prj.model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class Test_Service implements Test_IService {
 //	}
 
 	@Override
-	public Test_DTO test_select(Map<String, String> map) {
+	public List<Test_DTO> test_select(Map<String, String> map) {
 		return test_Interface.test_select(map);
 	}
 
@@ -78,6 +79,11 @@ public class Test_Service implements Test_IService {
 		boolean isc2 = test_Interface.content_modify(map);
 		return isc1==true && isc2==true ? true:false;
 	}
+	
+	@Override
+	public boolean examdes_modify(Exam_Des_DTO dto) {
+		return test_Interface.examdes_modify(dto);
+	}
 
 	@Override
 	public boolean te_modify(Test_Exam_DTO dto) {		
@@ -95,12 +101,22 @@ public class Test_Service implements Test_IService {
 	}
 
 	@Override
-	public Exam_Des_DTO te_testselect(Map<String, String> map) {
-		return (Exam_Des_DTO)test_Interface.te_testselect(map);
+	public Exam_Sel_DTO te_testselect(Map<String, String> map) {
+		return (Exam_Sel_DTO)test_Interface.te_testselect(map);
+	}
+	
+	@Override
+	public List<Exam_Des_DTO> te_selectlist(String seq){
+		return test_Interface.te_selectlist(seq);
+	}
+	
+	@Override
+	public List<Exam_Sel_DTO> te_testselectlist(String seq){
+		return test_Interface.te_testselectlist(seq);
 	}
 
 	@Override
-	public ContentSelect_DTO content_select(String seq) {
+	public List<ContentSelect_DTO> content_select(String seq) {
 		return test_Interface.content_select(seq);
 	}
 
@@ -123,7 +139,7 @@ public class Test_Service implements Test_IService {
 	}
 
 	@Override
-	public Answer_Sel_DTO answerd_select(Map<String, String> map) {
+	public  Answer_Des_DTO answerd_select(Map<String, String> map) {
 		
 		return test_Interface.answerd_select(map);
 	}
@@ -171,7 +187,7 @@ public class Test_Service implements Test_IService {
 	}
 
 	@Override
-	public Score_DTO score_selectsum(String seq) {
+	public Score_DTO score_selectsum(Map<String, String> map) {
 		
 		return test_Interface.score_selectsum(seq);
 	}
