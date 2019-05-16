@@ -5,7 +5,7 @@
 	<!-- 신청서 조회 -->
 	<!-- 자신의 신청내역 리스트 상태별로 조회(학생) -->
 	<select id="student_absent_list" parameterType="java.util.Map" resultType="AppFormDTO">
-		SELECT FORM_SEQ, APP_DATE, COURSECODE, COURSENAME, STM, START_DATE 결석시작일
+		SELECT FORM_SEQ, APP_DATE, COURSECODE, COURSENAME, STM, START_DATE 결석시작일, RECIPIENT_ID
         FROM APP_FORM JOIN IS_APPROVE
                 USING(FORM_SEQ)
                         JOIN COURSE
@@ -16,9 +16,10 @@
 	
 	<!-- 클릭해서 각 신청을 상세조회(승인, 처리중) -->
 	<select id="absent_detail" parameterType="java.lang.String" resultType="AppFormDTO">
-		SELECT APP_DATE, COURSENAME, REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM
+		SELECT APP_DATE, COURSENAME, REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM, NAME AS STUDENT_NAME
 		FROM APP_FORM A JOIN IS_APPROVE I USING(FORM_SEQ)
 		JOIN COURSE USING(COURSECODE)
+		JOIN STUDENT ON STUDENT.ID = A.STUDENT_ID
 		WHERE FORM_SEQ = #{seq}
 	</select>
 	
@@ -34,9 +35,10 @@
 	
 	<!-- 클릭해서 각 신청을 상세조회(반려시) -->
 	<select id="absent_detail_return" parameterType="java.lang.String" resultType="AppFormDTO">
-		SELECT A.FORM_SEQ, APP_DATE, A.REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM, U.REASON AS UNAPPROVED_REASON
+		SELECT A.FORM_SEQ, APP_DATE, A.REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM, U.REASON AS UNAPPROVED_REASON, RECIPIENT_ID, COURSENAME
 		FROM APP_FORM A JOIN IS_APPROVE I ON A.FORM_SEQ = I.FORM_SEQ
-		JOIN UNAPPROVED U ON I.FORM_SEQ = U.FORM_SEQ
+						JOIN UNAPPROVED U ON I.FORM_SEQ = U.FORM_SEQ
+						JOIN COURSE C ON A.COURSECODE = C.COURSECODE
 		WHERE A.FORM_SEQ = #{seq}
 	</select>
 	
@@ -44,7 +46,7 @@
 	<select id="recipient_absent_list" parameterType="java.util.Map" resultType="AppFormDTO">
 		SELECT A.APP_DATE,
 		I.STM,
-		S.NAME,
+		S.NAME AS STUDENT_NAME,
 		A.FORM_SEQ,
 		(SELECT COURSENAME
 			FROM COURSE
@@ -59,7 +61,7 @@
 	<!-- 결석 신청 -->
 	<!-- 결석 신청하려는 과정을 선택 -->
 	<select id="absent_course" parameterType="java.lang.String" resultType="CourseDTO">
-		SELECT COURSE.ID, COURSENAME, COURSECODE, STARTDATE
+		SELECT USERCOURSE.ID AS ID, COURSENAME, COURSECODE, STARTDATE
 		FROM USERCOURSE JOIN COURSE USING(COURSECODE)
 		WHERE USERCOURSE.ID = #{id}
 		ORDER BY COURSENAME
@@ -77,8 +79,8 @@
 		(FORM_SEQ, APP_DATE, STUDENT_ID, RECIPIENT_ID , --관리자ID
 		COURSECODE, REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME) --과정ID
 		VALUES
-		(APP_FORM_SEQ.NEXTVAL, SYSDATE, #{id}, #{recipient_id}, 
-		#{coursecode}, #{reason}, #{start_date}, #{ABSENT_DAYS}, #{filename}, #{newfilename})
+		(APP_FORM_SEQ.NEXTVAL, SYSDATE, #{student_id}, #{recipient_id}, 
+		#{coursecode}, #{reason}, #{start_date}, #{absent_days}, #{filename}, #{newfilename})
 	</insert>
 	
 	<!-- 신청 상태 테이블 연결 -->

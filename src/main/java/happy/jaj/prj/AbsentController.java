@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import happy.jaj.prj.dtos.Admin_DTO;
 import happy.jaj.prj.dtos.App_Form_DTO;
+import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.model.Absent_IService;
 
 @Controller
@@ -39,34 +41,93 @@ public class AbsentController {
 		return "chanju_index";
 	}
 	
-	// 클릭해서 각 신청을 상세조회(승인, 처리중)
-	@RequestMapping(value="/absent_detail.do", method=RequestMethod.GET)
-	public String absent_detail(HttpServletRequest req) {
-		logger.info("AbsentController absent_detail 실행");
+	// 클릭해서 각 신청을 상세조회(처리중)
+	@RequestMapping(value="/absent_detail_no.do", method=RequestMethod.GET)
+	public String absent_detail_no(HttpServletRequest req) {
+		logger.info("AbsentController absent_detail_no 실행");
 		String seq = req.getParameter("seq");
-		App_Form_DTO dto = absent_IService.absent_detail(seq);
+		App_Form_DTO dto = absent_IService.absent_detail_no(seq);
 		req.setAttribute("dto", dto);
 		return "chanju_index";
 	}
 	
-	@RequestMapping(value="/select_signature.do", method=RequestMethod.GET)
-	public String select_signature(HttpServletRequest req) {
-		logger.info("AbsentController select_signature 실행");
+	// 클릭해서 각 신청을 상세조회(승인)
+	@RequestMapping(value="/absent_detail_yes.do", method=RequestMethod.GET)
+	public String absent_detail_yes(HttpServletRequest req) {
+		logger.info("AbsentController absent_detail_yes 실행");
 		String id = req.getParameter("id");
-		String seq = req.getParameter("seq");
 		String stm = req.getParameter("stm");
+		String seq = req.getParameter("seq");
+//		App_Form_DTO dto = absent_IService.absent_detail_yes(seq);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
-		map.put("seq", seq);
 		map.put("stm", stm);
-		String newfilename = absent_IService.select_signature(map);
-		req.setAttribute("newfilename", newfilename);
+		map.put("seq", seq);
+		Map<String, Object> yesMap = absent_IService.absent_detail_yes(map);
+		req.setAttribute("yesMap", yesMap);
+		return "chanju_index";
+	}
+
+	
+	// 클릭해서 각 신청을 상세조회(반려시)
+	@RequestMapping(value="/absent_detail_return.do", method=RequestMethod.GET)
+	public String absent_detail_return(HttpServletRequest req) {
+		logger.info("AbsentController absent_detail_return 실행");
+		String seq = req.getParameter("seq");
+		App_Form_DTO dto = absent_IService.absent_detail_return(seq);
+		req.setAttribute("dto", dto);
 		return "chanju_index";
 	}
 	
-	public String absent_detail_return(HttpServletRequest req) {
-		logger.info("AbsentController absent_detail_return 실행");
-		
+	// 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기
+	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.GET)
+	public String recipient_absent_list(HttpServletRequest req) {
+		logger.info("AbsentController recipient_absent_list 실행");
+		String id = req.getParameter("id");
+		String stm = req.getParameter("stm");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("stm", stm);
+		List<App_Form_DTO> list = absent_IService.recipient_absent_list(map);
+		req.setAttribute("list", list);
+		return "chanju_index";
+	}
+	
+	
+	// 결석 신청
+	// 결석 신청하려는 과정을 선택
+	@RequestMapping(value="/absent_course.do", method=RequestMethod.GET)
+	public String absent_course(HttpServletRequest req) {
+		logger.info("AbsentController absent_course 실행");
+		String id = req.getParameter("id");
+		Course_DTO dto = absent_IService.absent_course(id);
+		req.setAttribute("dto", dto);
+		return "chanju_index";
+	}
+	
+	// 관리자를 선택
+	@RequestMapping(value="/absent_admin.do", method=RequestMethod.GET)
+	public String absent_admin(HttpServletRequest req) {
+		logger.info("AbsentController absent_admin 실행");
+		Admin_DTO dto = absent_IService.absent_admin();
+		req.setAttribute("dto", dto);
+		return "chanju_index";
+	}
+	
+	// 결석 신청
+	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.GET)
+	public String insert_absent_form(HttpServletRequest req) {
+		App_Form_DTO dto = new App_Form_DTO();
+		dto.setStudent_id(req.getParameter("id"));
+		dto.setRecipient_id(req.getParameter("recipient_id"));
+		dto.setCoursecode(req.getParameter("coursecode"));
+		dto.setReason(req.getParameter("reason"));
+		dto.setStart_date(req.getParameter("start_date"));
+		dto.setAbsent_days(req.getParameter("absent_days"));
+		dto.setFilename(req.getParameter("filename"));
+		dto.setNewfilename(req.getParameter("newfilename"));
+		int n = absent_IService.insert_absent_form(dto);
+		req.setAttribute("n", n);
 		return "chanju_index";
 	}
 }

@@ -2,62 +2,62 @@ package happy.jaj.prj.dtos;
 
 public class Course_DTO {
 
-	private String course_code;
-	private String course_name;
-	private String start_date;
+	private String coursecode;
+	private String coursename;
+	private String startdate;
 	private String id;
 	private String teacher_name;
 	private String time;
-	private String courseCnt;
+	private String coursecnt;
 	
 	public Course_DTO() {
 	}
 
-	public Course_DTO(String course_code, String course_name, String start_date, String id, String teacher_name,
-			String time, String courseCnt) {
+	public Course_DTO(String coursecode, String coursename, String startdate, String id, String teacher_name,
+			String time, String coursecnt) {
 		super();
-		this.course_code = course_code;
-		this.course_name = course_name;
-		this.start_date = start_date;
+		this.coursecode = coursecode;
+		this.coursename = coursename;
+		this.startdate = startdate;
 		this.id = id;
 		this.teacher_name = teacher_name;
 		this.time = time;
-		this.courseCnt = courseCnt;
+		this.coursecnt = coursecnt;
 	}
 	
-	public Course_DTO(String course_code, String course_name, String start_date, String id,
-			String time, String courseCnt) {
+	public Course_DTO(String coursecode, String coursename, String startdate, String id,
+			String time, String coursecnt) {
 		super();
-		this.course_code = course_code;
-		this.course_name = course_name;
-		this.start_date = start_date;
+		this.coursecode = coursecode;
+		this.coursename = coursename;
+		this.startdate = startdate;
 		this.id = id;
 		this.time = time;
-		this.courseCnt = courseCnt;
+		this.coursecnt = coursecnt;
 	}
 
-	public String getCourse_code() {
-		return course_code;
+	public String getCoursecode() {
+		return coursecode;
 	}
 
-	public void setCourse_code(String course_code) {
-		this.course_code = course_code;
+	public void setCoursecode(String coursecode) {
+		this.coursecode = coursecode;
 	}
 
-	public String getCourse_name() {
-		return course_name;
+	public String getCoursename() {
+		return coursename;
 	}
 
-	public void setCourse_name(String course_name) {
-		this.course_name = course_name;
+	public void setCoursename(String coursename) {
+		this.coursename = coursename;
 	}
 
-	public String getStart_date() {
-		return start_date;
+	public String getStartdate() {
+		return startdate;
 	}
 
-	public void setStart_date(String start_date) {
-		this.start_date = start_date;
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
 	}
 
 	public String getId() {
@@ -84,18 +84,18 @@ public class Course_DTO {
 		this.time = time;
 	}
 
-	public String getCourseCnt() {
-		return courseCnt;
+	public String getCoursecnt() {
+		return coursecnt;
 	}
 
-	public void setCourseCnt(String courseCnt) {
-		this.courseCnt = courseCnt;
+	public void setCoursecnt(String coursecnt) {
+		this.coursecnt = coursecnt;
 	}
 
 	@Override
 	public String toString() {
-		return "Course_DTO [course_code=" + course_code + ", course_name=" + course_name + ", start_date=" + start_date
-				+ ", id=" + id + ", teacher_name=" + teacher_name + ", time=" + time + ", courseCnt=" + courseCnt + "]";
+		return "Course_DTO [coursecode=" + coursecode + ", coursename=" + coursename + ", startdate=" + startdate
+				+ ", id=" + id + ", teacher_name=" + teacher_name + ", time=" + time + ", coursecnt=" + coursecnt + "]";
 	}
 
 	
