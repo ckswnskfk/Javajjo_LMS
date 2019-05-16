@@ -26,7 +26,7 @@
 	</select>
 	
 	<!-- 학생 회원가입 신청 승인(관리자) -->
-	<update id="admin_accept" parameterType="java.lang.String">
+	<update id="admin_accept" parameterType="java.util.Map">
 		UPDATE STUDENT SET S_CHECK = 'Y' WHERE ID IN
 		<foreach collection="list" item="id"  open="(" separator="," close=")">
 		 #{id}
@@ -34,7 +34,7 @@
 	</update>
 	
 	<!-- 학생 회원가입 신청 거절(관리자) -->
-	<delete id="admin_accept_refuse" parameterType="java.lang.String">
+	<delete id="admin_accept_refuse" parameterType="java.util.Map">
 		DELETE FROM STUDENT WHERE ID IN 
 		<foreach collection="list" item="id"  open="(" separator="," close=")">
 		 #{id}
@@ -73,7 +73,7 @@
 	</select>
 	
 	<!-- 학생 탈퇴(관리자) -->
-	<update id="admin_student_delete" parameterType="java.lang.String">
+	<update id="admin_student_delete" parameterType="java.util.Map">
 		UPDATE STUDENT SET DELFLAG ='N' WHERE ID IN
 		<foreach collection="list" item="id"  open="(" separator="," close=")">
 		 #{id}
