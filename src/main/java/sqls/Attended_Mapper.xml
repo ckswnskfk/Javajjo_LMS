@@ -24,10 +24,11 @@ WHERE TEACHER.ID=#{id}
 </select>	
 
 <!-- 강사 캘린더 출결 조회 -->
-<select id="cal_monlist">SELECT STUDENT.ID, NAME, ATTENDEDCHECK.REGDATE, A_CHECK, SEQ
+<select id="cal_monlist" parameterType="java.util.Map" resultType="A_DTO">
+SELECT STUDENT.ID, NAME, ATTENDEDCHECK.REGDATE, A_CHECK, SEQ
 FROM USERCOURSE JOIN STUDENT ON USERCOURSE.ID=STUDENT.ID JOIN ATTENDEDCHECK ON STUDENT.ID=ATTENDEDCHECK.ID
 WHERE COURSECODE = #{coursecode} AND TO_CHAR(ATTENDEDCHECK.REGDATE,'YYYYMM') = #{yyyyMM}
-ORDER BY NAME;
+ORDER BY NAME
 </select>	
 
 <!-- 강사 출석부 조회 -->
@@ -35,7 +36,7 @@ ORDER BY NAME;
 SELECT STUDENT.ID, NAME, ATTENDEDCHECK.REGDATE, A_CHECK, SEQ
 FROM USERCOURSE JOIN STUDENT ON USERCOURSE.ID=STUDENT.ID JOIN ATTENDEDCHECK ON STUDENT.ID=ATTENDEDCHECK.ID
 WHERE COURSECODE =#{coursecode} AND TO_CHAR(ATTENDEDCHECK.REGDATE,'YYYYMMDD') = #{yyyyMMdd}
-ORDER BY NAME;
+ORDER BY NAME
 </select>	
 
 <!-- 강사 학생 출석 상세 조회 -->
@@ -46,12 +47,17 @@ WHERE ID = #{id}
 </select>	
 
 <!-- 결석 문자 발송 -->
-<select id="cal_sms" resultType="java.lang.String">SELECT ID
+<select id="cal_sms" resultType="java.lang.String">
+SELECT ID
 FROM ATTENDEDCHECK
-WHERE REGDATE IS NULL;
+WHERE REGDATE IS NULL
 </select>	
 
-
+<!-- 출석 및 퇴실,결석 -->
+<insert id="cal_attended" parameterType="A_DTO">
+INSERT INTO ATTENDEDCHECK
+VALUES(ATTENDEDCHECK_SEQ.NEXTVAL,'Y', #{id}, SYSDATE)
+</insert>
 
 
 </mapper>
