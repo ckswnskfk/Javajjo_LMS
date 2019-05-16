@@ -11,7 +11,7 @@
 <body>
 
 <h1>과제 등록 테스트 </h1>
-<a href="./test_Input.do?id=">과제 추가</a>
+<a href="./test_Input.do?testname=화면설계&testtype=서술형&examtype=">과제 추가</a>
 
 </body>
 </html>
