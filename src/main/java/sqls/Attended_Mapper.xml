@@ -3,14 +3,14 @@
 <mapper namespace="happy.jaj.prj.Attended_Mapper">
 
 <!-- 학생 과정 조회 -->
-<select id="cal_stucos" parameterType="java.lang.String" resultType="java.lang.String">
+<select id="cal_stucos" parameterType="java.lang.String" resultType="AttendedDTO">
 SELECT COURSENAME
 FROM USERCOURSE JOIN COURSE USING(COURSECODE)
 WHERE ID = #{id}
 </select>	
 
 <!-- 학생 출결 조회 -->
-<select id="cal_stuatt" parameterType="java.lang.String" resultType="java.lang.String">
+<select id="cal_stuatt" parameterType="java.lang.String" resultType="AttendedDTO">
 SELECT A_CHECK
 FROM USERCOURSE JOIN ATTENDEDCHECK USING (ID)
 WHERE ID = #{id}
@@ -24,7 +24,7 @@ WHERE TEACHER.ID=#{id}
 </select>	
 
 <!-- 강사 캘린더 출결 조회 -->
-<select id="cal_monlist" parameterType="java.util.Map" resultType="A_DTO">
+<select id="cal_monlist" parameterType="java.util.Map" resultType="AttendedDTO">
 SELECT STUDENT.ID, NAME, ATTENDEDCHECK.REGDATE, A_CHECK, SEQ
 FROM USERCOURSE JOIN STUDENT ON USERCOURSE.ID=STUDENT.ID JOIN ATTENDEDCHECK ON STUDENT.ID=ATTENDEDCHECK.ID
 WHERE COURSECODE = #{coursecode} AND TO_CHAR(ATTENDEDCHECK.REGDATE,'YYYYMM') = #{yyyyMM}
@@ -32,15 +32,15 @@ ORDER BY NAME
 </select>	
 
 <!-- 강사 출석부 조회 -->
-<select id="cal_daylist" parameterType="java.util.Map" resultType="A_DTO">
+<select id="cal_daylist" parameterType="java.util.Map" resultType="AttendedDTO">
 SELECT STUDENT.ID, NAME, ATTENDEDCHECK.REGDATE, A_CHECK, SEQ
 FROM USERCOURSE JOIN STUDENT ON USERCOURSE.ID=STUDENT.ID JOIN ATTENDEDCHECK ON STUDENT.ID=ATTENDEDCHECK.ID
-WHERE COURSECODE =#{coursecode} AND TO_CHAR(ATTENDEDCHECK.REGDATE,'YYYYMMDD') = #{yyyyMMdd}
+WHERE COURSECODE =#{coursecode} AND TO_CHAR(ATTENDEDCHECK.REGDATE,'YYYYMMDD') = #{yyyyxMMdd}
 ORDER BY NAME
 </select>	
 
 <!-- 강사 학생 출석 상세 조회 -->
-<select id="cal_monatt" parameterType="java.util.Map" resultType="A_DTO">
+<select id="cal_monatt" parameterType="java.lang.String" resultType="AttendedDTO">
 SELECT ID,NAME,GENDER,BIRTH,REGDATE,A_CHECK
 FROM STUDENT JOIN ATTENDEDCHECK USING(ID)
 WHERE ID = #{id}
@@ -54,9 +54,9 @@ WHERE REGDATE IS NULL
 </select>	
 
 <!-- 출석 및 퇴실,결석 -->
-<insert id="cal_attended" parameterType="A_DTO">
-INSERT INTO ATTENDEDCHECK
-VALUES(ATTENDEDCHECK_SEQ.NEXTVAL,'Y', #{id}, SYSDATE)
+<insert id="cal_attended" parameterType="java.lang.String">
+INSERT INTO ATTENDEDCHECK(SEQ, ID, REGDATE)
+VALUES(ATTENDEDCHECK_SEQ.NEXTVAL, #{id}, SYSDATE)
 </insert>
 
 
