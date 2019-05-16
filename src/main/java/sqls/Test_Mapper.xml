@@ -6,9 +6,11 @@
 
 	<!--과제 추가 -->
 	<insert id="test_insert" parameterType="TestDTO">
-		INSERT INTO TEST(TESTCODE, TESTNAME, TESTTYPE, EXAMTYPE)
-		VALUES(((SELECT 'T'|| LPAD((TO_NUMBER(SUBSTR(MAX(TESTCODE),2))+1),5,0) FROM TEST),
-		#{testname}, #{testtype},#{examtype})
+		<selectKey keyProperty="testcode" resultType="java.lang.String" order="BEFORE">
+			SELECT 'T'|| LPAD((TO_NUMBER(SUBSTR(MAX(TESTCODE),2))+1),5,0) as testcode FROM TEST
+		</selectKey>
+		INSERT INTO TEST(TESTCODE, TESTNAME, SUBJECTTYPE, EXAMTYPE)
+		VALUES(#{testcode}, #{testname}, #{testtype},#{examtype})
 	</insert>
 
 	<!-- 과목유형이 동일한 과제 조회 -->
@@ -16,7 +18,7 @@
 		resultType="TestDTO">
 		SELECT TESTCODE,TESTNAME
 		FROM TEST
-		WHERE TESTTYPE = #{testtype} AND EXMANTYPE = #{examtype}
+		WHERE SUBJECTTYPE = #{subjecttype} AND EXMANTYPE = #{examtype}
 	</select>
 
 	<!--과목에 과제등록(연결)  -->
@@ -51,10 +53,11 @@
 	
 	<!--문제 등록(선택형)  -->
 	<insert id="examsel_insert" parameterType="ExamSelDTO">
+		<selectKey order="BEFORE" resultType="java.lang.String" keyProperty="examcode">
+			SELECT 'ES'|| LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMSELECT
+		</selectKey>
 		INSERT INTO EXAMSELECT(EXAM, EXAMCODE, C_ANSWER)
-		VALUES( #{exam}, ((SELECT 'ES'||
-		LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMSELECT),
-		#{c_answer})
+		VALUES( #{exam}, #{examcode}, #{c_answer})
 	</insert>
 	
 	
@@ -88,20 +91,20 @@
 	</select>
 
 	<!--과제에 해당하는 문제 조회(서술형)  -->
-	<select id="te_select" parameterType="java.lang.String"
+	<select id="te_select" parameterType="java.util.Map"
 		resultType="ExamDesDTO">
 		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT
 		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
-		WHERE EXAMCODE=#{examcode}
+		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
 		ORDER BY EXAMNUM
 	</select>
 
 	<!--과제에 해당하는 문제 조회(선택형)  -->
-	<select id="te_testselect" parameterType="java.lang.String"
+	<select id="te_testselect" parameterType="java.util.Map"
 		resultType="ExamDesDTO">
 		SELECT EXAMNUM, EXAM, ALLOT
 		FROM TEST_EXAM JOIN EXAM USING(EXAMCODE)
-		WHERE EXAMCODE = #{examcode}
+		WHERE TESTCODE = #{testcode} EXAMCODE = #{examcode}
 		ORDER BY EXAMNUM
 	</select>
 

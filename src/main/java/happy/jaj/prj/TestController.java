@@ -48,10 +48,13 @@ public class TestController {
 	@RequestMapping(value="/test_Input.do", method=RequestMethod.GET)
 	public String testInsert(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("TestController testInsert {}");
-		String id = req.getParameter("id");
-		System.out.println("id :"+id);
+		String testname = req.getParameter("testname");
+		String testtype = req.getParameter("testtype");
+		String examtype = req.getParameter("examtype");
+		System.out.println("testname :"+testname+", testtype : "+testtype+", examtype : "+examtype);
 		return "success";
 	}
+	
 
 	
 }
