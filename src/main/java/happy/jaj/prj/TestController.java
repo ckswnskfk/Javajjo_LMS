@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import happy.jaj.prj.dtos.Student_DTO;
 import happy.jaj.prj.model.Member_IService;
+import happy.jaj.prj.model.Test_IService;
 
 @Controller
 public class TestController {
@@ -24,6 +25,9 @@ public class TestController {
 
 	@Autowired
 	private Member_IService iMember;
+	
+	@Autowired
+	private Test_IService iService;
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String login(HttpServletRequest req, HttpServletResponse resp) {
@@ -39,6 +43,14 @@ public class TestController {
 			return "main";
 		}
 		return "dd";
+	}
+	
+	@RequestMapping(value="/test_Input.do", method=RequestMethod.GET)
+	public String testInsert(HttpServletRequest req, HttpServletResponse resp) {
+		logger.info("TestController testInsert {}");
+		String id = req.getParameter("id");
+		System.out.println("id :"+id);
+		return "success";
 	}
 
 	

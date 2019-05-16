@@ -24,6 +24,7 @@
 		 <typeAlias type="happy.jaj.prj.dtos.Teacher_DTO" alias="TeacherDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.ContentSelect_DTO" alias="ContentSelectDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Score_DTO" alias="ScoreDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.UserCourse_DTO" alias="UserCourseDTO"/>
 	</typeAliases>
 
 	<mappers>

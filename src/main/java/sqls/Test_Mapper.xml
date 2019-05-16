@@ -136,8 +136,7 @@
 	<!--학생 서술형 답안수정(답변경, 파일변경)  -->
 	<update id="answerd_modify" parameterType="AnswerDesDTO">
 		UPDATE ANSWERDESCRIPTIVE
-		SET ANSWER = #{answer}, ORIGINFILE = #{orginfile}, NEWFILEANME=
-		#{newfilename}
+		SET ANSWER = #{answer}, ORIGINFILE = #{orginfile}, NEWFILEANME=#{newfilename}
 		WHERE ID = #{id} AND EXAMCODE =#{examcode} AND EXAMNUM = #{examnum}
 	</update>
 

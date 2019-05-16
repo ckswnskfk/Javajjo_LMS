@@ -10,6 +10,7 @@ public class RowNum_DTO implements Serializable{
 	private int pageNum; // 출력할 페이지 시작 번호
 	private int listNum; // 출력할 리스트 개수
 	private int total; // 리스트 총 개수
+	private String coursecode;
 	
 	{
 		pageList = 5;
@@ -20,7 +21,12 @@ public class RowNum_DTO implements Serializable{
 
 	public RowNum_DTO() {
 	}
-
+	public String getCoursecode() {
+		return coursecode;
+	}
+	public void setCoursecode(String coursecode) {
+		this.coursecode = coursecode;
+	}
 	public RowNum_DTO(String index, String pageNum, String listNum) {
 		if(index != null) {
 			this.index = Integer.parseInt(index);
