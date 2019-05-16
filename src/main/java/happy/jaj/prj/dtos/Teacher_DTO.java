@@ -7,6 +7,9 @@ public class Teacher_DTO {
 	private String pw;
 	private String coursecode;
 	
+	public Teacher_DTO() {
+	}
+	
 	public Teacher_DTO(String id, String name, String pw, String coursecode) {
 		super();
 		this.id = id;
