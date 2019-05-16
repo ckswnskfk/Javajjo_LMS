@@ -94,14 +94,14 @@
 	</insert>
 	
 	<!-- 동시에 승인 여부 수정 -->
-	<update id="update_is_approve" parameterType="java.util.Map">
+	<update id="update_is_approve_Re" parameterType="java.util.Map">
 		UPDATE IS_APPROVE
 		SET STM = #{stm}
 		WHERE FORM_SEQ = #{seq}
 	</update>
 	
 	<!-- 강사 및 관리자가 승인을 함 -->
-	<update id="update_is_approve" parameterType="java.util.Map">
+	<update id="update_is_approve_Yes" parameterType="java.util.Map">
 		UPDATE IS_APPROVE
 		SET STM = #{stm}
 		WHERE FORM_SEQ = #{seq}
