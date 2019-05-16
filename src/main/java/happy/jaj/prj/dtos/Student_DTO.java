@@ -8,7 +8,7 @@ public class Student_DTO {
 	private String gender;
 	private String birth;
 	private String addr;
-	private String admin_check;
+	private String s_check;
 	private String regdate;
 	private String a_check;
 	private String sum;
@@ -16,7 +16,7 @@ public class Student_DTO {
 	public Student_DTO() {
 	}
 
-	public Student_DTO(String id, String name, String pw, String gender, String birth, String addr, String admin_check) {
+	public Student_DTO(String id, String name, String pw, String gender, String birth, String addr, String s_check) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -24,7 +24,7 @@ public class Student_DTO {
 		this.gender = gender;
 		this.birth = birth;
 		this.addr = addr;
-		this.admin_check = admin_check;
+		this.s_check = s_check;
 	}
 	
 	public Student_DTO(String id, String name) {
@@ -108,12 +108,12 @@ public class Student_DTO {
 		this.addr = addr;
 	}
 
-	public String getAdmin_check() {
-		return admin_check;
+	public String gets_check() {
+		return s_check;
 	}
 
-	public void setAdmin_check(String admin_check) {
-		this.admin_check = admin_check;
+	public void sets_check(String s_check) {
+		this.s_check = s_check;
 	}
 
 	public String getSum() {
@@ -127,7 +127,7 @@ public class Student_DTO {
 	@Override
 	public String toString() {
 		return "Student_DTO [id=" + id + ", name=" + name + ", pw=" + pw + ", gender=" + gender + ", birth=" + birth
-				+ ", addr=" + addr + ", admin_check=" + admin_check + ", regdate=" + regdate + ", a_check=" + a_check
+				+ ", addr=" + addr + ", s_check=" + s_check + ", regdate=" + regdate + ", a_check=" + a_check
 				+ ", sum=" + sum + "]";
 	}
 
