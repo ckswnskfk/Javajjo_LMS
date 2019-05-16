@@ -4,151 +4,216 @@
 
 
 
-	<!--과제 추가  -->
+	<!--과제 추가 -->
 	<insert id="test_insert" parameterMap="TestDTO">
-	INSERT INTO TEST(TESTCODE, TESTNAME, TESTTYPE, EXAMTYPE)
-	VALUES(((SELECT 'T'|| LPAD((TO_NUMBER(SUBSTR(MAX(TESTCODE),2))+1),5,0) FROM TEST), #{testname}, #{testtype},#{examtype})
+		INSERT INTO TEST(TESTCODE, TESTNAME, TESTTYPE, EXAMTYPE)
+		VALUES(((SELECT 'T'|| LPAD((TO_NUMBER(SUBSTR(MAX(TESTCODE),2))+1),5,0) FROM TEST),
+		#{testname}, #{testtype},#{examtype})
 	</insert>
-	
+
 	<!-- 과목유형이 동일한 과제 조회 -->
-	<select id="test_select" parameterType="java.util.Map" resultType="TestDTO">
-	SELECT TESTCODE,TESTNAME
-	FROM TEST
-	WHERE TESTTYPE = #{testtype} AND EXMANTYPE = #{examtype}
+	<select id="test_select" parameterType="java.util.Map"
+		resultType="TestDTO">
+		SELECT TESTCODE,TESTNAME
+		FROM TEST
+		WHERE TESTTYPE = #{testtype} AND EXMANTYPE = #{examtype}
 	</select>
-	
+
+	<!--과목에 과제등록(연결)  -->
 	<insert id="se_insert" parameterType="SubjectTestDTO">
-	INSERT INTO SUBJECT_TEST(SUBJECTCODE, TESTCODE, TESTDAY)
-	VALUES(#{subjectcode}, #{testcode}, #{testday})
+		INSERT INTO SUBJECT_TEST(SUBJECTCODE, TESTCODE, TESTDAY)
+		VALUES(#{subjectcode}, #{testcode}, #{testday})
 	</insert>
-	
-	<select id="se_select" parameterType="java.util.Map" resultType="SubjectTestDTO">
-	SELECT TESTCODE, TESTNAME
-	FROM SUBJECT_TEST JOIN TEST USING(TESTCODE)
-	WHERE SUBJECTTYPE=#{subjecttype} AND EXAMTYPE=#{examtype}</select>
-	
-	
-	<select id="se_testselect" parameterType="java.lang.String" resultType="SubjectTestDTO">
-	SELECT TESTCODE,TESTNAME, TESTDAY
-	FROM SUBJECT_TEST JOIN TEST USING (TESTCODE)
-	WHERE SUBJECTCODE = #{subjectcode}
+
+	<!--과목의 과목유형과 과제유형이 동일한 과제 조회  -->
+	<select id="se_select" parameterType="java.util.Map"
+		resultType="SubjectTestDTO">
+		SELECT TESTCODE, TESTNAME
+		FROM SUBJECT_TEST JOIN TEST USING(TESTCODE)
+		WHERE SUBJECTTYPE=#{subjecttype} AND EXAMTYPE=#{examtype}
 	</select>
-	
+
+	<!--과목에 해당하는 과제 조회  -->
+	<select id="se_testselect" parameterType="java.lang.String"
+		resultType="SubjectTestDTO">
+		SELECT TESTCODE,TESTNAME, TESTDAY
+		FROM SUBJECT_TEST JOIN TEST USING (TESTCODE)
+		WHERE SUBJECTCODE = #{subjectcode}
+	</select>
+
+	<!--문제 등록(서술형)  -->
 	<insert id="examdes_insert" parameterType="ExamDesDTO">
-	INSERT INTO EXAMDESCRIPTIVE(EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER)
-	VALUES(#{EXAM}, ((SELECT 'ED'|| LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMDESCRIPTIVE), #{explanation}, #{standard}, #{c_answer}) 
+		INSERT INTO EXAMDESCRIPTIVE(EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER)
+		VALUES(#{EXAM}, ((SELECT 'ED'||
+		LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM
+		EXAMDESCRIPTIVE), #{explanation}, #{standard}, #{c_answer})
 	</insert>
 	
+	<!--문제 등록(선택형)  -->
 	<insert id="examsel_insert" parameterType="ExamSelDTO">
-	INSERT INTO EXAMSELECT(EXAM, EXAMCODE, C_ANSWER)
-	VALUES( #{exam}, ((SELECT 'ES'|| LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMSELECT), #{c_answer}) 
+		INSERT INTO EXAMSELECT(EXAM, EXAMCODE, C_ANSWER)
+		VALUES( #{exam}, ((SELECT 'ES'||
+		LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMSELECT),
+		#{c_answer})
 	</insert>
 	
+	
+	
+	<!--문제 수정(선택형)  -->
+	<update id="examsel_modify" parameterType="ExamSelDTO">
+		UPDATE EXAMSELECT SET EXAM = #{exam}, C_ANSWER=#{c_answer}
+		WHERE EXAMCODE = #{examcode}
+	</update>
+	
+	
+
+	<!--과제에 문제등록(연결)  -->
 	<insert id="te_insert" parameterType="TestExamDTO">
-	INSERT INTO TEST_EXAM(TESTCODE, EXAMCODE, ALLOT, EXAMNUM)
-	VALUES(#{testcode}, #{examcode}, #{allot}, #{examnum})
+		INSERT INTO TEST_EXAM(TESTCODE, EXAMCODE, ALLOT, EXAMNUM)
+		VALUES(#{testcode}, #{examcode}, #{allot}, #{examnum})
 	</insert>
-	
+
+	<!--과제에 연결된 문제수정(다이나믹쿼리)  -->
 	<update id="te_modify" parameterType="TestExamDTO">
-	UPDATE TEST_EXAM SET ALLOT=#{allot}, EXAMNUM=#{examnum}
-	WHERE EXAMCODE = #{examcode}
+		UPDATE TEST_EXAM SET ALLOT=#{allot}, EXAMNUM=#{examnum}
+		WHERE EXAMCODE = #{examcode}
 	</update>
-	
-	<select id="te_selectsum" parameterType="TestExamDTO" resultType="java.lang.Integer">
-	SELECT SUM(ALLOT) FROM TEST_EXAM
-	WHERE TESTCODE=#{testcode}
-	GROUP BY EXAMCODE
+
+	<!--문제 총점 조회   -->
+	<select id="te_selectsum" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT SUM(ALLOT) FROM TEST_EXAM
+		WHERE TESTCODE=#{testcode}
+		GROUP BY EXAMCODE
 	</select>
-	
-	<select id="te_select" parameterType="java.lang.String" resultType="ExamDesDTO">
-	SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT
-	FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
-	WHERE EXAMCODE=#{examcode}
-	ORDER BY EXAMNUM
+
+	<!--과제에 해당하는 문제 조회(서술형)  -->
+	<select id="te_select" parameterType="java.lang.String"
+		resultType="ExamDesDTO">
+		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT
+		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
+		WHERE EXAMCODE=#{examcode}
+		ORDER BY EXAMNUM
 	</select>
-	
-	<select id="te_testselect" parameterType="java.lang.String" resultType="ExamDesDTO">
-	SELECT EXAMNUM, EXAM, ALLOT
-	FROM TEST_EXAM JOIN EXAM USING(EXAMCODE)
-	WHERE EXAMCODE = #{examcode}
-	ORDER BY EXAMNUM
+
+	<!--과제에 해당하는 문제 조회(선택형)  -->
+	<select id="te_testselect" parameterType="java.lang.String"
+		resultType="ExamDesDTO">
+		SELECT EXAMNUM, EXAM, ALLOT
+		FROM TEST_EXAM JOIN EXAM USING(EXAMCODE)
+		WHERE EXAMCODE = #{examcode}
+		ORDER BY EXAMNUM
 	</select>
-	
+
+	<!--문항 등록   -->
 	<insert id="content_insert" parameterType="ContentSelectDTO">
-	INSERT INTO CONTENTSELECT(EXAMCODE, EXAMNUM, EXAMCONTENT)
-	VALUES(#{examcode}, #{examnum}, #{examcontent})
+		INSERT INTO CONTENTSELECT(EXAMCODE, EXAMNUM, EXAMCONTENT)
+		VALUES(#{examcode}, #{examnum}, #{examcontent})
 	</insert>
-	
+
+	<!--문항 수정   -->
 	<update id="content_modify" parameterType="java.util.Map">
-	UPDATE CONTENTSELECT 
-	SET EXAMCONTENT=#{examcontent}
-	WHERE EXAMCODE = #{examcode} AND EXAMNUM=#{examnum}
+		UPDATE CONTENTSELECT
+		SET EXAMCONTENT=#{examcontent}
+		WHERE EXAMCODE = #{examcode} AND EXAMNUM=#{examnum}
 	</update>
-	
-	<select id="content_select" parameterType="ContentSelectDTO">
-	SELECT CONTENTNUM, EXAMCONTENT
-	FROM CONTENTSELECT 
-	WHERE EXAMCODE = #{examcode}
-	ORDER BY CONTENTNUM
+
+	<!--문제의 문항 조회   -->
+	<select id="content_select" parameterType="java.lang.String" resultType="ContentSelectDTO">
+		SELECT CONTENTNUM, EXAMCONTENT
+		FROM CONTENTSELECT
+		WHERE EXAMCODE = #{examcode}
+		ORDER BY CONTENTNUM
 	</select>
-	
+
+	<!--학생 서술형 답안 등록  -->
 	<insert id="answerd_insert" parameterType="AnswerDesDTO">
-	INSERT INTO ANSWERDESCRIPTIVE(ID, EXAMCODE, EXAMNUM, ANSWER, ORIGINFILE, NEWFILENAME)
-	VALUES(#{id}, #{examcode}, #{examnum}, #{answer}, #{originfile}, #{newfilename})</insert>
-	
+		INSERT INTO ANSWERDESCRIPTIVE(ID, EXAMCODE, EXAMNUM, ANSWER, ORIGINFILE,
+		NEWFILENAME)
+		VALUES(#{id}, #{examcode}, #{examnum}, #{answer}, #{originfile}, #{newfilename})
+	</insert>
+
+	<!--학생 서술형 답안수정(답변경, 파일변경)  -->
 	<update id="answerd_modify" parameterType="AnswerDesDTO">
-	UPDATE ANSWERDESCRIPTIVE
-	SET ANSWER = #{answer}, ORIGINFILE = #{orginfile}, NEWFILEANME= #{newfilename}
-	WHERE ID = #{id} AND EXAMCODE =#{examcode} AND EXAMNUM = #{examnum}</update>
-	
-	<!--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-	
-	<select id="answerd_select" parameterType="java.util.Map">
-	SELECT CONTENTNUM, ANSWER, ORIGINFILE, NEWFILENAME
-	FROM ANSWERDESCRIPTIVE
-	WHERE ID = '01094096075' AND EXAMCODE = 'E00001'
-	ORDER BY EXAMNUM</select>
-	
-	<insert id="answers_insert">INSERT INTO ANSWERSELECT(ID, EXAMCODE, EXAMNUM, ANSWER)
-	VALUES ('01094096075', 'E00002', 3, 2)</insert>
-	
-	<update id="answers_modify">UPDATE ANSWERSELECT
-	SET ANSWER = 4
-	WHERE ID='01094096075' AND EXAMCODE = 'E00002' AND EXAMNUM = 3</update>
-	
-	<select id="answers_select">SELECT EXAMNUM, ANSWER
-	FROM ANSWERSELECT 
-	WHERE ID= '01094096075' AND EXAMCODE = 'E00002'
-	ORDER BY EXAMNUM </select>
-	
-	<insert id="score_insertd">INSERT INTO SCORE
-	(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
-	VALUES('01011111111', 'N', 'T00001', 'E00001', 0)</insert>
-	
-	<insert id="score_inserts">INSERT INTO SCORE
-	(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
-	VALUES('01011111111', 'N', 'T00001', 'E00001', (SELECT ALLOT
-	FROM ANSWERSELECT JOIN EXAMSELECT ON ANSWERSELECT.EXAMCODE=EXAMSELECT.EXAMCODE
-	JOIN TEST_EXAM ON EXAMSELECT.EXAMCODE=TEST_EXAM.EXAMCODE
-	WHERE ID= '01094096075' AND EXAMSELECT.EXAMCODE = 'E00004' AND TEST_EXAM.EXAMNUM = 3 AND C_ANSWER=ANSWER))</insert>
-	
-	<update id="score_modify">UPDATE SCORE
-	SET EXAMCHECK='Y', SCORE=30
-	WHERE ID='01011111111'
-	AND TESTCODE = 'T00001'
-	AND EXAMCODE = 'E00001'</update>
-	
-	<select id="score_select">SELECT ID,NAME ,SCORE
-	FROM SCORE JOIN STUDENT USING (ID)
-	WHERE ID = '01011111111'
-	AND TESTCODE = 'T00001'
-	AND EXAMCODE = 'E00001'</select>
-	
-	<select id="score_selectsum">SELECT SUM(SCORE), NAME,STUDENT.ID
-	FROM SCORE,STUDENT
-	WHERE SCORE.ID=STUDENT.ID
-	AND SCORE.ID = '01011111111'
-	GROUP BY EXAMCODE</select>
+		UPDATE ANSWERDESCRIPTIVE
+		SET ANSWER = #{answer}, ORIGINFILE = #{orginfile}, NEWFILEANME=
+		#{newfilename}
+		WHERE ID = #{id} AND EXAMCODE =#{examcode} AND EXAMNUM = #{examnum}
+	</update>
+
+	<!--(강사)학생 서술형 답안 조회 -->
+	<select id="answerd_select" parameterType="java.util.Map"
+		resultType="AnswerSelDTO">
+		SELECT CONTENTNUM, ANSWER, ORIGINFILE, NEWFILENAME
+		FROM ANSWERDESCRIPTIVE
+		WHERE ID = #{id} AND EXAMCODE = #{examcode}
+		ORDER BY EXAMNUM
+	</select>
+
+	<!--학생 선택형 답안 등록   -->
+	<insert id="answers_insert" parameterType="AnswerSelDTO">
+		INSERT INTO ANSWERSELECT(ID, EXAMCODE, EXAMNUM, ANSWER)
+		VALUES (#{id}, #{examcode}, #{examnum}, #{answer})
+	</insert>
+
+	<!--학생 선택형 답안 등록 수정   -->
+	<update id="answers_modify" parameterType="AnswerSelDTO">
+		UPDATE ANSWERSELECT
+		SET ANSWER = #{answer}
+		WHERE ID=#{id} AND EXAMCODE = #{examcode} AND EXAMNUM = #{examnum}
+	</update>
+
+	<!-- 학생 선택형 답안 등록 조회  -->
+	<select id="answers_select" parameterType="java.util.Map" resultType="AnswerSelDTO">
+		SELECT EXAMNUM, ANSWER
+		FROM ANSWERSELECT
+		WHERE ID= #{id} AND EXAMCODE = #{examcode}
+		ORDER BY EXAMNUM
+	</select>
+
+	<!--등록_학생점수채점(서술형)  -->
+	<insert id="score_insertd" parameterType="ScoreDTO">
+		INSERT INTO SCORE(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
+		VALUES(#{id}, 'N', #{testcode}, #{examcode}, #{score})
+	</insert>
+
+	<!--등록-자동채점(선택형)  -->
+	<insert id="score_inserts" parameterType="ScoreDTO">
+		INSERT INTO SCORE(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
+		VALUES(#{id}, 'N', #{testcode}, #{examcode}, (SELECT ALLOT
+		FROM ANSWERSELECT JOIN EXAMSELECT ON
+		ANSWERSELECT.EXAMCODE=EXAMSELECT.EXAMCODE
+		JOIN TEST_EXAM ON EXAMSELECT.EXAMCODE=TEST_EXAM.EXAMCODE
+		WHERE ID= #{id} AND EXAMSELECT.EXAMCODE = #{examcode} AND
+		TEST_EXAM.EXAMNUM = #{examnum} AND C_ANSWER=ANSWER))
+	</insert>
+
+	<!--학생 서술형 점수 수정  -->
+	<update id="score_modify" parameterType="ScoreDTO">
+		UPDATE SCORE
+		SET EXAMCHECK=#{examcheck}, SCORE=#{score}
+		WHERE ID=#{id}
+		AND TESTCODE = #{testcode}
+		AND EXAMCODE =#{examcode}
+	</update>
+
+	<!-- 학생 점수 조회 -->
+	<select id="score_select" parameterType="java.util.Map" resultType="ScoreDTO">
+		SELECT ID,NAME ,SCORE
+		FROM SCORE JOIN STUDENT USING (ID)
+		WHERE ID = #{id}
+		AND TESTCODE = #{testcode}
+		AND EXAMCODE = #{examcode}
+	</select>
+
+	<!-- 총점 조회 -->
+	<select id="score_selectsum" parameterType="java.lang.String" resultType="ScoreDTO">
+		SELECT SUM(SCORE), NAME,STUDENT.ID
+		FROM SCORE,STUDENT
+		WHERE SCORE.ID=STUDENT.ID
+		AND SCORE.ID = #{id}
+		GROUP BY EXAMCODE
+	</select>
 
 
 
