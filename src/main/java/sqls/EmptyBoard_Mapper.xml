@@ -2,5 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.EmptyBoard_Mapper">
 
+	<!-- 강의실 조회 -->
+	<select id="room_boardlist" resultType="EmptyDTO">
+		SELECT CODE,NAME,PERSONEL FROM EMPTY_BOARD
+	</select>
+	
+	<!-- 빈강의실 조회 -->
+	<select id="room_emptyboardlist" parameterType="java.lang.String" resultType="RoomEmptyDTO">
+		SELECT NAME,PERSONEL,ID,REGDATE 
+		FROM EMPTY_USER JOIN EMPTY_BOARD USING(CODE)
+		WHERE TO_CHAR(REGDATE,'YYYYMMDD')=#{regdate}
+	</select>
+	
+	<!-- 빈강의실 예약 확인 -->
+	<select id="room_empty_check" parameterType="RoomEmptyDTO" resultType="java.lang.String">
+		SELECT ID FROM EMPTY_USER 
+		WHERE ID = #{id} AND CODE = #{code}
+		AND TO_CHAR(REGDATE,'YYYYMMDD')=#{regdate}
+	</select>
+	
+	<!-- 빈강의실 예약 -->
+	<insert id="room_empty_request" parameterType="RoomEmptyDTO">
+		INSERT INTO EMPTY_USER VALUES
+		(#{code},#{id},#{regdate})
+	</insert>
+	
+	<!-- 빈강의실 예약 취소 -->
+	<delete id="room_empty_cancle" parameterType="RoomEmptyDTO">
+		DELETE FROM EMPTY_USER 
+		WHERE ID = #{id}
+		AND CODE = #{code}
+		AND TO_CHAR(REGDATE,'YYYYMMDD')=#{regdate}
+	</delete>
+	
+	<!-- 강의실 추가 -->
+	<insert id="room_add">
+	INSERT INTO EMPTY_BOARD VALUES(#{id},#{name},#{personel})
+	</insert>
+
 
 </mapper>

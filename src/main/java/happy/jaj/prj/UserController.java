@@ -228,11 +228,10 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//회원가입 신청 승인
 	@RequestMapping(value="/admin_accept.do", method=RequestMethod.GET)
-	public String admin_accept(HttpServletRequest req) {
+	public String admin_accept(String[] id, HttpServletRequest req) {
 		logger.info("UserController admin_accept 실행");
-		String [] id = req.getParameterValues("id");
 		Map<String, String[]> map = new HashMap<String, String[]>();
-		map.put("id", id);
+		map.put("list", id);
 		boolean isc = user_IService.admin_accept(map);
 		if(isc) {
 			logger.info("--------------------------- 가입 신청 승인 완료 ------------관리자 ");
@@ -246,10 +245,10 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		logger.info("UserController admin_accept_refuse 실행");
 		String [] id = req.getParameterValues("id");
 		Map<String, String[]> map = new HashMap<String, String[]>();
-		map.put("id", id);
+		map.put("list", id);
 		boolean isc = user_IService.admin_accept_refuse(map);
 		if(isc) {
-			logger.info("--------------------------- 가입 신청 승인 완료 ------------관리자 ");
+			logger.info("--------------------------- 가입 신청 거절 완료 ------------관리자 ");
 		}
 		return "jemin_index";
 	}
@@ -330,7 +329,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		logger.info("UserController admin_student_delete 실행");
 		String [] id = req.getParameterValues("id");
 		Map<String, String[]> map = new HashMap<String, String[]>();
-		map.put("id", id);
+		map.put("list", id);
 		boolean isc = user_IService.admin_student_delete(map);
 		if(isc) {
 			logger.info("--------------------------- 학생 탈퇴 완료 ------------관리자 ");

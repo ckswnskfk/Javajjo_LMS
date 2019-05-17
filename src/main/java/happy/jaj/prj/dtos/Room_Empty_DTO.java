@@ -9,6 +9,15 @@ public class Room_Empty_DTO {
 	
 	public Room_Empty_DTO() {
 	}
+	
+
+	public Room_Empty_DTO(String code, String id, String regdate) {
+		super();
+		this.code = code;
+		this.id = id;
+		this.regdate = regdate;
+	}
+
 
 	public Room_Empty_DTO(String code, String id, String name, String regdate) {
 		super();
