@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Subject_Mapper">
 
+	<!-- (강사)자신의 과정 조회 -->
+	<select id="select_course_list" parameterType="java.lang.String" resultType="CourseDTO">
+		SELECT COURSECODE, COURSENAME, STARTDATE, COURSECNT
+		FROM COURSE
+		JOIN TEACHER USING(COURSECODE)
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 전체 과목 조회 -->
+	<select id="subject_select_all" resultType="SubjectDTO">
+		SELECT SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE
+		FROM SUBJECT
+	</select>
+	
+	<!-- 해당 과정명의 전 회차 조회 -->
+	<select id="subject_pre_course" parameterType="CourseDTO" resultType="CourseDTO">
+		SELECT *
+		FROM COURSE
+		WHERE COURSENAME = #{coursename} AND COURSECNT != #{coursecnt}
+	</select>
+	
+	<!-- 과정에 해당하는 과목 조회 -->
+	<select id="subject_choice" parameterType="java.lang.String" resultType="SubjectDTO">
+		SELECT SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE
+		FROM SUBJECT JOIN COURSE_SUBJECT 
+		USING (SUBJECTCODE) WHERE COURSECODE = #{coursecode}
+	</select>
+	
+	<!-- 새로운 과목 생성 -->
+	<insert id="subject_add" parameterType="SubjectDTO">
+		INSERT INTO SUBJECT(SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE)
+		VALUES
+		((SELECT 'S'|| LPAD((TO_NUMBER(SUBSTR(MAX(SUBJECTCODE),2))+1),5,0)  FROM SUBJECT),
+		#{subjectname}, #{subjecttype}, #{examtype})
+	</insert>
 </mapper>

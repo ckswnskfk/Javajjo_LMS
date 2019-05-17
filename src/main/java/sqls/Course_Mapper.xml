@@ -6,19 +6,25 @@
 	
 	<!-- (관리자)전체과정조회 -->
 	<select id="course_select" resultType="CourseDTO">
-		SELECT COURSECODE, COURSENAME, STARTDATE, COURSECNT, ID, NAME
+		SELECT COURSECODE, COURSENAME, STARTDATE, COURSECNT
 		FROM COURSE
-		JOIN TEACHER USING(COURSECODE)
-		ORDER BY STARTDATE DESC;
+		ORDER BY STARTDATE DESC
 	</select>
 	
-	<!-- (관리자)과정 등록(ID는 강사ID를 말함) -->
-	<insert id="course_insert" parameterType="CourseDTO">
+	<!-- (관리자)과정 추가(회차 증가) -->
+	<insert id="course_cnt" parameterType="CourseDTO">
 		INSERT INTO COURSE(COURSECODE, COURSENAME, STARTDATE, COURSECNT)
 		VALUES
-		((SELECT 'C'|| LPAD((TO_NUMBER(SUBSTR(MAX(COURSECODE),2))+1),5,0) FROM COURSE),
-		#{coursename}, #{startdate}, #{cnt})
+		((SELECT 'C'|| EXTRACT(YEAR FROM SYSDATE) ||LPAD((TO_NUMBER(SUBSTR(MAX(COURSECODE),6))+1),5,0)  FROM COURSE),
+		#{coursename}, #{startdate}, (SELECT MAX(COURSECNT) FROM COURSE WHERE COURSENAME=#{coursename})+1)
 	</insert>
 	
+	<!-- (관리자)과정 등록(새로운 과정) -->
+	<insert id="course_add" parameterType="CourseDTO">
+		INSERT INTO COURSE(COURSECODE, COURSENAME, STARTDATE, COURSECNT)
+		VALUES
+		((SELECT 'C'|| EXTRACT(YEAR FROM SYSDATE) ||LPAD((TO_NUMBER(SUBSTR(MAX(COURSECODE),6))+1),5,0)  FROM COURSE),
+		#{coursename}, #{startdate}, 1)
+	</insert>
 	
 </mapper>
