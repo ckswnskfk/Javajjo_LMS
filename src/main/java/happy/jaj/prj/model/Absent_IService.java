@@ -39,4 +39,7 @@ public interface Absent_IService {
 	// 강사 및 관리자가 미승인 사유를 작성+동시에 승인 여부 수정
 	public int insert_unapprove_reason(Map<String, String> map);
 	
+	// 강사 및 관리자가 승인을 함
+	public int update_is_approve_Yes(Map<String, String> map);
+	
 }

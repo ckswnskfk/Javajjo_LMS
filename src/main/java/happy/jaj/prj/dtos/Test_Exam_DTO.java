@@ -6,6 +6,7 @@ public class Test_Exam_DTO {
 	private String examcode;
 	private String allot;
 	private String examnum;
+	private String exam;
 	
 	public Test_Exam_DTO() {
 	}
@@ -17,7 +18,13 @@ public class Test_Exam_DTO {
 		this.allot = allot;
 		this.examnum = examnum;
 	}
-
+	
+	public Test_Exam_DTO(String examnum, String exam, String allot) {
+		this.examnum = examnum;
+		this.exam = exam;
+		this.allot = allot;
+	}
+	
 	public String getTestcode() {
 		return testcode;
 	}

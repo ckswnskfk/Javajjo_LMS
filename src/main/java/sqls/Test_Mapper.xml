@@ -68,6 +68,12 @@
 		WHERE EXAMCODE = #{examcode}
 	</update>
 	
+	<!-- 문제 수정(서술형) -->
+	<update id="examdes_modify" parameterType="ExamDesDTO">
+		UPDATE EXAMDESCRIPTIVE SET EXAM = #{exam}, EXPLANATION=#{explanation}, STANDARD= #{standard}, C_ANSWER=#{c_answer}
+        WHERE EXAMCODE = #{examcode}
+	</update>
+	
 	
 
 	<!--과제에 문제등록(연결)  -->
@@ -96,15 +102,29 @@
 		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT
 		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
 		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
+	</select>
+	
+	<!-- 과제에 해당하는 문제 리스트 조회 (서술형) -->
+	<select id="te_selectlist" parameterType="java.lang.String" resultType="TestExamDTO">
+		SELECT EXAMNUM, EXAM, ALLOT
+		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING(EXAMCODE)
+		WHERE TESTCODE = #{testcode} 
 		ORDER BY EXAMNUM
 	</select>
 
 	<!--과제에 해당하는 문제 조회(선택형)  -->
 	<select id="te_testselect" parameterType="java.util.Map"
-		resultType="ExamDesDTO">
+		resultType="ExamSelDTO">
 		SELECT EXAMNUM, EXAM, ALLOT
-		FROM TEST_EXAM JOIN EXAM USING(EXAMCODE)
+		FROM TEST_EXAM JOIN EXAMSELECT USING(EXAMCODE)
 		WHERE TESTCODE = #{testcode} EXAMCODE = #{examcode}
+	</select>
+	
+	<!--과제에 해당하는 문제리스트 조회(선택형) -->
+	<select id="te_testselectlist" parameterType="java.lang.String" resultType="TestExamDTO">
+		SELECT EXAMNUM, EXAM, ALLOT
+		FROM TEST_EXAM JOIN EXAMSELECT USING(EXAMCODE)
+		WHERE TESTCODE = #{testcode} 
 		ORDER BY EXAMNUM
 	</select>
 
@@ -146,7 +166,7 @@
 	<!--(강사)학생 서술형 답안 조회 -->
 	<select id="answerd_select" parameterType="java.util.Map"
 		resultType="AnswerSelDTO">
-		SELECT CONTENTNUM, ANSWER, ORIGINFILE, NEWFILENAME
+		SELECT EXAMNUM, ANSWER, ORIGINFILE, NEWFILENAME
 		FROM ANSWERDESCRIPTIVE
 		WHERE ID = #{id} AND EXAMCODE = #{examcode}
 		ORDER BY EXAMNUM
@@ -209,11 +229,10 @@
 	</select>
 
 	<!-- 총점 조회 -->
-	<select id="score_selectsum" parameterType="java.lang.String" resultType="ScoreDTO">
+	<select id="score_selectsum" parameterType="java.util.Map" resultType="ScoreDTO">
 		SELECT SUM(SCORE), NAME,STUDENT.ID
-		FROM SCORE,STUDENT
-		WHERE SCORE.ID=STUDENT.ID
-		AND SCORE.ID = #{id}
+		FROM SCORE JOIN STUDENT USING (ID)
+		WHERE ID = #{id} AND TESTCODE = #{testcode}
 		GROUP BY EXAMCODE
 	</select>
 
