@@ -189,7 +189,7 @@ public class Test_Service implements Test_IService {
 	@Override
 	public Score_DTO score_selectsum(Map<String, String> map) {
 		
-		return test_Interface.score_selectsum(seq);
+		return test_Interface.score_selectsum(map);
 	}
 	
 	

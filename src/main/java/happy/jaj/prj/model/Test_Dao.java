@@ -127,7 +127,7 @@ public class Test_Dao implements Test_Interface {
 
 	@Override
 	public List<ContentSelect_DTO> content_select(String seq) {	
-		return (ContentSelect_DTO)sqlSession.selectList(NS+"content_select",seq);
+		return sqlSession.selectList(NS+"content_select",seq);
 	}
 
 	@Override
@@ -184,12 +184,12 @@ public class Test_Dao implements Test_Interface {
 
 	@Override
 	public Score_DTO score_select(Map<String, String> map) {
-		return (Score_DTO)sqlSession.selectList(NS+"score_select",map);
+		return (Score_DTO)sqlSession.selectList(NS+"score_select", map);
 	}
 
 	@Override
 	public Score_DTO score_selectsum(Map<String, String> map) {
-		return sqlSession.selectOne(NS+"score_selectsum",seq);
+		return sqlSession.selectOne(NS+"score_selectsum", map);
 	}
 
 	
