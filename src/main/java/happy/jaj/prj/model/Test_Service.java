@@ -64,7 +64,8 @@ public class Test_Service implements Test_IService {
 	public boolean te_insert(Test_Exam_DTO dto) {
 		return test_Interface.te_insert(dto);
 	}
-
+	
+	// 선택형 문제 등록 + 선택형 문항 등록 
 	@Override
 	public boolean examsel_Transaction(Exam_Sel_DTO Edto, ContentSelect_DTO Cdto) {	
 		int n = test_Interface.examsel_insert(Edto);

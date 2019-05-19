@@ -100,10 +100,11 @@ public class TestController {
 	@RequestMapping(value="/sel_ExamInput.do", method=RequestMethod.POST)
 	public String examsel_Transaction(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("TESTController examsel_Transaction{}");
-		String exam = req.getParameter("seq");
+		String exam = req.getParameter("exam");
 		String c_answer = req.getParameter("c_answer");
 		Exam_Sel_DTO ESdto = new Exam_Sel_DTO(exam, "", c_answer);
-		int examnum = Integer.parseInt(req.getParameter("examnum"));
+		
+		int examnum = Integer.parseInt(req.getParameter("examnum"));	
 		String examcontent = req.getParameter("examcontent");
 		
 		ContentSelect_DTO CSdto = new ContentSelect_DTO("", examnum, examcontent);
@@ -140,6 +141,7 @@ public class TestController {
 		return "te_modify";
 	}
 	
+	// 배점 총점 계산 
 	@RequestMapping(value="/score_total.do", method=RequestMethod.POST)
 	public String te_selectsum(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("TESTController te_selectsum{}");
@@ -338,7 +340,7 @@ public class TestController {
 		return "score_insertd";
 	}
 	
-	//
+	//총점 점수 조회
 	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.POST)
 	public String score_selectsum(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("TESTController score_selectsum {}");
