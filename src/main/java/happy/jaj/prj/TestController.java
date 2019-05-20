@@ -39,21 +39,21 @@ public class TestController {
 	@Autowired
 	private Test_IService iService;
 	
-	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("Controller login {} ");
-		String id = req.getParameter("id");
-		String pw = req.getParameter("pw");
-
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("pw", pw);
-		Student_DTO dto = iMember.loginMember(map);
-		if(dto != null) {
-			return "main";
-		}
-		return "dd";
-	}
+//	@RequestMapping(value="/login.do", method=RequestMethod.POST)
+//	public String login(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("Controller login {} ");
+//		String id = req.getParameter("id");
+//		String pw = req.getParameter("pw");
+//
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("id", id);
+//		map.put("pw", pw);
+//		Student_DTO dto = iMember.loginMember(map);
+//		if(dto != null) {
+//			return "main";
+//		}
+//		return "dd";
+//	}
 	
 	//과제 등록 
 	@RequestMapping(value="/test_Input.do", method=RequestMethod.GET)
@@ -68,12 +68,13 @@ public class TestController {
 //		td.setSubjecttype(subjecttype);
 //		td.setExamtype(examtype);
 		
-		
-		String subjectcode = req.getParameter("subjectcode");
+		String subjectcode= req.getParameter("subjectcode");
+//		String testcode = td.getTestcode();
 		String testday = req.getParameter("testday");
 		
 		Subject_Test_DTO st = new Subject_Test_DTO(subjectcode, "", testday);
 		boolean isc = iService.test_Transaction(td, st);
+		System.out.println("과제 추가 성공 ?"+isc);
 		return "success";
 	}
 	
@@ -83,7 +84,7 @@ public class TestController {
 //	}
 	
 	//  서술형 문제 등록
-	@RequestMapping(value="/desc_ExamInput.do", method=RequestMethod.POST)
+	@RequestMapping(value="/desc_ExamInput.do", method=RequestMethod.GET)
 	public String desc_ExamInput(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("TESTController desc_ExamInput{}");
 		String exam = req.getParameter("exam");
