@@ -95,7 +95,13 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		}
 		return "jemin_index";
 	}
-
+	
+	//회원가입 폼
+	@RequestMapping(value="/student_joinForm.do", method=RequestMethod.GET)
+	public String student_joinForm(HttpServletRequest req) {
+		logger.info("UserController student_joinForm 실행");
+		return "student_joinForm";
+	}
 	//회원가입
 	@RequestMapping(value="/student_join.do", method=RequestMethod.GET)
 	public String student_join(HttpServletRequest req) {
@@ -111,7 +117,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		if(isc) {
 			logger.info("회원가입 완료");
 		}
-		return "jemin_index";
+		return "loginForm";
 	}
 	
 	//과정 조회

@@ -26,6 +26,9 @@ function login(){
 		frm.submit();
 	}
 }
+function regiForm(){
+	location.href="./student_joinForm.do";
+}
 </script>
 </head>
 <body>
@@ -59,6 +62,7 @@ function login(){
 	 				<td colspan="2">
 	 					<input type="button" value="로그인" onclick="login()">
 	 					<input type="button" value="회원가입" onclick="regiForm()">
+	 					<input type="button" value="비밀번호 찾기" onclick="iForm()">
 	 				</td>
 	 			</tr>
 	 		</table>
