@@ -33,7 +33,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	/* --------------------   학생    ------------------------*/
 	//로그인
-	@RequestMapping(value="/login.do", method=RequestMethod.GET)
+	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String student_login(HttpServletRequest req) {
 		logger.info("UserController student_login 실행");
 		String id = req.getParameter("id");

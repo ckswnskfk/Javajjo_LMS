@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import happy.jaj.prj.dtos.Empty_DTO;
 import happy.jaj.prj.dtos.FileBoard_DTO;
@@ -14,6 +15,7 @@ import happy.jaj.prj.dtos.Notice_DTO;
 import happy.jaj.prj.dtos.Room_Empty_DTO;
 import happy.jaj.prj.dtos.RowNum_DTO;
 
+@Repository
 public class Board_Dao implements Board_Interface {
 
 	private Logger logger = LoggerFactory.getLogger(Board_Dao.class);
@@ -148,7 +150,7 @@ public class Board_Dao implements Board_Interface {
 
 	// 강의실 추가
 	@Override
-	public boolean room_add(Room_Empty_DTO dto) {
+	public boolean room_add(Empty_DTO dto) {
 		logger.info("room_add Dao 실행 {}", dto);
 		return ((sqlSession.insert(NS_Emp+"room_add", dto)) > 0 );
 	}

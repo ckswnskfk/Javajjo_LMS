@@ -63,6 +63,6 @@ public interface Board_Interface {
 	public boolean room_empty_cancle(Room_Empty_DTO dto);
 	
 	// 강의실 추가
-	public boolean room_add(Room_Empty_DTO dto);
+	public boolean room_add(Empty_DTO dto);
 	
 }

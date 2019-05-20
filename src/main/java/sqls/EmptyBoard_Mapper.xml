@@ -36,8 +36,8 @@
 	</delete>
 	
 	<!-- 강의실 추가 -->
-	<insert id="room_add">
-	INSERT INTO EMPTY_BOARD VALUES(#{id},#{name},#{personel})
+	<insert id="room_add" parameterType="EmptyDTO">
+	INSERT INTO EMPTY_BOARD VALUES(#{code},#{name},#{personel})
 	</insert>
 
 
