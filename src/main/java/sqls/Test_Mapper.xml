@@ -10,7 +10,7 @@
 			SELECT 'T'|| LPAD((TO_NUMBER(SUBSTR(MAX(TESTCODE),2))+1),5,0) as testcode FROM TEST
 		</selectKey>
 		INSERT INTO TEST(TESTCODE, TESTNAME, SUBJECTTYPE, EXAMTYPE)
-		VALUES(#{testcode}, #{testname}, #{testtype},#{examtype})
+		VALUES(#{testcode}, #{testname}, #{subjecttype},#{examtype})
 	</insert>
 
 	<!-- 과목유형이 동일한 과제 조회 -->
