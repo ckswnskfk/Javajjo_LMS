@@ -34,7 +34,7 @@ public class AttendedController {
 	
 	
 	
-//  cal_stucos : 학생 과정 조회 (미완)
+//  cal_stucos : 학생 과정 조회 (완)
 	@RequestMapping(value="/attended_Student_Course.do", method=RequestMethod.GET)
 	public String cal_stucos(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController cal_stucos 실행");
@@ -76,12 +76,12 @@ public class AttendedController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("coursecode", coursecode);
 		map.put("regdate", regdate);
-		Attended_DTO dto = attended_Iservice.cal_monlist(map);
+		attended_Iservice.cal_monlist(map);
 		req.setAttribute("map", map);
 //		req.setAttribute("dto", dto);
 		return "attended_index";
 	}
-	//	cal_daylist : 강사 출석부 조회
+	//	cal_daylist : 강사 출석부 조회(완)
 	@RequestMapping(value="/attended_Rollbook.do", method=RequestMethod.GET)
 	public String cal_daylist(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController attended_Rollbook.do 실행");
@@ -102,6 +102,8 @@ public class AttendedController {
 		return "attended_index";
 	}
 	// 결석 문자 발송 ( 생각중 )
+	
+	
 	//	cal_attended : 출석 및 퇴실,결석
 	@RequestMapping(value="/beacon_Attended.do", method=RequestMethod.GET)
 	public String cal_attended(HttpServletRequest req, HttpServletResponse resp, String seq, String id, String name, String a_check, String regdate) {

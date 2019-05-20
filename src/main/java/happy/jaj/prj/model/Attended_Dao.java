@@ -60,7 +60,7 @@ public class Attended_Dao implements Attended_Interface {
 //	cal_monatt : 강사 학생 출석 상세 조회
 	@Override
 	public List<Student_DTO> cal_detail(String id) {
-		logger.info("Attended_Dao cal_monatt 실행{}", id);
+		logger.info("Attended_Dao cal_detail 실행{}", id);
 		return sqlSessionTemplate.selectList(NS_Attended+"cal_detail", id);
 	}
 	// 결석 문자 발송 ( 생각중 )
