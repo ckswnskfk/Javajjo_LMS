@@ -95,7 +95,7 @@ public class Board_Service implements Board_IService {
 
 	// 자료게시판 글 검색
 	@Override
-	public List<FileBoard_DTO> file_infosearchboard(Map<String, String> map) {
+	public List<FileBoard_DTO> file_infosearchboard(Map<String, Object> map) {
 		logger.info("file_infosearchboard Service 실행 {}", map);
 		return board_interface.file_infosearchboard(map);
 	}

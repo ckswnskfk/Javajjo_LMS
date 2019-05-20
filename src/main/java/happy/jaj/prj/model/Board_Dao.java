@@ -100,7 +100,7 @@ public class Board_Dao implements Board_Interface {
 
 	// 자료게시판 글 검색
 	@Override
-	public List<FileBoard_DTO> file_infosearchboard(Map<String, String> map) {
+	public List<FileBoard_DTO> file_infosearchboard(Map<String, Object> map) {
 		logger.info("file_infosearchboard Dao 실행 {}", map);
 		return sqlSession.selectList(NS_Fil+"file_infosearchboard", map);
 	}
@@ -117,7 +117,7 @@ public class Board_Dao implements Board_Interface {
 	@Override
 	public List<Empty_DTO> room_boardlist() {
 		logger.info("room_boardlist Dao 실행");
-		return sqlSession.selectList(NS_Emp);
+		return sqlSession.selectList(NS_Emp+"room_boardlist");
 	}
 
 	// 빈 강의실 조회

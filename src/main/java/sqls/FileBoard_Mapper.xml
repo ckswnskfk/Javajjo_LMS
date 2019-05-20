@@ -7,7 +7,7 @@
 		SELECT SEQ, ID, TITLE, REGDATE, READCOUNT
 		FROM (SELECT ROWNUM RNUM ,SEQ, ID, TITLE, CONTENT,
 			REGDATE, READCOUNT, FILENAME, NEWFILENAME
-			FROM FILE_BOARDORDER BY SEQ DESC)
+			FROM FILE_BOARD ORDER BY SEQ DESC)
 		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
@@ -29,9 +29,8 @@
 	<!-- 게시판 글 수정 -->
 	<update id="file_infomodifyboard" parameterType="FileBoardDTO">
 		UPDATE FILE_BOARD 
-		SET TITLE = #{title}, CONTENT= #{content}, 
-		FILENAME= #{filename}, NEWFILENAME= #{newfilename}
-		WHERE = #{seq}
+		SET TITLE = #{title}, CONTENT= #{content}
+		WHERE SEQ = #{seq}
 	</update>
 	
 	<!-- 게시판 글 작성 -->
@@ -40,14 +39,14 @@
 		(SEQ, ID, TITLE, CONTENT, REGDATE, READCOUNT,
 		FILENAME, NEWFILENAME)
 		VALUES(FILE_BOARD_SEQ.NEXTVAL,
-		#{id}, #{title}, #{content}, SYSDATE, 0, #{filename},#{newfilename})
+		#{id}, #{title}, #{content}, SYSDATE, 0, '','')
 	</insert>
 	
 	<!-- 게시판 글 검색 -->
 	<select id="file_infosearchboard" parameterType="java.util.Map" resultType="FileBoardDTO">
 		SELECT SEQ, ID, TITLE, REGDATE, READCOUNT
 		FROM (SELECT ROWNUM RNUM ,SEQ, ID, TITLE, CONTENT,
-				REGDATE, READCOUNT, FILENAME, NEWFILENAMEFROM FILE_BOARD)
+				REGDATE, READCOUNT, FILENAME, NEWFILENAME FROM FILE_BOARD
 				ORDER BY SEQ DESC)
 		WHERE RNUM BETWEEN #{start} AND #{last}
 		<choose>

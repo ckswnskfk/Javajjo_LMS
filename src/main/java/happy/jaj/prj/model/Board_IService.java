@@ -42,7 +42,7 @@ public interface Board_IService {
 	public boolean file_infowriteboard(FileBoard_DTO dto);
 	
 	// 자료게시판 글 검색
-	public List<FileBoard_DTO> file_infosearchboard(Map<String, String> map);
+	public List<FileBoard_DTO> file_infosearchboard(Map<String, Object> map);
 	
 	// 자료게시판 조회수 증가
 	public boolean file_inforeadcount(String seq);

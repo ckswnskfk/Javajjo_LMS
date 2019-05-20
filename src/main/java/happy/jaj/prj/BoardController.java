@@ -111,10 +111,8 @@ public class BoardController {
 		logger.info("BoardController file_infomodifyboard 실행");
 		String title = req.getParameter("title");
 		String content = req.getParameter("content");
-		String filename = req.getParameter("filename");
-		String newfilename = req.getParameter("newfilename");
 		String seq = req.getParameter("seq");
-		FileBoard_DTO dto = new FileBoard_DTO(seq, title, content, filename, newfilename);
+		FileBoard_DTO dto = new FileBoard_DTO(seq, title, content, "", "");
 		board_IService.file_infomodifyboard(dto);
 		return "jemin_index";
 	}
@@ -134,11 +132,15 @@ public class BoardController {
 	public String file_infosearchboard(HttpServletRequest req) {
 		logger.info("BoardController file_infosearchboard 실행");
 		RowNum_DTO dto = new RowNum_DTO();
-		String start = Integer.toString(dto.getStart());
-		String last = Integer.toString(dto.getLast());
+		int start = dto.getStart();
+		int last = dto.getLast();
 		String title = req.getParameter("title");
 		String id = req.getParameter("id");
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("last", last);
+		map.put("title", title);
+		map.put("id", id);
 		List<FileBoard_DTO> lists = board_IService.file_infosearchboard(map);
 		req.setAttribute("lists", lists);
 		return "jemin_index";
