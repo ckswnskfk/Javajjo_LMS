@@ -43,7 +43,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		map.put("pw", pw);
 		Student_DTO dto = user_IService.student_login(map);
 		req.setAttribute("dto", dto);
-		return "ㅡ먀ㅜ";
+		return "main";
 	}
 	
 	//비밀번호 초기화
