@@ -9,6 +9,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel= "stylesheet" type="text/css" href="./css/header.css">
+<link rel= "stylesheet" type="text/css" href="./css/main.css">
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="./js/main.js"></script>
+<script src="./js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div id = "header">
