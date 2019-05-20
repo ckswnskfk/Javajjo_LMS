@@ -10,7 +10,6 @@
 		 <typeAlias type="happy.jaj.prj.dtos.Empty_DTO" alias="EmptyDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Exam_Des_DTO" alias="ExamDesDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Exam_Sel_DTO" alias="ExamSelDTO"/>
-		 <typeAlias type="happy.jaj.prj.dtos.Faq_DTO" alias="FaqDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Notice_DTO" alias="NoticeDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Room_Empty_DTO" alias="RoomEmptyDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.RowNum_DTO" alias="RowNumDTO"/>
