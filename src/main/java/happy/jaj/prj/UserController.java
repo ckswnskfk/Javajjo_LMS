@@ -153,7 +153,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	/* --------------------   강사   ------------------------*/
 	//로그인
-	@RequestMapping(value="/teacher_login.do", method=RequestMethod.GET)
+	@RequestMapping(value="/teacher_login.do", method=RequestMethod.POST)
 	public String teacher_login(HttpServletRequest req,HttpSession session) {
 		logger.info("UserController teacher_login 실행");
 		String id = req.getParameter("id");
@@ -212,7 +212,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	/* --------------------   관리자   ------------------------*/
 	//로그인
-	@RequestMapping(value="/admin_login.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin_login.do", method=RequestMethod.POST)
 	public String admin_login(HttpServletRequest req,HttpSession session) {
 		logger.info("UserController admin_login 실행");
 		String id = req.getParameter("id");

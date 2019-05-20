@@ -19,7 +19,11 @@ function login(){
 		frm.action = "./login.do";
 		frm.submit();
 	}else if(document.getElementsByName("tableChk")[1].checked == true){
+		frm.action = "./teacher_login.do";
+		frm.submit();
 	}else if(document.getElementsByName("tableChk")[2].checked == true){
+		frm.action = "./admin_login.do";
+		frm.submit();
 	}
 }
 </script>
