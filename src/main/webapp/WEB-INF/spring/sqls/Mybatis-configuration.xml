@@ -40,6 +40,7 @@
 		<mapper resource="/sqls/Subject_Mapper.xml"/>
 		<mapper resource="/sqls/Teacher_Mapper.xml"/>
 		<mapper resource="/sqls/Test_Mapper.xml"/>
+		<mapper resource="/sqls/Attended_Mapper.xml"/>
 	</mappers>
 
 </configuration>
