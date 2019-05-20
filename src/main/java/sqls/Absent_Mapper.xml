@@ -5,7 +5,7 @@
 	<!-- 신청서 조회 -->
 	<!-- 자신의 신청내역 리스트 상태별로 조회(학생) -->
 	<select id="student_absent_list" parameterType="java.util.Map" resultType="AppFormDTO">
-		SELECT FORM_SEQ, APP_DATE, COURSECODE, COURSENAME, STM, START_DATE 결석시작일, RECIPIENT_ID
+		SELECT FORM_SEQ, APP_DATE, COURSECODE, COURSENAME, STM, START_DATE, RECIPIENT_ID, ABSENT_DAYS
         FROM APP_FORM JOIN IS_APPROVE
                 USING(FORM_SEQ)
                         JOIN COURSE

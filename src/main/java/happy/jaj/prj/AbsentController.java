@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import happy.jaj.prj.dtos.Admin_DTO;
 import happy.jaj.prj.dtos.App_Form_DTO;
@@ -33,23 +34,22 @@ public class AbsentController {
 	public String absent_main(HttpSession session) {
 		logger.info("AbsentController absent_main 실행");
 		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
-		
-		return "absent";
+		if(map.get("table").trim().equalsIgnoreCase("Student")) {
+			return "redirect:/absentList.do";
+		}else {
+			return "redirect:/recipient_absent_list.do";
+		}
 	}
 	
-	 // test
 	 // 자신의 신청내역 리스트 상태별로 조회(학생)
 	@RequestMapping(value="/absentList.do", method=RequestMethod.GET)
-	public String student_absent_list(HttpServletRequest req) {
+	public String student_absent_list(HttpSession session, HttpServletRequest req) {
 		logger.info("AbsentController student_absent_list 실행");
-		String id = req.getParameter("id");
-		String stm = req.getParameter("stm");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("stm", stm);
-		List<App_Form_DTO> list = absent_IService.student_absent_list(map);
+		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
+		lmap.put("stm", "N");
+		List<App_Form_DTO> list = absent_IService.student_absent_list(lmap);
 		req.setAttribute("list", list);
-		return "chanju_index";
+		return "absent";
 	}
 	
 	// 클릭해서 각 신청을 상세조회(처리중)
@@ -59,7 +59,7 @@ public class AbsentController {
 		String seq = req.getParameter("seq");
 		App_Form_DTO dto = absent_IService.absent_detail_no(seq);
 		req.setAttribute("dto", dto);
-		return "chanju_index";
+		return "absent_detail";
 	}
 	
 	// 클릭해서 각 신청을 상세조회(승인)
@@ -87,21 +87,18 @@ public class AbsentController {
 		String seq = req.getParameter("seq");
 		App_Form_DTO dto = absent_IService.absent_detail_return(seq);
 		req.setAttribute("dto", dto);
-		return "chanju_index";
+		return "absent_detail";
 	}
 	
 	// 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기
 	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.GET)
-	public String recipient_absent_list(HttpServletRequest req) {
+	public String recipient_absent_list(HttpSession session, HttpServletRequest req) {
 		logger.info("AbsentController recipient_absent_list 실행");
-		String id = req.getParameter("id");
-		String stm = req.getParameter("stm");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("stm", stm);
-		List<App_Form_DTO> list = absent_IService.recipient_absent_list(map);
+		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
+		lmap.put("stm", "N");
+		List<App_Form_DTO> list = absent_IService.recipient_absent_list(lmap);
 		req.setAttribute("list", list);
-		return "chanju_index";
+		return "absent";
 	}
 	
 	
