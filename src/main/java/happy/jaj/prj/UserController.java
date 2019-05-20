@@ -33,6 +33,13 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private  User_IService user_IService;
 	
+	@RequestMapping(value="/main.do", method=RequestMethod.GET)
+	//loginForm.do 처음 로그인 화면
+	public String mainForm() {
+		logger.info("Controller mainform");
+		return "main";
+	}	
+	
 	@RequestMapping(value="/loginForm.do", method=RequestMethod.GET)
 	//loginForm.do 처음 로그인 화면
 	public String loginForm() {
@@ -69,7 +76,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		mapSession.put("id", dto.getId());
 		mapSession.put("name", dto.getName());
 		session.setAttribute("member", mapSession);
-		return "main";
+		return "redirect:/main.do";
 	}
 	
 	//비밀번호 초기화
@@ -147,7 +154,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	/* --------------------   강사   ------------------------*/
 	//로그인
 	@RequestMapping(value="/teacher_login.do", method=RequestMethod.GET)
-	public String teacher_login(HttpServletRequest req) {
+	public String teacher_login(HttpServletRequest req,HttpSession session) {
 		logger.info("UserController teacher_login 실행");
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
@@ -155,8 +162,12 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		map.put("id", id);
 		map.put("pw", pw);
 		Teacher_DTO dto = user_IService.teacher_login(map);
-		req.setAttribute("dto", dto);
-		return "jemin_index";
+		Map<String, String> mapSession = new HashMap<String, String>();
+		mapSession.put("table", "Teacher");
+		mapSession.put("id", dto.getId());
+		mapSession.put("name", dto.getName());
+		session.setAttribute("member", mapSession);
+		return "redirect:/main.do";
 	}
 	
 	//정보 조회
@@ -202,7 +213,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	/* --------------------   관리자   ------------------------*/
 	//로그인
 	@RequestMapping(value="/admin_login.do", method=RequestMethod.GET)
-	public String admin_login(HttpServletRequest req) {
+	public String admin_login(HttpServletRequest req,HttpSession session) {
 		logger.info("UserController admin_login 실행");
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
@@ -210,8 +221,12 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		map.put("id", id);
 		map.put("pw", pw);
 		Admin_DTO dto = user_IService.admin_login(map);
-		req.setAttribute("dto", dto);
-		return "jemin_index";
+		Map<String, String> mapSession = new HashMap<String, String>();
+		mapSession.put("table", "Admin");
+		mapSession.put("id", dto.getId());
+		mapSession.put("name", dto.getName());
+		session.setAttribute("member", mapSession);
+		return "redirect:/main.do";
 	}
 	
 	//정보 조회

@@ -12,7 +12,9 @@
 </head>
 <body>
 <div id = "header">
-<h1>헤더!</h1>
+<h1><a href="./main.do">메인으로 이동</a></h1>
+<a href="./logout.do">로그아웃</a>
+${member.name} 님 환영합니다.
 </div>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -23,7 +25,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="#">게시판
               <span class="sr-only">(current)</span>
             </a>
