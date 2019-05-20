@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 
 import happy.jaj.prj.dtos.Admin_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
@@ -31,10 +33,30 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private  User_IService user_IService;
 	
+	@RequestMapping(value="/loginForm.do", method=RequestMethod.GET)
+	//loginForm.do 처음 로그인 화면
+	public String loginForm() {
+		logger.info("Controller loginForm");
+		return "loginForm";
+	}	
+	
+//	logout.do
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/logout.do", method=RequestMethod.GET)
+	public String logOut(HttpSession session) {
+		Map<String, String> map = new HashMap<String, String>();
+		map = (Map<String, String>) session.getAttribute("mem");
+		if(map!=null) {
+			session.removeAttribute("member"); //invalidate하면 모든 session이 다 사라짐, remove는 하나의 객체의 session만 지움
+		}
+		
+		return "redirect:/loginForm.do";
+	}
+	
 	/* --------------------   학생    ------------------------*/
 	//로그인
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String student_login(HttpServletRequest req) {
+	public String student_login(HttpServletRequest req, HttpSession session) {
 		logger.info("UserController student_login 실행");
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
@@ -42,7 +64,11 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		map.put("id", id);
 		map.put("pw", pw);
 		Student_DTO dto = user_IService.student_login(map);
-		req.setAttribute("dto", dto);
+		Map<String, String> mapSession = new HashMap<String, String>();
+		mapSession.put("table", "Student");
+		mapSession.put("id", dto.getId());
+		mapSession.put("name", dto.getName());
+		session.setAttribute("member", mapSession);
 		return "main";
 	}
 	
