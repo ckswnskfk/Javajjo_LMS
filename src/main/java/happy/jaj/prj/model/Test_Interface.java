@@ -45,9 +45,9 @@ public interface Test_Interface {
 	public Exam_Sel_DTO te_testselect(Map<String, String> map);
 	
 	//과제에 해당하는 문제리시트 조회(서술형)
-	public List<Exam_Des_DTO> te_selectlist(String seq);
+	public List<Test_Exam_DTO> te_selectlist(String seq);
 	//과제에 해당하는 문제리시트 조회(선택형)
-	public List<Exam_Sel_DTO> te_testselectlist(String seq);
+	public List<Test_Exam_DTO> te_testselectlist(String seq);
 	
 	//문항 등록
 	public boolean content_insert(ContentSelect_DTO dto);

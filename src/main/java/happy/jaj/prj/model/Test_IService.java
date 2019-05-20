@@ -6,6 +6,7 @@ import java.util.Map;
 import happy.jaj.prj.dtos.Answer_Des_DTO;
 import happy.jaj.prj.dtos.Answer_Sel_DTO;
 import happy.jaj.prj.dtos.ContentSelect_DTO;
+import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
@@ -14,6 +15,8 @@ import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_IService {
+	
+//		public Course_DTO test_course()
 	
 		public boolean test_Transaction(Test_DTO Tdto, Subject_Test_DTO Sdto);
 //		// 과제 추가 
@@ -64,9 +67,9 @@ public interface Test_IService {
 		public List<ContentSelect_DTO> content_select(String seq);		
 		
 		//과제에 해당하는 문제리시트 조회(서술형)
-		public List<Exam_Des_DTO> te_selectlist(String seq);
+		public List<Test_Exam_DTO> te_selectlist(String seq);
 		//과제에 해당하는 문제리시트 조회(선택형)
-		public List<Exam_Sel_DTO> te_testselectlist(String seq);
+		public List<Test_Exam_DTO> te_testselectlist(String seq);
 		
 		//학생 서술형 답안 등록
 		public boolean answerd_insert(Answer_Des_DTO dto);

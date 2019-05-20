@@ -7,6 +7,7 @@ public class Score_DTO {
 	private String testcode;
 	private String examcode;
 	private int score;
+	private String name;
 	
 	
 	
@@ -21,6 +22,12 @@ public class Score_DTO {
 		this.examcheck = examcheck;
 		this.testcode = testcode;
 		this.examcode = examcode;
+		this.score = score;
+	}
+	public Score_DTO(String name, String id, int score) {
+		super();
+		this.id = id;
+		this.name = name;
 		this.score = score;
 	}
 	public Score_DTO() {

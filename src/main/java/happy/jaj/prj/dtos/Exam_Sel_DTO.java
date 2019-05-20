@@ -17,11 +17,27 @@ public class Exam_Sel_DTO {
 		this.allot = allot;
 	}
 
-	public Exam_Sel_DTO(String exam, String examcode, String c_answer) {
+	public Exam_Sel_DTO(String exam, String allot, String examnum) {
 		super();
 		this.exam = exam;
-		this.examcode = examcode;
-		this.c_answer = c_answer;
+		this.allot = allot;
+		this.examnum = examnum;
+	}
+
+	public String getExamnum() {
+		return examnum;
+	}
+
+	public void setExamnum(String examnum) {
+		this.examnum = examnum;
+	}
+
+	public String getAllot() {
+		return allot;
+	}
+
+	public void setAllot(String allot) {
+		this.allot = allot;
 	}
 
 	public Exam_Sel_DTO(String exam, String examcode, String examnum, String allot) {

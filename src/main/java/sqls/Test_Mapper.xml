@@ -2,6 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Test_Mapper">
 
+	<!-- 담당 과정 조회 -->
+	<select id="test_course" parameterType="java.lang.String" resultType="CourseDTO">
+	SELECT COURSECODE, COURSENAME, STARTDATE, COURSECNT
+    FROM COURSE JOIN TEACHER USING(COURSECODE)
+    WHERE ID = #{id}
+    </select>
+    
+    <!-- 과정에 해당하는 과목 조회 -->
+    <select id="test_subject" parameterType="java.lang.String" resultType="SubjectDTO">
+    SELECT SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE
+  	FROM SUBJECT  JOIN COURSE_SUBJECT USING (SUBJECTCODE) 
+  	WHERE COURSECODE = #{coursecode}
+    </select>
+    
+    <!-- 과정명이 동일한 회차 조회 -->
+    <select id="test_coursecnt" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT COURSECNT
+	FROM COURSE
+	WHERE COURSENAME = #{coursename}
+    </select>
+    
+    <!-- 과목유형과 과제유형동일한 문제 조회 -->
+<!--     <select id="test_type"> -->
+<!--     SELECT EXAM FROM TES -->
+<!--     </select> -->
 
 
 	<!--과제 추가 -->
@@ -45,16 +70,15 @@
 
 	<!--문제 등록(서술형)  -->
 	<insert id="examdes_insert" parameterType="ExamDesDTO">
-		INSERT INTO EXAMDESCRIPTIVE(EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER)
-		VALUES(#{EXAM}, ((SELECT 'ED'||
-		LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM
-		EXAMDESCRIPTIVE), #{explanation}, #{standard}, #{c_answer})
+	INSERT INTO EXAMDESCRIPTIVE(EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER)
+		VALUES(#{exam}, (SELECT 'ED'||LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),3))+1),5,0) FROM
+		EXAMDESCRIPTIVE),#{explanation}, #{standard}, #{c_answer})
 	</insert>
 	
 	<!--문제 등록(선택형)  -->
 	<insert id="examsel_insert" parameterType="ExamSelDTO">
 		<selectKey order="BEFORE" resultType="java.lang.String" keyProperty="examcode">
-			SELECT 'ES'|| LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),2))+1),5,0) FROM EXAMSELECT
+			SELECT 'ES'|| LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),3))+1),5,0) FROM EXAMSELECT
 		</selectKey>
 		INSERT INTO EXAMSELECT(EXAM, EXAMCODE, C_ANSWER)
 		VALUES( #{exam}, #{examcode}, #{c_answer})
@@ -113,11 +137,10 @@
 	</select>
 
 	<!--과제에 해당하는 문제 조회(선택형)  -->
-	<select id="te_testselect" parameterType="java.util.Map"
-		resultType="ExamSelDTO">
-		SELECT EXAMNUM, EXAM, ALLOT
+	<select id="te_testselect" parameterType="java.util.Map" resultType="ExamSelDTO">
+		SELECT EXAM, ALLOT, EXAMNUM
 		FROM TEST_EXAM JOIN EXAMSELECT USING(EXAMCODE)
-		WHERE TESTCODE = #{testcode} EXAMCODE = #{examcode}
+		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
 	</select>
 	
 	<!--과제에 해당하는 문제리스트 조회(선택형) -->
@@ -165,10 +188,10 @@
 
 	<!--(강사)학생 서술형 답안 조회 -->
 	<select id="answerd_select" parameterType="java.util.Map"
-		resultType="AnswerSelDTO">
+		resultType="AnswerDesDTO">
 		SELECT EXAMNUM, ANSWER, ORIGINFILE, NEWFILENAME
 		FROM ANSWERDESCRIPTIVE
-		WHERE ID = #{id} AND EXAMCODE = #{examcode}
+		WHERE ID = #{id} AND EXAMCODE = #{examcode} AND EXAMNUM = #{examnum}
 		ORDER BY EXAMNUM
 	</select>
 
@@ -202,12 +225,12 @@
 	<!--등록-자동채점(선택형)  -->
 	<insert id="score_inserts" parameterType="ScoreDTO">
 		INSERT INTO SCORE(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
-		VALUES(#{id}, 'N', #{testcode}, #{examcode}, (SELECT ALLOT
+		VALUES(#{id}, 'N', #{testcode}, #{examcode}, (SELECT 
+		(CASE WHEN C_ANSWER=ANSWER THEN ALLOT ELSE 0 END)
 		FROM ANSWERSELECT JOIN EXAMSELECT ON
 		ANSWERSELECT.EXAMCODE=EXAMSELECT.EXAMCODE
 		JOIN TEST_EXAM ON EXAMSELECT.EXAMCODE=TEST_EXAM.EXAMCODE
-		WHERE ID= #{id} AND EXAMSELECT.EXAMCODE = #{examcode} AND
-		TEST_EXAM.EXAMNUM = #{examnum} AND C_ANSWER=ANSWER))
+		WHERE ID= #{id} AND EXAMSELECT.EXAMCODE = #{examcode}))
 	</insert>
 
 	<!--학생 서술형 점수 수정  -->
@@ -230,10 +253,8 @@
 
 	<!-- 총점 조회 -->
 	<select id="score_selectsum" parameterType="java.util.Map" resultType="ScoreDTO">
-		SELECT SUM(SCORE), NAME,STUDENT.ID
-		FROM SCORE JOIN STUDENT USING (ID)
-		WHERE ID = #{id} AND TESTCODE = #{testcode}
-		GROUP BY EXAMCODE
+		SELECT SUM(SCORE), ID, NAME 
+		FROM SCORE JOIN STUDENT USING(ID) WHERE TESTCODE = #{testcode} AND ID =#{id} GROUP BY ID,NAME
 	</select>
 
 
