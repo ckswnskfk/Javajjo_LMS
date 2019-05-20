@@ -61,7 +61,7 @@ public class Attended_Dao implements Attended_Interface {
 	@Override
 	public List<Student_DTO> cal_detail(String id) {
 		logger.info("Attended_Dao cal_monatt 실행{}", id);
-		return sqlSessionTemplate.selectOne(NS_Attended+"cal_detail", id);
+		return sqlSessionTemplate.selectList(NS_Attended+"cal_detail", id);
 	}
 	// 결석 문자 발송 ( 생각중 )
 //	@Override

@@ -34,7 +34,7 @@ public class AttendedController {
 	
 	
 	
-//  cal_stucos : 학생 과정 조회
+//  cal_stucos : 학생 과정 조회 (미완)
 	@RequestMapping(value="/attended_Student_Course.do", method=RequestMethod.GET)
 	public String cal_stucos(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController cal_stucos 실행");
@@ -47,7 +47,7 @@ public class AttendedController {
 	}
 	
 	
-	//	cal_stuatt : 학생 출결 조회
+	//	cal_stuatt : 학생 출결 조회(완)
 	@RequestMapping(value="/attended_Student.do", method=RequestMethod.GET)
 	public String cal_stuatt(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController attended_Student 실행");
@@ -57,7 +57,7 @@ public class AttendedController {
 		return "attended_index";
 	}
 	
-	//	cal_cosview : 강사 과정 조회 
+	//	cal_cosview : 강사 과정 조회  (완)
 	@RequestMapping(value="/attended_Teacher_Course.do", method=RequestMethod.GET)
 	public String cal_cosview(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController attended_Teacher.do 실행");
@@ -67,7 +67,7 @@ public class AttendedController {
 		return "attended_index";
 	}
 	
-	//	cal_monlist : 강사 캘린더 출결 조회 C201900001
+	//	cal_monlist : 강사 캘린더 출결 조회 C201900001 
 	@RequestMapping(value="/attended_Teacher.do", method=RequestMethod.GET)
 	public String cal_monlist(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController attended_Teacher.do 실행");
@@ -92,7 +92,7 @@ public class AttendedController {
 	}
 	
 	
-	//	cal_detail : 강사 학생 출석 상세 조회
+	//	cal_detail : 강사 학생 출석 상세 조회 (완)
 	@RequestMapping(value="/attended_Detail.do", method=RequestMethod.GET)
 	public String cal_detail(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController attended_Detail.do 실행");
@@ -103,7 +103,6 @@ public class AttendedController {
 	}
 	// 결석 문자 발송 ( 생각중 )
 	//	cal_attended : 출석 및 퇴실,결석
-	
 	@RequestMapping(value="/beacon_Attended.do", method=RequestMethod.GET)
 	public String cal_attended(HttpServletRequest req, HttpServletResponse resp, String seq, String id, String name, String a_check, String regdate) {
 		logger.info("AttendedController beacon_Attended.do 실행");
