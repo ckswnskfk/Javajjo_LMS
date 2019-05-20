@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +28,19 @@ public class AbsentController {
 	@Autowired
 	private Absent_IService absent_IService;
 	
-	// 자신의 신청내역 리스트 상태별로 조회(학생)
+	// 결석 신청 세션 비교(사용자별 신청 내역)
+	@RequestMapping(value="/absent.do", method=RequestMethod.GET)
+	public String absent_main(HttpSession session) {
+		logger.info("AbsentController absent_main 실행");
+		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
+		
+		return "absent";
+	}
+	
+	 // test
+	 // 자신의 신청내역 리스트 상태별로 조회(학생)
 	@RequestMapping(value="/absentList.do", method=RequestMethod.GET)
-	public String student_absent_list(HttpServletRequest req, HttpServletResponse resp) {
+	public String student_absent_list(HttpServletRequest req) {
 		logger.info("AbsentController student_absent_list 실행");
 		String id = req.getParameter("id");
 		String stm = req.getParameter("stm");
