@@ -3,6 +3,7 @@ package happy.jaj.prj.model;
 import java.util.List;
 
 import happy.jaj.prj.dtos.Course_DTO;
+import happy.jaj.prj.dtos.Course_Subject_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
 
 public interface Subject_Interface {
@@ -19,6 +20,10 @@ public interface Subject_Interface {
 	// 과정에 해당하는 과목 조회
 	public List<Subject_DTO> subject_choice(String coursecode);
 	
+	// 과정에 과목 추가
+	public int subject_add_course(Course_Subject_DTO dto);
+	
 	// 새로운 과목 생성
 	public int subject_add(Subject_DTO dto);
+	
 }

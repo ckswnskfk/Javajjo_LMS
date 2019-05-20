@@ -30,6 +30,12 @@
 		USING (SUBJECTCODE) WHERE COURSECODE = #{coursecode}
 	</select>
 	
+	<!-- 과정에 과목 추가 -->
+	<insert id="subject_add_course" parameterType="CourseSubjectDTO">
+		INSERT INTO COURSE_SUBJECT (SEQ, COURSECODE, SUBJECTCODE, SUBJECTTIME, CONTENT, STARTDATE)
+ 		VALUES(COURSE_SUBJECT_SEQ.NEXTVAL, #{coursecode}, #{subjectcode}, #{subjecttime}, #{content}, #{startdate})
+	</insert>
+	
 	<!-- 새로운 과목 생성 -->
 	<insert id="subject_add" parameterType="SubjectDTO">
 		INSERT INTO SUBJECT(SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE)

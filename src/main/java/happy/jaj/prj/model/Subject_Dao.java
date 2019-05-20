@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import happy.jaj.prj.dtos.Course_DTO;
+import happy.jaj.prj.dtos.Course_Subject_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
 
 @Repository
@@ -48,13 +49,18 @@ public class Subject_Dao implements Subject_Interface {
 		return sqlSessionTemplate.selectList(NS+"subject_choice", coursecode);
 	}
 	
+	// 과정에 과목 추가
+	@Override
+	public int subject_add_course(Course_Subject_DTO dto) {
+		logger.info("Subject_Dao subject_add_course 실행 {}", dto);
+		return sqlSessionTemplate.insert(NS+"subject_add_course", dto);
+	}
+	
 	// 새로운 과목 생성
 	@Override
 	public int subject_add(Subject_DTO dto) {
 		logger.info("Subject_Dao subject_add 실행 {}", dto);
 		return sqlSessionTemplate.insert(NS+"subject_add", dto);
 	}
-
-
 
 }

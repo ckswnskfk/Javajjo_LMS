@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import happy.jaj.prj.dtos.Course_DTO;
+import happy.jaj.prj.dtos.Course_Subject_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.model.Subject_IService;
 
@@ -23,6 +24,7 @@ public class SubjectController {
 	@Autowired
 	private Subject_IService subject_IService;
 	
+	// (강사)자신의 과정 조회
 	@RequestMapping(value="/select_course_list.do", method=RequestMethod.GET)
 	public String select_course_list(HttpServletRequest req) {
 		logger.info("SubjectController select_course_list 실행");
@@ -65,6 +67,21 @@ public class SubjectController {
 		return "chanju_index";
 	}
 	
+	// 과정에 과목 추가
+	@RequestMapping(value="/subject_add_course.do", method=RequestMethod.GET)
+	public String subject_add_course(HttpServletRequest req) {
+		logger.info("SubjectController subject_add_course 실행");
+		String coursecode = req.getParameter("coursecode");
+		String subjectcode = req.getParameter("subjectcode");
+		String subjecttime = req.getParameter("subjecttime");
+		String content = req.getParameter("content");
+		String startdate = req.getParameter("startdate");
+		Course_Subject_DTO dto = new Course_Subject_DTO(coursecode, subjectcode, subjecttime, content, startdate);
+		int n = subject_IService.subject_add_course(dto);
+		req.setAttribute("n", n);
+		return "chanju_index";
+	}
+	
 	// 새로운 과목 생성
 	@RequestMapping(value="/subject_add.do", method=RequestMethod.GET)
 	public String subject_add(HttpServletRequest req) {
@@ -80,4 +97,6 @@ public class SubjectController {
 		req.setAttribute("n", n);
 		return "chanju_index";
 	}
+	
+	
 }

@@ -7,6 +7,7 @@
 		 <typeAlias type="happy.jaj.prj.dtos.App_Form_DTO" alias="AppFormDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Attended_DTO" alias="AttendedDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Course_DTO" alias="CourseDTO"/>
+		 <typeAlias type="happy.jaj.prj.dtos.Course_Subject_DTO" alias="CourseSubjectDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Empty_DTO" alias="EmptyDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Exam_Des_DTO" alias="ExamDesDTO"/>
 		 <typeAlias type="happy.jaj.prj.dtos.Exam_Sel_DTO" alias="ExamSelDTO"/>
