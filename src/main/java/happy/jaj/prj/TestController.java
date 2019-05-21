@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import happy.jaj.prj.dtos.Answer_Des_DTO;
 import happy.jaj.prj.dtos.Answer_Sel_DTO;
 import happy.jaj.prj.dtos.ContentSelect_DTO;
+import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
 import happy.jaj.prj.dtos.Student_DTO;
+import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
@@ -33,8 +36,8 @@ public class TestController {
 
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
 
-	@Autowired
-	private Member_IService iMember;
+//	@Autowired
+//	private Member_IService iMember;
 	
 	@Autowired
 	private Test_IService iService;
@@ -59,43 +62,122 @@ public class TestController {
 	@RequestMapping(value="/test_Course_Insert.do", method=RequestMethod.GET)
 	public String testCourse(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
 		logger.info("TestController testCourse ");
+		// 세션에서 id 받아옴 
 //		Map<String, String> map = (Map<String, String>)session.getAttribute("member");
 //		String id = map.get("id");
-//		System.out.println(id);
+		String id = "01012345678";
+		System.out.println(id);
+		Course_DTO dto = iService.test_course(id);
+		req.setAttribute("dto", dto);
 		return "test_Courselist";
 	}
 	
-	//과제 등록 
+	//담당 과정에 해당하는 과목 조회
+	@RequestMapping(value="/test_Subject_Insert.do", method=RequestMethod.GET)
+	public String testSubject(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+		logger.info("TestController testSubject");
+		String coursecode = req.getParameter("coursecode");
+		String coursename= req.getParameter("coursename");
+		System.out.println("받아온 값 : "+coursecode);
+		List<Subject_DTO> list = iService.test_subject(coursecode);
+		for(Subject_DTO dto:list) {			
+			System.out.println(dto);
+		}
+		req.setAttribute("list", list);
+
+		session.setAttribute("coursename", coursename);
+		return "test_SubjectList";
+	}
+	
+	//과제 추가
 	@RequestMapping(value="/test_Input.do", method=RequestMethod.GET)
-	public String testInsert(HttpServletRequest req, HttpServletResponse resp) {
+	public String testInsert(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
 		logger.info("TestController testInsert {}");
-		String testname = req.getParameter("testname");
-		String subjecttype = req.getParameter("subjecttype");
-		String examtype = req.getParameter("examtype");
+		
 //		System.out.println("testname :"+testname+", testtype : "+testtype+", examtype : "+examtype);
-		Test_DTO td = new Test_DTO("", testname, subjecttype, examtype);
+//		Test_DTO td = new Test_DTO("", testname, subjecttype, examtype);
 //		td.setTestname(testname);
 //		td.setSubjecttype(subjecttype);
 //		td.setExamtype(examtype);
 		
 		String subjectcode= req.getParameter("subjectcode");
-//		String testcode = td.getTestcode();
-		String testday = req.getParameter("testday");
 		
-		Subject_Test_DTO st = new Subject_Test_DTO(subjectcode, "", testday);
-		boolean isc = iService.test_Transaction(td, st);
-		System.out.println("과제 추가 성공 ?"+isc);
-		return "success";
+		String subjecttype = req.getParameter("subjecttype");
+		String examtype = req.getParameter("examtype");
+		String subjectname = req.getParameter("subjectname");
+		session.setAttribute("subjectname", subjectname);
+		session.setAttribute("subjecttype", subjecttype);
+		session.setAttribute("examtype", examtype);
+
+		System.out.println("■■■■■■■■■■■■■■subjectname : "+subjectname);
+		req.setAttribute("subjectcode", subjectcode);;
+		
+		
+//		Map<String, String> testmap = (Map<String, String>)session.getAttribute("tsetmap");
+//		session.setAttribute(name, value);
+//				testmap.put("subjecttype", subjecttype);
+//		testmap.put("examtype", examtype);
+//		session.setAttribute("testmap", testmap);
+//		
+////		map.put("coursename", coursename);
+////		map.put("subjectname", subjectname);
+//		req.setAttribute("map", map);
+		
+		
+//		String testcode = td.getTestcode();
+//		String testday = req.getParameter("testday");
+//		
+//		Subject_Test_DTO st = new Subject_Test_DTO(subjectcode, "", testday);
+//		boolean isc = iService.test_Transaction(td, st);
+//		System.out.println("과제 추가 성공 ?"+isc);
+		return "test_Form";
 	}
 	
-//	@RequestMapping(value="/")
-//	public String testSelect(HttpServletRequest req, HttpServletResponse resp) {
-//		
-//	}
+	//과목에 과제 등록 
+	@RequestMapping(value="/test_Regi.do", method=RequestMethod.GET)
+	public String courseSubject(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+		logger.info("TestController courseSubject");
+		String testname = req.getParameter("testname");
+		String subjecttype = (String)session.getAttribute("subjecttype");
+		String examtype = (String)session.getAttribute("examtype");
+		String testday = req.getParameter("testday");
+		String subjectcode = req.getParameter("subjectcode");
+		System.out.println("testname :"+testname+", testday : "+testday);
+		Test_DTO tdto = new Test_DTO("", testname, subjecttype, examtype);
+		
+		Subject_Test_DTO sdto = new Subject_Test_DTO(subjectcode, "", testday);
+		boolean isc = iService.test_Transaction(tdto, sdto);
+		System.out.println("과제 추가 성공 ?"+isc);
+	
+		session.setAttribute("testname", testname);
+		session.setAttribute("testday", testday);	
+		
+		String testcode = sdto.getTestcode();
+		System.out.println("■■■■■■■■■ testcode : "+testcode);
+		
+		session.setAttribute("testcode", testcode);
+		
+		if(examtype.equals("서술형")) {
+			List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_selectlist(testcode);
+			req.setAttribute("dto", dto);
+			return "test_DescriptionListForm";
+		}else {
+			List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_testselectlist(testcode);
+			req.setAttribute("dto", dto);
+			return "test_SelectListForm";
+		}
+	}
+	
+	// 서술형 문제 등록 폼 이동
+	@RequestMapping(value="/desc_ExamForm.do", method=RequestMethod.GET)
+	public String moveExamInsertForm() {
+		logger.info("TEST Controller moveExamInsertForm");
+		return "test_DescriptionExam";
+	}
 	
 	//  서술형 문제 등록
-	@RequestMapping(value="/desc_ExamInput.do", method=RequestMethod.GET)
-	public String desc_ExamInput(HttpServletRequest req, HttpServletResponse resp) {
+	@RequestMapping(value="/desc_ExamInput.do", method=RequestMethod.POST)
+	public String desc_ExamInput(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
 		logger.info("TESTController desc_ExamInput{}");
 		String exam = req.getParameter("exam");
 		String explanation = req.getParameter("explanation");
@@ -103,8 +185,24 @@ public class TestController {
 		String c_answer = req.getParameter("c_answer");
 		System.out.println("■■■■■■■■■exam : "+exam+", explanation : "+explanation+", c_answer : "+c_answer);
 		Exam_Des_DTO des = new Exam_Des_DTO(exam, "", explanation, standard, c_answer);
-		boolean isc = iService.examdes_insert(des);	
-		return "success";
+		
+		String testcode = (String)session.getAttribute("testcode");
+		
+		String examnum = "1";
+		String allot = "20";
+		
+		Test_Exam_DTO TEdto = new Test_Exam_DTO(testcode, "", allot, examnum);
+		boolean isc = iService.examdes_insert(des,TEdto);	
+		System.out.println("서술문제등록 성공 ? "+isc);
+		return "redirect:/moveInsertDesc.do";	
+	}
+	// 문제등록 후 이동
+	@RequestMapping(value="/moveInsertDesc.do", method=RequestMethod.GET)
+	public String moveInserDesc(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+		String testcode = (String)session.getAttribute("testcode");
+		List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_selectlist(testcode);
+		req.setAttribute("dto", dto);
+		return "test_DescriptionListForm";
 	}
 	
 	// 선택형 문제 등록 
@@ -136,6 +234,24 @@ public class TestController {
 		boolean isc = iService.te_insert(TEdto);
 		
 		return "te_Insert";
+	}
+	
+	// 서술형문제 수정 폼이동
+	@RequestMapping(value="/desc_Exam_ModifyForm.do",method=RequestMethod.GET)
+	public String moveDescExamModify(HttpServletRequest req, HttpSession session) {
+		logger.info("TESTController moveDescExamModify");
+		String examcode = req.getParameter("examcode");
+		String testcode = (String)session.getAttribute("testcode");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("examcode", examcode);
+		map.put("testcode", testcode);
+		System.out.println("■■■■■■■■■■■■examcode : "+examcode+", testcode : "+testcode);
+		
+		Exam_Des_DTO dto = iService.te_select(map);
+		System.out.println(dto);
+		req.setAttribute("dto", dto);
+		
+		return "test_DescExamModify";
 	}
 	
 	// 과제에 등록된 문제수정

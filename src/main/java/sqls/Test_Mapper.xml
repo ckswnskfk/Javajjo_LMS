@@ -11,13 +11,13 @@
     
     <!-- 과정에 해당하는 과목 조회 -->
     <select id="test_subject" parameterType="java.lang.String" resultType="SubjectDTO">
-    SELECT SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE
+    SELECT SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE, STARTDATE
   	FROM SUBJECT  JOIN COURSE_SUBJECT USING (SUBJECTCODE) 
   	WHERE COURSECODE = #{coursecode}
     </select>
     
     <!-- 과정명이 동일한 회차 조회 -->
-    <select id="test_coursecnt" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="test_coursecnt" parameterType="java.lang.String" resultType="CourseDTO">
     SELECT COURSECNT
 	FROM COURSE
 	WHERE COURSENAME = #{coursename}
@@ -70,9 +70,12 @@
 
 	<!--문제 등록(서술형)  -->
 	<insert id="examdes_insert" parameterType="ExamDesDTO">
+		<selectKey order="BEFORE" resultType="java.lang.String" keyProperty="examcode">
+		SELECT 'ED'||LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),3))+1),5,0) FROM
+		EXAMDESCRIPTIVE
+		</selectKey>
 	INSERT INTO EXAMDESCRIPTIVE(EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER)
-		VALUES(#{exam}, (SELECT 'ED'||LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),3))+1),5,0) FROM
-		EXAMDESCRIPTIVE),#{explanation}, #{standard}, #{c_answer})
+		VALUES(#{exam}, #{examcode},#{explanation}, #{standard}, #{c_answer})
 	</insert>
 	
 	<!--문제 등록(선택형)  -->
@@ -123,14 +126,14 @@
 	<!--과제에 해당하는 문제 조회(서술형)  -->
 	<select id="te_select" parameterType="java.util.Map"
 		resultType="ExamDesDTO">
-		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT
+		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT, EXAMCODE
 		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
 		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
 	</select>
 	
 	<!-- 과제에 해당하는 문제 리스트 조회 (서술형) -->
 	<select id="te_selectlist" parameterType="java.lang.String" resultType="TestExamDTO">
-		SELECT EXAMNUM, EXAM, ALLOT
+		SELECT EXAMNUM, EXAM, ALLOT, EXAMCODE
 		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING(EXAMCODE)
 		WHERE TESTCODE = #{testcode} 
 		ORDER BY EXAMNUM

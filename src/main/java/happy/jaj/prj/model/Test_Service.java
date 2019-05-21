@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import happy.jaj.prj.dtos.Answer_Des_DTO;
 import happy.jaj.prj.dtos.Answer_Sel_DTO;
 import happy.jaj.prj.dtos.ContentSelect_DTO;
+import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
+import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
@@ -68,11 +70,14 @@ public class Test_Service implements Test_IService {
 	}
 
 	@Override
-	public boolean examdes_insert(Exam_Des_DTO dto) {
-		logger.info("Test_Service examdes_insert {}",dto);
-		return test_Interface.examdes_insert(dto);
+	public boolean examdes_insert(Exam_Des_DTO edto, Test_Exam_DTO tdto) {
+		logger.info("Test_Service examdes_insert ");
+		boolean isc = test_Interface.examdes_insert(edto);
+		tdto.setExamcode(edto.getExamcode());
+		return test_Interface.te_insert(tdto);
 	}
 	
+	//과제에 문제등록 
 	@Override
 	public boolean te_insert(Test_Exam_DTO dto) {
 		logger.info("Test_Service te_insert {}",dto);
@@ -226,6 +231,24 @@ public class Test_Service implements Test_IService {
 	public Score_DTO score_selectsum(Map<String, String> map) {
 		logger.info("Test_Service score_selectsum {}",map);
 		return test_Interface.score_selectsum(map);
+	}
+
+	@Override
+	public Course_DTO test_course(String seq) {
+		 logger.info("Test_Service test_course {}",seq);
+		return test_Interface.test_course(seq);
+	}
+
+	@Override
+	public List<Subject_DTO> test_subject(String seq) {
+		 logger.info("Test_Service test_subject {}",seq);
+		return test_Interface.test_subject(seq);
+	}
+
+	@Override
+	public List<Course_DTO> test_coursecnt(String seq) {
+		 logger.info("Test_Service test_coursecnt {}",seq);
+		return test_Interface.test_coursecnt(seq);
 	}
 	
 	

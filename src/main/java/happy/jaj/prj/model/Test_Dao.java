@@ -13,9 +13,11 @@ import org.springframework.stereotype.Repository;
 import happy.jaj.prj.dtos.Answer_Des_DTO;
 import happy.jaj.prj.dtos.Answer_Sel_DTO;
 import happy.jaj.prj.dtos.ContentSelect_DTO;
+import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
+import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
@@ -223,6 +225,24 @@ public class Test_Dao implements Test_Interface {
 	public Score_DTO score_selectsum(Map<String, String> map) {
 		logger.info("Test_Dao score_selectsum {}",map);
 		return sqlSession.selectOne(NS+"score_selectsum", map);
+	}
+
+	@Override
+	public Course_DTO test_course(String seq) {
+		logger.info("Test_Dao test_course{}", seq);
+		return sqlSession.selectOne(NS+"test_course",seq);
+	}
+
+	@Override
+	public List<Subject_DTO> test_subject(String seq) {
+		logger.info("Test_Dao test_subject {}",seq);
+		return sqlSession.selectList(NS+"test_subject",seq);
+	}
+
+	@Override
+	public List<Course_DTO> test_coursecnt(String seq) {
+		logger.info("Test_Dao test_coursecnt {}",seq);
+		return sqlSession.selectList(NS+"test_coursecnt",seq);
 	}
 
 	

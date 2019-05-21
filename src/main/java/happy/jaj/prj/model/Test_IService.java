@@ -10,13 +10,21 @@ import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
+import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_IService {
 	
-//		public Course_DTO test_course()
+		// 담당 과정 조회
+		public Course_DTO test_course(String seq);
+		
+		// 과정에 해당하는 과목 조회
+		public List<Subject_DTO> test_subject(String seq);
+		
+		// 과정명이 동일한 회차 조회
+		public List<Course_DTO> test_coursecnt(String seq);
 	
 		public boolean test_Transaction(Test_DTO Tdto, Subject_Test_DTO Sdto);
 //		// 과제 추가 
@@ -33,7 +41,7 @@ public interface Test_IService {
 		
 		
 		//문제 등록(서술형)
-		public boolean examdes_insert(Exam_Des_DTO dto);
+		public boolean examdes_insert(Exam_Des_DTO edto, Test_Exam_DTO tdto);
 		//과제에 문제등록(연결)
 		public boolean te_insert(Test_Exam_DTO dto);
 		

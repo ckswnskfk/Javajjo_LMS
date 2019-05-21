@@ -29,6 +29,14 @@ public class Test_Exam_DTO {
 		return testcode;
 	}
 
+	public String getExam() {
+		return exam;
+	}
+
+	public void setExam(String exam) {
+		this.exam = exam;
+	}
+
 	public void setTestcode(String testcode) {
 		this.testcode = testcode;
 	}

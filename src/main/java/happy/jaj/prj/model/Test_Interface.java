@@ -6,14 +6,25 @@ import java.util.Map;
 import happy.jaj.prj.dtos.Answer_Des_DTO;
 import happy.jaj.prj.dtos.Answer_Sel_DTO;
 import happy.jaj.prj.dtos.ContentSelect_DTO;
+import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
+import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_Interface {
+	
+	// 담당 과정 조회
+	public Course_DTO test_course(String seq);
+			
+	// 과정에 해당하는 과목 조회
+	public List<Subject_DTO> test_subject(String seq);
+			
+	// 과정명이 동일한 회차 조회
+	public List<Course_DTO> test_coursecnt(String seq);
 	
 	// 과제 추가 
 	public int test_insert(Test_DTO dto); 
