@@ -8,13 +8,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import happy.jaj.prj.dtos.Admin_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
@@ -24,6 +25,8 @@ import happy.jaj.prj.dtos.Teacher_DTO;
 import happy.jaj.prj.dtos.UserCourse_DTO;
 import happy.jaj.prj.model.User_IService;
 import happy.jaj.prj.util.Random_Number;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Controller
 public class UserController {
@@ -79,21 +82,71 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		return "redirect:/main.do";
 	}
 	
+	//비밀번호 초기화 폼
+	@RequestMapping(value="/student_pwReset.do", method=RequestMethod.GET)
+	public String student_pwReset(HttpServletRequest req) {
+		logger.info("UserController student_pwReset 실행");
+		return "pwResetForm";
+	}
+	
+	//비밀번호 초기화 정보 찾기
+	@RequestMapping(value="/student_pwre.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String student_pwre(String id, String name) {
+		logger.info("UserController student_pwre 실행");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("name", name);
+		String chk = user_IService.student_pwre(map);
+		logger.info("아이디 초기화 정보 찾기 {}",chk);
+		return (chk != null)?"true":"false"; // 아이디가 있을 경우 true
+	}
+	
 	//비밀번호 초기화
-	@RequestMapping(value="/password_Reset.do", method=RequestMethod.GET)
+	@RequestMapping(value="/password_Reset.do", method=RequestMethod.POST)
 	public String resetPw(HttpServletRequest req) {
 		logger.info("UserController resetPw 실행");
 		Random_Number rn = new Random_Number();
 		String id = req.getParameter("id");
 		String pw = rn.Random_Pw();
+		
+		String api_key = "NCSBBEI5PLLEXGD2";
+		String api_secret = "OFVHZ33HQYWVQSCCZRWTYRWZNE8ZT1LU";
+		
+		Message coolsms = new Message(api_key, api_secret);
+		HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", id); // 수신번호
+	    params.put("from", "01065491058");
+	    params.put("type", "SMS"); // Message type ( SMS, LMS, MMS, ATA )
+	    params.put("text", "[JAJ]본인확인 인증번호["+pw+"]입니다.\"타인 노출 금지\""); // 문자내용    
+	    params.put("app_version", "JAVA SDK v1.2"); // application name and version
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("pw", pw);
 		boolean isc = user_IService.resetPw(map);
 		if(isc) {
 			logger.info("초기화된 비밀 번호 ------------------------------: "+pw+isc);
+			try {
+				JSONObject result = coolsms.send(params);
+				if ((long)result.get("success_count") > 0) {
+			          // 메시지 보내기 성공 및 전송결과 출력
+			          System.out.println("성공");            
+			          System.out.println("group_id : "+result.get("group_id")); // 그룹아이디
+			          System.out.println("result_code : "+result.get("result_code")); // 결과코드
+			          System.out.println("result_message"+result.get("result_message"));  // 결과 메시지
+			          System.out.println("success_count"+result.get("success_count")); // 메시지아이디
+			          System.out.println("error_count"+result.get("error_count"));  // 여러개 보낼시 오류난 메시지 수
+			      } else {
+			          // 메시지 보내기 실패
+			          System.out.println("실패");
+			          System.out.println(result.get("code")); // REST API 에러코드
+			          System.out.println(result.get("message")); // 에러메시지
+			      } 
+			} catch (CoolsmsException e) {
+				e.printStackTrace();
+			}
 		}
-		return "jemin_index";
+		return "loginForm";
 	}
 	
 	//회원가입 폼
@@ -103,7 +156,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		return "student_joinForm";
 	}
 	//회원가입
-	@RequestMapping(value="/student_join.do", method=RequestMethod.GET)
+	@RequestMapping(value="/student_join.do", method=RequestMethod.POST)
 	public String student_join(HttpServletRequest req) {
 		logger.info("UserController student_join 실행");
 		String id = req.getParameter("id");

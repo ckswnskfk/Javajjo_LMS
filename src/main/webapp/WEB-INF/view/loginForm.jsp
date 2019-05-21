@@ -10,25 +10,9 @@
 <script type="text/javascript" src="./js/index.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="./js/login.js"></script>
 <script type="text/javascript">
-function login(){
-	var id = document.getElementById("id").value;
-	var pw = document.getElementById("pw").value;
-	var frm = document.getElementsByTagName("form")[0];
-	if(document.getElementsByName("tableChk")[0].checked == true){
-		frm.action = "./login.do";
-		frm.submit();
-	}else if(document.getElementsByName("tableChk")[1].checked == true){
-		frm.action = "./teacher_login.do";
-		frm.submit();
-	}else if(document.getElementsByName("tableChk")[2].checked == true){
-		frm.action = "./admin_login.do";
-		frm.submit();
-	}
-}
-function regiForm(){
-	location.href="./student_joinForm.do";
-}
+
 </script>
 </head>
 <body>
@@ -62,7 +46,7 @@ function regiForm(){
 	 				<td colspan="2">
 	 					<input type="button" value="로그인" onclick="login()">
 	 					<input type="button" value="회원가입" onclick="regiForm()">
-	 					<input type="button" value="비밀번호 찾기" onclick="iForm()">
+	 					<input type="button" value="비밀번호 초기화" onclick="pwReset()">
 	 				</td>
 	 			</tr>
 	 		</table>

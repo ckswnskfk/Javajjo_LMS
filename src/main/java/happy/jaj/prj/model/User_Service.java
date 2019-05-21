@@ -29,6 +29,13 @@ public class User_Service implements User_IService {
 		logger.info("student_login Service 실행 {}", map);
 		return user_interface.student_login(map);
 	}
+	
+	//비밀전호 초기화 정보 찾기
+	@Override
+	public String student_pwre(Map<String, String> map) {
+		logger.info("student_pwre Service 실행 {}", map);
+		return user_interface.student_pwre(map);
+	}
 
 	//비밀번호 초기화
 	@Override

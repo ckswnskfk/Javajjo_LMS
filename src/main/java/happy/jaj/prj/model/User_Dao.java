@@ -34,6 +34,13 @@ public class User_Dao implements User_Interface {
 		logger.info("student_login Dao 실행 {}", map);
 		return sqlSession.selectOne(NS_Stu+"student_login", map);
 	}
+	
+	//비밀번호 초기화 정보 찾기
+	@Override
+	public String student_pwre(Map<String, String> map) {
+		logger.info("student_pwre Dao 실행 {}", map);
+		return sqlSession.selectOne(NS_Stu+"student_pwre", map);
+	}
 
 	//비밀번호 초기화
 	@Override

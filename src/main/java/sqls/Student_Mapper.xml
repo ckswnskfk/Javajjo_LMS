@@ -8,6 +8,11 @@
  		FROM STUDENT WHERE ID=#{id} AND PW=#{pw}
 	</select>
 	
+	<!-- 학생 비밀번호 초기화용 정보 찾기 -->
+	<select id="student_pwre" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT ID FROM STUDENT WHERE ID=#{id} AND NAME=#{name}
+	</select>
+	
 	<!-- 학생 비밀번호 초기화 -->
 	<update id="resetPw" parameterType="java.util.Map">
 		UPDATE STUDENT SET PW =#{pw} WHERE ID=#{id}
