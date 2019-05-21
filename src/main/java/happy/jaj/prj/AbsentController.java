@@ -8,13 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import happy.jaj.prj.dtos.Admin_DTO;
 import happy.jaj.prj.dtos.App_Form_DTO;
@@ -35,21 +42,53 @@ public class AbsentController {
 		logger.info("AbsentController absent_main 실행");
 		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
 		if(map.get("table").trim().equalsIgnoreCase("Student")) {
-			return "redirect:/absentList.do";
+			return "redirect:/absentListForm.do";
 		}else {
-			return "redirect:/recipient_absent_list.do";
+			return "redirect:/absentListForm.do";
 		}
 	}
 	
-	 // 자신의 신청내역 리스트 상태별로 조회(학생)
-	@RequestMapping(value="/absentList.do", method=RequestMethod.GET)
-	public String student_absent_list(HttpSession session, HttpServletRequest req) {
-		logger.info("AbsentController student_absent_list 실행");
-		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
-		lmap.put("stm", "N");
-		List<App_Form_DTO> list = absent_IService.student_absent_list(lmap);
-		req.setAttribute("list", list);
+	// 리스트 폼으로 이동
+	@RequestMapping(value="/absentListForm.do", method=RequestMethod.GET)
+	public String absent_List_Form() {
+		logger.info("AbsentController absent_List_Form 실행");
 		return "absent";
+	}
+	
+	// 자신의 신청내역 리스트 상태별로 조회(학생) ajax
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/absentList.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	public @ResponseBody String student_absent_list(@RequestBody String stm, HttpSession session, HttpServletRequest req) {
+		logger.info("AbsentController student_absent_list 실행 {}", stm);
+		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
+		System.out.println(stm);
+		String inStm = stm.substring(0, 1);
+		System.out.println(inStm);
+		lmap.put("stm", inStm);
+		List<App_Form_DTO> list = absent_IService.student_absent_list(lmap);
+		System.out.println(list.toString());
+		JSONObject json = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		JSONObject data = null;
+		for (int i = 0; i < list.size(); i++) {
+			data = new JSONObject();
+			data.put("form_seq", list.get(i).getForm_seq());
+			data.put("app_date", list.get(i).getApp_date());
+			data.put("coursecode", list.get(i).getCoursecode());
+			data.put("coursename", list.get(i).getCoursename());
+			data.put("stm", list.get(i).getStm());
+			data.put("start_date", list.get(i).getStart_date());
+			data.put("recipient_id", list.get(i).getRecipient_id());
+			data.put("absent_days", list.get(i).getAbsent_days());
+			
+			jArray.add(data);
+		}
+		System.out.println("===="+jArray);
+		
+		json.put("lists", jArray);
+		System.out.println(json);
+		System.out.println(json.toJSONString());
+		return json.toJSONString();
 	}
 	
 	// 클릭해서 각 신청을 상세조회(처리중)
@@ -91,14 +130,38 @@ public class AbsentController {
 	}
 	
 	// 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.GET)
-	public String recipient_absent_list(HttpSession session, HttpServletRequest req) {
+	public String recipient_absent_list(@RequestBody String stm, HttpSession session, HttpServletRequest req) {
 		logger.info("AbsentController recipient_absent_list 실행");
 		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
-		lmap.put("stm", "N");
+		System.out.println(stm);
+		String inStm = stm.substring(0, 1);
+		System.out.println(inStm);
+		lmap.put("stm", inStm);
 		List<App_Form_DTO> list = absent_IService.recipient_absent_list(lmap);
-		req.setAttribute("list", list);
-		return "absent";
+		JSONObject json = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		JSONObject data = null;
+		for (int i = 0; i < list.size(); i++) {
+			data = new JSONObject();
+			data.put("form_seq", list.get(i).getForm_seq());
+			data.put("app_date", list.get(i).getApp_date());
+			data.put("coursecode", list.get(i).getCoursecode());
+			data.put("coursename", list.get(i).getCoursename());
+			data.put("stm", list.get(i).getStm());
+			data.put("start_date", list.get(i).getStart_date());
+			data.put("recipient_id", list.get(i).getRecipient_id());
+			data.put("absent_days", list.get(i).getAbsent_days());
+			
+			jArray.add(data);
+		}
+		
+		
+		json.put("lists", jArray);
+		System.out.println(json);
+		System.out.println(json.toJSONString());
+		return json.toJSONString();
 	}
 	
 	

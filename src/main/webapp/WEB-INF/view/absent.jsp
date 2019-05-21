@@ -12,18 +12,42 @@
 <!-- <script type="text/javascript" src="./js/main.js"></script> -->
 <!-- <script src="./js/bootstrap.bundle.min.js"></script> -->
 </head>
+<body>
+<%@include file="./include/header.jsp" %>
 <script type="text/javascript">
 	
 	function stmSelect(stm) {
-// 		alert(stm);
+		alert(stm);
 		$.ajax({
-			
+			url: "./absentList.do",
+			async : false,
+			data: stm,
+// 			dataType: "json",
+			type: "POST",
+			success: function(obj) {
+				var ob = JSON.parse(obj);
+// 				alert(ob.lists[0].form_seq);
+
+				var html = "<table class='table'><tr><td>순번</td><td>신청일</td><td>과정명</td><td>상태</td></tr>";
+				
+				var htmlInvlud = "";
+				for (var i = 0; i < ob.lists.length; i++) {
+					htmlInvlud += "<tr>"
+		     					+ "<td>"+(i+1)+"</td>"
+		     					+ "<td><a href='./absent_detail_no.do?seq="+ob.lists[i].form_seq+"'>"+ob.lists[i].app_date+"</a></td>"
+		     					+ "<td>"+ob.lists[i].coursename+"</td>"
+		     					+ "<td>"+ob.lists[i].stm+"</td>"
+		     			+ "</tr>"
+				}
+				html += htmlInvlud
+				html += "</table>";
+				
+				$("#list").html(html);
+			}
 		});
 	}
 	
 </script>
-<body>
-<%@include file="./include/header.jsp" %>
 
 <!-- Page Content -->
   <div class="container" id="main">
@@ -32,34 +56,17 @@
         <h1 class="mt-5">결석 신청 내역</h1>
         <div>
         	<select id="select_stm" name="select_stm" onchange="stmSelect(this.value)">
-        		<option value="N">진행중</option>
+        		<option value="N" selected="selected">진행중</option>
         		<option value="Y">승인</option>
         		<option value="R">미승인</option>
         	</select>
         </div>
-        <div>
-        	<table class="table">
-        		<tr>
-        			<td>순번</td>
-        			<td>신청일</td>
-        			<td>과정명</td>
-        			<td>상태</td>
-        		</tr>
-        		<c:forEach var="dto" items="${list}" varStatus="vs">
-        			<tr>
-	        			<td>${vs.count}</td>
-	        			<td><a href="./absent_detail_no.do?seq=${dto.form_seq}">${dto.app_date}</a></td>
-	        			<td>${dto.coursename}</td>
-	        			<td>${dto.stm}</td>
-	        		</tr>
-        		</c:forEach>
-        	</table>
+        <div id="list">
+        
         </div>
       </div>
     </div>
   </div>
-  
-  
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>
