@@ -46,9 +46,9 @@ public class Attended_Service implements Attended_IService {
 	}
 	//	cal_monlist : 강사 캘린더 출결 조회
 	@Override
-	public Attended_DTO cal_monlist(Map<String, String> map) {
+	public List<Attended_DTO> cal_monlist(Map<String, String> map) {
 		logger.info("Attended_Service cal_monlist 실행", map);
-		return attended_Interface.cal_monlist(map);
+		return (List<Attended_DTO>) attended_Interface.cal_monlist(map);
 	}
 	//	cal_daylist : 강사 출석부 조회
 	@Override
@@ -64,9 +64,9 @@ public class Attended_Service implements Attended_IService {
 	}
 	// 결석 문자 발송 ( 생각중 )
 	@Override
-	public boolean cal_sms() {
+	public List<Attended_DTO> cal_sms() {
 		logger.info("Attended_Service cal_sms 실행");
-		return attended_Interface.cal_sms();
+		return (List<Attended_DTO>)attended_Interface.cal_sms();
 	}
 	
 	

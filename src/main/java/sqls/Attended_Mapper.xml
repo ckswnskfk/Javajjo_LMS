@@ -55,7 +55,7 @@ WHERE REGDATE IS NULL
 <!-- 출석 및 퇴실,결석 -->
 <insert id="cal_attended" parameterType="java.lang.String">
 INSERT INTO ATTENDEDCHECK(SEQ, A_CHECK, ID, REGDATE)
-VALUES(ATTENDEDCHECK_SEQ.NEXTVAL, 'N', {id}, SYSDATE)
+VALUES(ATTENDEDCHECK_SEQ.NEXTVAL, 'N', #{id}, SYSDATE)
 </insert>
 
 

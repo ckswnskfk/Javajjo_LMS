@@ -20,7 +20,7 @@ public interface Attended_IService {
 	public Course_DTO cal_cosview(String id);
 	
 	//	cal_monlist : 강사 캘린더 출결 조회
-	public Attended_DTO cal_monlist(Map<String, String> map);	
+	public List<Attended_DTO> cal_monlist(Map<String, String> map);	
 
 	//	cal_daylist : 강사 출석부 조회
 	public List<Attended_DTO> cal_daylist(String regdate);
@@ -29,7 +29,7 @@ public interface Attended_IService {
 	public List<Student_DTO> cal_detail(String id);
 	
 	// 결석 문자 발송 ( 생각중 )
-	public boolean cal_sms();
+	public List<Attended_DTO> cal_sms();
 	
 	//	cal_attended : 출석 및 퇴실,결석
 	public boolean cal_attended(Attended_DTO dto);
