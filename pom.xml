@@ -28,6 +28,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			<name>ORACLE JDBC Repository</name>
 			<url>https://maven.atlassian.com/3rdparty/</url>
 		</repository>
+
+		<repository>
+			<id>Spring Plugins</id>
+			<url>http://repo.spring.io/plugins-release/</url>
+		</repository>
 	</repositories>
   
   
@@ -139,9 +144,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
-			<version>12.1.0.1-atlassian-hosted</version>
+			<version>11.2.0.3</version>
 		</dependency>
-
 		<!-- ORM Mybatis 사용 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
