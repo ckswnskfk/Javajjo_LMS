@@ -19,7 +19,7 @@
 			<div class="tabbable">
 				<ul class="nav nav-tabs padding-18">
 					<li>
-						<a data-toggle="tab" onclick="location.href='./student_info.do'">
+						<a data-toggle="tab" onclick="location.href='./teacher_info.do'">
 							<i class="green ace-icon fa fa-user bigger-120"></i>
 							사용자 정보 조회
 						</a>
@@ -45,11 +45,15 @@
 									<div class="profile-info-row">
 										<div class="profile-info-name"> No </div>
 										
-										<div class="profile-info-name"> 과정명 </div>
+										<div class="profile-info-name"> 아이디 </div>
 	
-										<div class="profile-info-name"> 시작날짜 </div>
+										<div class="profile-info-name"> 이름 </div>
 										
-										<div class="profile-info-name"> 회차 </div>
+										<div class="profile-info-name"> 성별 </div>
+										
+										<div class="profile-info-name"> 생년월일 </div>
+										
+										<div class="profile-info-name"> 집주소 </div>
 										
 									</div>
 									<c:forEach items="${lists}" var="dto" varStatus="vs">
@@ -58,16 +62,24 @@
 											<span><c:out value="${vs.count}"></c:out></span>
 										</div>
 										<div class="profile-info-name">
-											<span><c:out value="${dto.coursename}"></c:out></span>
+											<span><c:out value="${dto.id}"></c:out></span>
 										</div>
 										<div class="profile-info-name">
-											<span><c:out value="${dto.startdate}"></c:out></span>
+											<span><c:out value="${dto.name}"></c:out></span>
 										</div>
 										<div class="profile-info-name">
-											<span><c:out value="${dto.coursecnt}"></c:out></span>
+											<span><c:out value="${dto.gender}"></c:out></span>
+										</div>
+										<div class="profile-info-name">
+											<span><c:out value="${dto.birth}"></c:out></span>
+										</div>
+										<div class="profile-info-name">
+											<span><c:out value="${dto.addr}"></c:out></span>
 										</div>
 									</div>
 									</c:forEach>
+								</div>
+							<div class="hr hr-5 dotted"></div>
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 	
@@ -76,7 +88,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>

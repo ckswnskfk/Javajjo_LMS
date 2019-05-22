@@ -6,10 +6,24 @@ public class Teacher_DTO {
 	private String name;
 	private String pw;
 	private String coursecode;
+	private String coursename;
 	
 	public Teacher_DTO() {
 	}
 	
+	
+	
+	public Teacher_DTO(String id, String name, String pw, String coursecode, String coursename) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.pw = pw;
+		this.coursecode = coursecode;
+		this.coursename = coursename;
+	}
+
+
+
 	public Teacher_DTO(String id, String name, String pw, String coursecode) {
 		super();
 		this.id = id;
@@ -17,6 +31,18 @@ public class Teacher_DTO {
 		this.pw = pw;
 		this.coursecode = coursecode;
 	}
+	
+	
+	public String getCoursename() {
+		return coursename;
+	}
+
+
+	public void setCoursename(String coursename) {
+		this.coursename = coursename;
+	}
+
+
 
 	public String getId() {
 		return id;

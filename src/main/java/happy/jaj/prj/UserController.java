@@ -254,9 +254,16 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		return "teacher_Mypage";
 	}
 	
+	//정보 수정 폼 이동
+	@RequestMapping(value="/teacher_Modify_Form.do", method=RequestMethod.GET)
+	public String teacher_Modify_Form(HttpServletRequest req, HttpSession session) {
+		logger.info("UserController teacher_Modify_Form 실행");
+		return "teacher_Modify";
+	}
+	
 	//정보 수정
-	@RequestMapping(value="/teacher_modify.do", method=RequestMethod.GET)
-	public String teacher_modify(HttpServletRequest req) {
+	@RequestMapping(value="/teacher_modify.do", method=RequestMethod.POST)
+	public String teacher_modify(HttpServletRequest req, HttpSession session) {
 		logger.info("UserController teacher_modify 실행");
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
@@ -268,8 +275,13 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		boolean isc = user_IService.teacher_modify(map);
 		if(isc) {
 			logger.info("--------------------------- 정보 수정 완료 ------------강사 ");
+			Map<String, String> mapSession = new HashMap<String, String>();
+			mapSession.put("table", "Teacher");
+			mapSession.put("id", id);
+			mapSession.put("name", name);
+			session.setAttribute("member", mapSession);
 		}
-		return "jemin_index";
+		return "redirect:/main.do";
 	}
 	
 	//담당 과정 수강 학생 조회
@@ -281,7 +293,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		dto.setCoursecode(coursecode);
 		List<Student_DTO> lists = user_IService.teacher_student_list(dto);
 		req.setAttribute("lists",lists);
-		return "jemin_index";
+		return "teacher_Course";
 	}
 	
 	/* --------------------   관리자   ------------------------*/
@@ -304,6 +316,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//정보 조회
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/admin_info.do", method=RequestMethod.GET)
 	public String admin_info(HttpServletRequest req, HttpSession session) {
 		logger.info("UserController admin_info 실행");
@@ -311,7 +324,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		String id = map.get("id");
 		Admin_DTO dto = user_IService.admin_info(id);
 		req.setAttribute("dto", dto);
-		return "jemin_index";
+		return "admin_Mypage";
 	}
 	
 	//정보 수정

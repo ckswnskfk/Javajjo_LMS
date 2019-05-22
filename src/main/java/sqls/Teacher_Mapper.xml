@@ -11,7 +11,9 @@
 	
 	<!-- 본인 정보 조회(강사) -->
 	<select id="teacher_info" parameterType="java.lang.String" resultType="TeacherDTO">
-		SELECT ID, NAME, COURSECODE, PW FROM TEACHER WHERE ID=#{id}
+		SELECT ID, NAME, COURSECODE, PW,COURSENAME 
+		FROM TEACHER JOIN COURSE USING(COURSECODE)
+		WHERE ID=#{id}
 	</select>
 	
 	<!-- 본인 정보 수정(강사) -->
