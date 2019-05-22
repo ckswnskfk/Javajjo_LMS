@@ -180,7 +180,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		String id = req.getParameter("id");
 		List<Course_DTO> lists = user_IService.student_course(id);
 		req.setAttribute("lists", lists);
-		return "jemin_index";
+		return "student_Course";
 	}
 	
 	//정보 조회
@@ -203,20 +203,24 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//정보 수정
-	@RequestMapping(value="/student_modify.do", method=RequestMethod.GET)
-	public String student_modify(HttpServletRequest req) {
+	@RequestMapping(value="/student_modify.do", method=RequestMethod.POST)
+	public String student_modify(HttpServletRequest req, HttpSession session) {
 		logger.info("UserController student_modify 실행");
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
 		String name = req.getParameter("name");
-		String gender = req.getParameter("gender");
 		String addr = req.getParameter("addr");
-		Student_DTO dto = new Student_DTO(id, name, pw, gender, "", addr,"");
+		Student_DTO dto = new Student_DTO(id, name, pw, "", "", addr, "");
 		boolean isc = user_IService.student_modify(dto);
 		if(isc) {
 			logger.info("------------------- 정보 수정 완료 ---------------- 학생");
+			Map<String, String> mapSession = new HashMap<String, String>();
+			mapSession.put("table", "Student");
+			mapSession.put("id", id);
+			mapSession.put("name", name);
+			session.setAttribute("member", mapSession);
 		}
-		return "jemin_index";
+		return "redirect:/main.do";
 	}
 	
 	/* --------------------   강사   ------------------------*/
@@ -239,13 +243,15 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//정보 조회
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/teacher_info.do", method=RequestMethod.GET)
-	public String teacher_info(HttpServletRequest req) {
+	public String teacher_info(HttpServletRequest req,HttpSession session) {
 		logger.info("UserController teacher_info 실행");
-		String id = req.getParameter("id");
+		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
+		String id = map.get("id");
 		Teacher_DTO dto =  user_IService.teacher_info(id);
 		req.setAttribute("dto", dto);
-		return "jemin_index";
+		return "teacher_Mypage";
 	}
 	
 	//정보 수정
@@ -299,9 +305,10 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//정보 조회
 	@RequestMapping(value="/admin_info.do", method=RequestMethod.GET)
-	public String admin_info(HttpServletRequest req) {
+	public String admin_info(HttpServletRequest req, HttpSession session) {
 		logger.info("UserController admin_info 실행");
-		String id = req.getParameter("id");
+		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
+		String id = map.get("id");
 		Admin_DTO dto = user_IService.admin_info(id);
 		req.setAttribute("dto", dto);
 		return "jemin_index";

@@ -20,7 +20,12 @@
 <div id = "header">
 <h1><a href="./main.do">메인으로 이동</a></h1>
 <a href="./logout.do">로그아웃</a>
-<a href="./student_info.do">${member.name}</a>님 환영합니다.
+<c:choose>
+	<c:when test="${member.table eq 'Student'}"><a href="./student_info.do">${member.name}</a>님 환영합니다.</c:when>
+	<c:when test="${member.table eq 'Teacher'}"><a href="./teacher_info.do">${member.name}</a>님 환영합니다.</c:when>
+	<c:when test="${member.table eq 'Admin'}"><a href="./admin_info.do">${member.name}</a>님 환영합니다.</c:when>
+</c:choose>
+
 </div>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${dto.name}님 마이 페이지</title>
+<title>${member.name}님 마이 페이지</title>
 <link rel= "stylesheet" type="text/css" href="./css/index.css">
 <link rel= "stylesheet" type="text/css" href="./css/info.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -18,15 +18,15 @@
 <div id="user-profile-2" class="user-profile">
 		<div class="tabbable">
 			<ul class="nav nav-tabs padding-18">
-				<li class="active">
-					<a data-toggle="tab" href="#home">
+				<li>
+					<a data-toggle="tab" onclick="location.href='./student_info.do'">
 						<i class="green ace-icon fa fa-user bigger-120"></i>
 						사용자 정보 조회
 					</a>
 				</li>
 
-				<li>
-					<a data-toggle="tab" onclick="location.href='./student_course.do?id=${dto.id}'">
+				<li class="active">
+					<a data-toggle="tab" href="#feed">
 						<i class="orange ace-icon fa fa-rss bigger-120"></i>
 						수강중인 과정 조회
 					</a>
@@ -38,60 +38,36 @@
 					<div class="row">
 						<div class="col-xs-9 col-sm-9">
 							<h4 class="dark">
-								<span class="middle">${dto.name} 님의 마이페이지</span>
+								<span class="middle">${member.name} 님의 수강 과정 조회</span>
 							</h4>
 
 							<div class="profile-user-info">
 								<div class="profile-info-row">
-									<div class="profile-info-name"> Id </div>
+									<div class="profile-info-name"> No </div>
+									
+									<div class="profile-info-name"> 과정명 </div>
 
-									<div class="profile-info-value">
-										<span>${dto.id}</span>
-									</div>
+									<div class="profile-info-name"> 시작날짜 </div>
+									
+									<div class="profile-info-name"> 회차 </div>
+									
 								</div>
-
+								<c:forEach items="${lists}" var="dto" varStatus="vs">
 								<div class="profile-info-row">
-									<div class="profile-info-name"> Name </div>
-
-									<div class="profile-info-value">
-										<i class="fa fa-map-marker light-orange bigger-110"></i>
-										<span>${dto.name}</span>
+									<div class="profile-info-name">
+										<span><c:out value="${vs.count}"></c:out></span>
+									</div>
+									<div class="profile-info-name">
+										<span><c:out value="${dto.coursename}"></c:out></span>
+									</div>
+									<div class="profile-info-name">
+										<span><c:out value="${dto.startdate}"></c:out></span>
+									</div>
+									<div class="profile-info-name">
+										<span><c:out value="${dto.coursecnt}"></c:out></span>
 									</div>
 								</div>
-
-								<div class="profile-info-row">
-									<div class="profile-info-name">Gender</div>
-
-									<div class="profile-info-value">
-										<span>${dto.gender}</span>
-									</div>
-								</div>
-
-								<div class="profile-info-row">
-									<div class="profile-info-name">Birth</div>
-
-									<div class="profile-info-value">
-										<span>${dto.birth}</span>
-									</div>
-								</div>
-
-								<div class="profile-info-row">
-									<div class="profile-info-name">Addr</div>
-
-									<div class="profile-info-value">
-										<span>${dto.addr}</span>
-									</div>
-								</div>
-							</div>
-								<div class="form-group">
-									<div class="col-sm-offset-2 col-sm-10">
-										<input type="button" class="btn btn-default"
-										 value="수정하기" onclick="student_modify()"/>
-									</div>
-								</div>
-							<div class="hr hr-5 dotted"></div>
-
-							
+								</c:forEach>
 						</div><!-- /.col -->
 					</div><!-- /.row -->
 

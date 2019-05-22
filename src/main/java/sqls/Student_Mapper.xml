@@ -39,7 +39,7 @@
 	
 	<!-- 본인 정보 수정(학생) -->
 	<update id="student_modify" parameterType="StudentDTO">
-		UPDATE STUDENT SET PW=#{pw}, NAME=#{name}, GENDER=#{gender}, ADDR=#{addr}
+		UPDATE STUDENT SET PW=#{pw}, NAME=#{name}, ADDR = #{addr}
 		WHERE ID= #{id}
  	</update>
 	
