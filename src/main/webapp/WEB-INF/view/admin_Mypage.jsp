@@ -21,21 +21,28 @@
 				<li class="active">
 					<a data-toggle="tab" href="#home">
 						<i class="green ace-icon fa fa-user bigger-120"></i>
+						사용자 정보 조회
+					</a>
+				</li>
+				
+				<li>
+					<a data-toggle="tab" onclick="location.href='./admin_student_list.do'">
+						<i class="orange ace-icon fa fa-rss bigger-120"></i>
 						전체 학생 조회
 					</a>
 				</li>
 
 				<li>
-					<a data-toggle="tab" onclick="location.href='./student_course.do?id=${dto.id}'">
+					<a data-toggle="tab" onclick="location.href='./admin_teacher_list.do'">
 						<i class="orange ace-icon fa fa-rss bigger-120"></i>
 						전체 강사 조회
 					</a>
 				</li>
 				
 				<li>
-					<a data-toggle="tab" onclick="location.href='./student_course.do?id=${dto.id}'">
+					<a data-toggle="tab" onclick="location.href='./admin_accept_list.do'">
 						<i class="orange ace-icon fa fa-rss bigger-120"></i>
-						회원 가입 승인
+						회원 가입 신청 조회
 					</a>
 				</li>
 			</ul>
@@ -70,7 +77,7 @@
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
 										<input type="button" class="btn btn-default"
-										 value="수정하기" onclick="student_modify()"/>
+										 value="수정하기" onclick="admin_modify()"/>
 									</div>
 								</div>
 							<div class="hr hr-5 dotted"></div>

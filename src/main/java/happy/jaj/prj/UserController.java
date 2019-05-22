@@ -327,9 +327,16 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		return "admin_Mypage";
 	}
 	
+	//정보 수정 폼 이동
+	@RequestMapping(value="/admin_Modify_Form.do", method=RequestMethod.GET)
+	public String admin_Modify_Form(HttpServletRequest req, HttpSession session) {
+		logger.info("UserController admin_Modify_Form 실행");
+		return "admin_Modify";
+	}
+	
 	//정보 수정
 	@RequestMapping(value="/admin_modify.do", method=RequestMethod.GET)
-	public String admin_modify(HttpServletRequest req) {
+	public String admin_modify(HttpServletRequest req, HttpSession session) {
 		logger.info("UserController admin_modify 실행");
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
@@ -341,8 +348,13 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		boolean isc = user_IService.admin_modify(map);
 		if(isc) {
 			logger.info("--------------------------- 정보 수정 완료 ------------관리자 ");
+			Map<String, String> mapSession = new HashMap<String, String>();
+			mapSession.put("table", "Admin");
+			mapSession.put("id", id);
+			mapSession.put("name", name);
+			session.setAttribute("member", mapSession);
 		}
-		return "jemin_index";
+		return "redirect:/main.do";
 	}
 	
 	//회원가입 신청 조회
@@ -352,7 +364,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		RowNum_DTO dto = new RowNum_DTO();
 		List<Student_DTO> lists = user_IService.admin_accept_list(dto);
 		req.setAttribute("lists", lists);
-		return "jemin_index";
+		return "admin_Accept";
 	}
 	
 	//회원가입 신청 승인
@@ -389,7 +401,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		RowNum_DTO dto = new RowNum_DTO();
 		List<Teacher_DTO> lists = user_IService.admin_teacher_list(dto);
 		req.setAttribute("lists", lists);
-		return "jemin_index";
+		return "admin_Teacher_List";
 	}
 	
 	//강사 탈퇴
@@ -449,7 +461,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		RowNum_DTO dto = new RowNum_DTO();
 		List<Student_DTO> lists = user_IService.admin_student_list(dto);
 		req.setAttribute("lists", lists);
-		return "jemin_index";
+		return "admin_Student_List";
 	}
 	
 	//학생 탈퇴

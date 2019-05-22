@@ -78,3 +78,50 @@ function tea_mod(){
 	alert("회원 정보 수정이 완료되었습니다.");
 	return true;
 }
+
+function admin_modify(){
+	location.href="admin_Modify_Form.do";
+}
+
+function adm_mod(){
+	var frm = document.getElementsByTagName("form")[0];
+	var pw = document.getElementById("pw").value;
+	if(!isNaN(pw) || !pwCheck()){
+		$("#err_pw").css("color","red");
+		document.getElementById("err_pw").innerHTML="8~16자의 영문 혹은 숫자 영문을 혼합하여 입력해 주세요"
+		return false;
+	}else{
+		$("#err_pw").css("color","blue");
+		document.getElementById("err_pw").innerHTML="사용가능한 비밀번호 입니다.";
+	}
+	if(!nameCheck()){
+		$("#err_name").css("color","red");
+		document.getElementById("err_name").innerHTML="이름에는 공백이나 숫자를 사용할 수 없습니다."
+		return false;
+	}else{
+		$("#err_name").css("color","blue");
+		document.getElementById("err_name").innerHTML="사용가능한 이름 입니다.";
+	}
+	frm.action = "admin_modify.do";
+	frm.method = "post";
+	alert("회원 정보 수정이 완료되었습니다.");
+	return true;
+}
+
+function allChk(obj){
+    var chkObj = document.getElementsByName("RowCheck");
+    var rowCnt = chkObj.length - 1;
+    var check = obj.checked;
+    if (check) {﻿
+        for (var i=0; i<=rowCnt; i++){
+         if(chkObj[i].type == "checkbox")
+             chkObj[i].checked = true; 
+        }
+    }else {
+    	for (var i=0; i<=rowCnt; i++) {
+    		if(chkObj[i].type == "checkbox"){
+             chkObj[i].checked = false; 
+    		}
+        }
+    }
+} 
