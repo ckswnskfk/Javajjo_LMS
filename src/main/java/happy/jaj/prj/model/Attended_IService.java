@@ -6,7 +6,6 @@ import java.util.Map;
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Student_DTO;
-import happy.jaj.prj.dtos.UserCourse_DTO;
 
 public interface Attended_IService {
 
@@ -14,7 +13,7 @@ public interface Attended_IService {
 	public List<Course_DTO> cal_stucos(String id);
 	
 	//	cal_stuatt : 학생 출결 조회
-	public Attended_DTO cal_stuatt(String id);
+	public List<Attended_DTO> cal_stuatt(String id);
 	
 	//	cal_cosview : 강사 과정 조회
 	public Course_DTO cal_cosview(String id);
@@ -29,7 +28,7 @@ public interface Attended_IService {
 	public List<Student_DTO> cal_detail(String id);
 	
 	// 결석 문자 발송 ( 생각중 )
-	public List<Attended_DTO> cal_sms();
+	public List<Attended_DTO> cal_sms(String a_check);
 	
 	//	cal_attended : 출석 및 퇴실,결석
 	public boolean cal_attended(Attended_DTO dto);

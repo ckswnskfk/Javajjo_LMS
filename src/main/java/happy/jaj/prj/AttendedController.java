@@ -1,7 +1,5 @@
 package happy.jaj.prj;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,19 +7,22 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Student_DTO;
-import happy.jaj.prj.dtos.UserCourse_DTO;
 import happy.jaj.prj.model.Attended_IService;
+
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+
+
 
 @Controller
 public class AttendedController {
@@ -32,8 +33,6 @@ public class AttendedController {
 	@Autowired
 	private Attended_IService attended_Iservice;
 	
-//	@Autowired
-//	private User_Interface user_Interface;
 	
 	
 	
@@ -55,8 +54,15 @@ public class AttendedController {
 	public String cal_stuatt(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController cal_stuatt 실행");
 		String id = req.getParameter("id");
-		Attended_DTO dto = attended_Iservice.cal_stuatt(id);
-		req.setAttribute("dto", dto);
+		List<Attended_DTO> lists = attended_Iservice.cal_stuatt(id);
+		req.setAttribute("lists", lists);
+		return "attended_Student";
+	}
+	
+//	cal_stuatt : 학생 출결 조회(완)
+	@RequestMapping(value="/attended_Main.do", method=RequestMethod.GET)
+	public String cal_Main(HttpServletRequest req, HttpServletResponse resp) {
+		logger.info("AttendedController cal_Main 실행");
 		return "attended_index";
 	}
 	
@@ -67,7 +73,7 @@ public class AttendedController {
 		String id = req.getParameter("id");
 		Course_DTO dto = attended_Iservice.cal_cosview(id);
 		req.setAttribute("dto", dto);
-		return "attended_index";
+		return "attended_Teacher";
 	}
 	
 	//	cal_monlist : 강사 캘린더 출결 조회 C201900001 (완)
@@ -86,7 +92,7 @@ public class AttendedController {
 		List<Attended_DTO> lists = attended_Iservice.cal_monlist(map);
 		req.setAttribute("map", map);
 		req.setAttribute("lists", lists);
-		return "attended_index";
+		return "attended_Teacher";
 	}
 	//	cal_daylist : 강사 출석부 조회(완)
 	@RequestMapping(value="/attended_Rollbook.do", method=RequestMethod.GET)
@@ -95,7 +101,7 @@ public class AttendedController {
 		String regdate = req.getParameter("regdate");
 		List<Attended_DTO> lists = attended_Iservice.cal_daylist(regdate);
 		req.setAttribute("lists", lists);
-		return "attended_index";
+		return "attended_Rollbook";
 	}
 	
 	
@@ -106,16 +112,54 @@ public class AttendedController {
 		String id = req.getParameter("id");
 		List<Student_DTO> lists = attended_Iservice.cal_detail(id);
 		req.setAttribute("lists", lists);
-		return "attended_index";
+		return "attended_Detail";
 	}
 
 	//	 cal_sms결석 문자 발송 ( 생각중 )
-	@RequestMapping(value="/ateended_SMS.do", method=RequestMethod.GET)
-	public String cal_sms(HttpServletRequest req, HttpServletResponse resp) {
+	@RequestMapping(value="/attended_SMS.do", method=RequestMethod.GET)
+	public String cal_sms(HttpServletRequest req) {
 		logger.info("AttendedController cal_sms 실행");
+		String id = req.getParameter("id");
+		String a_check = req.getParameter("a_check");
+		List<Attended_DTO> lists = attended_Iservice.cal_sms(id); 
 		
+		String api_key = "NCSBBEI5PLLEXGD2";
+		String api_secret = "OFVHZ33HQYWVQSCCZRWTYRWZNE8ZT1LU";
 		
-		return "attended_index";
+		Message coolsms = new Message(api_key, api_secret);
+		HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", id); // 수신번호
+	    params.put("from", "01039102218");
+	    params.put("type", "SMS"); // Message type ( SMS, LMS, MMS, ATA )
+	    params.put("text", "오늘 결석 하셨네요. 내일은 제발 출석해주세요."); // 문자내용    
+	    params.put("app_version", "JAVA SDK v1.2"); // application name and version
+
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("a_check", a_check);
+		if(a_check==null) {
+			logger.info(" ------------------------------: "+id+a_check);
+			try {
+				JSONObject result = coolsms.send(params);
+				if ((long)result.get("success_count") > 0) {
+			          // 메시지 보내기 성공 및 전송결과 출력
+			          System.out.println("성공");            
+			          System.out.println("group_id : "+result.get("group_id")); // 그룹아이디
+			          System.out.println("result_code : "+result.get("result_code")); // 결과코드
+			          System.out.println("result_message"+result.get("result_message"));  // 결과 메시지
+			          System.out.println("success_count"+result.get("success_count")); // 메시지아이디
+			          System.out.println("error_count"+result.get("error_count"));  // 여러개 보낼시 오류난 메시지 수
+			      } else {
+			          // 메시지 보내기 실패
+			          System.out.println("실패");
+			          System.out.println(result.get("code")); // REST API 에러코드
+			          System.out.println(result.get("message")); // 에러메시지
+			      } 
+			} catch (CoolsmsException e) {
+				e.printStackTrace();
+			}
+		}
+		return "attended_Rollbook";
 	
 		
 	}

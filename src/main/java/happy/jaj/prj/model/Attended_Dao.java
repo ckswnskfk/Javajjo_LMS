@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Student_DTO;
-import happy.jaj.prj.dtos.UserCourse_DTO;
 
 @Repository
 public class Attended_Dao implements Attended_Interface {
@@ -35,9 +34,9 @@ public class Attended_Dao implements Attended_Interface {
 	}
 //	cal_stuatt : 학생 출결 조회
 	@Override
-	public Attended_DTO cal_stuatt(String id) {
+	public List<Attended_DTO> cal_stuatt(String id) {
 		logger.info("Attended_Dao cal_stucos 실행{}", id);
-		return sqlSessionTemplate.selectOne(NS_Attended+"cal_stuatt", id);
+		return sqlSessionTemplate.selectList(NS_Attended+"cal_stuatt", id);
 	}
 //	cal_cosview : 강사 과정 조회
 	@Override
@@ -79,9 +78,9 @@ public class Attended_Dao implements Attended_Interface {
 		return n>0?true:false;
 	}
 	@Override
-	public List<Attended_DTO> cal_sms() {
+	public List<Attended_DTO> cal_sms(String a_check) {
 		logger.info("Attended_Dao cal_sms 실행{}");
-		return sqlSessionTemplate.selectList(NS_Attended+"cal_detail");
+		return sqlSessionTemplate.selectList(NS_Attended+"cal_sms", a_check);
 	}
 
 	

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Student_DTO;
-import happy.jaj.prj.dtos.UserCourse_DTO;
 @Service
 public class Attended_Service implements Attended_IService {
 	
@@ -33,7 +32,7 @@ public class Attended_Service implements Attended_IService {
 	
 //	cal_stuatt : 학생 출결 조회
 	@Override
-	public Attended_DTO cal_stuatt(String id) {
+	public List<Attended_DTO> cal_stuatt(String id) {
 		logger.info("Attended_Service cal_stuatt 실행");
 		return attended_Interface.cal_stuatt(id);
 	}
@@ -64,9 +63,9 @@ public class Attended_Service implements Attended_IService {
 	}
 	// 결석 문자 발송 ( 생각중 )
 	@Override
-	public List<Attended_DTO> cal_sms() {
+	public List<Attended_DTO> cal_sms(String a_check) {
 		logger.info("Attended_Service cal_sms 실행");
-		return (List<Attended_DTO>)attended_Interface.cal_sms();
+		return attended_Interface.cal_sms(a_check);
 	}
 	
 	
