@@ -36,6 +36,7 @@ public class AbsentController {
 	@Autowired
 	private Absent_IService absent_IService;
 	
+	// 완성
 	// 세션 비교(사용자별 신청 내역)
 	@RequestMapping(value="/absent.do", method=RequestMethod.GET)
 	public String absent_main(HttpSession session) {
@@ -48,6 +49,7 @@ public class AbsentController {
 		}
 	}
 	
+	// 완성
 	// 리스트 폼으로 이동
 	@RequestMapping(value="/absentListForm.do", method=RequestMethod.GET)
 	public String absent_List_Form() {
@@ -55,10 +57,11 @@ public class AbsentController {
 		return "absent";
 	}
 	
+	// 완성
 	// 자신의 신청내역 리스트 상태별로 조회(학생) ajax
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/absentList.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
-	public @ResponseBody String student_absent_list(@RequestBody String stm, HttpSession session, HttpServletRequest req) {
+	public @ResponseBody String student_absent_list(@RequestBody String stm, HttpSession session) {
 		logger.info("AbsentController student_absent_list 실행 {}", stm);
 		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
 		System.out.println(stm);
@@ -91,6 +94,7 @@ public class AbsentController {
 		return json.toJSONString();
 	}
 	
+	// 완성
 	// 결석신청 폼으로
 	@RequestMapping(value="/to_app_form.do", method=RequestMethod.GET)
 	public String to_App_Form() {
@@ -98,16 +102,18 @@ public class AbsentController {
 		return "app_Form";
 	}
 	
-	// 클릭해서 각 신청을 상세조회(처리중)
-	@RequestMapping(value="/absent_detail_no.do", method=RequestMethod.GET)
-	public String absent_detail_no(HttpServletRequest req) {
-		logger.info("AbsentController absent_detail_no 실행");
-		String seq = req.getParameter("seq");
-		App_Form_DTO dto = absent_IService.absent_detail_no(seq);
-		req.setAttribute("dto", dto);
-		return "absent_detail";
-	}
+	// 승인으로 통합해서 사용
+//	// 클릭해서 각 신청을 상세조회(처리중)
+//	@RequestMapping(value="/absent_detail_no.do", method=RequestMethod.GET)
+//	public String absent_detail_no(HttpServletRequest req) {
+//		logger.info("AbsentController absent_detail_no 실행");
+//		String seq = req.getParameter("seq");
+//		App_Form_DTO dto = absent_IService.absent_detail_no(seq);
+//		req.setAttribute("dto", dto);
+//		return "absent_detail";
+//	}
 	
+	// 완성
 	// 클릭해서 각 신청을 상세조회(승인)
 	@RequestMapping(value="/absent_detail_yes.do", method=RequestMethod.GET)
 	public String absent_detail_yes(HttpServletRequest req) {
@@ -121,24 +127,26 @@ public class AbsentController {
 		map.put("stm", stm);
 		map.put("seq", seq);
 		Map<String, Object> yesMap = absent_IService.absent_detail_yes(map);
+		System.out.println(yesMap);
 		req.setAttribute("yesMap", yesMap);
-		return "chanju_index";
-	}
-
-	
-	// 클릭해서 각 신청을 상세조회(반려시)
-	@RequestMapping(value="/absent_detail_return.do", method=RequestMethod.GET)
-	public String absent_detail_return(HttpServletRequest req) {
-		logger.info("AbsentController absent_detail_return 실행");
-		String seq = req.getParameter("seq");
-		App_Form_DTO dto = absent_IService.absent_detail_return(seq);
-		req.setAttribute("dto", dto);
 		return "absent_detail";
 	}
+
+	// 승인으로 통합해서 사용
+//	// 클릭해서 각 신청을 상세조회(반려시)
+//	@RequestMapping(value="/absent_detail_return.do", method=RequestMethod.GET)
+//	public String absent_detail_return(HttpServletRequest req) {
+//		logger.info("AbsentController absent_detail_return 실행");
+//		String seq = req.getParameter("seq");
+//		App_Form_DTO dto = absent_IService.absent_detail_return(seq);
+//		req.setAttribute("dto", dto);
+//		return "absent_detail";
+//	}
 	
+	// 완성
 	// 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.POST)
+	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	public @ResponseBody String recipient_absent_list(@RequestBody String stm, HttpSession session, HttpServletRequest req) {
 		logger.info("AbsentController recipient_absent_list 실행");
 		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
@@ -172,7 +180,7 @@ public class AbsentController {
 		return json.toJSONString();
 	}
 	
-	
+	// 완성
 	// 결석 신청
 	// 결석 신청하려는 과정을 선택
 	@RequestMapping(value="/absent_course.do", method=RequestMethod.POST)
@@ -203,6 +211,7 @@ public class AbsentController {
 //		return "chanju_index";
 //	}
 	
+	// 완성
 	// 결석 신청
 	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.POST)
 	public String insert_absent_form(HttpServletRequest req) {
@@ -221,6 +230,7 @@ public class AbsentController {
 		return "absent";
 	}
 
+	
 	// 강사 및 관리자가 미승인 사유를 작성+동시에 승인 여부 수정
 	@RequestMapping(value="/insert_unapprove_reason.do", method=RequestMethod.GET)
 	public String insert_unapprove_reason(HttpServletRequest req) {
@@ -246,6 +256,6 @@ public class AbsentController {
 		map.put("stm", req.getParameter("stm"));
 		int n = absent_IService.update_is_approve_Yes(map);
 		req.setAttribute("n", n);
-		return "chanju_index";
+		return "absent";
 	}
 }

@@ -5,19 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <title>신청 내역 리스트 페이지</title>
-<!-- <link href="./css/bootstrap.min.css" rel="stylesheet"> -->
-<!-- <link rel= "stylesheet" type="text/css" href="./css/main.css"> -->
-
-<!-- <script src="https://code.jquery.com/jquery-latest.js"></script> -->
-<!-- <script type="text/javascript" src="./js/main.js"></script> -->
-<!-- <script src="./js/bootstrap.bundle.min.js"></script> -->
 </head>
+<body>
+<%@include file="./include/header.jsp" %>
 <script type="text/javascript">
 	var url = "";
 	
 	$(document).ready(function() {
 		if("${member.table}"=="Student"){
-			 url = "./absentList.do";
+			url = "./absentList.do";
 		}else{
 			url = "./recipient_absent_list.do";
 		}
@@ -27,7 +23,7 @@
 		alert(stm);
 		$.ajax({
 			url: url,
-			async : true,
+			async : false,
 			data: stm,
 // 			dataType: "json",
 			type: "POST",
@@ -43,7 +39,7 @@
 				for (var i = 0; i < ob.lists.length; i++) {
 					htmlInvlud += "<tr>"
 		     					+ "<td>"+(i+1)+"</td>"
-		     					+ "<td><a href='./absent_detail_no.do?seq="+ob.lists[i].form_seq+"'>"+ob.lists[i].app_date+"</a></td>"
+		     					+ "<td><a href='./absent_detail_yes.do?seq="+ob.lists[i].form_seq+"&id="+ob.lists[i].recipient_id+"&stm="+ob.lists[i].stm+"'>"+ob.lists[i].app_date+"</a></td>"
 		     					+ "<td>"+ob.lists[i].coursename+"</td>"
 		     					+ "<td>"+ob.lists[i].stm+"</td>"
 		     			+ "</tr>";
@@ -56,8 +52,6 @@
 		});
 	}
 </script>
-<body>
-<%@include file="./include/header.jsp" %>
 
 <!-- Page Content -->
   <div class="container" id="main">
@@ -66,7 +60,8 @@
         <h1 class="mt-5">결석 신청 내역</h1>
         <div>
         	<select id="select_stm" name="select_stm" onchange="stmSelect(this.value)">
-        		<option value="N" selected="selected">진행중</option>
+        		<option selected="selected">선택하세요</option>
+        		<option value="N">진행중</option>
         		<option value="Y">승인</option>
         		<option value="R">미승인</option>
         	</select>

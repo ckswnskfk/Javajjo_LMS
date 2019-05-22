@@ -48,8 +48,6 @@
 		if (start_date == "" || !startDateChk()){
 			alert("형식에 맞춰 날짜를 입력해주세요");
 			return false;
-		}else {
-			alert("ㅇㅇ됭");
 		}
 		if (isNaN(absent_days) || absent_days == "") {
 			alert("숫자만 입력 가능합니다.");
@@ -68,6 +66,7 @@
 		alert(newFileName);
 		frm.action="./insert_absent_form.do";
 		frm.method="post";
+		
 		return true;
 	}
 	
@@ -83,7 +82,7 @@
     <div class="row">
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">결석 신청</h1>
-	<form action="" onsubmit="apply()">
+	<form action="#" onsubmit="apply()">
 		<input type="hidden" name="id" value="${member.id}">
 		<input id="coursecode" type="hidden" name="coursecode" value="">
 		<input id="newfilename" type="hidden" name="newfilename" value="">
