@@ -1,5 +1,5 @@
-<%@page import="java.util.List"%>
 <%@page import="happy.jaj.prj.dtos.Test_Exam_DTO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
@@ -25,10 +25,11 @@
 		<h4>과제명 : ${testname}</h4>
 		<h4>과제 날짜 : ${testday}</h4>
 		<hr>
-		<input type="button" value="등록" onclick="location.href='./desc_ExamForm.do'">
+		<input type="button" value="등록" onclick="location.href='./sel_ExamForm.do'">
 		<input type="button" value="추가" onclick="examlist()">
 		<input type="button" value="복사" onclick="coursecnt()">
 		<input type="button" value="삭제" onclick="examdelete()">
+
 	<table>
 		<%
 		if(list.size()==0){
@@ -67,6 +68,5 @@
 	</table>
 		<input type="button" value="문제 등록" onclick="examinsert()">
 		<input type="button" value="뒤로 가기" onclick="testback()">
-
 </body>
 </html>

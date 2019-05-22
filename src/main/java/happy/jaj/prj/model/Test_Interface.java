@@ -17,6 +17,9 @@ import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_Interface {
 	
+	//시험의 최대 번호 조회
+	public int test_maxexamnum(String testcode);
+	
 	// 담당 과정 조회
 	public Course_DTO test_course(String seq);
 			

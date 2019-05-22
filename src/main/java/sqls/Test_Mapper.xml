@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Test_Mapper">
 
+	<!-- 시험의 최대 번호 조회 -->
+	<select id="test_maxexamnum" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT CASE NUM WHEN 0 THEN 1 ELSE NUM+1 END 
+	FROM (SELECT COUNT(EXAMNUM) NUM
+	FROM TEST_EXAM 
+	WHERE TESTCODE=#{testcode})
+	</select>
+
 	<!-- 담당 과정 조회 -->
 	<select id="test_course" parameterType="java.lang.String" resultType="CourseDTO">
 	SELECT COURSECODE, COURSENAME, STARTDATE, COURSECNT
@@ -63,7 +71,7 @@
 	<!--과목에 해당하는 과제 조회  -->
 	<select id="se_testselect" parameterType="java.lang.String"
 		resultType="SubjectTestDTO">
-		SELECT TESTCODE,TESTNAME, TESTDAY
+		SELECT SUBJECTCODE, TESTCODE,TESTNAME, TESTDAY
 		FROM SUBJECT_TEST JOIN TEST USING (TESTCODE)
 		WHERE SUBJECTCODE = #{subjectcode}
 	</select>
@@ -120,13 +128,13 @@
 		resultType="java.lang.Integer">
 		SELECT SUM(ALLOT) FROM TEST_EXAM
 		WHERE TESTCODE=#{testcode}
-		GROUP BY EXAMCODE
+		GROUP BY TESTCODE
 	</select>
 
 	<!--과제에 해당하는 문제 조회(서술형)  -->
 	<select id="te_select" parameterType="java.util.Map"
 		resultType="ExamDesDTO">
-		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT, EXAMCODE
+		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT, EXAMCODE, C_ANSWER
 		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
 		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
 	</select>
@@ -156,8 +164,8 @@
 
 	<!--문항 등록   -->
 	<insert id="content_insert" parameterType="ContentSelectDTO">
-		INSERT INTO CONTENTSELECT(EXAMCODE, EXAMNUM, EXAMCONTENT)
-		VALUES(#{examcode}, #{examnum}, #{examcontent})
+		INSERT INTO CONTENTSELECT(EXAMCODE, CONTENTNUM, EXAMCONTENT)
+		VALUES(#{examcode}, #{contentnum}, #{examcontent})
 	</insert>
 
 	<!--문항 수정   -->

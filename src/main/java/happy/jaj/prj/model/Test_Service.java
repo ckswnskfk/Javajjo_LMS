@@ -87,13 +87,23 @@ public class Test_Service implements Test_IService {
 	// 선택형 문제 등록 + 선택형 문항 등록
 	@Transactional
 	@Override
-	public boolean examsel_Transaction(Exam_Sel_DTO Edto, ContentSelect_DTO Cdto) {	
+	public boolean examsel_Transaction(Exam_Sel_DTO Edto, List<ContentSelect_DTO> Cdto) {	
 		logger.info("Test_Service examsel_Transaction {}",Edto);
 		logger.info("Test_Service examsel_Transaction {}",Cdto);
 		int n = test_Interface.examsel_insert(Edto);
 		System.out.println("선택형 문제 등록 성공? "+(n>0? true:false));
-		Cdto.setExamcode(Edto.getExamcode());
-		return test_Interface.content_insert(Cdto);
+//		for(int i=0; i<Cdto.size(); i++) {
+//			Cdto[i].setExamcode(Edto.getExamcode());
+//			test_Interface.content_insert(Cdto[i]);
+//		}
+		int cnt = 0;
+		for(ContentSelect_DTO dto:Cdto) {
+			dto.setExamcode(Edto.getExamcode());
+			test_Interface.content_insert(dto);
+			cnt++;
+		}
+		
+		return (Cdto.size()==cnt)?true:false;
 	}
 
 	//선택형 문제 수정
@@ -249,6 +259,12 @@ public class Test_Service implements Test_IService {
 	public List<Course_DTO> test_coursecnt(String seq) {
 		 logger.info("Test_Service test_coursecnt {}",seq);
 		return test_Interface.test_coursecnt(seq);
+	}
+
+	@Override
+	public int test_maxexamnum(String testcode) {
+		logger.info("Test_Service test_maxexamnum{}",testcode);
+		return test_Interface.test_maxexamnum(testcode);
 	}
 	
 	

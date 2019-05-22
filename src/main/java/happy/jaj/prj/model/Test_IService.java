@@ -17,6 +17,9 @@ import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_IService {
 	
+		//시험의 최대 번호 조회
+		public int test_maxexamnum(String testcode);
+	
 		// 담당 과정 조회
 		public Course_DTO test_course(String seq);
 		
@@ -45,7 +48,7 @@ public interface Test_IService {
 		//과제에 문제등록(연결)
 		public boolean te_insert(Test_Exam_DTO dto);
 		
-		public boolean examsel_Transaction(Exam_Sel_DTO Edto, ContentSelect_DTO Cdto);
+		public boolean examsel_Transaction(Exam_Sel_DTO Edto, List<ContentSelect_DTO> Cdto);
 //		//문제 등록(선택형) 
 //		public boolean examsel_insert(Exam_Sel_DTO dto);
 //		//문항 등록

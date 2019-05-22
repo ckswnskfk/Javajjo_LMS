@@ -3,7 +3,7 @@ package happy.jaj.prj.dtos;
 public class ContentSelect_DTO {
 	
 	private String examcode;
-	private int contentnum;
+	private String contentnum;
 	private String examcontent;
 	
 	
@@ -20,7 +20,7 @@ public class ContentSelect_DTO {
 	}
 
 
-	public ContentSelect_DTO(String examcode, int contentnum, String examcontent) {
+	public ContentSelect_DTO(String examcode, String contentnum, String examcontent) {
 		super();
 		this.examcode = examcode;
 		this.contentnum = contentnum;
@@ -34,10 +34,10 @@ public class ContentSelect_DTO {
 	public void setExamcode(String examcode) {
 		this.examcode = examcode;
 	}
-	public int getContentnum() {
+	public String getContentnum() {
 		return contentnum;
 	}
-	public void setContentnum(int contentnum) {
+	public void setContentnum(String contentnum) {
 		this.contentnum = contentnum;
 	}
 	public String getExamcontent() {

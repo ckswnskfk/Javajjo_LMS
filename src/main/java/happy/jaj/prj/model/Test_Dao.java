@@ -59,7 +59,7 @@ public class Test_Dao implements Test_Interface {
 	@Override
 	public Subject_Test_DTO se_testselect(String seq) {
 		logger.info("Test_Dao se_testselect {}",seq);
-		return (Subject_Test_DTO)sqlSession.selectList(NS+"se_testselect", seq);
+		return (Subject_Test_DTO)sqlSession.selectOne(NS+"se_testselect", seq);
 	}
 
 	@Override
@@ -243,6 +243,12 @@ public class Test_Dao implements Test_Interface {
 	public List<Course_DTO> test_coursecnt(String seq) {
 		logger.info("Test_Dao test_coursecnt {}",seq);
 		return sqlSession.selectList(NS+"test_coursecnt",seq);
+	}
+
+	@Override
+	public int test_maxexamnum(String testcode) {
+		logger.info("Test_Dao test_maxexamnum{}", testcode);
+		return sqlSession.selectOne(NS+"test_maxexamnum",testcode);
 	}
 
 	
