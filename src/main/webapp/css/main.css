@@ -2,6 +2,7 @@
 		margin: 0;
 	}
 	body {
+  background-color:#fff;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
