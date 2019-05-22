@@ -67,7 +67,7 @@ public class Absent_Service implements Absent_IService {
 	// 결석 신청
 	// 결석 신청하려는 과정을 선택
 	@Override
-	public Course_DTO absent_course(String id) {
+	public List<Course_DTO> absent_course(String id) {
 		logger.info("Absent_Interface recipient_absent_list 실행");
 		return absent_Interface.absent_course(id);
 	}

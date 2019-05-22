@@ -68,9 +68,9 @@ public class Absent_Dao implements Absent_Interface {
 	// 결석 신청
 	// 결석 신청하려는 과정을 선택
 	@Override
-	public Course_DTO absent_course(String id) {
+	public List<Course_DTO> absent_course(String id) {
 		logger.info("Absent_Dao absent_course 실행 {}", id);
-		return sqlSessionTemplate.selectOne(NS+"absent_course", id);
+		return sqlSessionTemplate.selectList(NS+"absent_course", id);
 	}
 
 	// 관리자를 선택

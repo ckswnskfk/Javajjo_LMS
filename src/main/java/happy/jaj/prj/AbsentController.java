@@ -36,7 +36,7 @@ public class AbsentController {
 	@Autowired
 	private Absent_IService absent_IService;
 	
-	// 결석 신청 세션 비교(사용자별 신청 내역)
+	// 세션 비교(사용자별 신청 내역)
 	@RequestMapping(value="/absent.do", method=RequestMethod.GET)
 	public String absent_main(HttpSession session) {
 		logger.info("AbsentController absent_main 실행");
@@ -91,6 +91,13 @@ public class AbsentController {
 		return json.toJSONString();
 	}
 	
+	// 결석신청 폼으로
+	@RequestMapping(value="/to_app_form.do", method=RequestMethod.GET)
+	public String to_App_Form() {
+		logger.info("AbsentController to_App_Form 실행");
+		return "app_Form";
+	}
+	
 	// 클릭해서 각 신청을 상세조회(처리중)
 	@RequestMapping(value="/absent_detail_no.do", method=RequestMethod.GET)
 	public String absent_detail_no(HttpServletRequest req) {
@@ -131,8 +138,8 @@ public class AbsentController {
 	
 	// 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.GET)
-	public String recipient_absent_list(@RequestBody String stm, HttpSession session, HttpServletRequest req) {
+	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.POST)
+	public @ResponseBody String recipient_absent_list(@RequestBody String stm, HttpSession session, HttpServletRequest req) {
 		logger.info("AbsentController recipient_absent_list 실행");
 		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
 		System.out.println(stm);
@@ -140,6 +147,7 @@ public class AbsentController {
 		System.out.println(inStm);
 		lmap.put("stm", inStm);
 		List<App_Form_DTO> list = absent_IService.recipient_absent_list(lmap);
+		System.out.println(list);
 		JSONObject json = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		JSONObject data = null;
@@ -158,35 +166,45 @@ public class AbsentController {
 		}
 		
 		
+		System.out.println(jArray);
 		json.put("lists", jArray);
 		System.out.println(json);
-		System.out.println(json.toJSONString());
 		return json.toJSONString();
 	}
 	
 	
 	// 결석 신청
 	// 결석 신청하려는 과정을 선택
-	@RequestMapping(value="/absent_course.do", method=RequestMethod.GET)
-	public String absent_course(HttpServletRequest req) {
+	@RequestMapping(value="/absent_course.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Course_DTO> absent_course(@RequestBody String id, HttpServletRequest req) {
 		logger.info("AbsentController absent_course 실행");
-		String id = req.getParameter("id");
-		Course_DTO dto = absent_IService.absent_course(id);
-		req.setAttribute("dto", dto);
-		return "chanju_index";
+		System.out.println(id);
+		String inid = id.substring(0, 11);
+		System.out.println(inid);
+		List<Course_DTO> list = absent_IService.absent_course(inid);
+		System.out.println("list = " + list);
+		Course_DTO dto = null;
+		Map<String, Course_DTO> mapp = new HashMap<String, Course_DTO>();
+		for (int i = 0; i < list.size(); i++) {
+			dto = new Course_DTO();
+			dto = list.get(i);
+			mapp.put("dto"+i, dto);
+		}
+		System.out.println("mapp = " + mapp);
+		return mapp;
 	}
 	
-	// 관리자를 선택
-	@RequestMapping(value="/absent_admin.do", method=RequestMethod.GET)
-	public String absent_admin(HttpServletRequest req) {
-		logger.info("AbsentController absent_admin 실행");
-		Admin_DTO dto = absent_IService.absent_admin();
-		req.setAttribute("dto", dto);
-		return "chanju_index";
-	}
+//	// 관리자를 선택 (관리자 한 명이라 안쓸것 같음)
+//	@RequestMapping(value="/absent_admin.do", method=RequestMethod.GET)
+//	public String absent_admin(HttpServletRequest req) {
+//		logger.info("AbsentController absent_admin 실행");
+//		Admin_DTO dto = absent_IService.absent_admin();
+//		req.setAttribute("dto", dto);
+//		return "chanju_index";
+//	}
 	
 	// 결석 신청
-	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.GET)
+	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.POST)
 	public String insert_absent_form(HttpServletRequest req) {
 		logger.info("AbsentController insert_absent_form 실행");
 		App_Form_DTO dto = new App_Form_DTO();
@@ -199,8 +217,8 @@ public class AbsentController {
 		dto.setFilename(req.getParameter("filename"));
 		dto.setNewfilename(req.getParameter("newfilename"));
 		int n = absent_IService.insert_absent_form(dto);
-		req.setAttribute("n", n);
-		return "chanju_index";
+		System.out.println(n);
+		return "absent";
 	}
 
 	// 강사 및 관리자가 미승인 사유를 작성+동시에 승인 여부 수정

@@ -30,7 +30,7 @@ public interface Absent_Interface {
 	
 	// 결석 신청
 	// 결석 신청하려는 과정을 선택
-	public Course_DTO absent_course(String id);
+	public List<Course_DTO> absent_course(String id);
 	
 	// 관리자를 선택
 	public Admin_DTO absent_admin();

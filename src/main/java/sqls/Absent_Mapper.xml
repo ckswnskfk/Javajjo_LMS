@@ -61,8 +61,9 @@
 	<!-- 결석 신청 -->
 	<!-- 결석 신청하려는 과정을 선택 -->
 	<select id="absent_course" parameterType="java.lang.String" resultType="CourseDTO">
-		SELECT USERCOURSE.ID AS ID, COURSENAME, COURSECODE, STARTDATE
+		SELECT COURSENAME, COURSECODE, TEACHER.ID AS ID
 		FROM USERCOURSE JOIN COURSE USING(COURSECODE)
+						JOIN TEACHER USING(COURSECODE)
 		WHERE USERCOURSE.ID = #{id}
 		ORDER BY COURSENAME
 	</select>
