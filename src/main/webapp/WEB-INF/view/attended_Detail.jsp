@@ -11,9 +11,9 @@
 <title>출결 상세</title>
 </head>
 <body>
+<%@include file="./include/header.jsp" %>
 <p>${lists.a_check}</p>
 
-
-
+<%@include file="./include/footer.jsp" %>
 </body>
 </html>

@@ -7,10 +7,14 @@
 <title>강사 캘린더 조회</title>
 </head>
 <body>
+<%@include file="./include/header.jsp" %>
 <p>${dto.coursename}</p>
 <a>${lists}</a>
 
 
 <a href="./attended_Rollbook.do?coursecode=C201900001&regdate=20190517">출석부 조회</a>
+
+
+<%@include file="./include/footer.jsp" %>
 </body>
 </html>

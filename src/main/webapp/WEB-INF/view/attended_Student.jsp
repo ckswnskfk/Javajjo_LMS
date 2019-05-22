@@ -10,10 +10,14 @@
 <title>학생 출석 상세조회</title>
 </head>
 <body>
+<%@include file="./include/header.jsp" %>
 	<c:forEach items="${lists}" var="aDto">
 		${aDto.a_check}
 		${aDto.regdate}
 	</c:forEach>
 <%-- <p>${lists.a_check}</p> --%>
+
+
+<%@include file="./include/footer.jsp" %>
 </body>
 </html>

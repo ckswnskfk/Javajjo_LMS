@@ -10,12 +10,13 @@
 <title>학생과정조회</title>
 </head>
 <body>
+<%@include file="./include/header.jsp" %>
 <%-- <a>${lists.coursename}</a> --%>
 	<c:forEach items="${lists}" var="cDto">
 		${cDto.coursename}
 	</c:forEach>
 
 <a href="./attended_Student.do?id=01022222222">출결상세조회</a>
-
+<%@include file="./include/footer.jsp" %>
 </body>
 </html>
