@@ -20,7 +20,7 @@
 <div id = "header">
 <h1><a href="./main.do">메인으로 이동</a></h1>
 <a href="./logout.do">로그아웃</a>
-${member.name} 님 환영합니다.
+<a href="./student_info.do">${member.name}</a>님 환영합니다.
 </div>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">

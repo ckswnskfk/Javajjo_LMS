@@ -184,13 +184,22 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//정보 조회
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/student_info.do", method=RequestMethod.GET)
-	public String student_info(HttpServletRequest req) {
+	public String student_info(HttpServletRequest req, HttpSession session) {
 		logger.info("UserController student_info 실행");
-		String id = req.getParameter("id");
+		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
+		String id = map.get("id");
 		Student_DTO dto = user_IService.student_info(id);
 		req.setAttribute("dto",dto);
-		return "jemin_index";
+		return "student_Mypage";
+	}
+	
+	//정보 수정 폼 이동
+	@RequestMapping(value="/student_Modify_Form.do", method=RequestMethod.GET)
+	public String student_modify_form(HttpServletRequest req, HttpSession session) {
+		logger.info("UserController student_modify_form 실행");
+		return "student_Modify";
 	}
 	
 	//정보 수정
