@@ -37,7 +37,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">출결 관리</a>
+            <a class="nav-link" href="./attended_Main.do">출결 관리</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">과정 관리</a>
