@@ -16,14 +16,14 @@
 </head>
 <body>
 	<h1>과제 등록</h1>
-		<h4>과정명 : ${coursename}</h4>
-		<h4>과목명 : ${subjectname}</h4>
+		<h4>과정명 : ${testsession.coursename}</h4>
+		<h4>과목명 : ${testsession.subjectname}</h4>
 		<hr>
-		<h4>과목유형 : ${subjecttype}</h4>
-		<h4>과제유형 : ${examtype}</h4>
+		<h4>과목유형 : ${testsession.subjecttype}</h4>
+		<h4>과제유형 : ${testsession.examtype}</h4>
 		<hr>
-		<h4>과제명 : ${testname}</h4>
-		<h4>과제 날짜 : ${testday}</h4>
+		<h4>과제명 : ${testsession.testname}</h4>
+		<h4>과제 날짜 : ${testsession.testday}</h4>
 		<hr>
 		<input type="button" value="등록" onclick="location.href='./sel_ExamForm.do'">
 		<input type="button" value="추가" onclick="examlist()">
