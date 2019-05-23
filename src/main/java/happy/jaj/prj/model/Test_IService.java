@@ -48,7 +48,7 @@ public interface Test_IService {
 		//과제에 문제등록(연결)
 		public boolean te_insert(Test_Exam_DTO dto);
 		
-		public boolean examsel_Transaction(Exam_Sel_DTO Edto, List<ContentSelect_DTO> Cdto);
+		public boolean examsel_Transaction(Exam_Sel_DTO Edto, List<ContentSelect_DTO> Cdto, Test_Exam_DTO TEdto);
 //		//문제 등록(선택형) 
 //		public boolean examsel_insert(Exam_Sel_DTO dto);
 //		//문항 등록

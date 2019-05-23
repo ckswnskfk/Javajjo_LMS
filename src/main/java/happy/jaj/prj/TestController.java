@@ -283,13 +283,29 @@ public class TestController {
 //		String testcode = (String)session.getAttribute("testcode");
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
+		System.out.println("testcode : "+testsession.getTestcode());
 		model.addAttribute("dto", dto);
 		
-		int total = iService.te_selectsum(testsession.getTestcode());
-		model.addAttribute("total", total);
-		System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
-		
-		return "test_DescriptionListForm";
+		if(testsession.getExamtype().equals("서술형")) {
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
+			model.addAttribute("dto", list);
+			
+			int total = iService.te_selectsum(testsession.getTestcode());
+			model.addAttribute("total", total);
+			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+//			
+			return "test_DescriptionListForm";
+		}else {
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_testselectlist(testsession.getTestcode());
+//			System.out.println("▼▼▼▼▼▼▼▼▼▼ dto : "+list);
+			model.addAttribute("dto", list);
+			
+			int total = iService.te_selectsum(testsession.getTestcode());
+			model.addAttribute("total", total);
+			
+			return "test_SelectListForm";
+		}
+//		return "";
 	}
 	
 	// 선택형 문제 등록 폼 이동
@@ -333,27 +349,30 @@ public class TestController {
 		}
 		System.out.println("▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶"+list);
 		
+		Test_Exam_DTO TEdto = new Test_Exam_DTO(testsession.getTestcode(), "", allot, examnum);
+		System.out.println(TEdto);
 //		ContentSelect_DTO CSdto = new ContentSelect_DTO("", examnum, examcontent);
-		boolean isc = iService.examsel_Transaction(ESdto, list);	
-		
+		boolean isc = iService.examsel_Transaction(ESdto, list, TEdto);	
 		return "redirect:./moveInsertSel.do";
 	}
 	
 	// 선택형 문제등록 후 폼이동
-	@RequestMapping(value="/moveInsertSel.do", method=RequestMethod.GET)
-	public String moveInserSel(HttpSession session, Model model) {
-		logger.info("TESTController moveInserSel");
-		
-		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
-		List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
-		model.addAttribute("dto", dto);
-		
-		int total = iService.te_selectsum(testsession.getTestcode());
-		model.addAttribute("total", total);
-		System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
-		
-		return "test_SelectListForm";
-	}
+		@RequestMapping(value="/moveInsertSel.do", method=RequestMethod.GET)
+		public String moveInserSel(HttpSession session, Model model) {
+			logger.info("TESTController moveInserSel");
+			
+			TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+			List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
+			model.addAttribute("dto", dto);
+			
+			int total = iService.te_selectsum(testsession.getTestcode());
+			model.addAttribute("total", total);
+			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+			
+			return "test_SelectListForm";
+		}
+	
+	
 	
 	//과제에 문제 등록 
 	@RequestMapping(value="/test_Exam.do", method=RequestMethod.GET)
@@ -380,10 +399,11 @@ public class TestController {
 		// 받은 값 : examcode
 		
 //		String examcode = req.getParameter("examcode");
-		String testcode = (String)session.getAttribute("testcode");
+//		String testcode = (String)session.getAttribute("testcode");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("examcode", examcode);
-		map.put("testcode", testcode);
+		map.put("testcode", testsession.getTestcode());
 //		System.out.println("■■■■■■■■■■■■examcode : "+dto.getExamcode()+", testcode : "+testcode);
 		
 		Exam_Des_DTO dto = iService.te_select(map);
@@ -391,6 +411,12 @@ public class TestController {
 		model.addAttribute("dto", dto);
 		
 		return "test_DescExamModify";
+	}
+	
+	// 선택형문제 수정 폼이동
+	@RequestMapping(value="/sel_Exam_ModifyForm.do", method=RequestMethod.GET)
+	public String moveSelExamModify() {
+		return "";
 	}
 	
 	// 과제에 등록된 문제수정
@@ -404,15 +430,17 @@ public class TestController {
 //		String examcode = req.getParameter("examcode");
 //		System.out.println("allot : "+allot+", examnum : "+examnum+", examcode : "+examcode);
 		Test_Exam_DTO TEdto = new Test_Exam_DTO("", dto.getExamcode(), dto.getAllot(), dto.getExamnum());
+		System.out.println(TEdto);
 		boolean isc = iService.te_modify(TEdto);
 		System.out.println("결과 ? "+isc);
 		
-		String testcode =  (String)session.getAttribute("testcode");
-		List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testcode);
+//		String testcode =  (String)session.getAttribute("testcode");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
 //		System.out.println("■■■■■■■■■■■■■"+dto);
 		model.addAttribute("dto", dto);
 		
-		int total = iService.te_selectsum(testcode);
+		int total = iService.te_selectsum(testsession.getTestcode());
 		model.addAttribute("total", total);
 		System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
 		
@@ -468,10 +496,12 @@ public class TestController {
 //		String c_answer = req.getParameter("c_answer");
 //		System.out.println("■■■■■■■■■■■■■■■■■■■■■ examcode : "+examcode+", exam : "+exam+", explanation : "+explanation+", standard : "+standard+", c_answer : "+c_answer);
 		Exam_Des_DTO EDdto = new Exam_Des_DTO(dto.getExam(), dto.getExamcode(), dto.getExplanation(), dto.getStandard(), dto.getC_answer());
+		System.out.println(EDdto);
 		boolean isc = iService.examdes_modify(EDdto);
-		
+		System.out.println("서술형 문제 수정 성공?"+isc);
 
-		String testcode = (String)session.getAttribute("testcode");
+//		String testcode = (String)session.getAttribute("testcode");
+//		TestSession_DTO testsession =(TestSession_DTO)session.getAttribute("testsession");
 //		List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_selectlist(testcode);
 //		System.out.println("■■■■■■■■■■■■■"+dto);
 //		req.setAttribute("dto", dto);
@@ -483,7 +513,8 @@ public class TestController {
 		model.addAttribute("examnum", dto.getExamnum());
 //		System.out.println("★★★★★★★★★ allot : "+allot+", examnum : "+examnum);
 		
-		return "redirect:/test_ExamModify.do?examnum="+dto.getExamnum()+"&examcode="+dto.getExamcode()+"&allot="+dto.getAllot();
+//		return "redirect:/test_ExamModify.do?examnum="+dto.getExamnum()+"&examcode="+dto.getExamcode()+"&allot="+dto.getAllot();
+		return "redirect:/test_ExamModify.do";
 	}
 	
 	

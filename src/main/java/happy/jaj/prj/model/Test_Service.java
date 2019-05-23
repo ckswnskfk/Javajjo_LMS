@@ -87,7 +87,7 @@ public class Test_Service implements Test_IService {
 	// 선택형 문제 등록 + 선택형 문항 등록
 	@Transactional
 	@Override
-	public boolean examsel_Transaction(Exam_Sel_DTO Edto, List<ContentSelect_DTO> list) {	
+	public boolean examsel_Transaction(Exam_Sel_DTO Edto, List<ContentSelect_DTO> list, Test_Exam_DTO TEdto) {	
 		logger.info("Test_Service examsel_Transaction 1 {}",Edto);
 		logger.info("Test_Service examsel_Transaction 2 {}",list);
 		int n = test_Interface.examsel_insert(Edto);
@@ -102,10 +102,14 @@ public class Test_Service implements Test_IService {
 			test_Interface.content_insert(dto);
 			cnt++;
 		}
+		boolean isc;
 		if(list.size()==cnt) {
-//			 test_Interface.te_insert(dto)
+			TEdto.setExamcode(Edto.getExamcode());
+			isc = test_Interface.te_insert(TEdto);
+		}else {
+			isc = false;
 		}
-		return (list.size()==cnt)?true:false;
+		return isc;
 	}
 
 	//선택형 문제 수정
