@@ -52,7 +52,7 @@
 						<div class="row">
 							<div class="col-xs-9 col-sm-9">
 								<h4 class="dark">
-									<span class="middle">${member.name} 님의 회원가입 신청 조회</span>
+									<span class="middle">${member.name} 님의 전체 학생 조회</span>
 								</h4>
 	
 								<div class="profile-user-info">
@@ -86,7 +86,9 @@
 											<span><c:out value="${dto.id}"></c:out></span>
 										</div>
 										<div class="profile-info-name">
-											<span><c:out value="${dto.name}"></c:out></span>
+											<span><a href="admin_student_detail.do">
+												<c:out value="${dto.name}"></c:out>
+											</a></span>
 										</div>
 										<div class="profile-info-name">
 											<span><c:out value="${dto.gender}"></c:out></span>
@@ -99,6 +101,12 @@
 										</div>
 									</div>
 									</c:forEach>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<input type="button" class="btn btn-default"
+										 value="회원 탈퇴" onclick="admin_modify()"/>
+									</div>
 								</div>
 							<div class="hr hr-5 dotted"></div>
 							</div><!-- /.col -->

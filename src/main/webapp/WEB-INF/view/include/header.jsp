@@ -37,24 +37,48 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">게시판
+            <a class="nav-link" href="./notice_List.do">게시판
               <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./attended_Main.do">출결 관리</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">과정 관리</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">과목 관리</a>
-          </li>
+          <c:choose>
+         	 <c:when test="${member.table eq 'Student'}">
+          		<li class="nav-item">
+				  <a class="nav-link" href="./attended_Student_Main.do">출결 관리</a>
+         		</li>
+         	</c:when>
+         	<c:when test="${member.table eq 'Teacher'}">
+         		<li class="nav-item">
+         			<a class="nav-link" href="./attended_Teacher_Main.do">출결 관리</a>
+         		</li>
+         	</c:when>
+          </c:choose>
+          <c:choose>
+          	<c:when test="${member.table eq 'Admin'}">
+          		<li class="nav-item">
+            		<a class="nav-link" href="./course_List.do">과정 관리</a>
+          		</li>
+          	</c:when>
+          	<c:when test="${member.table eq 'Teacher'}">
+	          	<li class="nav-item">
+	           	 <a class="nav-link" href="./subject_Course.do">과목 관리</a>
+	          	</li>
+          	</c:when>
+          </c:choose>
+          <c:choose>
+         	 <c:when test="${member.table eq 'Student'}">
+          		<li class="nav-item">
+				  <a class="nav-link" href="./test_Course_Submit.do">과제 관리</a>
+         		</li>
+         	</c:when>
+         	<c:when test="${member.table eq 'Teacher'}">
+         		<li class="nav-item">
+         			<a class="nav-link" href="./test_Course_Insert.do">과제 관리</a>
+         		</li>
+         	</c:when>
+          </c:choose>
           <li class="nav-item">
             <a class="nav-link" href="./absent.do">결석 신청</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">메신저</a>
           </li>
         </ul>
       </div>

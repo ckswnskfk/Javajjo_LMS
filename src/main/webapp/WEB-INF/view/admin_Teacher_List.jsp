@@ -52,7 +52,7 @@
 						<div class="row">
 							<div class="col-xs-9 col-sm-9">
 								<h4 class="dark">
-									<span class="middle">${member.name} 님의 회원가입 신청 조회</span>
+									<span class="middle">${member.name} 님의 전체 강사 조회</span>
 								</h4>
 	
 								<div class="profile-user-info">

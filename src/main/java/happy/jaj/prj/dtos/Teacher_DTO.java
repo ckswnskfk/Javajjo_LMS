@@ -42,8 +42,6 @@ public class Teacher_DTO {
 		this.coursename = coursename;
 	}
 
-
-
 	public String getId() {
 		return id;
 	}
