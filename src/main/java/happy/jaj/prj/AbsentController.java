@@ -37,19 +37,6 @@ public class AbsentController {
 	private Absent_IService absent_IService;
 	
 	// 완성
-	// 세션 비교(사용자별 신청 내역)
-	@RequestMapping(value="/absent.do", method=RequestMethod.GET)
-	public String absent_main(HttpSession session) {
-		logger.info("AbsentController absent_main 실행");
-		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
-		if(map.get("table").trim().equalsIgnoreCase("Student")) {
-			return "redirect:/absentListForm.do";
-		}else {
-			return "redirect:/absentListForm.do";
-		}
-	}
-	
-	// 완성
 	// 리스트 폼으로 이동
 	@RequestMapping(value="/absentListForm.do", method=RequestMethod.GET)
 	public String absent_List_Form() {
@@ -102,30 +89,11 @@ public class AbsentController {
 		return "app_Form";
 	}
 	
-	// 승인으로 통합해서 사용
-//	// 클릭해서 각 신청을 상세조회(처리중)
-//	@RequestMapping(value="/absent_detail_no.do", method=RequestMethod.GET)
-//	public String absent_detail_no(HttpServletRequest req) {
-//		logger.info("AbsentController absent_detail_no 실행");
-//		String seq = req.getParameter("seq");
-//		App_Form_DTO dto = absent_IService.absent_detail_no(seq);
-//		req.setAttribute("dto", dto);
-//		return "absent_detail";
-//	}
-	
 	// 완성
 	// 클릭해서 각 신청을 상세조회(승인)
 	@RequestMapping(value="/absent_detail_yes.do", method=RequestMethod.GET)
-	public String absent_detail_yes(HttpServletRequest req) {
+	public String absent_detail_yes(@RequestParam Map<String, String> map, HttpServletRequest req) {
 		logger.info("AbsentController absent_detail_yes 실행");
-		String id = req.getParameter("id");
-		String stm = req.getParameter("stm");
-		String seq = req.getParameter("seq");
-//		App_Form_DTO dto = absent_IService.absent_detail_yes(seq);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("stm", stm);
-		map.put("seq", seq);
 		Map<String, Object> yesMap = absent_IService.absent_detail_yes(map);
 		System.out.println(yesMap);
 		req.setAttribute("yesMap", yesMap);
@@ -147,7 +115,7 @@ public class AbsentController {
 	// 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/recipient_absent_list.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
-	public @ResponseBody String recipient_absent_list(@RequestBody String stm, HttpSession session, HttpServletRequest req) {
+	public @ResponseBody String recipient_absent_list(@RequestBody String stm, HttpSession session) {
 		logger.info("AbsentController recipient_absent_list 실행");
 		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
 		System.out.println(stm);
@@ -184,7 +152,7 @@ public class AbsentController {
 	// 결석 신청
 	// 결석 신청하려는 과정을 선택
 	@RequestMapping(value="/absent_course.do", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Course_DTO> absent_course(@RequestBody String id, HttpServletRequest req) {
+	public @ResponseBody Map<String, Course_DTO> absent_course(@RequestBody String id) {
 		logger.info("AbsentController absent_course 실행");
 		System.out.println(id);
 		String inid = id.substring(0, 11);
@@ -214,17 +182,8 @@ public class AbsentController {
 	// 완성
 	// 결석 신청
 	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.POST)
-	public String insert_absent_form(HttpServletRequest req) {
+	public String insert_absent_form(App_Form_DTO dto, HttpServletRequest req) {
 		logger.info("AbsentController insert_absent_form 실행");
-		App_Form_DTO dto = new App_Form_DTO();
-		dto.setStudent_id(req.getParameter("id"));
-		dto.setRecipient_id(req.getParameter("recipient_id"));
-		dto.setCoursecode(req.getParameter("coursecode"));
-		dto.setReason(req.getParameter("reason"));
-		dto.setStart_date(req.getParameter("start_date"));
-		dto.setAbsent_days(req.getParameter("absent_days"));
-		dto.setFilename(req.getParameter("filename"));
-		dto.setNewfilename(req.getParameter("newfilename"));
 		int n = absent_IService.insert_absent_form(dto);
 		System.out.println(n);
 		return "absent";
@@ -232,30 +191,20 @@ public class AbsentController {
 
 	
 	// 강사 및 관리자가 미승인 사유를 작성+동시에 승인 여부 수정
-	@RequestMapping(value="/insert_unapprove_reason.do", method=RequestMethod.GET)
-	public String insert_unapprove_reason(HttpServletRequest req) {
+	@RequestMapping(value="/insert_unapprove_reason.do", method=RequestMethod.POST)
+	public String insert_unapprove_reason(@RequestParam Map<String, String> map) {
 		logger.info("AbsentController insert_unapprove_reason 실행");
-		String seq = req.getParameter("seq");
-		String unapproved_reason = req.getParameter("unapproved_reason");
-		String stm = req.getParameter("stm");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("seq", seq);
-		map.put("unapproved_reason", unapproved_reason);
-		map.put("stm", stm);
 		int n = absent_IService.insert_unapprove_reason(map);
-		req.setAttribute("n", n);
-		return "chanju_index";
+		System.out.println(n);
+		return "absent";
 	}
 	
 	// 강사 및 관리자가 승인을 함
 	@RequestMapping(value="/update_is_approve_Yes.do", method=RequestMethod.GET)
-	public String update_is_approve_Yes(HttpServletRequest req) {
+	public String update_is_approve_Yes(@RequestParam Map<String, String> map) {
 		logger.info("AbsentController update_is_approve_Yes 실행");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("seq", req.getParameter("seq"));
-		map.put("stm", req.getParameter("stm"));
 		int n = absent_IService.update_is_approve_Yes(map);
-		req.setAttribute("n", n);
+		System.out.println(n);
 		return "absent";
 	}
 }

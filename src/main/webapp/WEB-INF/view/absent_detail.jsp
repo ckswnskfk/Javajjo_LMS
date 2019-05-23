@@ -12,6 +12,21 @@
 <!-- <script type="text/javascript" src="./js/main.js"></script> -->
 <!-- <script src="./js/bootstrap.bundle.min.js"></script> -->
 </head>
+<script type="text/javascript">
+	function unapprove() {
+		var unapprove_reason = "<tr>"
+							+ "<td colspan='3'>"
+							+ "<form action='./insert_unapprove_reason.do' method='post'>"
+							+ "<input type='hidden' name='stm' value='R'>"
+							+ "<input type='hidden' name='seq' value='"+${yesMap.dto.form_seq}+"'>"
+							+ "<textarea name='unapproved_reason' rows='4' cols='70'></textarea>"
+							+ "<input type='submit'>"
+							+ "</form>"
+							+ "</td>"
+							+ "</tr>";
+		$("tr:last").html(unapprove_reason);
+	}
+</script>
 <body>
 <%@include file="./include/header.jsp" %>
 <div class="container" id="main">
@@ -26,7 +41,9 @@
 				</td>
 				<td>
 					<label><b>결재란</b></label><br/>
-					${yesMap.newfilename}
+					<c:if test="${yesMap.dto.stm eq 'Y'}">
+						${yesMap.newfilename}
+					</c:if>
 				</td>
 				<td>
 					<label><b>진행상태</b></label><br/>
@@ -70,13 +87,13 @@
 					</td>	
 				</tr>
 			</c:if>
-			<c:if test="${yesMap.dto.stm eq 'N'}">
+			<c:if test="${yesMap.dto.stm eq 'N' and member.table ne 'Student'}">
 				<tr>
 					<td>
 						<button onclick="location.href='./update_is_approve_Yes.do?seq=${yesMap.dto.form_seq}&stm=Y'">승인</button>
 					</td>
 					<td>
-						<button>미승인</button>
+						<button onclick="unapprove()">미승인</button>
 					</td>
 				</tr>
 			</c:if>

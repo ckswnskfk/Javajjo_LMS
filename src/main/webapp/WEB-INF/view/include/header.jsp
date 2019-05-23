@@ -78,7 +78,7 @@
          	</c:when>
           </c:choose>
           <li class="nav-item">
-            <a class="nav-link" href="./absent.do">결석 신청</a>
+            <a class="nav-link" href="./absentListForm.do">결석 신청</a>
           </li>
         </ul>
       </div>

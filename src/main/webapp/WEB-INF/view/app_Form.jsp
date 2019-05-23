@@ -18,7 +18,7 @@
 	}
 	
 	$(document).ready(function() {
-		alert(id);
+// 		alert(id);
 		$.ajax({
 			url: "./absent_course.do",
 			async : false,
@@ -26,7 +26,7 @@
 			type: "post",
 			success: function(msg) {
 				$.each(msg, function(key, value) {
-					alert(value.coursename);
+// 					alert(value.coursename);
 					$("#recipient_id").append("<option value='"+value.id+"' coursecode='"+value.coursecode+"'>"+value.coursename+"</option>")
 				});
 			}
@@ -59,11 +59,11 @@
 		}
 		
 		var filename = $("#filename").val();
-		alert(filename);
+// 		alert(filename);
 		var newFileName = "${member.id}_";
 		newFileName += filename;
 		$("#newfilename").val(newFileName);
-		alert(newFileName);
+// 		alert(newFileName);
 		frm.action="./insert_absent_form.do";
 		frm.method="post";
 		
@@ -83,7 +83,7 @@
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">결석 신청</h1>
 	<form action="#" onsubmit="apply()">
-		<input type="hidden" name="id" value="${member.id}">
+		<input type="hidden" name="student_id" value="${member.id}">
 		<input id="coursecode" type="hidden" name="coursecode" value="">
 		<input id="newfilename" type="hidden" name="newfilename" value="">
 		<table class="table">

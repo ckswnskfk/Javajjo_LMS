@@ -20,7 +20,6 @@
 	});
 	
 	function stmSelect(stm) {
-		alert(stm);
 		$.ajax({
 			url: url,
 			async : false,
@@ -28,10 +27,7 @@
 // 			dataType: "json",
 			type: "POST",
 			success: function(obj) {
-				alert(obj);
 				var ob = JSON.parse(obj);
-				alert(ob);
-				alert(ob.lists[0].form_seq);
 
 				var html = "<table class='table'><tr><td>순번</td><td>신청일</td><td>과정명</td><td>상태</td></tr>";
 				
@@ -39,15 +35,24 @@
 				for (var i = 0; i < ob.lists.length; i++) {
 					htmlInvlud += "<tr>"
 		     					+ "<td>"+(i+1)+"</td>"
-		     					+ "<td><a href='./absent_detail_yes.do?seq="+ob.lists[i].form_seq+"&id="+ob.lists[i].recipient_id+"&stm="+ob.lists[i].stm+"'>"+ob.lists[i].app_date+"</a></td>"
-		     					+ "<td>"+ob.lists[i].coursename+"</td>"
-		     					+ "<td>"+ob.lists[i].stm+"</td>"
-		     			+ "</tr>";
+		     					+ "<td><a href='./absent_detail_yes.do?seq="+ob.lists[i].form_seq+"&id="+ob.lists[i].recipient_id+"&stm="+ob.lists[i].stm+"'>"+ob.lists[i].app_date+"</a></td>";
+		     		if(ob.lists[i].coursename == null){
+		     			htmlInvlud += "<td>관리자</td>"
+		     						+ "<td>"+ob.lists[i].stm+"</td>";
+		     		} else {
+		     			htmlInvlud += "<td>"+ob.lists[i].coursename+"</td>"
+     								+ "<td>"+ob.lists[i].stm+"</td>";
+					}
 				}
 				html += htmlInvlud;
 				html += "</table>";
-				
-				$("#list").html(html);
+
+				if (html.indexOf("<a") == -1) {
+					html += "<tr><td colspan='4'>상태에 해당하는 신청이 없습니다</td></tr>"
+					$("#list").html(html);
+				} else {
+					$("#list").html(html);
+				}
 			}
 		});
 	}
@@ -67,10 +72,14 @@
         	</select>
         </div>
         <div id="list">
+        
         </div>
         <div>
         	<c:if test="${member.table eq 'Student'}">
         		<button id="toAppForm" onclick="location.href='./to_app_form.do'">결석 신청</button>
+        	</c:if>
+        	<c:if test="${member.table ne 'Student'}">
+        		<button id="addSignature">사인 등록</button>
         	</c:if>
         </div>
       </div>

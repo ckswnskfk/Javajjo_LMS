@@ -5,20 +5,24 @@
 	<!-- 신청서 조회 -->
 	<!-- 자신의 신청내역 리스트 상태별로 조회(학생) -->
 	<select id="student_absent_list" parameterType="java.util.Map" resultType="AppFormDTO">
-		SELECT FORM_SEQ, APP_DATE, COURSECODE, COURSENAME, STM, START_DATE, RECIPIENT_ID, ABSENT_DAYS
-        FROM APP_FORM JOIN IS_APPROVE
-                USING(FORM_SEQ)
-                        JOIN COURSE
-                        USING(COURSECODE)
-                WHERE STUDENT_ID = #{id} AND IS_APPROVE.STM = #{stm}
-                ORDER BY FORM_SEQ DESC
+		SELECT FORM_SEQ, APP_DATE, COURSECODE, STM, RECIPIENT_ID, ABSENT_DAYS,
+		(SELECT COURSENAME
+			FROM COURSE
+			WHERE COURSECODE = A.COURSECODE) AS COURSENAME
+		FROM APP_FORM A
+		JOIN IS_APPROVE USING(FORM_SEQ)
+		WHERE STUDENT_ID = #{id} AND IS_APPROVE.STM = #{stm}
+		ORDER BY FORM_SEQ DESC
 	</select>
 	
-	<!-- 클릭해서 각 신청을 상세조회(승인, 처리중) -->
+	<!-- 클릭해서 각 신청을 상세조회(승인, 처리중) > 진행중, 승인, 미승인 통합으로 바뀜 -->
 	<select id="absent_detail" parameterType="java.lang.String" resultType="AppFormDTO">
-		SELECT FORM_SEQ, APP_DATE, COURSENAME, REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM, NAME AS STUDENT_NAME
+		SELECT FORM_SEQ, APP_DATE, (SELECT COURSENAME
+							FROM COURSE
+							WHERE COURSECODE = A.COURSECODE) AS COURSENAME,
+		REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME,
+		STM, NAME AS STUDENT_NAME, (SELECT REASON FROM UNAPPROVED WHERE FORM_SEQ = #{seq}) AS UNAPPROVED_REASON
 		FROM APP_FORM A JOIN IS_APPROVE I USING(FORM_SEQ)
-		JOIN COURSE USING(COURSECODE)
 		JOIN STUDENT ON STUDENT.ID = A.STUDENT_ID
 		WHERE FORM_SEQ = #{seq}
 	</select>
@@ -34,13 +38,13 @@
 	
 	
 	<!-- 클릭해서 각 신청을 상세조회(반려시) -->
-	<select id="absent_detail_return" parameterType="java.lang.String" resultType="AppFormDTO">
-		SELECT A.FORM_SEQ, APP_DATE, A.REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM, U.REASON AS UNAPPROVED_REASON, RECIPIENT_ID, COURSENAME
-		FROM APP_FORM A JOIN IS_APPROVE I ON A.FORM_SEQ = I.FORM_SEQ
-						JOIN UNAPPROVED U ON I.FORM_SEQ = U.FORM_SEQ
-						JOIN COURSE C ON A.COURSECODE = C.COURSECODE
-		WHERE A.FORM_SEQ = #{seq}
-	</select>
+<!-- 	<select id="absent_detail_return" parameterType="java.lang.String" resultType="AppFormDTO"> -->
+<!-- 		SELECT A.FORM_SEQ, APP_DATE, A.REASON, START_DATE, ABSENT_DAYS, FILENAME, NEWFILENAME, STM, U.REASON AS UNAPPROVED_REASON, RECIPIENT_ID, COURSENAME -->
+<!-- 		FROM APP_FORM A JOIN IS_APPROVE I ON A.FORM_SEQ = I.FORM_SEQ -->
+<!-- 						JOIN UNAPPROVED U ON I.FORM_SEQ = U.FORM_SEQ -->
+<!-- 						JOIN COURSE C ON A.COURSECODE = C.COURSECODE -->
+<!-- 		WHERE A.FORM_SEQ = #{seq} -->
+<!-- 	</select> -->
 	
 	<!-- 강사, 관리자가 자신의 과정의 학생들것만의 내역서 리스트 보기 -->
 	<select id="recipient_absent_list" parameterType="java.util.Map" resultType="AppFormDTO">
@@ -48,6 +52,7 @@
 		I.STM,
 		S.NAME AS STUDENT_NAME,
 		A.FORM_SEQ,
+		RECIPIENT_ID,
 		(SELECT COURSENAME
 			FROM COURSE
 			WHERE COURSECODE = A.COURSECODE) AS COURSENAME
@@ -68,11 +73,12 @@
 		ORDER BY COURSENAME
 	</select>
 	
+	<!-- 관리자가 한 명이라 선택 필요 X -->
 	<!-- 관리자를 선택 -->
-	<select id="absent_admin" resultType="AdminDTO">
-		SELECT ID, NAME
-		FROM ADMIN
-	</select>
+<!-- 	<select id="absent_admin" resultType="AdminDTO"> -->
+<!-- 		SELECT ID, NAME -->
+<!-- 		FROM ADMIN -->
+<!-- 	</select> -->
 	
 	<!-- 학생이 결석 신청을 함 -->
 	<insert id="insert_absent_form" parameterType="AppFormDTO">
