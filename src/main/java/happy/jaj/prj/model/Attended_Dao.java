@@ -35,7 +35,7 @@ public class Attended_Dao implements Attended_Interface {
 //	cal_stuatt : 학생 출결 조회
 	@Override
 	public List<Attended_DTO> cal_stuatt(String id) {
-		logger.info("Attended_Dao cal_stucos 실행{}", id);
+		logger.info("Attended_Dao cal_stucos 실행{}");
 		return sqlSessionTemplate.selectList(NS_Attended+"cal_stuatt", id);
 	}
 //	cal_cosview : 강사 과정 조회

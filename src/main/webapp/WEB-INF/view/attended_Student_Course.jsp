@@ -12,10 +12,16 @@
 <body>
 <%@include file="./include/header.jsp" %>
 <%-- <a>${lists.coursename}</a> --%>
-	<c:forEach items="${lists}" var="cDto">
-		${cDto.coursename}
+<div>
+	<table>
+	<c:forEach var="cDto" items="${cDto}" varStatus="vs">
+	<tr>
+		<td>${cDto.coursename}</td>
+		<p>${clists }</p>
+	</tr>
 	</c:forEach>
-
+	</table>
+</div>
 <a href="./attended_Student.do?id=01022222222">출결상세조회</a>
 <%@include file="./include/footer.jsp" %>
 </body>
