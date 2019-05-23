@@ -51,6 +51,32 @@ public class Student_DTO {
 		this.regdate = regdate;
 		this.a_check = a_check;
 	}
+	
+	
+
+	public String getS_check() {
+		return s_check;
+	}
+
+	public void setS_check(String s_check) {
+		this.s_check = s_check;
+	}
+
+	public String getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+
+	public String getA_check() {
+		return a_check;
+	}
+
+	public void setA_check(String a_check) {
+		this.a_check = a_check;
+	}
 
 	public Student_DTO(String id, String name, String gender, String birth) {
 		super();

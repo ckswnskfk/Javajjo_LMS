@@ -67,9 +67,10 @@
 	<!-- 전체 학생 조회(관리자) -->
 	<select id="admin_student_list" parameterType="RowNumDTO" resultType="StudentDTO">
 		SELECT ID, NAME, PW, GENDER, BIRTH, ADDR, DELFLAG 
-		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, GENDER, BIRTH, ADDR,
-		DELFLAG, S_CHECK FROM STUDENT) 
-		WHERE RNUM BETWEEN #{start} AND #{last} AND S_CHECK = 'Y' AND DELFLAG='N'
+		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, GENDER,
+				BIRTH, ADDR, DELFLAG, S_CHECK FROM STUDENT 
+				WHERE S_CHECK = 'Y' AND DELFLAG='N')
+		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
 	<!-- 학생 탈퇴(관리자) -->

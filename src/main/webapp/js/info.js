@@ -124,4 +124,13 @@ function allChk(obj){
     		}
         }
     }
-} 
+}
+
+function admin_student_modify(){
+	location.href="./admin_student_modify_Form.do";
+	
+}
+
+function admin_student_course(){
+	location.href="./admin_student_course.do";
+}
