@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,12 +23,12 @@ public class CourseController {
 	@Autowired
 	private Course_IService course_IService;
 	
-	@RequestMapping(value="/course_select.do", method=RequestMethod.GET)
-	public String course_select(HttpServletRequest req) {
+	@RequestMapping(value="/course_List.do", method=RequestMethod.GET)
+	public String course_select(Model model) {
 		logger.info("CourseController course_select 실행");
 		List<Course_DTO> list = course_IService.course_select();
-		req.setAttribute("list", list);
-		return "chanju_index";
+		model.addAttribute("list", list);
+		return "course_List";
 	}
 	
 	@RequestMapping(value="/course_cnt.do", method=RequestMethod.GET)
@@ -54,5 +55,11 @@ public class CourseController {
 		int n = course_IService.course_add(dto);
 		req.setAttribute("n", n);
 		return "chanju_index";
+	}
+	
+	@RequestMapping(value="/move.do", method=RequestMethod.GET)
+	public String move() {
+		
+		return "course_Form";
 	}
 }
