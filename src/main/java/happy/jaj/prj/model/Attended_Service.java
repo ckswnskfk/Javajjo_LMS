@@ -33,7 +33,7 @@ public class Attended_Service implements Attended_IService {
 //	cal_stuatt : 학생 출결 조회
 	@Override
 	public List<Attended_DTO> cal_stuatt(String id) {
-		logger.info("Attended_Service cal_stuatt 실행");
+		logger.info("Attended_Service cal_stuatt 실행" , id);
 		return attended_Interface.cal_stuatt(id);
 	}
 
@@ -52,7 +52,7 @@ public class Attended_Service implements Attended_IService {
 	//	cal_daylist : 강사 출석부 조회
 	@Override
 	public List<Attended_DTO> cal_daylist(String regdate) {
-		logger.info("Attended_Service cal_daylist 실행");
+		logger.info("Attended_Service cal_daylist 실행", regdate);
 		return (List<Attended_DTO>)attended_Interface.cal_daylist(regdate);
 	}
 	//	cal_monatt : 강사 학생 출석 상세 조회

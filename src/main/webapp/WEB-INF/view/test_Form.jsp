@@ -11,9 +11,10 @@
 <title>과제 관리</title>
 <%
 // 	Map<String, String> map = (Map<String, String>)request.getAttribute("map");
-	String subjectcode = (String)request.getAttribute("subjectcode");
+// 	String subjectcode = (String)request.getAttribute("subjectcode");
 
 	Subject_Test_DTO dto = (Subject_Test_DTO)request.getAttribute("dto");
+	
 	
 %>
 </head>
@@ -34,17 +35,17 @@
 		}
 	}
 
-	function testForm(testcode) {
-		location.href = "./division.do?testcode="+testcode;
+	function testForm() {
+		location.href = "./division.do";
 	}
 </script>
 <body>
 	<h1>과제 등록</h1>
-	<h4>과정명 : ${coursename}</h4>
-	<h4>과목명 : ${subjectname}</h4>
+	<h4>과정명 : ${testsession.coursename}</h4>
+	<h4>과목명 : ${testsession.subjectname}</h4>
 	<hr>
-	<h4>과목유형 : ${subjecttype}</h4>
-	<h4>과제유형 : ${examtype}</h4>
+	<h4>과목유형 : ${testsession.subjecttype}</h4>
+	<h4>과제유형 : ${testsession.examtype}</h4>
 	<hr>
 
 	<%
@@ -53,7 +54,7 @@
 
 <form action="./test_Regi.do" method="get" onsubmit="return testinsert()">
 	
-	<input type="hidden" name="subjectcode" value='<%=subjectcode%>'>
+<%-- 	<input type="hidden" name="subjectcode" value='${testsession.subjectcode}%>'> --%>
 	<table>
 		
 		<tr>
@@ -72,9 +73,9 @@
 		<%
 		}else{
 			%>
-			<h4>과제명 : <%=dto.getTestname()%></h4>
-			<h4>과제 날짜 : <%=dto.getTestday() %></h4>
-			<input type="button" value="다음" onclick="testForm('<%=dto.getTestcode()%>')">
+			<h4>과제명 :${testsession.testname }</h4>
+			<h4>과제 날짜 : ${testsession.testday}</h4>
+			<input type="button" value="다음" onclick="testForm()">
 			<% 
 		}
 		%>

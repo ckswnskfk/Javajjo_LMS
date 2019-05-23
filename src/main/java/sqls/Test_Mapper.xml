@@ -71,7 +71,7 @@
 	<!--과목에 해당하는 과제 조회  -->
 	<select id="se_testselect" parameterType="java.lang.String"
 		resultType="SubjectTestDTO">
-		SELECT SUBJECTCODE, TESTCODE,TESTNAME, TESTDAY
+		SELECT SUBJECTCODE, TESTCODE,TESTNAME, TO_CHAR(TESTDAY, 'YYYY-MM-DD') AS TESTDAY
 		FROM SUBJECT_TEST JOIN TEST USING (TESTCODE)
 		WHERE SUBJECTCODE = #{subjectcode}
 	</select>

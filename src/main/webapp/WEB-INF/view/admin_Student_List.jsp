@@ -86,9 +86,9 @@
 											<span><c:out value="${dto.id}"></c:out></span>
 										</div>
 										<div class="profile-info-name">
-											<span><a href="admin_student_detail.do">
+											<a href="./admin_student_detail.do?id=${dto.id}">
 												<c:out value="${dto.name}"></c:out>
-											</a></span>
+											</a>
 										</div>
 										<div class="profile-info-name">
 											<span><c:out value="${dto.gender}"></c:out></span>

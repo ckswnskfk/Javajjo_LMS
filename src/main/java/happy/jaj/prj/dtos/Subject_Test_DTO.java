@@ -3,10 +3,22 @@ package happy.jaj.prj.dtos;
 public class Subject_Test_DTO {
 
 	private String subjectcode;
+	private String subjectname;
 	private String testcode;
 	private String testname;
 	private String testday;
 	
+	
+	
+	public Subject_Test_DTO(String subjectcode, String subjectname, String testcode, String testname, String testday) {
+		super();
+		this.subjectcode = subjectcode;
+		this.subjectname = subjectname;
+		this.testcode = testcode;
+		this.testname = testname;
+		this.testday = testday;
+	}
+
 	public Subject_Test_DTO() {
 	}
 	
@@ -55,6 +67,16 @@ public class Subject_Test_DTO {
 
 	public void setTestday(String testday) {
 		this.testday = testday;
+	}
+
+	
+	
+	public String getSubjectname() {
+		return subjectname;
+	}
+
+	public void setSubjectname(String subjectname) {
+		this.subjectname = subjectname;
 	}
 
 	@Override

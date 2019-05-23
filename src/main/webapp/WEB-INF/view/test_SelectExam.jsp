@@ -22,24 +22,24 @@
 				<td>문제</td>
 				<td><textarea  rows="5" cols="30" name="exam" placeholder="문제를 입력해주세요."></textarea></td>
 			</tr>
-		<div>
+<!-- 		<div> -->
 			<tr>
 				<td><input type="hidden" value="1" name="contentnum">①</td>
-				<td><input type="text" name="content"></td>
+				<td><input type="text" name="examcontent"></td>
 			</tr>
 			<tr>
 				<td><input type="hidden" value="2" name="contentnum">②</td>
-				<td><input type="text" name="content"></td>
+				<td><input type="text" name="examcontent"></td>
 			</tr>
 			<tr>
 				<td><input type="hidden" value="3" name="contentnum">③</td>
-				<td><input type="text" name="content"></td>
+				<td><input type="text" name="examcontent"></td>
 			</tr>
 			<tr>
 				<td><input type="hidden" value="4" name="contentnum">④</td>
-				<td><input type="text" name="content"></td>
+				<td><input type="text" name="examcontent"></td>
 			</tr>
-		</div>
+<!-- 		</div> -->
 			<tr>
 				<td>정답</td>
 				<td><input type="text" name="c_answer" placeholder="정답을 입력해주세요."></textarea></td>

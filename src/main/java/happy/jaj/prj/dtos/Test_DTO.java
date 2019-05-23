@@ -10,6 +10,18 @@ public class Test_DTO {
 	
 	
 	
+	public String getSubjectcode() {
+		return subjectcode;
+	}
+
+
+
+	public void setSubjectcode(String subjectcode) {
+		this.subjectcode = subjectcode;
+	}
+
+
+
 	public Test_DTO() {
 		super();
 		// TODO Auto-generated constructor stub

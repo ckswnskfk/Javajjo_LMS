@@ -12,6 +12,12 @@ public class TestSession_DTO {
 	private String testday;
 	
 	
+	@Override
+	public String toString() {
+		return "TestSession_DTO [coursename=" + coursename + ", subjectcode=" + subjectcode + ", subjectname="
+				+ subjectname + ", subjecttype=" + subjecttype + ", examtype=" + examtype + ", testname=" + testname
+				+ ", testcode=" + testcode + ", testday=" + testday + "]";
+	}
 	public TestSession_DTO(String coursename, String subjectcode, String subjectname, String subjecttype,
 			String examtype, String testname, String testcode, String testday) {
 		super();

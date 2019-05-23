@@ -414,40 +414,42 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//학생 상세 조회
 	@RequestMapping(value="/admin_student_detail.do", method=RequestMethod.GET)
-	public String admin_student_detail(String id, Model model) {
+	public String admin_student_detail(String id, Model model, HttpSession session) {
 		logger.info("UserController admin_student_detail 실행");
 		Student_DTO dto = user_IService.admin_student_detail(id);
+		session.setAttribute("id", id);
 		model.addAttribute("dto", dto);
-		return "jemin_index";
+		return "admin_Student_Detail";
+	}
+	
+	//학생 정보 수정 폼 이동
+	@RequestMapping(value="/admin_student_modify_Form.do", method=RequestMethod.GET)
+	public String admin_student_modify_form(HttpSession session) {
+		logger.info("UserController admin_student_modify_form 실행");
+		return "admin_Student_Modify";
 	}
 	
 	//학생 정보 수정
-	@RequestMapping(value="/admin_student_modify.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin_student_modify.do", method=RequestMethod.POST)
 	public String admin_student_modify(@RequestParam Map<String, String> map) {
 		logger.info("UserController admin_student_modify 실행");
 		boolean isc = user_IService.admin_student_modify(map);
 		if(isc) {
 			logger.info("--------------------------- 학생 정보 수정 완료 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_student_list.do";
 	}
 	
 	//학생 과정 연결 조회 - 본인 과정
-	@RequestMapping(value="/admin_student_clist_sel.do", method=RequestMethod.GET)
-	public String admin_student_clist_sel(String id, Model model) {
+	@RequestMapping(value="/admin_student_course.do", method=RequestMethod.GET)
+	public String admin_student_clist_sel(Model model, HttpSession session) {
 		logger.info("UserController admin_student_clist_sel 실행");
-	    List<Course_DTO> lists = user_IService.admin_student_clist_sel(id);
-	    model.addAttribute("lists", lists);
-		return "jemin_index";
-	}
-	
-	//학생 과정 연결 조회 - 모든 과정
-	@RequestMapping(value="/admin_student_clist_all.do", method=RequestMethod.GET)
-	public String admin_student_clist_all(Model model) {
-		logger.info("UserController admin_student_clist_all 실행");
-		List<String> lists = user_IService.admin_student_clist_all();
-		model.addAttribute("lists", lists);
-		return "jemin_index";
+		String id = (String) session.getAttribute("id");
+	    List<Course_DTO> Slists = user_IService.admin_student_clist_sel(id);
+	    List<String> Alists = user_IService.admin_student_clist_all();
+	    model.addAttribute("Slists", Slists);
+	    model.addAttribute("Alists", Alists);
+		return "admin_Student_Course";
 	}
 	
 	//학생 과정 연결
