@@ -6,6 +6,7 @@ public class Test_DTO {
 	private String testname;
 	private String subjecttype;
 	private String examtype;
+	private String subjectcode;
 	
 	
 	
@@ -14,6 +15,19 @@ public class Test_DTO {
 		// TODO Auto-generated constructor stub
 	}
 	
+	
+	
+	public Test_DTO(String testcode, String testname, String subjecttype, String examtype, String subjectcode) {
+		super();
+		this.testcode = testcode;
+		this.testname = testname;
+		this.subjecttype = subjecttype;
+		this.examtype = examtype;
+		this.subjectcode = subjectcode;
+	}
+
+
+
 	public Test_DTO(String testcode, String testname, String subjecttype, String examtype) {
 		super();
 		this.testcode = testcode;
