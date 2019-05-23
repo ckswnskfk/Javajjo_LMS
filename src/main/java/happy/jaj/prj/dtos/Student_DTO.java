@@ -134,14 +134,6 @@ public class Student_DTO {
 		this.addr = addr;
 	}
 
-	public String gets_check() {
-		return s_check;
-	}
-
-	public void sets_check(String s_check) {
-		this.s_check = s_check;
-	}
-
 	public String getSum() {
 		return sum;
 	}
