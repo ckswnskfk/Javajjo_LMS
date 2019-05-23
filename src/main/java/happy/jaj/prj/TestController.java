@@ -276,7 +276,7 @@ public class TestController {
 		System.out.println("서술문제등록 성공 ? "+isc);
 		return "redirect:/moveInsertDesc.do";	
 	}
-	// 문제등록 후 이동
+	//  서술형문제등록 후 이동
 	@RequestMapping(value="/moveInsertDesc.do", method=RequestMethod.GET)
 	public String moveInserDesc(HttpSession session, Model model) {
 		logger.info("TESTController moveInserDesc");
@@ -294,14 +294,14 @@ public class TestController {
 	
 	// 선택형 문제 등록 폼 이동
 	@RequestMapping(value="/sel_ExamForm.do", method=RequestMethod.GET)
-	public String moveSelExamInsertForm(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+	public String moveSelExamInsertForm(Model model, HttpSession session) {
 		logger.info("TESTController moveSelExamInsertForm");
 		
 //		String testcode = (String)session.getAttribute("testcode");
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		int examnum = iService.test_maxexamnum(testsession.getTestcode());
 		System.out.println("■■■■■■■■■ examnum : "+examnum);
-		req.setAttribute("examnum", examnum);
+		model.addAttribute("examnum", examnum);
 				
 		return "test_SelectExam";
 	}
@@ -335,7 +335,24 @@ public class TestController {
 		
 //		ContentSelect_DTO CSdto = new ContentSelect_DTO("", examnum, examcontent);
 		boolean isc = iService.examsel_Transaction(ESdto, list);	
-		return "examsel_Transaction";
+		
+		return "redirect:./moveInsertSel.do";
+	}
+	
+	// 선택형 문제등록 후 폼이동
+	@RequestMapping(value="/moveInsertSel.do", method=RequestMethod.GET)
+	public String moveInserSel(HttpSession session, Model model) {
+		logger.info("TESTController moveInserSel");
+		
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		List<Test_Exam_DTO> dto = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
+		model.addAttribute("dto", dto);
+		
+		int total = iService.te_selectsum(testsession.getTestcode());
+		model.addAttribute("total", total);
+		System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+		
+		return "test_SelectListForm";
 	}
 	
 	//과제에 문제 등록 

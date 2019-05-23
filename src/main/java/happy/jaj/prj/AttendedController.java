@@ -97,7 +97,7 @@ public class AttendedController {
 	}
 	
 //	attended_Teacher_Main : 강사메인페이지
-	@RequestMapping(value="/attended_Main.do", method=RequestMethod.GET)
+	@RequestMapping(value="/attended_Teacher_Main.do", method=RequestMethod.GET)
 	public String attended_Teacher_Main(HttpServletRequest req, HttpServletResponse resp) {
 		logger.info("AttendedController attended_Teacher_Main 실행");
 		return "./attended_Teacher_Main";
