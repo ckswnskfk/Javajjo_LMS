@@ -102,7 +102,9 @@ public class Test_Service implements Test_IService {
 			test_Interface.content_insert(dto);
 			cnt++;
 		}
-		
+		if(list.size()==cnt) {
+//			 test_Interface.te_insert(dto)
+		}
 		return (list.size()==cnt)?true:false;
 	}
 
