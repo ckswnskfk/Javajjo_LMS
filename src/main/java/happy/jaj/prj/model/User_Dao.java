@@ -214,7 +214,7 @@ public class User_Dao implements User_Interface {
 
 	//학생 과정 연결 조회 - 모든 과정
 	@Override
-	public List<String> admin_student_clist_all() {
+	public List<Course_DTO> admin_student_clist_all() {
 		logger.info("admin_student_clist_all Dao 실행 ");
 		return sqlSession.selectList(NS_Adm+"admin_student_clist_all");
 	}

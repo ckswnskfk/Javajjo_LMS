@@ -18,7 +18,7 @@
   <hr>
   <form class="form-horizontal" action="#" method="post" onsubmit="return join()">
   <input type="hidden" name="find_id" value="${id}">
-    <div class="form-group">
+    <div class="form-group">z
       <label class="control-label col-sm-2" for="id">ID</label>
       <div class="col-sm-8">
         <input type="text" class="form-control" id="id" placeholder="Enter id" name="id">

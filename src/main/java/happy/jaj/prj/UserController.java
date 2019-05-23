@@ -446,7 +446,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 		logger.info("UserController admin_student_clist_sel 실행");
 		String id = (String) session.getAttribute("id");
 	    List<Course_DTO> Slists = user_IService.admin_student_clist_sel(id);
-	    List<String> Alists = user_IService.admin_student_clist_all();
+	    List<Course_DTO> Alists = user_IService.admin_student_clist_all();
 	    model.addAttribute("Slists", Slists);
 	    model.addAttribute("Alists", Alists);
 		return "admin_Student_Course";

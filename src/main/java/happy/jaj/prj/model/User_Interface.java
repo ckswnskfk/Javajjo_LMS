@@ -94,7 +94,7 @@ public interface User_Interface {
 	public List<Course_DTO> admin_student_clist_sel(String id);
 	
 	//학생 과정 연결 조회 - 모든 과정
-	public List<String> admin_student_clist_all();
+	public List<Course_DTO> admin_student_clist_all();
 	
 	//학생 과정 연결
 	public boolean admin_student_cconnect(UserCourse_DTO dto);

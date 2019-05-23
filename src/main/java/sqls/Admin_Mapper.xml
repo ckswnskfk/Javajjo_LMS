@@ -95,15 +95,15 @@
 	
 	<!-- 학생 과정 연결 조회(관리자) 본인 과정 -->
 	<select id="admin_student_clist_sel" parameterType="java.lang.String" resultType="CourseDTO">
-		SELECT COURSENAME
+		SELECT COURSENAME, COURSECODE
 		FROM USERCOURSE JOIN COURSE USING (COURSECODE) 
 		WHERE COURSECODE IN ((SELECT COURSECODE FROM USERCOURSE WHERE ID=#{id}))
-		GROUP BY COURSENAME
+		GROUP BY COURSENAME, COURSECODE
 	</select>
 	
 	<!-- 학생 과정 연결 조회(관리자) 모든 과정 -->
-	<select id="admin_student_clist_all" resultType="java.lang.String">
-		SELECT COURSENAME FROM COURSE
+	<select id="admin_student_clist_all" resultType="CourseDTO">
+		SELECT COURSENAME ,COURSECODE FROM COURSE
 	</select>
 	
 	<!-- 학생 과정 연결(관리자) -->

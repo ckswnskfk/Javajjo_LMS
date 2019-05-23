@@ -210,7 +210,7 @@ public class User_Service implements User_IService {
 
 	//학생 과정 연결 조회 - 모든 과정
 	@Override
-	public List<String> admin_student_clist_all() {
+	public List<Course_DTO> admin_student_clist_all() {
 		logger.info("admin_student_clist_all Service 실행");
 		return user_interface.admin_student_clist_all();
 	}

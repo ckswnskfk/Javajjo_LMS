@@ -29,66 +29,41 @@
 						<div class="row">
 							<div class="col-xs-9 col-sm-9">
 								<h4 class="dark">
-									<span class="middle">${dto.name} 학생 상세 조회</span>
+									<span class="middle">${dto.name} 학생 과정 연결</span>
 								</h4>
-								<div class="col-sm-offset-2 col-sm-10">
-									<input type="button" class="btn btn-default"
-										value="과정 연결" onclick="admin_student_course()"/>
-								</div>
 								<div class="profile-user-info">
 									<div class="profile-info-row">
 										<div class="profile-info-name"> Id </div>
 
 										<div class="profile-info-value">
-											<span>${dto.id}</span>
+											<span>${id}</span>
 										</div>
 									</div>
 									
 									<div class="profile-info-row">
-										<div class="profile-info-name"> Pw </div>
-
-										<div class="profile-info-value">
-											<span>${dto.pw}</span>
-										</div>
+										<div class="profile-info-name"> 수강과정 </div>
+										<c:forEach items="${Slists}" var="sdto" varStatus="vs">
+											<div class="profile-info-row">
+											<div class="profile-info-value">
+												<input type="checkbox" value="${sdto.coursecode}">
+												<span>${sdto.coursename}</span>
+											</div>
+											</div>
+											</c:forEach>
 									</div>
 									
 									<div class="profile-info-row">
-										<div class="profile-info-name"> Name </div>
+										<div class="profile-info-name"> 추가과정 </div>
 
-										<div class="profile-info-value">
-											<span>${dto.name}</span>
-										</div>
-									</div>
-								
-									<div class="profile-info-row">
-										<div class="profile-info-name"> Gender </div>
-	
-										<div class="profile-info-value">
-										<c:choose>
-											<c:when test="${dto.gender eq 'M'}">
-												<span>남자</span>
-											</c:when>
-											<c:when test="${dto.gender eq 'F'}">
-												<span>여자</span>
-											</c:when>
-										</c:choose>
-										</div>
-									</div>
-								
-									<div class="profile-info-row">
-										<div class="profile-info-name"> Birth </div>
-	
-										<div class="profile-info-value">
-											<span>${dto.birth}</span>
-										</div>
-									</div>
-								
-									<div class="profile-info-row">
-										<div class="profile-info-name"> Addr </div>
-	
-										<div class="profile-info-value">
-											<span>${dto.addr}</span>
-										</div>
+										
+											<div class="profile-info-value">
+												<select>
+													<c:forEach items="${Alists}" var="adto" varStatus="vs">
+													<option>${adto.coursename}</option>
+													</c:forEach>
+												</select>
+											</div>
+										
 									</div>
 								</div>
 								<div class="form-group">
