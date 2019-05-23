@@ -8,6 +8,13 @@ public class Exam_Sel_DTO {
 	private String examnum;
 	private String allot;
 	
+	
+	
+	public Exam_Sel_DTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Exam_Sel_DTO(String exam, String examcode, String c_answer, String examnum, String allot) {
 		super();
 		this.exam = exam;
@@ -40,14 +47,6 @@ public class Exam_Sel_DTO {
 		this.allot = allot;
 	}
 
-	public Exam_Sel_DTO(String exam, String examcode, String examnum, String allot) {
-		super();
-		this.exam = exam;
-		this.examcode = examcode;
-		this.examnum = examnum;
-		this.allot = allot;
-	}
-
 	public String getExam() {
 		return exam;
 	}
@@ -72,6 +71,8 @@ public class Exam_Sel_DTO {
 		this.c_answer = c_answer;
 	}
 
+	
+	
 	@Override
 	public String toString() {
 		return "Exam_Sel_DTO [exam=" + exam + ", examcode=" + examcode + ", c_answer=" + c_answer + ", examnum="

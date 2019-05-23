@@ -67,6 +67,19 @@ public class TestController {
 //		return "dd";
 //	}
 	
+	// 과정명이 동일한 회차 조회
+	@RequestMapping(value="/test_Course_Cnt.do", method=RequestMethod.GET)
+	public String testCourseCnt(HttpSession session, Model model) {
+		TestSession_DTO dto = (TestSession_DTO)session.getAttribute("testsession");
+		List<Course_DTO> list = iService.test_coursecnt(dto.getCoursename());
+		model.addAttribute("list", list);
+		
+		// ajax 처리시 여기서 반환을 무엇을 함?
+		return "";
+	}
+	
+	//
+	
 	//담당 과정 조회
 	@RequestMapping(value="/test_Course_Insert.do", method=RequestMethod.GET)
 	public String testCourse(Model model, HttpServletResponse resp, HttpSession session) {
@@ -229,11 +242,12 @@ public class TestController {
 			return "test_DescriptionListForm";
 		}else {
 			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_testselectlist(testcode1);
-//			System.out.println("▼▼▼▼▼▼▼▼▼▼ dto : "+list);
+			
 			model.addAttribute("dto", list);
 			
 			int total = iService.te_selectsum(testcode1);
 			model.addAttribute("total", total);
+			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
 			
 			return "test_SelectListForm";
 		}
@@ -271,7 +285,7 @@ public class TestController {
 //		String examnum = req.getParameter("examnum");
 //		String allot = req.getParameter("allot");
 		
-		Test_Exam_DTO TEdto = new Test_Exam_DTO(testsession.getTestcode(), "", dto.getAllot(), dto.getExamnum());
+		Test_Exam_DTO TEdto = new Test_Exam_DTO(testsession.getTestcode(), "", dto.getAllot(), dto.getExamnum(), "");
 		boolean isc = iService.examdes_insert(des,TEdto);	
 		System.out.println("서술문제등록 성공 ? "+isc);
 		return "redirect:/moveInsertDesc.do";	
@@ -349,7 +363,7 @@ public class TestController {
 		}
 		System.out.println("▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶"+list);
 		
-		Test_Exam_DTO TEdto = new Test_Exam_DTO(testsession.getTestcode(), "", allot, examnum);
+		Test_Exam_DTO TEdto = new Test_Exam_DTO(testsession.getTestcode(), "", allot, examnum, "");
 		System.out.println(TEdto);
 //		ContentSelect_DTO CSdto = new ContentSelect_DTO("", examnum, examcontent);
 		boolean isc = iService.examsel_Transaction(ESdto, list, TEdto);	
@@ -386,7 +400,8 @@ public class TestController {
 //		String allot = req.getParameter("allot");
 //		String examnum = req.getParameter("examnum");
 //		System.out.println("testcode : "+testcode+", examcode : "+examcode+", allot : "+allot+", examnum : "+examnum);
-		Test_Exam_DTO TEdto = new Test_Exam_DTO(dto.getTestcode(), dto.getExamcode(), dto.getAllot(), dto.getExamnum());
+//		Test_Exam_DTO TEdto = new Test_Exam_DTO(dto.getTestcode(), dto.getExamcode(), dto.getAllot(), dto.getExamnum());
+		Test_Exam_DTO TEdto = new Test_Exam_DTO(dto.getTestcode(),dto.getExamcode(), dto.getAllot(), dto.getExamnum(), "");
 		boolean isc = iService.te_insert(TEdto);
 		
 		return "te_Insert";
@@ -415,8 +430,25 @@ public class TestController {
 	
 	// 선택형문제 수정 폼이동
 	@RequestMapping(value="/sel_Exam_ModifyForm.do", method=RequestMethod.GET)
-	public String moveSelExamModify() {
-		return "";
+	public String moveSelExamModify(String examcode, HttpSession session, Model model) {
+		logger.info("TESTController moveSelExamModify");
+		
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("examcode", examcode);
+		map.put("testcode", testsession.getTestcode());
+		Exam_Sel_DTO dto = iService.te_testselect(map);
+		System.out.println(dto);
+		model.addAttribute("dto", dto);
+		
+		List<ContentSelect_DTO> Clist = iService.content_select(examcode);
+//		System.out.println(Clist);
+		for(ContentSelect_DTO dto1 : Clist) {
+			System.out.println("●●●●●●●●●●●●●●●●●● dto : "+dto1);
+		}
+		model.addAttribute("Clist", Clist);
+		
+		return "test_SelExamModify";
 	}
 	
 	// 과제에 등록된 문제수정
@@ -429,22 +461,42 @@ public class TestController {
 //		String examnum = req.getParameter("examnum");
 //		String examcode = req.getParameter("examcode");
 //		System.out.println("allot : "+allot+", examnum : "+examnum+", examcode : "+examcode);
-		Test_Exam_DTO TEdto = new Test_Exam_DTO("", dto.getExamcode(), dto.getAllot(), dto.getExamnum());
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		Test_Exam_DTO TEdto = new Test_Exam_DTO("", dto.getExamcode(), dto.getAllot(), dto.getExamnum(), "");
 		System.out.println(TEdto);
 		boolean isc = iService.te_modify(TEdto);
 		System.out.println("결과 ? "+isc);
 		
 //		String testcode =  (String)session.getAttribute("testcode");
-		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
-		List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
-//		System.out.println("■■■■■■■■■■■■■"+dto);
-		model.addAttribute("dto", dto);
+		model.addAttribute("testcode", testsession.getTestcode());
 		
-		int total = iService.te_selectsum(testsession.getTestcode());
-		model.addAttribute("total", total);
-		System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
-		
-		return "test_DescriptionListForm";
+		if(testsession.getExamtype().equals("서술형")) {
+			
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
+			model.addAttribute("dto", list);
+			
+			int total = iService.te_selectsum(testsession.getTestcode());
+			model.addAttribute("total", total);
+			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+			
+			return "test_DescriptionListForm";
+		}else {
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_testselectlist(testsession.getTestcode());
+			model.addAttribute("dto", list);
+			
+			int total = iService.te_selectsum(testsession.getTestcode());
+			model.addAttribute("total", total);
+			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+			
+			return "test_DescriptionListForm";
+		}
+//		
+//		int total = iService.te_selectsum(testsession.getTestcode());
+//		model.addAttribute("total", total);
+//		System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+//		System.out.println("왜안되지?");
+//		return "test_Courselist";
+//		return "redirect:./desc_ListForm.do";
 	}
 	
 	// 배점 총점 계산 
@@ -460,27 +512,37 @@ public class TestController {
 	}
 	
 	// 선택형 문제 수정 (문제, 문항)
-	@RequestMapping(value="/sel_Content_Modify.do", method=RequestMethod.GET)
-	public String examsel_Modify(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+	@RequestMapping(value="/sel_Content_Modify.do", method=RequestMethod.POST)
+	public String examsel_Modify(String examcode, String examnum, String exam, String[] contentnum, String[] examcontent, String allot, String c_answer,HttpSession session, Model model) {
 		logger.info("TESTController examsel_Modify{}");
-		// 받은 값 : exam, c_answer, examcode, examcontent[], examnum
+		// 받은 값 : examnum, exam, examcode?, contentnum[], examcontent[], c_answer, allot
 		
-		String exam = req.getParameter("exam");
-		String c_answer = req.getParameter("c_answer");
-		String examcode = req.getParameter("examcode");
-		System.out.println("■■■■■■■exam : "+exam+", c_answer : "+c_answer+", examcode : "+examcode);
-		Exam_Sel_DTO ESdto = new Exam_Sel_DTO(exam, examcode, c_answer);
+//		String exam = req.getParameter("exam");
+//		String c_answer = req.getParameter("c_answer");
+//		String examcode = req.getParameter("examcode");
+//		System.out.println("■■■■■■■exam : "+exam+", c_answer : "+c_answer+", examcode : "+examcode);
+//		Exam_Sel_DTO ESdto = new Exam_Sel_DTO(exam, examcode, c_answer);
+		Exam_Sel_DTO ESdto = new Exam_Sel_DTO(exam, examcode, c_answer, examnum, allot);
+		System.out.println(ESdto);
 		
-		String examcontent = req.getParameter("examcontent");
-		String examnum = req.getParameter("examnum");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("examcontent", examcontent);
-		map.put("examnum", examnum);
-		map.put("examcode", examcode);
-		System.out.println("■■■■■■■examcontent : "+examcontent+", examnum : "+examnum+", examcode : "+examcode);
-		boolean isc = iService.examsel_Modify(ESdto, map);
+//		String examcontent = req.getParameter("examcontent");
+//		String examnum = req.getParameter("examnum");
 		
-		return "";
+		List<ContentSelect_DTO> list = new ArrayList<ContentSelect_DTO>();
+		for (int i = 0; i < examcontent.length; i++) {			
+			ContentSelect_DTO dto = new ContentSelect_DTO(examcode, contentnum[i], examcontent[i]);
+			System.out.println(dto);
+			list.add(dto);
+		}
+//		System.out.println("■■■■■■■examcontent : "+examcontent+", examnum : "+examnum+", examcode : "+examcode);
+		boolean isc = iService.examsel_Modify(ESdto, list);
+		
+		//allot, examnum, examcode
+		model.addAttribute("allot", allot);
+		model.addAttribute("examnum", examnum);
+		model.addAttribute("examcode", examcode);
+		
+		return "redirect:./test_ExamModify.do";
 	}
 	
 	// 서술형 문제 수정
@@ -514,7 +576,7 @@ public class TestController {
 //		System.out.println("★★★★★★★★★ allot : "+allot+", examnum : "+examnum);
 		
 //		return "redirect:/test_ExamModify.do?examnum="+dto.getExamnum()+"&examcode="+dto.getExamcode()+"&allot="+dto.getAllot();
-		return "redirect:/test_ExamModify.do";
+		return "redirect:./test_ExamModify.do";
 	}
 	
 	
@@ -562,7 +624,7 @@ public class TestController {
 		for(Test_Exam_DTO dto:list) {
 			System.out.println(dto);
 		}
-		return "te_selectlist";
+		return "test_DescriptionListForm";
 	}
 
 	//과제에 해당하는 문제리스트 조회(선택형)

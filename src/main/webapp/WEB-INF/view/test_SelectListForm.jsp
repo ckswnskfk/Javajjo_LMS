@@ -52,7 +52,7 @@
 				<tr>
 					<td><input type="checkbox" name="del"></td>
 					<td><%=dto.getExamnum() %></td>
-					<td><a href="./desc_Exam_ModifyForm.do?examcode=<%=dto.getExamcode()%>&examnum=<%=dto.getExamnum()%>&allot=<%=dto.getAllot()%>"><%=dto.getExam() %></a></td>
+					<td><a href="./sel_Exam_ModifyForm.do?examcode=<%=dto.getExamcode()%>&examnum=<%=dto.getExamnum()%>&allot=<%=dto.getAllot()%>"><%=dto.getExam() %>||<%=dto.getExamcode()%></a></td>
 					<td><%=dto.getAllot() %></td>
 				</tr>
 			<% 

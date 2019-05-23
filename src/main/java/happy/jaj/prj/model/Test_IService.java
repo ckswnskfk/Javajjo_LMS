@@ -56,7 +56,7 @@ public interface Test_IService {
 //		// 과제에 문제등록 
 		
 		
-		public boolean examsel_Modify(Exam_Sel_DTO Edto, Map<String, String> map);
+		public boolean examsel_Modify(Exam_Sel_DTO Edto, List<ContentSelect_DTO> dto);
 //		//문제 수정(선택형)
 //		public boolean examsel_modify(Exam_Sel_DTO dto);
 //		//문항 수정

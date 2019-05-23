@@ -149,14 +149,14 @@
 
 	<!--과제에 해당하는 문제 조회(선택형)  -->
 	<select id="te_testselect" parameterType="java.util.Map" resultType="ExamSelDTO">
-		SELECT EXAM, ALLOT, EXAMNUM
+		SELECT EXAM, EXAMCODE, C_ANSWER, EXAMNUM, ALLOT
 		FROM TEST_EXAM JOIN EXAMSELECT USING(EXAMCODE)
 		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
 	</select>
 	
 	<!--과제에 해당하는 문제리스트 조회(선택형) -->
 	<select id="te_testselectlist" parameterType="java.lang.String" resultType="TestExamDTO">
-		SELECT EXAMNUM, EXAM, ALLOT
+		SELECT EXAMNUM, EXAM, ALLOT, C_ANSWER, EXAMCODE
 		FROM TEST_EXAM JOIN EXAMSELECT USING(EXAMCODE)
 		WHERE TESTCODE = #{testcode} 
 		ORDER BY EXAMNUM
@@ -169,10 +169,10 @@
 	</insert>
 
 	<!--문항 수정   -->
-	<update id="content_modify" parameterType="java.util.Map">
+	<update id="content_modify" parameterType="ContentSelectDTO">
 		UPDATE CONTENTSELECT
 		SET EXAMCONTENT=#{examcontent}
-		WHERE EXAMCODE = #{examcode} AND EXAMNUM=#{examnum}
+		WHERE EXAMCODE = #{examcode} AND CONTENTNUM=#{contentnum}
 	</update>
 
 	<!--문제의 문항 조회   -->

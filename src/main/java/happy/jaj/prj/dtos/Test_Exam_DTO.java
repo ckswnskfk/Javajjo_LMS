@@ -11,14 +11,19 @@ public class Test_Exam_DTO {
 	public Test_Exam_DTO() {
 	}
 
-	public Test_Exam_DTO(String testcode, String examcode, String allot, String examnum) {
+	
+	
+	public Test_Exam_DTO(String testcode, String examcode, String allot, String examnum, String exam) {
 		super();
 		this.testcode = testcode;
 		this.examcode = examcode;
 		this.allot = allot;
 		this.examnum = examnum;
+		this.exam = exam;
 	}
-	
+
+
+
 	public Test_Exam_DTO(String examnum, String exam, String allot) {
 		this.examnum = examnum;
 		this.exam = exam;

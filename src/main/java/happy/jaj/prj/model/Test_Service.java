@@ -115,14 +115,21 @@ public class Test_Service implements Test_IService {
 	//선택형 문제 수정
 	@Transactional
 	@Override
-	public boolean examsel_Modify(Exam_Sel_DTO dto, Map<String, String> map) {
-		logger.info("Test_Service examsel_Modify {}",dto);
-		logger.info("Test_Service examsel_Modify {}",map);
-		boolean isc1 = test_Interface.examsel_modify(dto);
+	public boolean examsel_Modify(Exam_Sel_DTO ESdto, List<ContentSelect_DTO> list) {
+		logger.info("Test_Service examsel_Modify {}",ESdto);
+
+		boolean isc1 = test_Interface.examsel_modify(ESdto);
 		System.out.println("선택형 문제 수정 성공? "+isc1);
-		boolean isc2 = test_Interface.content_modify(map);
-		System.out.println("선택형 문제의 문항 수정 성공? "+isc2);
-		return isc1==true && isc2==true ? true:false;
+		int cnt =0;
+		
+		for(ContentSelect_DTO dto: list) {
+			boolean isc2 = test_Interface.content_modify(dto);
+			if(isc2 == true) {
+				cnt++;
+			}
+		}
+	
+		return (cnt==list.size())? true:false;
 	}
 	
 	//서술형 문제 수정

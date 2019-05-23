@@ -66,7 +66,7 @@ public interface Test_Interface {
 	//문항 등록
 	public boolean content_insert(ContentSelect_DTO dto);
 	//문항 수정
-	public boolean content_modify(Map<String, String> map);
+	public boolean content_modify(ContentSelect_DTO dto);
 	//문제의 문항 조회
 	public List<ContentSelect_DTO> content_select(String seq);
 	//학생 서술형 답안 등록

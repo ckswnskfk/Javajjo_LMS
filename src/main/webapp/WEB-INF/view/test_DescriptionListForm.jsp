@@ -1,3 +1,4 @@
+<%@page import="org.springframework.ui.Model"%>
 <%@page import="java.util.List"%>
 <%@page import="happy.jaj.prj.dtos.Test_Exam_DTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,10 +11,10 @@
 <meta charset="UTF-8">
 <title>과제 관리</title>
 <script type="text/javascript" src="./js/test.js"></script>
+</head>
 <%
 	List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)request.getAttribute("dto");
 %>
-</head>
 <body>
 	<h1>과제 등록</h1>
 		<h4>과정명 : ${testsession.coursename}</h4>

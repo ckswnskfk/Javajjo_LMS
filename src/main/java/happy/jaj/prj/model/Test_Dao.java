@@ -142,9 +142,9 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public boolean content_modify(Map<String, String> map) {
-		logger.info("Test_Dao content_modify {}",map);
-		int n = sqlSession.update(NS+"content_modify",map);
+	public boolean content_modify(ContentSelect_DTO dto) {
+		logger.info("Test_Dao content_modify {}",dto);
+		int n = sqlSession.update(NS+"content_modify",dto);
 		return n>0? true:false;
 	}
 

@@ -40,6 +40,7 @@ function descexaminsert(){
 		allot.focus();
 		return false;
 	}else{
+		alert("해당없음");
 		return true;
 	}
 
@@ -79,6 +80,28 @@ function selexaminsert(){
 	}else{
 		return true;
 	} 
+}
+
+function coursecnt(){
+//	location.href="./test_Course_Cnt.do";
+	$.ajax({
+		url : "./test_Course_Cnt.do",
+		type : "post",
+		success : function(){
+			// 팝업창 띄움
+		}
+	});
+}
+
+function examlist(){
+	//location.href="./test_ExamList.do";
+	a.jax({
+		url : "./test_ExamList.do",
+		type : "post",
+		success : function(){
+			// 팝업창 띄움
+		}
+	});
 }
 
 
