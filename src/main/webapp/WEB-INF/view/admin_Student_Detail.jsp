@@ -19,7 +19,7 @@
 		<div class="tabbable">
 			<ul class="nav nav-tabs padding-18">
 				<li class="active">
-					<a data-toggle="tab" onclick="location.href='./admin_info.do'">
+					<a data-toggle="tab" onclick="#home">
 						<i class="green ace-icon fa fa-user bigger-120"></i>
 						학생 상세 조회
 					</a>

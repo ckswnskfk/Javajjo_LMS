@@ -19,9 +19,9 @@
 		<div class="tabbable">
 			<ul class="nav nav-tabs padding-18">
 				<li class="active">
-					<a data-toggle="tab" onclick="location.href='./admin_info.do'">
+					<a data-toggle="tab" onclick="#home">
 						<i class="green ace-icon fa fa-user bigger-120"></i>
-						학생 상세 조회
+						학생 과정 연결
 					</a>
 			</ul>
 				<div class="tab-content no-border padding-14">
