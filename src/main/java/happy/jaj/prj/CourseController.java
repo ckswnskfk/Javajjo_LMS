@@ -32,16 +32,10 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/course_cnt.do", method=RequestMethod.GET)
-	public String course_cnt(HttpServletRequest req) {
+	public String course_cnt(Course_DTO dto) {
 		logger.info("CourseController course_cnt 실행");
-		String coursename = req.getParameter("coursename");
-		String startdate = req.getParameter("startdate");
-		Course_DTO dto = new Course_DTO();
-		dto.setCoursename(coursename);
-		dto.setStartdate(startdate);
 		int n = course_IService.course_cnt(dto);
-		req.setAttribute("n", n);
-		return "chanju_index";
+		return "course_List";
 	}
 	
 	@RequestMapping(value="/course_add.do", method=RequestMethod.GET)

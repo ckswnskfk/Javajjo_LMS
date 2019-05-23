@@ -22,7 +22,7 @@
 
 	<div>
 		<input type="button" value="과정등록"> <input type="button"
-			value="취소" onclick="history.back(-1)">
+			value="취소" onclick="location.href='./course_List.do'">
 	</div>
 	<%@include file="./include/footer.jsp"%>
 </body>

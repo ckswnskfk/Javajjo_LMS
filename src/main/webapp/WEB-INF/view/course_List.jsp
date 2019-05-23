@@ -9,8 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
-
 <body>
 <%@include file="./include/header.jsp" %>
 <form action="">
@@ -20,11 +20,14 @@
 		<td>시작 날짜</td>
 		<td>회차</td>
 	</tr>
+<%
 
+
+%>
 <c:forEach items="${list}" var="dto">
 	<tr>
 		<td>
-			<input type="radio" name="radio" value="${dto.coursecode}"> ${dto.coursename }
+			<input type="radio" name="radio" value="${dto.coursename }"> ${dto.coursename }
 		</td>
 		<td>
 		<fmt:parseDate value="${dto.startdate}" pattern="yyyy-MM-dd HH:mm:ss" var="Stringdate"/>
@@ -34,15 +37,27 @@
 	</tr>
 </c:forEach>
 </table>
-<input type="date">
+<input type="date" id="date">
 </form>
-
-
-<div>
-	<input type="button" value="과정추가">
+	<button type="button" name="button" id="readioButton"  onclick="check(this.checked)">과정횟수증가</button>
 	<input type="button" value="과정등록" onclick="location.href='./move.do'">
-</div>
+
+
 
 <%@include file="./include/footer.jsp" %>
+
+<script type="text/javascript">
+	function check(bool){
+		var chks=document.querySelector('input[name="radio"]:checked').value;
+		var date=document.querySelector('input[id="date"]').value;
+// 		alert(date);
+// 		alert(chks);
+		location.href="./course_cnt.do?coursename="+chks+"&startdate="+date
+	}
+
+	       
+
+
+</script>
 </body>
 </html>
