@@ -9,9 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
@@ -42,7 +41,28 @@
 <input type="date" id="date">
 </form>
 	<button type="button" name="button" id="readioButton"  onclick="check(this.checked)">과정횟수증가</button>
-	<input type="button" value="과정등록" onclick="location.href='./move.do'">
+	<input type="button" value="과정등록" onclick="momo()">
+
+
+<!-- Modal -->
+<div id="ccc" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <form action="#" role="form" method="get" id="modiSketchBook"></form>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
 
 
 <%@include file="./include/footer.jsp" %>
@@ -56,6 +76,43 @@
 // 		alert(date);
 // 		alert(chks);
 		location.href="./course_cnt.do?coursename="+chks+"&startdate="+date
+	}
+	
+	function momo(){
+		ajaxSketchModi();
+	}
+	
+	var ajaxSketchModi=function(){
+		$.ajax({
+			url:"course_List.do",
+			type:"get",
+			success:function(){
+				$("#ccc").modal();
+				var modiFormHTML=
+					
+			"<div class='from-group'>"+
+			"과정명 :&nbsp;&nbsp;<input type='text' name='course' ><br>"+
+			"</div>"+
+			"<div class='from-group'>"+
+			"시작날짜 :&nbsp;&nbsp;<input type='date' id='date'>"+
+			"</div>"+
+			"<div>"+
+			"<div class='modal-footer'>"+
+			"<input type='button' value='과정등록' id='course_cho' onclick='course_cho()'>"+
+	        "<button type='button' class='btn btn-default' data-dismiss='modal'>취소</button>"+
+	        "</div>"+
+			"</div>";
+			
+			$("#modiSketchBook").html(modiFormHTML);
+			}
+		});
+	}
+	function course_cho(){
+		var course=document.querySelector('input[name="course"]').value;
+		var date=document.querySelector('input[id="date"]').value;
+			alert(course);
+			alert(date);
+// 		location.href="./course_add.do?coursename="+course+"&startdate="+date
 	}
 
 </script>

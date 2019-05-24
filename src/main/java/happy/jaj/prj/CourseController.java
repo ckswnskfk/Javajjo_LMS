@@ -50,6 +50,6 @@ public class CourseController {
 	@RequestMapping(value="/move.do", method=RequestMethod.GET)
 	public String move() {
 		
-		return "course_Form";
+		return "course_List";
 	}
 }
