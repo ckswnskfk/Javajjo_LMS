@@ -141,6 +141,7 @@ public class AbsentController {
 			data = new JSONObject();
 			data.put("form_seq", list.get(i).getForm_seq());
 			data.put("app_date", list.get(i).getApp_date());
+			data.put("student_name", list.get(i).getStudent_name());
 			data.put("coursecode", list.get(i).getCoursecode());
 			data.put("coursename", list.get(i).getCoursename());
 			data.put("stm", list.get(i).getStm());

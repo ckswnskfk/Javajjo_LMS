@@ -29,13 +29,20 @@
 			success: function(obj) {
 				var ob = JSON.parse(obj);
 
-				var html = "<table class='table'><tr><td>순번</td><td>신청일</td><td>과정명</td><td>상태</td></tr>";
+				var html = "<table class='table'><tr><td>문서 번호</td><td>신청일</td>";
+				if (${member.table != 'Student'}) {
+					html += "<td>신청자 이름</td>";
+				}
+				html += "<td>과정명</td><td>상태</td></tr>";
 				
 				var htmlInvlud = "";
 				for (var i = 0; i < ob.lists.length; i++) {
 					htmlInvlud += "<tr>"
-		     					+ "<td>"+(i+1)+"</td>"
+		     					+ "<td>"+ob.lists[i].form_seq+"</td>"
 		     					+ "<td><a href='./absent_detail_yes.do?seq="+ob.lists[i].form_seq+"&id="+ob.lists[i].recipient_id+"&stm="+ob.lists[i].stm+"'>"+ob.lists[i].app_date+"</a></td>";
+		     		if(${member.table != 'Student'}){
+		     			htmlInvlud += "<td>"+ob.lists[i].student_name+"</td>" 
+		     		}
 		     		if(ob.lists[i].coursename == null){
 		     			htmlInvlud += "<td>관리자</td>"
 		     						+ "<td>"+ob.lists[i].stm+"</td>";
