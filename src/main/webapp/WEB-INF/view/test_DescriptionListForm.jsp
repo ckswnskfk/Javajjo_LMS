@@ -14,7 +14,14 @@
 </head>
 <%
 	List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)request.getAttribute("dto");
+	
 %>
+<script type="text/javascript">
+	window.onload=function(){
+		var div = document.getElementsByTagName("div")[0];
+		
+	}
+</script>
 <body>
 	<h1>과제 등록</h1>
 		<h4>과정명 : ${testsession.coursename}</h4>
@@ -27,7 +34,7 @@
 		<h4>과제 날짜 : ${testsession.testday}</h4>
 		<hr>
 		<input type="button" value="등록" onclick="location.href='./desc_ExamForm.do'">
-		<input type="button" value="추가" onclick="examlist()">
+		<input type="button" value="추가" onclick="examdesclist()">
 		<input type="button" value="복사" onclick="coursecnt()">
 		<input type="button" value="삭제" onclick="examdelete()">
 	<table>
@@ -58,6 +65,7 @@
 			<% 
 			}
 			%>
+			<div></div>
 			<tr>
 				<td>총 점</td>
 				<td colspan="3">${total}</td>

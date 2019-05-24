@@ -17,6 +17,15 @@ import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_IService {
 	
+		// 과정명이 동일한 과정들 중 회차를 선택해 문제 조회
+		public List<Test_Exam_DTO> test_coursecopy(Map<String, String> map);
+		
+		// 과목유형과 과제유형동일한 문제 조회(서술형)
+		public List<Exam_Des_DTO> test_typedesc(String subjecttype);
+		
+		// 과목유형과 과제유형동일한 문제 조회(선택형) 
+		public List<Exam_Sel_DTO> test_typesel(String subjecttype);
+	
 		//시험의 최대 번호 조회
 		public int test_maxexamnum(String testcode);
 	

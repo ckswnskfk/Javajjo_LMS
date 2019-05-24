@@ -58,6 +58,7 @@
 			<% 
 			}
 			%>
+			<div id="append"></div>
 			<tr>
 				<td>총 점</td>
 				<td colspan="3">${total}</td>

@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Test_Mapper">
 
+	<!-- 과정명이 동일한 과정들 중 회차를 선택해 문제 조회 -->
+	<select id="test_coursecopy" parameterType="java.util.Map" resultType="TestExamDTO">
+	SELECT EXAMCODE, TESTCODE
+	FROM TEST_EXAM
+ 		WHERE TESTCODE = (SELECT TESTCODE
+			FROM COURSE_SUBJECT JOIN SUBJECT_TEST USING (SUBJECTCODE)
+				WHERE COURSECODE = #{coursecode} AND SUBJECTCODE =#{subjectcode})
+	</select>
+
 	<!-- 시험의 최대 번호 조회 -->
 	<select id="test_maxexamnum" parameterType="java.lang.String" resultType="java.lang.Integer">
 	SELECT CASE NUM WHEN 0 THEN 1 ELSE NUM+1 END 
@@ -26,15 +35,30 @@
     
     <!-- 과정명이 동일한 회차 조회 -->
     <select id="test_coursecnt" parameterType="java.lang.String" resultType="CourseDTO">
-    SELECT COURSECNT
+    SELECT COURSECNT, COURSECODE
 	FROM COURSE
 	WHERE COURSENAME = #{coursename}
     </select>
     
-    <!-- 과목유형과 과제유형동일한 문제 조회 -->
-<!--     <select id="test_type"> -->
-<!--     SELECT EXAM FROM TES -->
-<!--     </select> -->
+    <!-- 과목유형과 과제유형동일한 문제 조회(서술형) -->
+    <select id="test_typedesc" parameterType="java.lang.String" resultType="ExamDesDTO">
+    SELECT EXAMCODE, EXAM, EXPLANATION, STANDARD, C_ANSWER
+	FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
+		WHERE  TESTCODE IN 
+(SELECT TESTCODE	
+	FROM TEST
+		WHERE SUBJECTTYPE = #{subjecttype} AND EXAMTYPE = '서술형')
+    </select>
+    
+        <!-- 과목유형과 과제유형동일한 문제 조회(선택형) -->
+    <select id="test_typesel" parameterType="java.lang.String" resultType="ExamSelDTO">
+    SELECT EXAMCODE, EXAM, C_ANSWER
+	FROM TEST_EXAM JOIN EXAMSELECT USING (EXAMCODE)
+		WHERE  TESTCODE IN 
+(SELECT TESTCODE	
+	FROM TEST
+		WHERE SUBJECTTYPE = #{subjecttype} AND EXAMTYPE = '선택형')
+    </select>
 
 
 	<!--과제 추가 -->

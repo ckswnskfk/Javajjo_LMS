@@ -251,5 +251,23 @@ public class Test_Dao implements Test_Interface {
 		return sqlSession.selectOne(NS+"test_maxexamnum",testcode);
 	}
 
+	@Override
+	public List<Test_Exam_DTO> test_coursecopy(Map<String, String> map) {
+		logger.info("Test_Dao test_coursecopy {}" ,map);
+		return sqlSession.selectList(NS+"test_coursecopy",map);
+	}
+
+	@Override
+	public List<Exam_Des_DTO> test_typedesc(String subjecttype) {
+		logger.info("Test_Dao test_typedesc {}", subjecttype);
+		return sqlSession.selectList(NS+"test_typedesc",subjecttype);
+	}
+
+	@Override
+	public List<Exam_Sel_DTO> test_typesel(String subjecttype) {
+		logger.info("Test_Dao test_typesel {}", subjecttype);
+		return sqlSession.selectList(NS+"test_typesel",subjecttype);
+	}
+
 	
 }

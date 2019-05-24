@@ -84,22 +84,55 @@ function selexaminsert(){
 
 function coursecnt(){
 //	location.href="./test_Course_Cnt.do";
-	$.ajax({
-		url : "./test_Course_Cnt.do",
-		type : "post",
-		success : function(){
-			// 팝업창 띄움
-		}
-	});
+	window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
+//	$.ajax({
+//		url : "./test_Course_Cnt.do",
+//		type : "post",
+//		success : function(msg){
+//			// 팝업창 띄움
+//			return msg;
+//		}
+//	});
 }
 
-function examlist(){
-	//location.href="./test_ExamList.do";
-	a.jax({
-		url : "./test_ExamList.do",
-		type : "post",
-		success : function(){
-			// 팝업창 띄움
+//function examlist(){
+//	//location.href="./test_ExamList.do";
+//	a.jax({
+//		url : "./test_ExamList.do",
+//		type : "post",
+//		success : function(){
+//			// 팝업창 띄움
+//		}
+//	});
+//}
+function examdesclist(){
+	var coursecode = window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
+}
+
+function selectCoursecnt(){
+	
+	var coursecode = document.getElementById("coursecode");
+	alert(coursecode[coursecode.selectedIndex].value);
+
+	window.opener.getReturnValue(coursecode);
+	window.close();
+	
+}
+
+function getReturnValue(coursecode){
+	$.ajax({
+		url : "./test_CouresSel.do",
+		data : {"coursecode": coursecode},
+		dataType : "json",
+		success : function(msg){
+//			alert(msg);
+			results = msg.list;
+			var html = "<tr>";
+			$.each(results , function(i){
+                html += '<td>' + results[i].examnum + '</td><td>' + results[i].exam + '</td><td>' + results[i].allot + '</td>';
+                html += '</tr>';
+           });
+//			document.getElementById("append").innerHTML = "";
 		}
 	});
 }

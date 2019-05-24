@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import happy.jaj.prj.dtos.Answer_Des_DTO;
 import happy.jaj.prj.dtos.Answer_Sel_DTO;
@@ -70,24 +71,78 @@ public class TestController {
 	// 과정명이 동일한 회차 조회
 	@RequestMapping(value="/test_Course_Cnt.do", method=RequestMethod.GET)
 	public String testCourseCnt(HttpSession session, Model model) {
+		logger.info("TESTcontroller testCourseCnt");
 		TestSession_DTO dto = (TestSession_DTO)session.getAttribute("testsession");
+		System.out.println(dto.getCoursename());
 		List<Course_DTO> list = iService.test_coursecnt(dto.getCoursename());
 		model.addAttribute("list", list);
 		
 		// ajax 처리시 여기서 반환을 무엇을 함?
-		return "";
+		return "test_CourseCnt";
 	}
 	
-	//
+	// 선택한 과정의 회차 과목의 문제 들고옴 
+	@RequestMapping(value="/test_CouresSel.do", method=RequestMethod.GET,
+			produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public List<Test_Exam_DTO> testCourseSel(HttpSession session, String coursecode, Model model) {
+		logger.info("TESTController testCourseSel");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		System.out.println(coursecode);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("subjectcode", testsession.getSubjectcode());
+		map.put("coursecode", coursecode);
+		List<Test_Exam_DTO> list = iService.test_coursecopy(map);
+		String testcode = list.get(0).getTestcode();
+		model.addAttribute("list", list);
+		if(testsession.getExamtype().equals("서술형")) {
+			int total = iService.te_selectsum(testcode);
+			model.addAttribute("total", total);
+			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+			
+			return list;
+		}else {
+			int total = iService.te_selectsum(testcode);
+			model.addAttribute("total", total);
+			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
+			
+			return list;
+		}
+	}
+	
+	// // 과목유형과 과제유형동일한 문제 조회(서술형)
+	@RequestMapping(value="/test_examdesclist.do", method=RequestMethod.POST)
+	public String testDescList(HttpSession session, Model model) {
+		logger.info("TESTController testDescList");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		
+		List<Exam_Des_DTO> list = iService.test_typedesc(testsession.getSubjecttype());
+		model.addAttribute("list", list);
+		
+		return "test_ExamList";
+	}
+
+	
+	// 과목유형과 과제유형동일한 문제 조회(선택형) 
+	@RequestMapping(value="/test_examsellist.do", method=RequestMethod.POST)
+	public String testSelList(HttpSession session, Model model) {
+		logger.info("TESTController testSelList");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		List<Exam_Sel_DTO> list = iService.test_typesel(testsession.getSubjecttype());
+		model.addAttribute("list", list);
+		return "test_ExamList";
+	}
 	
 	//담당 과정 조회
 	@RequestMapping(value="/test_Course_Insert.do", method=RequestMethod.GET)
-	public String testCourse(Model model, HttpServletResponse resp, HttpSession session) {
+	public String testCourse(Model model, HttpSession session) {
 		logger.info("TestController testCourse ");
 		// 세션에서 id 받아옴 
 //		Map<String, String> map = (Map<String, String>)session.getAttribute("member");
 //		String id = map.get("id");
-		String id = "01012345678";
+//		String id = "01012345678";
+		Map<String, String> map = (Map<String, String>)session.getAttribute("member");
+		String id = map.get("id");
 		System.out.println(id);
 		Course_DTO dto = iService.test_course(id);
 		model.addAttribute("dto", dto);

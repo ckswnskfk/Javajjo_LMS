@@ -279,6 +279,24 @@ public class Test_Service implements Test_IService {
 		logger.info("Test_Service test_maxexamnum{}",testcode);
 		return test_Interface.test_maxexamnum(testcode);
 	}
+
+	@Override
+	public List<Test_Exam_DTO> test_coursecopy(Map<String, String> map) {
+		logger.info("Test_Service test_coursecopy {}", map);
+		return test_Interface.test_coursecopy(map);
+	}
+
+	@Override
+	public List<Exam_Des_DTO> test_typedesc(String subjecttype) {
+		logger.info("Test_Service test_typedesc{}" ,subjecttype);
+		return test_Interface.test_typedesc(subjecttype);
+	}
+
+	@Override
+	public List<Exam_Sel_DTO> test_typesel(String subjecttype) {
+		logger.info("Test_Service test_typesel{}" ,subjecttype);
+		return test_Interface.test_typesel(subjecttype);
+	}
 	
 	
 
