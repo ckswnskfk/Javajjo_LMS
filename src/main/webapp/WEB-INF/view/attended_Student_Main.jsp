@@ -13,7 +13,7 @@
 <%@include file="./include/header.jsp" %>
 <input class="btn btn-sm btn-success" type="submit" value="출 석" onclick="attended()">
 
-<a href="./attended_Student_Course.do?id=01022222222">학생 과정 조회</a>
+<a href="./attended_Student_Course.do?id=${member.id}">학생 과정 조회</a>
 
 
 <%@include file="./include/footer.jsp" %>

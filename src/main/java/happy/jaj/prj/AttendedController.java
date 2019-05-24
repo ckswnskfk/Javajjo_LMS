@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.Session;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Student_DTO;
+import happy.jaj.prj.dtos.UserCourse_DTO;
 import happy.jaj.prj.model.Attended_IService;
 
 import net.nurigo.java_sdk.api.Message;
@@ -55,17 +59,27 @@ public class AttendedController {
 
 	
 	//  cal_stucos : 학생 과정 조회 (완)
-	@RequestMapping(value="/attended_Student_Course.do", method=RequestMethod.GET)
-	public String cal_stucos(HttpSession session, String id) {
+//	@RequestMapping(value="/attended_Student_Course.do", method=RequestMethod.GET)
+//	public String cal_stucos(Model model, String id) {
 //		String id = req.getParameter("id");
-		logger.info("AttendedController cal_stucos 실행");
-		List<Course_DTO> clists = attended_Iservice.cal_stucos("id");
-		session.setAttribute("clists", clists);
-		
-		logger.info("결과 값 : {}",clists);
+//		logger.info("AttendedController cal_stucos 실행");
+//		List<Course_DTO> clists = attended_Iservice.cal_stucos("id");
+//		model.addAttribute("clists", clists);
+//		logger.info("결과 값 : {}",clists);
 //		req.setAttribute("lists", lists);
+//		return "attended_Student_Course";
+//		
+//		
+//	}
+
+//	  cal_stucos : 학생 과정 조회 (완)
+	@RequestMapping(value="/attended_Student_Course.do", method=RequestMethod.GET)
+	public String cal_stucos(Model model, String id) {
+		logger.info("AttendedController cal_stucos 실행");
+		List<Course_DTO> clists = attended_Iservice.cal_stucos(id);
+		model.addAttribute("clists", clists);
+		logger.info("결과 값 : {}",clists);
 		return "attended_Student_Course";
-		
 		
 	}
 	
@@ -81,10 +95,10 @@ public class AttendedController {
 //	}
 	//	cal_stuatt : 학생 출결 조회(완)
 	@RequestMapping(value="/attended_Student.do", method=RequestMethod.GET)
-	public String cal_stuatt(String id,Model model) {
+	public String cal_stuatt(Model model, String id) {
+		logger.info("AttendedController cal_stuatt 실행");
 		List<Attended_DTO> alists = attended_Iservice.cal_stuatt(id);
 		System.out.println(alists + "------------------");
-		logger.info("AttendedController cal_stuatt 실행");
 		model.addAttribute("alists" , alists);
 		return "attended_Student";
 	}
@@ -98,9 +112,9 @@ public class AttendedController {
 	
 //	attended_Teacher_Main : 강사메인페이지
 	@RequestMapping(value="/attended_Teacher_Main.do", method=RequestMethod.GET)
-	public String attended_Teacher_Main(HttpServletRequest req, HttpServletResponse resp) {
+	public String attended_Teacher_Main() {
 		logger.info("AttendedController attended_Teacher_Main 실행");
-		return "./attended_Teacher_Main";
+		return "attended_Teacher_Main";
 	}
 	
 	//	cal_cosview : 강사 과정 조회  (완)
@@ -114,33 +128,51 @@ public class AttendedController {
 //	}
 	
 //	cal_cosview : 강사 과정 조회  (완)
+//	@RequestMapping(value="/attended_Teacher_Course.do", method=RequestMethod.GET)
+//	public String cal_cosview(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("AttendedController attended_Teacher.do 실행");
+//		String id = req.getParameter("id");
+//		Course_DTO dto = attended_Iservice.cal_cosview(id);
+//		req.setAttribute("dto", dto);
+//		return "attended_Teacher";
+//	}
+	
+//	cal_cosview : 강사 과정 조회  (완)
 	@RequestMapping(value="/attended_Teacher_Course.do", method=RequestMethod.GET)
-	public String cal_cosview(HttpServletRequest req, HttpServletResponse resp) {
+	public String cal_cosview(Model model , String id) {
 		logger.info("AttendedController attended_Teacher.do 실행");
-		String id = req.getParameter("id");
-		Course_DTO dto = attended_Iservice.cal_cosview(id);
-		req.setAttribute("dto", dto);
+		Course_DTO cdto = attended_Iservice.cal_cosview(id);
+		model.addAttribute("cdto", cdto);
 		return "attended_Teacher";
 	}
 	
 	//	cal_monlist : 강사 캘린더 출결 조회 C201900001 (완)
-	@RequestMapping(value="/attended_Teacher.do", method=RequestMethod.GET)
-	public String cal_monlist(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("AttendedController cal_monlist 실행");
-		Map<String, String> map = new HashMap<String, String>();
-		
-		String coursecode = req.getParameter("coursecode");
-		String regdate = req.getParameter("regdate");
-		
-		
-		map.put("coursecode", coursecode);
-		map.put("regdate", regdate);
-		
-		List<Attended_DTO> lists = attended_Iservice.cal_monlist(map);
-		req.setAttribute("map", map);
-		req.setAttribute("lists", lists);
-		return "attended_Teacher";
-	}
+//	@RequestMapping(value="/attended_Teacher.do", method=RequestMethod.GET)
+//	public String cal_monlist(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("AttendedController cal_monlist 실행");
+//		Map<String, String> map = new HashMap<String, String>();
+//		
+//		String coursecode = req.getParameter("coursecode");
+//		String regdate = req.getParameter("regdate");
+//		
+//		
+//		map.put("coursecode", coursecode);
+//		map.put("regdate", regdate);
+//		
+//		List<Attended_DTO> lists = attended_Iservice.cal_monlist(map);
+//		req.setAttribute("map", map);
+//		req.setAttribute("lists", lists);
+//		return "attended_Teacher";
+//	}
+
+	
+//	@RequestMapping(value="/attended_Teacher.do", method=RequestMethod.GET)
+//	public String cal_monlist(@RequestParam Map<String, String> map, HttpServletRequest req) {
+//		logger.info("AttendedController cal_monlist 실행");
+//		Map<String, String> amap = (Map<String, String>) attended_Iservice.cal_monlist(map);
+//		req.setAttribute("amap", amap);
+//		return "attended_Teacher";
+//	}
 	//	cal_daylist : 강사 출석부 조회(완)
 //	@RequestMapping(value="/attended_Rollbook.do", method=RequestMethod.GET)
 //	public String cal_daylist(HttpServletRequest req, HttpServletResponse resp) {
@@ -169,6 +201,7 @@ public class AttendedController {
 //		req.setAttribute("lists", lists);
 //		return "attended_Detail";
 //	}
+//	cal_detail : 강사 학생 출석 상세 조회 (완)
 	@RequestMapping(value="/attended_Detail.do", method=RequestMethod.GET)
 	public String cal_detail(Model model, String id) {
 		logger.info("AttendedController cal_detail 실행");

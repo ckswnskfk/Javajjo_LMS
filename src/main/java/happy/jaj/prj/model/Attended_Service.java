@@ -25,7 +25,7 @@ public class Attended_Service implements Attended_IService {
 //  cal_stucos : 학생 과정 조회
 	@Override
 	public List<Course_DTO> cal_stucos(String id) {
-		logger.info("Attended_Service cal_stucos 실행");
+		logger.info("Attended_Service cal_stucos 실행", id);
 		return attended_Interface.cal_stucos(id);
 	}
 

@@ -11,18 +11,24 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
-<%-- <a>${lists.coursename}</a> --%>
+<h1>과정 목록 </h1>
+<p>${id}</p>
 <div>
+
+	<form action="#" method="get" id="attended_Student_Course">
+	<c:forEach var="Course_DTO" items="${clists}">
 	<table>
-	<c:forEach var="cDto" items="${cDto}" varStatus="vs">
 	<tr>
-		<td>${cDto.coursename}</td>
-		<p>${clists }</p>
-	</tr>
-	</c:forEach>
+		<th>과정명</th>
+	</tr>	
+		<tr>	
+			<td><a href="././attended_Student.do?id=${member.id}">${Course_DTO.coursename}</a></td>
+		
+		</tr>
 	</table>
+	</c:forEach>
+	</form>
 </div>
-<a href="./attended_Student.do?id=01022222222">출결상세조회</a>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

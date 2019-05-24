@@ -60,7 +60,6 @@
 	<input type="button" value="결석문자발송" onclick="sms()">
 
 
-	<a href="./attended_Detail.do?id=01011111111">출결 상세보기</a>
 
 
 	<%@include file="./include/footer.jsp"%>

@@ -11,7 +11,7 @@ WHERE ID = #{id}
 
 <!-- 학생 출결 조회 -->
 <select id="cal_stuatt" parameterType="java.lang.String" resultType="AttendedDTO">
-SELECT A_CHECK
+SELECT A_CHECK, ATTENDEDCHECK.REGDATE
 FROM USERCOURSE JOIN ATTENDEDCHECK USING (ID)
 WHERE ID = #{id}
 </select>	

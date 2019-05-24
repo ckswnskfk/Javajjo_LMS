@@ -11,10 +11,22 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
-	<c:forEach items="${lists}" var="aDto">
-		${aDto.a_check}
-		${aDto.regdate}
+<div>
+	<form action="#" method="get" id="attended_Student">
+	<table>
+		<tr>
+		<th>출결</th>
+		<th>시간</th>
+		</tr>	
+	<c:forEach var="Attended_DTO" items="${alists}">
+		<tr>
+		<td>${Attended_DTO.a_check}</td>
+		<td>${Attended_DTO.regdate}</td>
+		</tr>
 	</c:forEach>
+	</table>
+	</form>
+</div>
 <%-- <p>${lists.a_check}</p> --%>
 
 

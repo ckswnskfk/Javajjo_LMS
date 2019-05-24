@@ -8,7 +8,9 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
-<a href="./attended_Teacher.do?coursecode=C201900001&regdate=201905">강사 캘린더 조회</a>
+
+<a href="./attended_Teacher_Course.do?id=${member.id}">출결관리 이동</a>
+
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>
