@@ -36,10 +36,10 @@ public interface Absent_IService {
 	// 학생이 결석 신청을 함+신청 상태 테이블 연결
 	public int insert_absent_form(App_Form_DTO dto);
 	
-	// 강사 및 관리자가 미승인 사유를 작성+동시에 승인 여부 수정
+	// 강사 및 관리자가 미승인 사유를 작성+동시에 처리일 업데이트(미승인)+동시에 승인 여부 수정
 	public int insert_unapprove_reason(Map<String, String> map);
 	
-	// 강사 및 관리자가 승인을 함
+	// 강사 및 관리자가 승인을 함+동시에 처리일 업데이트(승인)
 	public int update_is_approve_Yes(Map<String, String> map);
 	
 }

@@ -66,7 +66,7 @@
 // 		alert(newFileName);
 		frm.action="./insert_absent_form.do";
 		frm.method="post";
-// 		frm.encoding="multipart/form-data";
+		
 		return true;
 	}
 	
@@ -82,10 +82,10 @@
     <div class="row">
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">결석 신청</h1>
-	<form action="" enctype="multipart/form-data" onsubmit="apply()">
+	<form action="#" onsubmit="apply()" enctype="multipart/form-data">
 		<input type="hidden" name="student_id" value="${member.id}">
 		<input id="coursecode" type="hidden" name="coursecode" value="">
-<!-- 		<input id="newfilename" type="hidden" name="newfilename" value=""> -->
+		<input id="newfilename" type="hidden" name="newfilename" value="">
 		<table class="table">
 			<tr>
 				<td>

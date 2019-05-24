@@ -74,6 +74,7 @@ public class AbsentController {
 			data = new JSONObject();
 			data.put("form_seq", list.get(i).getForm_seq());
 			data.put("app_date", list.get(i).getApp_date());
+			data.put("process_date", list.get(i).getProcess_date());
 			data.put("coursecode", list.get(i).getCoursecode());
 			data.put("coursename", list.get(i).getCoursename());
 			data.put("stm", list.get(i).getStm());
@@ -141,6 +142,7 @@ public class AbsentController {
 			data = new JSONObject();
 			data.put("form_seq", list.get(i).getForm_seq());
 			data.put("app_date", list.get(i).getApp_date());
+			data.put("process_date", list.get(i).getProcess_date());
 			data.put("student_name", list.get(i).getStudent_name());
 			data.put("coursecode", list.get(i).getCoursecode());
 			data.put("coursename", list.get(i).getCoursename());
@@ -228,7 +230,7 @@ public class AbsentController {
 	}
 
 	
-	// 강사 및 관리자가 미승인 사유를 작성+동시에 승인 여부 수정
+	// 강사 및 관리자가 미승인 사유를 작성+동시에 처리일 업데이트+동시에 승인 여부 수정
 	@RequestMapping(value="/insert_unapprove_reason.do", method=RequestMethod.POST)
 	public String insert_unapprove_reason(@RequestParam Map<String, String> map) {
 		logger.info("AbsentController insert_unapprove_reason 실행");

@@ -4,6 +4,7 @@ public class App_Form_DTO {
 
 	private String form_seq;
 	private String app_date;
+	private String process_date;
 	private String student_id;
 	private String student_name;
 	private String recipient_id;
@@ -60,12 +61,13 @@ public class App_Form_DTO {
 		this.stm = stm;
 	}
 
-	public App_Form_DTO(String form_seq, String app_date, String coursecode, String coursename, String reason,
+	public App_Form_DTO(String form_seq, String app_date, String process_date, String coursecode, String coursename, String reason,
 			String start_date, String absent_days, String filename, String newfilename, String stm,
 			String unapproved_reason) {
 		super();
 		this.form_seq = form_seq;
 		this.app_date = app_date;
+		this.process_date = process_date;
 		this.coursecode = coursecode;
 		this.coursename = coursename;
 		this.reason = reason;
@@ -99,6 +101,14 @@ public class App_Form_DTO {
 
 	public void setApp_date(String app_date) {
 		this.app_date = app_date;
+	}
+
+	public String getProcess_date() {
+		return process_date;
+	}
+
+	public void setProcess_date(String process_date) {
+		this.process_date = process_date;
 	}
 
 	public String getStudent_id() {

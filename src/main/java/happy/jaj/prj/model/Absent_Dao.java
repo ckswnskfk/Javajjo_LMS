@@ -99,6 +99,12 @@ public class Absent_Dao implements Absent_Interface {
 		logger.info("Absent_Dao insert_unapprove_reason 실행 {}", map);
 		return sqlSessionTemplate.insert(NS+"insert_unapprove_reason", map);
 	}
+	// 동시에 처리일 업데이트(미승인)
+	@Override
+	public int update_process_date_re(String seq) {
+		logger.info("Absent_Dao update_process_date 실행 {}", seq);
+		return sqlSessionTemplate.update(NS+"update_process_date_re", seq);
+	}
 	// 동시에 승인 여부 수정
 	@Override
 	public int update_is_approve_Re(Map<String, String> map) {
@@ -112,6 +118,13 @@ public class Absent_Dao implements Absent_Interface {
 		logger.info("Absent_Dao update_is_approve_Yes 실행 {}", map);
 		return sqlSessionTemplate.update(NS+"update_is_approve_Yes", map);
 	}
+	// 동시에 처리일 업데이트(승인)
+	@Override
+	public int update_process_date_yes(String seq) {
+		logger.info("Absent_Dao update_process_date_yes 실행 {}", seq);
+		return sqlSessionTemplate.update(NS+"update_process_date_yes", seq);
+	}
+
 
 
 }

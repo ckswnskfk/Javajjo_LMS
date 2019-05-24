@@ -42,9 +42,13 @@ public interface Absent_Interface {
 	
 	// 강사 및 관리자가 미승인 사유를 작성
 	public int insert_unapprove_reason(Map<String, String> map);
+	// 동시에 처리일 업데이트(미승인)
+	public int update_process_date_re(String seq);
 	// 동시에 승인 여부 수정
 	public int update_is_approve_Re(Map<String, String> map);
 	
 	// 강사 및 관리자가 승인을 함
 	public int update_is_approve_Yes(Map<String, String> map);
+	// 동시에 처리일 업데이트(승인)
+	public int update_process_date_yes(String seq);
 }

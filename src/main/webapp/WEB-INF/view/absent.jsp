@@ -20,6 +20,7 @@
 	});
 	
 	function stmSelect(stm) {
+		alert(stm);
 		$.ajax({
 			url: url,
 			async : false,
@@ -30,6 +31,9 @@
 				var ob = JSON.parse(obj);
 
 				var html = "<table class='table'><tr><td>문서 번호</td><td>신청일</td>";
+				if (stm != "N") {
+					html += "<td>처리일</td>";
+				}
 				if (${member.table != 'Student'}) {
 					html += "<td>신청자 이름</td>";
 				}
@@ -40,8 +44,11 @@
 					htmlInvlud += "<tr>"
 		     					+ "<td>"+ob.lists[i].form_seq+"</td>"
 		     					+ "<td><a href='./absent_detail_yes.do?seq="+ob.lists[i].form_seq+"&id="+ob.lists[i].recipient_id+"&stm="+ob.lists[i].stm+"'>"+ob.lists[i].app_date+"</a></td>";
+		     		if (stm != "N") {
+		     			htmlInvlud += "<td>"+ob.lists[i].process_date+"</td>";
+					}
 		     		if(${member.table != 'Student'}){
-		     			htmlInvlud += "<td>"+ob.lists[i].student_name+"</td>" 
+		     			htmlInvlud += "<td>"+ob.lists[i].student_name+"</td>";
 		     		}
 		     		if(ob.lists[i].coursename == null){
 		     			htmlInvlud += "<td>관리자</td>"
