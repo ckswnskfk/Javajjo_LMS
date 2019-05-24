@@ -18,6 +18,19 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
+	<!-- MultipartResolver 설정 --> 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<!--  최대 업로드 가능한 바이트 크기, -1은 제한이 없음을 의미합니다. Default(-1) -->
+		<property name="maxUploadSize" value="100000000" /> 
+	<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할 수 있는 최대 바이트 크기, 기본 값은 10240 바이트 -->
+		<property name="maxInMemorySize" value="100000000"/>
+	</bean>
+	
+	<bean id="uploadPath" class="java.lang.String">
+		<!-- 생성자를 통해 빈을 주입받음  uploadPath 를 부르면 value를 반환-->
+		<constructor-arg value="C:\\happy\\upload"/>
+	</bean>
+	
 	<!-- 메일 보내기 -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com"/> <!-- host: 서버 주소 -->

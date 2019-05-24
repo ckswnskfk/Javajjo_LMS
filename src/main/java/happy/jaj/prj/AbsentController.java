@@ -1,9 +1,13 @@
 package happy.jaj.prj;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,11 +18,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -35,6 +42,9 @@ public class AbsentController {
 	
 	@Autowired
 	private Absent_IService absent_IService;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
 	
 	// 완성
 	// 리스트 폼으로 이동
@@ -182,10 +192,37 @@ public class AbsentController {
 	// 완성
 	// 결석 신청
 	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.POST)
-	public String insert_absent_form(App_Form_DTO dto, HttpServletRequest req) {
+	public String insert_absent_form(App_Form_DTO dto, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("AbsentController insert_absent_form 실행");
-		int n = absent_IService.insert_absent_form(dto);
-		System.out.println(n);
+		String studentId = dto.getStudent_id();
+		MultipartFile reqFilename = mtReq.getFile("filename");
+		int n;
+		String filename = reqFilename.getOriginalFilename();
+		String newfilename = "";
+		
+		// 첨부한 파일 없으면 바로 결석 신청
+		if (filename.trim().equalsIgnoreCase("")) {
+			n = absent_IService.insert_absent_form(dto);
+			System.out.println(n);
+		} else {
+			// 이름 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
+			UUID uuid = UUID.randomUUID();
+			newfilename = studentId+"_"+filename+uuid.toString();
+			
+			File dir = new File(uploadPath);
+			File target = new File(uploadPath, newfilename);
+			// 폴더가 없다면 폴더를 생성
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			// 파일을 서버에 저장
+			FileCopyUtils.copy(reqFilename.getBytes(), target);
+			
+			// 받아온 dto에는 파일 이름이 없기 때문에 직접 넣어주고 dao 실행
+			dto.setFilename(filename);
+			dto.setNewfilename(newfilename);
+			n = absent_IService.insert_absent_form(dto);
+		}
 		return "absent";
 	}
 

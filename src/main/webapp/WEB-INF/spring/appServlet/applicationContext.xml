@@ -7,6 +7,8 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
+
+<!-- 환경 설정의 값 파일인 properties 파일을 읽어 spring bean으로 만들어줌 -->
 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	<property name="locations">
 		<list>
@@ -15,6 +17,7 @@
 	</property>
 </bean>
 
+<!-- dataSource로 bean을 생성 // Commons dbcp 필요로 함 -->
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 	<property name="driverClassName" value="${driver}"/>
 	<property name="url" value="${url}"/>
@@ -23,15 +26,20 @@
 	<property name="defaultAutoCommit" value="true"/>
 </bean>
 
+<!-- Mybatis 객체를 연결 정보를 spring 등록 -->
 <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
 	<property name="dataSource" ref="dataSource"/>
 	<property name="configLocation" value="/WEB-INF/spring/sqls/Mybatis-configuration.xml"/>
 </bean>
 
+<!-- mybatis-spring 사용해서 DI로 사용함 -->
+<!-- 생성된 Mybatis 객체를 Spring이 사용할 수 있는 Bean(Template) 등록 -->
 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 	<constructor-arg index="0" ref="sqlSession"/>
 </bean>
 
+<!-- Transaction 처리 spring에 등록 -->
+<!-- @Service()에 설정 메소드에 @Transaction 선언해주면 자동으로 예외 발생시 Rollback -->
 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	<property name="dataSource" ref="dataSource"/>
 </bean>
