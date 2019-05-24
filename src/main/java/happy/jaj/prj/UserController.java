@@ -57,7 +57,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	@RequestMapping(value="/logout.do", method=RequestMethod.GET)
 	public String logOut(HttpSession session) {
 		Map<String, String> map = new HashMap<String, String>();
-		map = (Map<String, String>) session.getAttribute("mem");
+		map = (Map<String, String>) session.getAttribute("member");
 		if(map!=null) {
 			session.removeAttribute("member"); //invalidate하면 모든 session이 다 사라짐, remove는 하나의 객체의 session만 지움
 		}
@@ -400,16 +400,16 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//학생 탈퇴
-	@RequestMapping(value="/admin_student_delete.do", method=RequestMethod.GET)
-	public String admin_student_delete(String[] id) {
+	@RequestMapping(value="/admin_student_delete.do", method=RequestMethod.POST)
+	public String admin_student_delete(String[] RowCheck) {
 		logger.info("UserController admin_student_delete 실행");
 		Map<String, String[]> map = new HashMap<String, String[]>();
-		map.put("list", id);
+		map.put("list", RowCheck);
 		boolean isc = user_IService.admin_student_delete(map);
 		if(isc) {
 			logger.info("--------------------------- 학생 탈퇴 완료 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_student_list.do";
 	}
 	
 	//학생 상세 조회
@@ -453,25 +453,26 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//학생 과정 연결
-	@RequestMapping(value="/admin_student_cconnect.do", method=RequestMethod.GET)
-	public String admin_student_cconnect(UserCourse_DTO dto) {
+	@RequestMapping(value="/admin_student_cconnect.do", method=RequestMethod.POST)
+	public String admin_student_cconnect(String id, String Acoursecode) {
 		logger.info("UserController admin_student_cconnect 실행");
+		UserCourse_DTO dto = new UserCourse_DTO(id, Acoursecode);
 		boolean isc = user_IService.admin_student_cconnect(dto);
 		if(isc) {
 			logger.info("--------------------------- 학생 과정 연결 완료 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_student_course.do";
 	}
 	
 	//학생 과정 삭제
-	@RequestMapping(value="/admin_student_cdelete.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin_student_cdelete.do", method=RequestMethod.POST)
 	public String admin_student_cdelete(UserCourse_DTO dto) {
 		logger.info("UserController admin_student_cdelete 실행");
 		boolean isc = user_IService.admin_student_cdelete(dto);
 		if(isc) {
 			logger.info("--------------------------- 학생 과정 삭제 완료 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_student_course.do";
 	}
 		
 }

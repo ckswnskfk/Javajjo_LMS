@@ -75,7 +75,7 @@
 	
 	<!-- 학생 탈퇴(관리자) -->
 	<update id="admin_student_delete" parameterType="java.util.Map">
-		UPDATE STUDENT SET DELFLAG ='N' WHERE ID IN
+		UPDATE STUDENT SET DELFLAG ='Y' WHERE ID IN
 		<foreach collection="list" item="id"  open="(" separator="," close=")">
 		 #{id}
 		</foreach>

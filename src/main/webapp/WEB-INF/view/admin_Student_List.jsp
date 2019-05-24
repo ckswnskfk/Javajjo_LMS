@@ -11,10 +11,11 @@
 <script type="text/javascript" src="./js/index.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
- <script type="text/javascript" src="./js/info.js"></script>
+<script type="text/javascript" src="./js/info.js"></script>
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<form action="#" onsubmit="return admin_student_delete()">
 <div id="user-profile-2" class="user-profile">
 			<div class="tabbable">
 				<ul class="nav nav-tabs padding-18">
@@ -104,8 +105,8 @@
 								</div>
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<input type="button" class="btn btn-default"
-										 value="회원 탈퇴" onclick="admin_modify()"/>
+										<input type="submit" class="btn btn-default"
+										 value="회원 탈퇴"/>
 									</div>
 								</div>
 							<div class="hr hr-5 dotted"></div>
@@ -117,6 +118,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>

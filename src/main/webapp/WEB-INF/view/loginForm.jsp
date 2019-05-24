@@ -18,7 +18,7 @@
 		<form action="#" method="post">
 	 		<table>
 	 			<tr>
-	 				<td colspan="2">
+	 				<td colspan="2">S
 	 					<div class="toggle_radio">
 		 					<input type="radio" class="toggle_option"  id="first_toggle" value="Student" name="tableChk" checked="checked">
 		 					<label for="first_toggle"><p>학생 로그인</p></label>

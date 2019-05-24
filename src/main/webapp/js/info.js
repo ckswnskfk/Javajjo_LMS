@@ -134,3 +134,53 @@ function admin_student_modify(){
 function admin_student_course(){
 	location.href="./admin_student_course.do";
 }
+
+function admin_student_delete(){
+	var check = document.getElementsByName("RowCheck");
+	var cntCheck = 0;
+	for (var i = 0; i < check.length; i++) {
+		if(check[i].checked){
+			cntCheck++;
+		}
+	}
+	if(cntCheck > 0){
+		var obj = document.forms[0]; //form 요소 모두 가져올 수 있음
+		obj.action="./admin_student_delete.do";
+		obj.method = "POST";
+		alert("학생 탈퇴 완료");
+		return true;
+	}else{
+		alert("탈퇴시킬 학생을 선택해 주세요");
+	}
+}
+
+function admin_student_cdelete(){
+	var check = document.getElementsByName("coursecode");
+	var cntCheck = 0;
+	for (var i = 0; i < check.length; i++) {
+		if(check[i].checked){
+			cntCheck++;
+		}
+	}
+	if(cntCheck > 0){
+		var obj = document.forms[0]; //form 요소 모두 가져올 수 있음
+		obj.action="./admin_student_cdelete.do";
+		obj.method = "POST";
+		obj.submit();
+	}else{
+		alert("삭제할 과정을 선택해 주세요");
+	}
+}
+
+function admin_student_cconnect(){
+	var con = confirm("과정을 추가 하시겠습니까?");
+	if(con){
+		var obj = document.forms[0]; //form 요소 모두 가져올 수 있음
+		obj.action="./admin_student_cconnect.do";
+		obj.method = "POST";
+		obj.submit();
+	}
+	else{
+		alert("취소하였습니다.");
+	}
+}

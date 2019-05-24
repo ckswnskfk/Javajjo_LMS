@@ -53,9 +53,7 @@
 	<mvc:interceptors>
 		<!-- 세션이 없는 상태에서 주소창에 .do를 입력해 접근하는 것을 막아줌 -->
 		<mvc:interceptor>
-			<mvc:mapping path="/boardWriteForm.do"/>
-			<mvc:mapping path="/mail.do"/>
-			<mvc:mapping path="/memberList.do"/>
+			<mvc:mapping path="/main.do"/>
 			<bean class="happy.jaj.prj.interceptor.Interceptor"/>
 		</mvc:interceptor>
 		

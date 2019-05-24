@@ -18,7 +18,7 @@ public class Interceptor extends HandlerInterceptorAdapter{
 		logger.info("======================인터셉터 시작=======================");
 		
 		try {
-			if (request.getSession().getAttribute("mem") == null) {
+			if (request.getSession().getAttribute("member") == null) {
 				response.sendRedirect("./loginForm.do");
 				return false;
 			}

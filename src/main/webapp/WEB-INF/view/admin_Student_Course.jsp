@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${member.name}님 마이 페이지</title>
-<link rel= "stylesheet" type="text/css" href="./css/index.css">
+<link rel= "stylesheet" type="text/css" href="./css/index.c	ss">
 <link rel= "stylesheet" type="text/css" href="./css/info.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script type="text/javascript" src="./js/index.js"></script>
@@ -15,6 +15,8 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<form action="#">
+<input type="hidden" name="id" value="${id}">
 <div id="user-profile-2" class="user-profile">
 		<div class="tabbable">
 			<ul class="nav nav-tabs padding-18">
@@ -45,7 +47,7 @@
 										<c:forEach items="${Slists}" var="sdto" varStatus="vs">
 											<div class="profile-info-row">
 											<div class="profile-info-value">
-												<input type="checkbox" value="${sdto.coursecode}">
+												<input type="radio" name="coursecode" value="${sdto.coursecode}">
 												<span>${sdto.coursename}</span>
 											</div>
 											</div>
@@ -57,9 +59,9 @@
 
 										
 											<div class="profile-info-value">
-												<select>
+												<select name="Acoursecode">
 													<c:forEach items="${Alists}" var="adto" varStatus="vs">
-													<option>${adto.coursename}</option>
+													<option value="${adto.coursecode}">${adto.coursename}</option>
 													</c:forEach>
 												</select>
 											</div>
@@ -69,7 +71,9 @@
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
 										<input type="button" class="btn btn-default"
-										 value="수정하기" onclick="admin_student_modify()"/>
+										 value="삭제하기" onclick="admin_student_cdelete()"/>
+										 <input type="button" class="btn btn-default"
+										 value="추가하기" onclick="admin_student_cconnect()"/>
 										 <input type="button" class="btn btn-default"
 										 value="목록으로" onclick="history.back()"/>
 									</div>
@@ -83,6 +87,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>
