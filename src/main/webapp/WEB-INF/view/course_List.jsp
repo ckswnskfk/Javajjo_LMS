@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
@@ -41,10 +42,12 @@
 </form>
 	<button type="button" name="button" id="readioButton"  onclick="check(this.checked)">과정횟수증가</button>
 	<input type="button" value="과정등록" onclick="location.href='./move.do'">
-
+	<input type="button" value="test" id="val">
 
 
 <%@include file="./include/footer.jsp" %>
+
+
 
 <script type="text/javascript">
 	function check(bool){
@@ -54,10 +57,39 @@
 // 		alert(chks);
 		location.href="./course_cnt.do?coursename="+chks+"&startdate="+date
 	}
+	
+	function momo(){
+		$ajax({
+			url:"./move.do",
+			type:"GET",
+			success:function(){
+			
+			}
+			
+		});
+		
+	
+// 	$(document).ready(function() {
 
-	       
+// 		$("#val").click(function() {
 
+// 			$.ajax({
 
+// 				type : "GET",
+// 				url : "./move.do",
+// 				success : function test(a) {
+// 					$("#ckck").html(a);
+// 				},
+// 				error : function error() {
+// 					alert("error");
+// 				}
+
+// 			});
+
+// 		});
+
+// 	});
+	}
 </script>
 </body>
 </html>

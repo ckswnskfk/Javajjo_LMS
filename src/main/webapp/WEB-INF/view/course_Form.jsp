@@ -15,15 +15,26 @@
 </head>
 <body>
 	<%@include file="./include/header.jsp"%>
+	<div id="ckck"></div>
 	<div>
-		과정명 :&nbsp;&nbsp;<input type="text"><br> 시작날짜
-		:&nbsp;&nbsp;<input type="date">
+		과정명 :&nbsp;&nbsp;<input type="text" name="course" ><br> 시작날짜
+		:&nbsp;&nbsp;<input type="date" id="date">
 	</div>
 
 	<div>
-		<input type="button" value="과정등록"> <input type="button"
-			value="취소" onclick="location.href='./course_List.do'">
+		<input type="button" value="과정등록" id="course_cho" onclick="course_cho()">
+		 <input type="button" value="취소" onclick="location.href='./course_List.do'">
 	</div>
 	<%@include file="./include/footer.jsp"%>
+	
+	<script type="text/javascript">
+		function course_cho(){
+			var course=document.querySelector('input[name="course"]').value;
+			var date=document.querySelector('input[id="date"]').value;
+// 			alert(course);
+// 			alert(date);
+			location.href="./course_add.do?coursename="+course+"&startdate="+date
+		}
+	</script>
 </body>
 </html>

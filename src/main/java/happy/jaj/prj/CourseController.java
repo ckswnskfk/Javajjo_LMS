@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.model.Course_IService;
@@ -35,23 +36,19 @@ public class CourseController {
 	public String course_cnt(Course_DTO dto) {
 		logger.info("CourseController course_cnt 실행");
 		int n = course_IService.course_cnt(dto);
-		return "course_List";
+		return "redirect:/course_List.do";
+		
 	}
 	
 	@RequestMapping(value="/course_add.do", method=RequestMethod.GET)
-	public String course_add(HttpServletRequest req) {
+	public String course_add(Course_DTO dto) {
 		logger.info("CourseController course_add 실행");
-		String coursename = req.getParameter("coursename");
-		String startdate = req.getParameter("startdate");
-		Course_DTO dto = new Course_DTO();
-		dto.setCoursename(coursename);
-		dto.setStartdate(startdate);
 		int n = course_IService.course_add(dto);
-		req.setAttribute("n", n);
-		return "chanju_index";
+		return "redirect:/course_List.do";
 	}
 	
 	@RequestMapping(value="/move.do", method=RequestMethod.GET)
+	@ResponseBody
 	public String move() {
 		
 		return "course_Form";

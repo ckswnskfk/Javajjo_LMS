@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data-sources>
-	<data-source id="oracle_thin-16ad42f7588-125da1c78e5b2719" provider="oracle" driver="oracle_thin" name="Oracle - XE" save-password="true" show-system-objects="true" read-only="false">
-		<connection host="192.168.10.79" port="1521" server="" database="XE" url="jdbc:oracle:thin:@//192.168.10.79:1521/XE" user="JAJ" password="QlVXcSGi" home="C:\oraclexe\app\oracle\product\11.2.0\server" type="dev">
+	<data-source id="oracle_thin-16ae4158b11-54d61be447263e5c" provider="oracle" driver="oracle_thin" name="Oracle - xe 2" save-password="true" read-only="false">
+		<connection host="localhost" port="1521" server="" database="xe" url="jdbc:oracle:thin:@//localhost:1521/xe" user="HAPPY" password="OyU2EHgjpQ==" home="C:\oraclexe\app\oracle\product\11.2.0\server" type="dev">
 			<provider-property name="@dbeaver-always-use-dba-views@" value="false"/>
 			<provider-property name="@dbeaver-sid-service@" value="SERVICE"/>
 			<provider-property name="@dbeaver-use-rule-hint@" value="false"/>
@@ -10,7 +10,7 @@
 			<provider-property name="@dbeaver-always-show-dba@" value="false"/>
 		</connection>
 	</data-source>
-	<data-source id="oracle_thin-16ae323fe80-651f3994d1a1a47a" provider="oracle" driver="oracle_thin" name="Oracle - xe" save-password="true" read-only="false">
+	<data-source id="oracle_thin-16ae74ec199-f888dc65fa550f6" provider="oracle" driver="oracle_thin" name="Oracle - xe" save-password="true" read-only="false">
 		<connection host="192.168.10.79" port="1521" server="" database="xe" url="jdbc:oracle:thin:@//192.168.10.79:1521/xe" user="JAJ" password="QlVXcSGi" home="C:\oraclexe\app\oracle\product\11.2.0\server" type="dev">
 			<provider-property name="@dbeaver-always-use-dba-views@" value="false"/>
 			<provider-property name="@dbeaver-sid-service@" value="SERVICE"/>
