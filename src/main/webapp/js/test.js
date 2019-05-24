@@ -125,14 +125,14 @@ function getReturnValue(coursecode){
 		data : {"coursecode": coursecode},
 		dataType : "json",
 		success : function(msg){
-//			alert(msg);
+			alert(msg);
 			results = msg.list;
 			var html = "<tr>";
 			$.each(results , function(i){
                 html += '<td>' + results[i].examnum + '</td><td>' + results[i].exam + '</td><td>' + results[i].allot + '</td>';
                 html += '</tr>';
            });
-//			document.getElementById("append").innerHTML = "";
+			document.getElementById("append").innerHTML = "";
 		}
 	});
 }

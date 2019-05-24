@@ -14,7 +14,9 @@
 <%
 	Course_DTO dto = (Course_DTO)request.getAttribute("dto");
 %>
+<%@include file="./include/header.jsp" %>
 <table>
+
 	<tr>
 		<td>과정명</td>
 		<td>시작날짜</td>
@@ -26,5 +28,6 @@
 		<td><%=dto.getCoursecnt() %></td>
 	</tr>
 </table>
+<%@include file="./include/footer.jsp" %>
 </body>
 </html>

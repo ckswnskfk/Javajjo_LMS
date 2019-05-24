@@ -15,6 +15,7 @@
 %>
 
 <body>
+<%@include file="./include/header.jsp" %>
 	<h1>서술문제 상세/수정</h1>
 	<form action="./desc_Exam_Modify.do" method="get" onsubmit="return descexaminsert()">
 		<input type="hidden" name="examcode" value="<%=dto.getExamcode()%>">
@@ -47,5 +48,6 @@
 		<input type="submit" value="저장">
 		<input type="button" value="취소" onclick="testback()">
 	</form>
+	<%@include file="./include/footer.jsp" %>
 </body>
 </html>

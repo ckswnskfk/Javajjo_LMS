@@ -15,6 +15,8 @@
 	List<Course_DTO> list = (List<Course_DTO>)request.getAttribute("list");
 %>
 <body>
+
+
 <h1>회차</h1>
  <form action="./test_CouresSel.do" method="get" onsubmit="return selectCoursecnt()"> 
  	<table> 
@@ -43,5 +45,6 @@
  		</tr> 
  	</table> 
  </form> 
+
 </body>
 </html>

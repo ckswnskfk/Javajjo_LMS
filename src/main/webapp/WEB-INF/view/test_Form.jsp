@@ -40,6 +40,7 @@
 	}
 </script>
 <body>
+<%@include file="./include/header.jsp" %>
 	<h1>과제 등록</h1>
 	<h4>과정명 : ${testsession.coursename}</h4>
 	<h4>과목명 : ${testsession.subjectname}</h4>
@@ -79,6 +80,6 @@
 			<% 
 		}
 		%>
-
+<%@include file="./include/footer.jsp" %>
 </body>
 </html>

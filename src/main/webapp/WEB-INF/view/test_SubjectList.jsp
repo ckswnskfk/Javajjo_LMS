@@ -16,7 +16,7 @@
 // 	String coursename = (String)session.getAttribute("coursename");
 %>
 <body>
-
+<%@include file="./include/header.jsp" %>
 <h1>과목 조회</h1>
 <h3>과정명 : ${testsession.coursename}</h3>
 <table>
@@ -39,6 +39,6 @@
 	
 </table>
 
-
+<%@include file="./include/footer.jsp" %>
 </body>
 </html>
