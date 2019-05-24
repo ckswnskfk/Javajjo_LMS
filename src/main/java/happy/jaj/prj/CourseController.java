@@ -48,7 +48,6 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/move.do", method=RequestMethod.GET)
-	@ResponseBody
 	public String move() {
 		
 		return "course_Form";

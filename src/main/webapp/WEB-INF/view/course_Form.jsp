@@ -15,7 +15,6 @@
 </head>
 <body>
 	<%@include file="./include/header.jsp"%>
-	<div id="ckck"></div>
 	<div>
 		과정명 :&nbsp;&nbsp;<input type="text" name="course" ><br> 시작날짜
 		:&nbsp;&nbsp;<input type="date" id="date">
