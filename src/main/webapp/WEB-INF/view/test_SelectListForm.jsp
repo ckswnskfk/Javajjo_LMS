@@ -27,7 +27,7 @@
 		<h4>과제 날짜 : ${testsession.testday}</h4>
 		<hr>
 		<input type="button" value="등록" onclick="location.href='./sel_ExamForm.do'">
-		<input type="button" value="추가" onclick="examlist()">
+		<input type="button" value="추가" onclick="examsellist()">
 		<input type="button" value="복사" onclick="coursecnt()">
 		<input type="button" value="삭제" onclick="examdelete()">
 

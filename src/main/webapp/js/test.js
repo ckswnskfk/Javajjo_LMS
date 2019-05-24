@@ -106,10 +106,16 @@ function coursecnt(){
 //	});
 //}
 function examdesclist(){
+	window.open("./test_examdesclist.do", "문제리스트", "width=400, height=300, left=100, top=50");
+}
+function examsellist(){
+	window.open("./test_examsellist.do", "문제리스트", "width=400, height=300, left=100, top=50");
+}
+function coursecnt(){
 	var coursecode = window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
 }
 
-function selectCoursecnt(){
+function selectCoursecnt(){ // 팝업에서 선택완료 클릭시
 	
 	var coursecode = document.getElementById("coursecode");
 	alert(coursecode[coursecode.selectedIndex].value);
@@ -120,22 +126,24 @@ function selectCoursecnt(){
 }
 
 function getReturnValue(coursecode){
+	alert("확인");
 	$.ajax({
 		url : "./test_CouresSel.do",
 		data : {"coursecode": coursecode},
 		dataType : "json",
 		success : function(msg){
-			alert(msg);
-			results = msg.list;
-			var html = "<tr>";
-			$.each(results , function(i){
-                html += '<td>' + results[i].examnum + '</td><td>' + results[i].exam + '</td><td>' + results[i].allot + '</td>';
-                html += '</tr>';
-           });
-			document.getElementById("append").innerHTML = "";
+			alert(msg.lists[0].examnum);
+//			results = msg.list;
+//			var html = "<tr>";
+//			$.each(results , function(i){
+//                html += '<td>' + results[i].examnum + '</td><td>' + results[i].exam + '</td><td>' + results[i].allot + '</td>';
+//                html += '</tr>';
+//			document.getElementById("append").innerHTML = "";
+			
 		}
 	});
 }
+
 
 
 function testback(){
