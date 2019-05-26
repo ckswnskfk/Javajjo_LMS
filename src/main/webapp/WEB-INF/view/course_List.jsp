@@ -21,10 +21,6 @@
 		<td>시작 날짜</td>
 		<td>회차</td>
 	</tr>
-<%
-
-
-%>
 <c:forEach items="${list}" var="dto">
 	<tr>
 		<td>
@@ -35,6 +31,7 @@
 		<fmt:formatDate value="${Stringdate}" pattern="yyyy-MM-dd"/>
 		</td>
 		<td>&nbsp;&nbsp;&nbsp;&nbsp;${dto.coursecnt }</td>
+		
 	</tr>
 </c:forEach>
 </table>
@@ -44,75 +41,70 @@
 	<input type="button" value="과정등록" onclick="momo()">
 
 
-<!-- Modal -->
-<div id="ccc" class="modal fade" role="dialog">
+<div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
+        <h4 class="modal-title">신규 과정 등록</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
       </div>
       <div class="modal-body">
-        <form action="#" role="form" method="get" id="modiSketchBook"></form>
+		<form action="#" role="form" method="post" id="frmModify"></form>
       </div>
-      
     </div>
-
   </div>
 </div>
-
-
-
 <%@include file="./include/footer.jsp" %>
-
-
-
 <script type="text/javascript">
+	function momo(){
+		ajaxCoadd();
+		$("#myModal").modal();
+	}
+	var ajaxCoadd=function(){
+// 		alert("asd");
+		$.ajax({
+			url:"./move.do",
+			type:"get",
+// 			data:"",
+// 			dataType:"json",
+			success:function(){
+// 				alert("haha");
+				var htmlModal=
+					"<div class='form-group'>"+
+						"<label>과정명 :&nbsp;&nbsp;</label>"+
+						"<input type='text' name='course' id='motitle' required='required'>"+
+						"</div>"+
+						"<div class='form-group'>"+
+						"<label>시작날짜 :&nbsp;&nbsp;</label>"+
+						"<input type='date' name='date' id='mocontent' required='required'>"+
+						"</div>"+
+						"<div class='modal-footer'>"+
+						"<input class='btn btn-success' type='button' value='과정등록' onclick='update()'>"+
+						"<button type='button' class-'btn btn-default' data-dismiss='modal'>취소</button>"+
+						"</div>";
+						$("#frmModify").html(htmlModal);
+			}
+		});
+	}
+	function update(){
+		var frm=document.getElementById("frmModify");
+// 		frm.action="./course_add.do";
+		var title=document.getElementById("motitle").value;
+		var content=$("#mocontent").val();
+// 		alert(title+"/"+content);
+		if(title==""||content==""){
+			alert("모든항목을 입력해주세요.")
+		}else{
+			location.href="./course_add.do?coursename="+title+"&startdate="+content
+		}
+	}
 	function check(bool){
 		var chks=document.querySelector('input[name="radio"]:checked').value;
 		var date=document.querySelector('input[id="date"]').value;
 // 		alert(date);
 // 		alert(chks);
-		location.href="./course_cnt.do?coursename="+chks+"&startdate="+date
-	}
-	
-	function momo(){
-		ajaxSketchModi();
-	}
-	
-	var ajaxSketchModi=function(){
-		$.ajax({
-			url:"course_List.do",
-			type:"get",
-			success:function(){
-				$("#ccc").modal();
-				var modiFormHTML=
-					
-			"<div class='from-group'>"+
-			"과정명 :&nbsp;&nbsp;<input type='text' name='course' ><br>"+
-			"</div>"+
-			"<div class='from-group'>"+
-			"시작날짜 :&nbsp;&nbsp;<input type='date' id='date'>"+
-			"</div>"+
-			"<div>"+
-			"<div class='modal-footer'>"+
-			"<input type='button' value='과정등록' id='course_cho' onclick='course_cho()'>"+
-	        "<button type='button' class='btn btn-default' data-dismiss='modal'>취소</button>"+
-	        "</div>"+
-			"</div>";
-			
-			$("#modiSketchBook").html(modiFormHTML);
-			}
-		});
-	}
-	function course_cho(){
-		var course=document.querySelector('input[name="course"]').value;
-		var date=document.querySelector('input[id="date"]').value;
-			alert(course);
-			alert(date);
-// 		location.href="./course_add.do?coursename="+course+"&startdate="+date
+// 		location.href="./course_cnt.do?coursename="+chks+"&startdate="+date
 	}
 
 </script>

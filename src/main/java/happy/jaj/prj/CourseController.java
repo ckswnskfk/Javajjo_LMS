@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,9 @@ public class CourseController {
 		
 	}
 	
-	@RequestMapping(value="/course_add.do", method=RequestMethod.GET)
+	
+	
+	@RequestMapping(value="/course_add.do", method=RequestMethod.POST)
 	public String course_add(Course_DTO dto) {
 		logger.info("CourseController course_add 실행");
 		int n = course_IService.course_add(dto);
@@ -48,8 +51,10 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/move.do", method=RequestMethod.GET)
+	@ResponseBody
 	public String move() {
-		
+//		JSONObject json=new JSONObject();
+//		return json.toString();
 		return "course_List";
 	}
 }

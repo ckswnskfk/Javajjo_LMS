@@ -2,12 +2,15 @@ package happy.jaj.prj;
 
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,13 +28,13 @@ public class SubjectController {
 	private Subject_IService subject_IService;
 	
 	// (강사)자신의 과정 조회
-	@RequestMapping(value="/select_course_list.do", method=RequestMethod.GET)
-	public String select_course_list(HttpServletRequest req) {
+	@RequestMapping(value="/jhw.do", method=RequestMethod.GET)
+	public String select_course_list(Course_DTO dto,Model model) {
+		System.out.println("asdfasdf");
 		logger.info("SubjectController select_course_list 실행");
-		String id = req.getParameter("id");
-		List<Course_DTO> list = subject_IService.select_course_list(id);
-		req.setAttribute("list", list);
-		return "chanju_index";
+		List<Course_DTO> lists = subject_IService.select_course_list(dto.getId());
+		model.addAttribute("list",lists);
+		return "subject_CourseList";
 	}
 	
 	// 전체 과목 조회
