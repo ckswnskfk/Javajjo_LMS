@@ -17,9 +17,9 @@
 <form action="">
 <table>
 	<tr>
-		<td>과정 이름</td>
-		<td>시작 날짜</td>
-		<td>회차</td>
+		<th>과정 이름</th>
+		<th>시작 날짜</th>
+		<th>회차</th>
 	</tr>
 <c:forEach items="${list}" var="dto">
 	<tr>

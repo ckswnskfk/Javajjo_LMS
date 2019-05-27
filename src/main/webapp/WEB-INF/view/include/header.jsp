@@ -61,7 +61,7 @@
           	</c:when>
           	<c:when test="${member.table eq 'Teacher'}">
 	          	<li class="nav-item">
-	           	 	<a class="nav-link" href="./jhw.do">과목 관리</a>
+	           	 	<a class="nav-link" href="./subject_Course1.do">과목 관리</a>
 	          	</li>
           	</c:when>
           </c:choose>

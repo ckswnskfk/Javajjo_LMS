@@ -1,6 +1,7 @@
 package happy.jaj.prj;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -29,23 +30,23 @@ public class SubjectController {
 	private Subject_IService subject_IService;
 	
 	// (강사)자신의 과정 조회
-	@RequestMapping(value="/jhw.do", method=RequestMethod.GET)
-	public String select_course_list(Course_DTO dto,HttpSession session) {
-		session.getAttribute("member");
-		System.out.println("asdfasdf");
+	@RequestMapping(value="/subject_Course1.do", method=RequestMethod.GET)
+	public String select_course_list(Course_DTO dto,HttpSession session, Model model) {
+		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
+		System.out.println(map.get("id")+"************************");
 		logger.info("SubjectController select_course_list 실행");
-		List<Course_DTO> lists = subject_IService.select_course_list(dto.getId());
-//		model.addAttribute("list",lists);
+		List<Course_DTO> lists = subject_IService.select_course_list(map.get("id"));
+		model.addAttribute("list",lists);
 		return "subject_CourseList";
 	}
 	
 	// 전체 과목 조회
 	@RequestMapping(value="/subject_select_all.do", method=RequestMethod.GET)
-	public String subject_select_all(HttpServletRequest req) {
+	public String subject_select_all(Model model) {
 		logger.info("SubjectController subject_select_all 실행");
 		List<Subject_DTO> list = subject_IService.subject_select_all();
-		req.setAttribute("list", list);
-		return "chanju_index";
+		model.addAttribute("listss", list);
+		return "addSubject";
 	}
 	
 	// 해당 과정명의 전 회차 조회
@@ -101,6 +102,12 @@ public class SubjectController {
 		int n = subject_IService.subject_add(dto);
 		req.setAttribute("n", n);
 		return "chanju_index";
+	}
+	
+	@RequestMapping(value="/add.do", method=RequestMethod.GET)
+	public String add() {
+		
+		return "addtest";
 	}
 	
 	
