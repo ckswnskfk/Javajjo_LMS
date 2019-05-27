@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Course_Subject_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
+import happy.jaj.prj.dtos.Teacher_DTO;
 import happy.jaj.prj.model.Subject_IService;
 
 @Controller
@@ -29,11 +30,12 @@ public class SubjectController {
 	
 	// (강사)자신의 과정 조회
 	@RequestMapping(value="/jhw.do", method=RequestMethod.GET)
-	public String select_course_list(Course_DTO dto,Model model) {
+	public String select_course_list(Course_DTO dto,HttpSession session) {
+		session.getAttribute("member");
 		System.out.println("asdfasdf");
 		logger.info("SubjectController select_course_list 실행");
 		List<Course_DTO> lists = subject_IService.select_course_list(dto.getId());
-		model.addAttribute("list",lists);
+//		model.addAttribute("list",lists);
 		return "subject_CourseList";
 	}
 	
