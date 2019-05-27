@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -29,25 +30,24 @@ public class BoardController {
 	@Autowired
 	private Board_IService board_IService;
 	
-	@RequestMapping(value="/notice_List.do", method=RequestMethod.GET)
-	public String notice_Allselect(HttpServletRequest req) {
+	@RequestMapping(value="/notice_list.do", method=RequestMethod.GET)
+	public String notice_Allselect(Model model) {
 		logger.info("BoardController notice_Allselect 실행");
 		RowNum_DTO dto = new RowNum_DTO();
 		List<Notice_DTO> lists = board_IService.notice_Allselect(dto);
-		req.setAttribute("lists", lists);
-		return "jemin_index";
+		model.addAttribute("lists", lists);
+		return "notice_List";
 	}
 	
-	@RequestMapping(value="/notice_Detail.do", method=RequestMethod.GET)
-	public String notice_oneselect(HttpServletRequest req) {
+	@RequestMapping(value="/notice_detail.do", method=RequestMethod.GET)
+	public String notice_oneselect(String seq, Model model) {
 		logger.info("BoardController notice_oneselect 실행");
-		String seq = req.getParameter("seq");
 		Notice_DTO dto = board_IService.notice_oneselect(seq);
-		req.setAttribute("dto", dto);
-		return "jemin_index";
+		model.addAttribute("dto", dto);
+		return "notice_Detail";
 	}
 	
-	@RequestMapping(value="/notice_Write.do", method=RequestMethod.GET)
+	@RequestMapping(value="/notice_write.do", method=RequestMethod.GET)
 	public String notice_insert(HttpServletRequest req) {
 		logger.info("BoardController notice_insert 실행");
 		String title = req.getParameter("title");
@@ -58,7 +58,7 @@ public class BoardController {
 		return "jemin_index";
 	}
 	
-	@RequestMapping(value="/notice_Search.do", method=RequestMethod.GET)
+	@RequestMapping(value="/notice_search.do", method=RequestMethod.GET)
 	public String notice_find(HttpServletRequest req) {
 		logger.info("BoardController notice_find 실행");
 		RowNum_DTO dto = new RowNum_DTO();
@@ -74,7 +74,7 @@ public class BoardController {
 		return "jemin_index";
 	}
 	
-	@RequestMapping(value="/notice_Readcount.do", method=RequestMethod.GET)
+	@RequestMapping(value="/notice_readcount.do", method=RequestMethod.GET)
 	public String notice_readcount(HttpServletRequest req) {
 		logger.info("BoardController notice_readcount 실행");
 		String seq = req.getParameter("seq");
