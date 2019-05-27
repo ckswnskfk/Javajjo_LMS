@@ -269,5 +269,24 @@ public class Test_Dao implements Test_Interface {
 		return sqlSession.selectList(NS+"test_typesel",subjecttype);
 	}
 
+	@Override
+	public Exam_Des_DTO test_examdesc(String examcode) {
+		logger.info("Test_Dao test_examdesc{}", examcode);
+		return sqlSession.selectOne(NS+"test_examdesc",examcode);
+	}
+
+	@Override
+	public Exam_Sel_DTO test_examsel(String examcode) {
+		logger.info("Test_Dao test_examsel{}", examcode);
+		return sqlSession.selectOne(NS+"test_examsel",examcode);
+	}
+
+	@Override
+	public boolean test_deltestexam(Test_Exam_DTO dto) {
+		logger.info("Test_Dao test_deltestexam {}", dto);
+		int n = sqlSession.delete(NS+"test_deltestexam",dto);
+		return (n>0)? true: false;
+	}
+
 	
 }

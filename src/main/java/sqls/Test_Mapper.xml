@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Test_Mapper">
 
+	<!-- 과제에 문제 삭제 -->
+	<delete id="test_deltestexam" parameterType="TestExamDTO">
+	DELETE FROM TEST_EXAM
+	WHERE TESTCODE=#{testcode} AND EXAMCODE=#{examcode}
+	
+	</delete>
+
 	<!-- 과정명이 동일한 과정들 중 회차를 선택해 문제 조회 -->
 	<select id="test_coursecopy" parameterType="java.util.Map" resultType="TestExamDTO">
 	SELECT EXAMCODE, TESTCODE
@@ -42,7 +49,7 @@
     
     <!-- 과목유형과 과제유형동일한 문제 조회(서술형) -->
     <select id="test_typedesc" parameterType="java.lang.String" resultType="ExamDesDTO">
-    SELECT EXAMCODE, EXAM, EXPLANATION, STANDARD, C_ANSWER
+    SELECT EXAMCODE, EXAM, EXPLANATION, STANDARD, C_ANSWER, ALLOT, EXAMNUM
 	FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
 		WHERE  TESTCODE IN 
 (SELECT TESTCODE	
@@ -52,7 +59,7 @@
     
         <!-- 과목유형과 과제유형동일한 문제 조회(선택형) -->
     <select id="test_typesel" parameterType="java.lang.String" resultType="ExamSelDTO">
-    SELECT EXAMCODE, EXAM, C_ANSWER
+    SELECT EXAMCODE, EXAM, C_ANSWER, ALLOT, EXAMNUM
 	FROM TEST_EXAM JOIN EXAMSELECT USING (EXAMCODE)
 		WHERE  TESTCODE IN 
 (SELECT TESTCODE	
@@ -154,6 +161,21 @@
 		WHERE TESTCODE=#{testcode}
 		GROUP BY TESTCODE
 	</select>
+	
+	<!-- 서술형 문제 조회 -->
+	<select id="test_examdesc" parameterType="java.lang.String" resultType="ExamDesDTO">
+	SELECT EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER
+	FROM EXAMDESCRIPTIVE
+	WHERE EXAMCODE = #{examcode}
+	</select>
+	
+	<!-- 선택형 문제 조회 -->
+	<select id="test_examsel" parameterType="java.lang.String" resultType="ExamSelDTO">
+	SELECT EXAM, EXAMCODE, C_ANSWER
+	FROM EXAMSELECT
+	WHERE EXAMCODE = #{examcode}
+	</select>
+	
 
 	<!--과제에 해당하는 문제 조회(서술형)  -->
 	<select id="te_select" parameterType="java.util.Map"

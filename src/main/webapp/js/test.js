@@ -83,8 +83,9 @@ function selexaminsert(){
 }
 
 function coursecnt(){
-//	location.href="./test_Course_Cnt.do";
+//	window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
 	window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
+//	location.href="./test_Course_Cnt.do";
 //	$.ajax({
 //		url : "./test_Course_Cnt.do",
 //		type : "post",
@@ -144,6 +145,73 @@ function getReturnValue(coursecode){
 	});
 }
 
+function testcopy(){
+	var input = document.getElementById("append");
+	var chk =  document.getElementsByName("examcode");
+	var allot = document.getElementsByName("allot");
+	var html = "";
+	for(var i=0; i<chk; i++){
+		if(chk[i].checked){
+			
+		}
+	}
+	input.innerHTML = html;
+
+	
+//	var chk = $("input:checkbox[name='examcode']").val();
+//	alert(chk);
+//	
+//	 $('input:checkbox[name="examcode"]').each(function() {
+//	      this.checked = true; //checked 처리
+//	      if(this.checked){//checked 처리된 항목의 값
+//	         
+//	      }
+//	 });
+
+	
+	return false;
+}
+
+
+
+
+function test(){
+	var bol = testExaminsert();
+	if(bol){
+		$.ajax({
+			url : "./test_typecopyexam.do",
+			data : {"allot": allot, "examcode" : examcode, "examnum":examnum},
+			type : "post",
+			async : false,
+			success : function(){
+//				opener.location.reload();
+				window.close();
+			}
+		});
+	}else{
+		return false;
+	}
+	
+//	
+	
+}
+
+
+function testExaminsert(){
+	var allot = document.getElementsByName("allot");
+	var examcode = document.getElementsByName("examcode");
+	var examnum = document.getElementsByName("examnum");
+	for(var i=0; i<allot.length; i++){
+		if(allot[i].value==""||allot[i].value==null){
+			alert("배점을 모두 입력해주세요.");
+			allot[i].focus();
+			return false;
+		}
+	}
+	
+	return true;
+	
+}
 
 
 function testback(){

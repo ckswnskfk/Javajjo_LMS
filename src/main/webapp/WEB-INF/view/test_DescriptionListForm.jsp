@@ -21,6 +21,32 @@
 		var div = document.getElementsByTagName("div")[0];
 		
 	}
+		function allSel(bool){
+			// checkbox는 value로 받으면 안된다.
+//	 		alert(bool);
+			var chks = document.getElementsByName("chk");
+			for (var i = 0; i < chks.length; i++) {
+				chks[i].checked = bool;
+			}
+		}
+		function examdelete(){
+			var frm1 = document.forms[0];
+// 			alert(frm1);
+// 			frm1.action = "./test_deleteexam.do";
+// 			frm1.method = "post";
+// 			frm1.submit();
+			var examcode = document.getElementsByName("examcode");
+			var queryString = $("form[name=del]").serialize() ;
+			$.ajax({
+				url : "./test_deleteexam.do",
+				type : "post",
+				data : queryString,
+				success : function(){
+// 					alert("성공");
+					location.reload();
+				}
+			});
+		}
 </script>
 <body>
 <%@include file="./include/header.jsp" %>
@@ -38,6 +64,7 @@
 		<input type="button" value="추가" onclick="examdesclist()">
 		<input type="button" value="복사" onclick="coursecnt()">
 		<input type="button" value="삭제" onclick="examdelete()">
+	<form action="#" name="del">
 	<table>
 		<%
 		if(list.size()==0){
@@ -49,17 +76,18 @@
 		}else{
 			%>
 			<tr>
-				<td>삭제</td>
+				<td><input type="checkbox" name="allchk" onclick="allSel(this.checked)"></td>
 				<td>No.</td>
 				<td>문제</td>
 				<td>배점</td>
 			</tr>			
 			<% 
-			for(Test_Exam_DTO dto : list){
+			for(int i=1; i<list.size(); i++){
+				Test_Exam_DTO dto = list.get(i);
 			%>
 				<tr>
-					<td><input type="checkbox" name="del"></td>
-					<td><%=dto.getExamnum() %></td>
+					<td><input type="checkbox" name="examcode" value='<%=dto.getExamcode()%>'></td>
+					<td><%=i %></td>
 					<td><a href="./desc_Exam_ModifyForm.do?examcode=<%=dto.getExamcode()%>&examnum=<%=dto.getExamnum()%>&allot=<%=dto.getAllot()%>"><%=dto.getExam() %></a></td>
 					<td><%=dto.getAllot() %></td>
 				</tr>
@@ -75,6 +103,7 @@
 		}
 		%>
 	</table>
+	</form>
 		<input type="button" value="문제 등록" onclick="examinsert()">
 		<input type="button" value="뒤로 가기" onclick="testback()">
 <%@include file="./include/footer.jsp" %>

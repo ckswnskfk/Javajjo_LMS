@@ -71,6 +71,21 @@ public class TestController {
 //		return "dd";
 //	}
 	
+	// 과제의 문제 삭제 
+	@RequestMapping(value="/test_deleteexam.do", method=RequestMethod.POST,
+			produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void test_delete(String[] examcode, HttpSession session) {
+		logger.info("TESTController test_delete ");
+		System.out.println(Arrays.toString(examcode));
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		String testcode = testsession.getTestcode();
+		for (int i = 0; i < examcode.length; i++) {
+			Test_Exam_DTO dto = new Test_Exam_DTO(testcode, examcode[i], "", "", "");
+			iService.test_deltestexam(dto);
+		}
+	}
+	
 	// 과정명이 동일한 회차 조회
 	@RequestMapping(value="/test_Course_Cnt.do", method=RequestMethod.GET)
 	public String testCourseCnt(HttpSession session, Model model) {
@@ -88,7 +103,7 @@ public class TestController {
 	@RequestMapping(value="/test_CouresSel.do", method=RequestMethod.GET,
 			produces="application/text; charset=UTF-8")
 	@ResponseBody
-	public String testCourseSel(HttpSession session, String coursecode, Model model) {
+	public String testCourseSel(HttpSession session, String coursecode, Model model, String examcode, String allot) {
 		logger.info("TESTController testCourseSel");
 		JSONObject json = new JSONObject();
 		JSONArray jLists = new JSONArray();
@@ -101,9 +116,9 @@ public class TestController {
 		map.put("coursecode", coursecode);
 		List<Test_Exam_DTO> list = iService.test_coursecopy(map);
 		for(Test_Exam_DTO dto : list) {
-			Test_Exam_DTO TEdto = new Test_Exam_DTO();
-			TEdto.setExamcode(dto.getExamcode());
-			TEdto.setTestcode(testsession.getTestcode());
+			Test_Exam_DTO TEdto = new Test_Exam_DTO(testsession.getTestcode(), examcode, allot, dto.getExamnum(), dto.getExam());
+//			TEdto.setExamcode(dto.getExamcode());
+//			TEdto.setTestcode(testsession.getTestcode());
 			System.out.println(TEdto);
 			boolean isc = iService.te_insert(TEdto);
 			System.out.println("과제에 문제등록 성공 ? "+isc);
@@ -160,19 +175,50 @@ public class TestController {
 	
 	// 과목유형 과제유형 동일한 문제 조회
 	@RequestMapping(value="/test_typecopy.do", method=RequestMethod.POST)
-	public String testTypeCopy(String[] examcode, HttpSession session) {
+	public String testTypeCopy(String[] examcode, HttpSession session, Model model) {
 		logger.info("TESTController testTypeCopy");
-		System.out.println(Arrays.toString(examcode));
+		
+		System.out.println(Arrays.toString(examcode)); //나옴
+		
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
-		for(int i=1; i<examcode.length; i++) {
-			Test_Exam_DTO TEdto = new Test_Exam_DTO();
-			TEdto.setExamcode(examcode[i]);
-			TEdto.setTestcode(testsession.getTestcode());
-			System.out.println(TEdto);
-			boolean isc = iService.te_insert(TEdto);
-			System.out.println("과제에 문제등록 성공 ? "+isc);
+		model.addAttribute("examcode",examcode);
+		int examnum = iService.test_maxexamnum(testsession.getTestcode());
+		model.addAttribute("examnum", examnum);
+
+		if(testsession.getExamtype().equals("서술형")) {
+			model.addAttribute("examtype", testsession.getExamtype());
+			List<Exam_Des_DTO> list = new ArrayList<>();
+			for(int i=0; i<examcode.length; i++) {
+				Exam_Des_DTO dto = iService.test_examdesc(examcode[i]);
+				list.add(dto);
+			}
+			model.addAttribute("list", list);
+			return "test_ExamCopyDesc";
+		}else {
+			List<Test_Exam_DTO> list = iService.te_testselectlist(testsession.getTestcode());
+			model.addAttribute("list", list);
+			return "test_ExamCopySel";
 		}
-		return "";
+		
+	}
+	
+	// 과목유형 과제유형 동일한 문제 조회 -> 문제등록
+	@RequestMapping(value="/test_typecopyexam.do", method=RequestMethod.POST,
+			produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void testTypeCopyExam(String[] examcode, String[] examnum, String[] allot, HttpSession session) {
+		logger.info("TESTController testTypeCopyExam");
+		System.out.println("문제코드 : "+Arrays.toString(examcode));
+		System.out.println("번호 : "+Arrays.toString(examnum));
+		System.out.println("배점 : "+Arrays.toString(allot));
+//		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		String testcode =  "T00052";/*testsession.getTestcode();*/
+		
+		for (int i = 0; i < allot.length; i++) {
+			Test_Exam_DTO dto = new Test_Exam_DTO(testcode, examcode[i], allot[i], examnum[i], "");
+			iService.te_insert(dto);
+		}
+		
 	}
 	
 	//담당 과정 조회

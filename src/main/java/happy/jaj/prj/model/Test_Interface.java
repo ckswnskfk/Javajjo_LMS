@@ -17,6 +17,9 @@ import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_Interface {
 	
+	// 과제의 문제 삭제
+	public boolean test_deltestexam(Test_Exam_DTO dto);
+	
 	// 과정명이 동일한 과정들 중 회차를 선택해 문제 조회
 	public List<Test_Exam_DTO> test_coursecopy(Map<String, String> map);
 	
@@ -100,6 +103,10 @@ public interface Test_Interface {
 	public Score_DTO score_select(Map<String, String> map);
 	// 총점 조회
 	public Score_DTO score_selectsum(Map<String, String> map);
+	//서술형 문제 조회
+	public Exam_Des_DTO test_examdesc(String examcode);
+	//선택형 문제 조회
+	public Exam_Sel_DTO test_examsel(String examcode);
 	
 
 }
