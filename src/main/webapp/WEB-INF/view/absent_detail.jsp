@@ -74,12 +74,14 @@
 					<textarea rows="4" cols="70" readonly="readonly">${yesMap.dto.reason}</textarea>
 				</td>
 			</tr>
-			<tr>
-				<td colspan="3">
-					<label><b>첨부 파일</b></label><br/>
-					${yesMap.dto.newfilename}
-				</td>
-			</tr>
+			<c:if test="${yesMap.dto.filename ne null}">
+				<tr>
+					<td colspan="3">
+						<label><b>첨부 파일</b></label><br/>
+						<a href="./download.do?filename=${yesMap.dto.filename}&newfilename=${yesMap.dto.newfilename}">${yesMap.dto.filename}</a>
+					</td>
+				</tr>
+			</c:if>
 			<c:if test="${yesMap.dto.stm eq 'R'}">
 				<tr>
 					<td colspan="3"><label><b>미승인 사유</b></label><br/>

@@ -20,7 +20,6 @@
 	});
 	
 	function stmSelect(stm) {
-		alert(stm);
 		$.ajax({
 			url: url,
 			async : false,
@@ -54,8 +53,14 @@
 		     			htmlInvlud += "<td>관리자</td>"
 		     						+ "<td>"+ob.lists[i].stm+"</td>";
 		     		} else {
-		     			htmlInvlud += "<td>"+ob.lists[i].coursename+"</td>"
-     								+ "<td>"+ob.lists[i].stm+"</td>";
+		     			htmlInvlud += "<td>"+ob.lists[i].coursename+"</td>";
+		     			if (ob.lists[i].stm == 'N') {
+		     				htmlInvlud += "<td>진행중</td>";
+						} else if (ob.lists[i].stm == 'Y') {
+							htmlInvlud += "<td>승인</td>";
+						} else {
+							htmlInvlud += "<td>미승인</td>";
+						}
 					}
 				}
 				html += htmlInvlud;
@@ -70,6 +75,11 @@
 			}
 		});
 	}
+	
+	function addSignature() {
+		
+	}
+	
 </script>
 
 <!-- Page Content -->

@@ -2,6 +2,8 @@ package happy.jaj.prj;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -109,6 +113,15 @@ public class AbsentController {
 		System.out.println(yesMap);
 		req.setAttribute("yesMap", yesMap);
 		return "absent_detail";
+	}
+	
+	// 상세조회한 신청서에서 첨부파일 다운
+	@RequestMapping(value="/download.do", method=RequestMethod.GET)
+	public ModelAndView download(HttpServletRequest req, HttpServletResponse resp, String newfilename) {
+		String fullPath = uploadPath+"\\"+newfilename;
+		File file = new File(fullPath);
+		// download라는 id를 가진 Bean에 downloadFile 이라는 이름의 file을 전달
+		return new ModelAndView("download","downloadFile",file);
 	}
 
 	// 승인으로 통합해서 사용
@@ -198,7 +211,7 @@ public class AbsentController {
 	public String insert_absent_form(App_Form_DTO dto, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("AbsentController insert_absent_form 실행");
 		String studentId = dto.getStudent_id();
-		MultipartFile reqFilename = mtReq.getFile("filename");
+		MultipartFile reqFilename = mtReq.getFile("originalfilename");
 		int n;
 		String filename = reqFilename.getOriginalFilename();
 		String newfilename = "";
@@ -210,7 +223,11 @@ public class AbsentController {
 		} else {
 			// 이름 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
 			UUID uuid = UUID.randomUUID();
-			newfilename = studentId+"_"+filename+uuid.toString();
+			Date from = new Date();
+			SimpleDateFormat transFormat  = new SimpleDateFormat("yyyy-MM-dd");
+			String today = transFormat .format(from);
+
+			newfilename = uuid.toString()+"_"+today+"_"+studentId+"_"+filename;
 			
 			File dir = new File(uploadPath);
 			File target = new File(uploadPath, newfilename);

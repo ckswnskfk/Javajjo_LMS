@@ -31,6 +31,12 @@
 		<constructor-arg value="C:\\happy\\upload"/>
 	</bean>
 	
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"/> 
+	</bean>
+	
+	<bean id="download" class="happy.jaj.prj.util.DownloadView"/>
+	
 	<!-- 메일 보내기 -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com"/> <!-- host: 서버 주소 -->
