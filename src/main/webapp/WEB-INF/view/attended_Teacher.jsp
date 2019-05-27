@@ -1,39 +1,68 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    
+    <%
+    request.setCharacterEncoding("UTF-8");
+ 	response.setContentType("text/html; charset=UTF-8");
+%>   
+    
+<%-- <%@page import="net.sf.json.JSONArray"%> --%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="happy.jaj.prj.dtos.Attended_DTO"%>
+<%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+    
+   
+    
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
+    
+  <%	
+ 	List<Attended_DTO> lists = (List<Attended_DTO>)request.getAttribute("lists");
+%>    
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
+
+
 <title>강사 캘린더 조회</title>
-  
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>  
-<script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+
+
+
+</head>
+<body>
+
+
+ <%@include file="./include/header.jsp" %>
+ 
+ <script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
 <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
 
 
-
-</head>
-<body>
-<%@include file="./include/header.jsp" %>
-
-
-<h1>강사 캘린더</h1>
-<br>
-
-
-<p>과정명</p>
-<p>${cdto.coursename}</p>
-
-<div id="calendar" style="height: 800px;"></div>	
+ 
+	<h1>과정명 : </h1>	<p>${Course_DTO.coursename}</p>
+	
+	<div id="menu">
+		  <p id="now"></p>		  
+	      <button id="prev">◀</button>
+	      <button id="next">▶</button>      
+	    </div>
+	    
+	<div id="calendar" style="height: 800px;" style="weight: 800px;"></div>	
 	
 		<script type="text/javascript">
 	
@@ -103,74 +132,49 @@
 		var calendar = new Calendar('#calendar', {
 			  defaultView: 'month',		 
 			  template: templates,
-			  useCreationPopup: true,
+			  useCreationPopup: false,
 			  useDetailPopup: true
 			});					
 		
 		
 		// 스케쥴 생성
-		calendar.on('beforeCreateSchedule',function(schedule){		
-			
-			 const result = {
-					    calendarId: 'Major Lecture',
-					    id: String(Math.random() * 100000000000000000),
-					    title: schedule.title,
-					    isAllDay: schedule.isAllDay,
-					    start: schedule.start,
-					    end: schedule.end,
-					    category: schedule.isAllDay ? 'allday' : 'time'
-			 };
-			 calendar.createSchedules([result]);
-			
-			alert(schedule.title);
-			
-			//location.href="./insert.do?title="+schedule.title;
-		});
-		
-		// 애가 기본 수정 
-		calendar.on('beforeUpdateSchedule', function(scheduleData) {							
-			  const {schedule} = scheduleData;
-			   alert(schedule.title);
-			  calendar.updateSchedule(schedule.id, schedule.calendarId, {start:schedule.start,end:schedule.end});
-		});
-		// 앤 모르겠다 
-	 	calendar.on('clickSchedule', function(event) {
-		       var schedule = event.schedule;
-		     
-		          if (lastClickSchedule) {
-		              calendar.updateSchedule(lastClickSchedule.id, lastClickSchedule.calendarId, {
-		                  isFocused: false
-		              });
-		          }
-		          calendar.updateSchedule(schedule.id, schedule.calendarId, {
-		             isFocused: true
-		          });
-		     
-		         lastClickSchedule = schedule;
-		         // open detail view
-		     });
+		calendar.on('beforeCreateSchedule',function(schedule){
+			var date = schedule.start;
+			var month = date.getMonth()+1+"";
+			if(month.length == 1){
+				month = "0"+month;
+			}
+			var day = ""+date.getDate();
+			if(day.length == 1){
+				day = "0"+day;
+			}
+			var result = date.getFullYear()+month+day;
+
+			alert(result);
+			location.href="attended_Rollbook.do?regdate="+result;
+		});		
 	 	
-	 	// 마우스 드래그시 
-	 	calendar.on('beforeUpdateSchedule', function(event) {
-	 	         var schedule = event.schedule;
-	 	         var startTime = event.start;
-	 	         var endTime = event.end;
-	 	    
-	 	         calendar.updateSchedule(schedule.id, schedule.calendarId, {
-	 	             start: startTime,
-	 	             end: endTime
-	 	         });
-	 	     });
+	 	$(document).ready(function (){
+			// 달 이동
+		 	$("#prev").click(function() {
+		 		calendar.move(-1);
+		 		calendar.render();
+		 		$("#now").html("<b>"+(calendar.getDate().getFullYear())+"년 "+(calendar.getDate().getMonth()+1)+"월</b>");
+			});	 	
+		 	
+		 	$("#next").click(function() {
+		 		calendar.move(1);
+		 		calendar.render();
+		 		$("#now").html("<b>"+(calendar.getDate().getFullYear())+"년 "+(calendar.getDate().getMonth()+1)+"월</b>");
+			});	 	
+	 	});
 		 
 	</script>
 
 
-
-
-
-
-
 <div>
+
+	
 
 
 		<form action="#" method="get" id="rollbook">

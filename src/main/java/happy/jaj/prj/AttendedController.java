@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
@@ -162,13 +163,13 @@ public class AttendedController {
 //	}
 
 	
-//	@RequestMapping(value="/attended_Teacher.do", method=RequestMethod.GET)
-//	public String cal_monlist(@RequestParam Map<String, String> map, HttpServletRequest req) {
-//		logger.info("AttendedController cal_monlist 실행");
-//		Map<String, String> amap = (Map<String, String>) attended_Iservice.cal_monlist(map);
-//		req.setAttribute("amap", amap);
-//		return "attended_Teacher";
-//	}
+	@RequestMapping(value="/attended_Teacher.do", method=RequestMethod.POST)
+	public String cal_monlist(@RequestParam Map<String, String> map) {
+		String amap = attended_Iservice.cal_monlist(map);
+		System.out.println(amap);
+		logger.info("AttendedController cal_monlist 실행");
+		return "attended_Teacher";
+	}
 	//	cal_daylist : 강사 출석부 조회(완)
 //	@RequestMapping(value="/attended_Rollbook.do", method=RequestMethod.GET)
 //	public String cal_daylist(HttpServletRequest req, HttpServletResponse resp) {

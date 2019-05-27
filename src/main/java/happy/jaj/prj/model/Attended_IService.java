@@ -19,7 +19,7 @@ public interface Attended_IService {
 	public Course_DTO cal_cosview(String id);
 	
 	//	cal_monlist : 강사 캘린더 출결 조회
-	public List<Attended_DTO> cal_monlist(Map<String, String> map);	
+	public String cal_monlist(Map<String, String> map);	
 
 	//	cal_daylist : 강사 출석부 조회
 	public List<Attended_DTO> cal_daylist(String regdate);

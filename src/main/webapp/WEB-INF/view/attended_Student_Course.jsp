@@ -16,10 +16,10 @@
 <div>
 
 	<form action="#" method="get" id="attended_Student_Course">
+
 	<c:forEach var="Course_DTO" items="${clists}">
 	<table>
 	<tr>
-		<th>과정명</th>
 	</tr>	
 		<tr>	
 			<td><a href="././attended_Student.do?id=${member.id}">${Course_DTO.coursename}</a></td>

@@ -34,8 +34,7 @@
 		<td>${Student_DTO.name}</td>
 		<td>${Student_DTO.gender}</td>
 		<td>${Student_DTO.birth}</td>
-		<td>${Attended_DTO.a_check}</td>
-		<td>${Attended_DTO.regdate}</td>
+		<td>${Student_DTO.regdate}</td>
 		<td>${Student_DTO.a_check}</td>
 
 	</tr>
