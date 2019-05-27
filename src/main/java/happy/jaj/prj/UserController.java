@@ -321,29 +321,29 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//회원가입 신청 승인
-	@RequestMapping(value="/admin_accept.do", method=RequestMethod.GET)
-	public String admin_accept(String[] id) {
+	@RequestMapping(value="/admin_accept.do", method=RequestMethod.POST)
+	public String admin_accept(String[] RowCheck) {
 		logger.info("UserController admin_accept 실행");
 		Map<String, String[]> map = new HashMap<String, String[]>();
-		map.put("list", id);
+		map.put("list", RowCheck);
 		boolean isc = user_IService.admin_accept(map);
 		if(isc) {
 			logger.info("--------------------------- 가입 신청 승인 완료 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_accept_list.do";
 	}
 	
 	//회원가입 신청 거절
-	@RequestMapping(value="/admin_accept_refuse.do", method=RequestMethod.GET)
-	public String admin_accept_refuse(String[] id) {
+	@RequestMapping(value="/admin_accept_refuse.do", method=RequestMethod.POST)
+	public String admin_accept_refuse(String[] RowCheck) {
 		logger.info("UserController admin_accept_refuse 실행");
 		Map<String, String[]> map = new HashMap<String, String[]>();
-		map.put("list", id);
+		map.put("list", RowCheck);
 		boolean isc = user_IService.admin_accept_refuse(map);
 		if(isc) {
 			logger.info("--------------------------- 가입 신청 거절 완료 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_accept_list.do";
 	}
 	
 	//강사 조회
@@ -357,36 +357,55 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//강사 탈퇴
-	@RequestMapping(value="/admin_teacher_delete.do", method=RequestMethod.GET)
-	public String admin_teacher_delete(String id) {
+	@RequestMapping(value="/admin_teacher_delete.do", method=RequestMethod.POST)
+	public String admin_teacher_delete(String RowCheck) {
 		logger.info("UserController admin_teacher_delete 실행");
-		boolean isc = user_IService.admin_teacher_delete(id);
+		boolean isc = user_IService.admin_teacher_delete(RowCheck);
 		if(isc) {
 			logger.info("--------------------------- 강사 탈퇴 완료 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_teacher_list.do";
+	}
+	
+	//강사 등록 폼 이동
+	@RequestMapping(value="/admin_teacher_add_form.do", method=RequestMethod.GET)
+	public String admin_teacher_add_form(Model model) {
+		logger.info("UserController admin_teacher_add_form 실행");
+		List<Course_DTO> Alists = user_IService.admin_student_clist_all();
+		model.addAttribute("Alists", Alists);
+		return "admin_Teacher_Add";
 	}
 	
 	//강사 등록
-	@RequestMapping(value="/admin_teacher_add.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin_teacher_add.do", method=RequestMethod.POST)
 	public String admin_teacher_add(Teacher_DTO dto) {
 		logger.info("UserController admin_teacher_add 실행");
 		boolean isc = user_IService.admin_teacher_add(dto);
 		if(isc) {
 			logger.info("--------------------------- 강사 등록 완료------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_teacher_list.do";
+	}
+	
+	//강사 정보 수정 폼 이동
+	@RequestMapping(value="/admin_teacher_modify_form.do", method=RequestMethod.GET)
+	public String admin_teacher_modify_form(Model model, String id) {
+		logger.info("UserController admin_teacher_modify_form 실행");
+		List<Course_DTO> Alists = user_IService.admin_student_clist_all();
+		model.addAttribute("Alists", Alists);
+		model.addAttribute("id", id);
+		return "admin_Teacher_Modify";
 	}
 	
 	//강사 정보 수정
-	@RequestMapping(value="/admin_teacher_modify.do", method=RequestMethod.GET)
+	@RequestMapping(value="/admin_teacher_modify.do", method=RequestMethod.POST)
 	public String admin_teacher_modify(@RequestParam Map<String, String> map) {
 		logger.info("UserController admin_teacher_modify 실행");
 		boolean isc = user_IService.admin_teacher_modify(map);
 		if(isc) {
 			logger.info("--------------------------- 강사 정보 수정 ------------관리자 ");
 		}
-		return "jemin_index";
+		return "redirect:/admin_teacher_list.do";
 	}
 	
 	//전체 학생 조회
@@ -414,10 +433,10 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//학생 상세 조회
 	@RequestMapping(value="/admin_student_detail.do", method=RequestMethod.GET)
-	public String admin_student_detail(String id, Model model, HttpSession session) {
+	public String admin_student_detail(String id, Model model) {
 		logger.info("UserController admin_student_detail 실행");
 		Student_DTO dto = user_IService.admin_student_detail(id);
-		session.setAttribute("id", id);
+		model.addAttribute("id", id);
 		model.addAttribute("dto", dto);
 		return "admin_Student_Detail";
 	}

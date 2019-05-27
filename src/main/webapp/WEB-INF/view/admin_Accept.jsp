@@ -8,13 +8,13 @@
 <link rel= "stylesheet" type="text/css" href="./css/index.css">
 <link rel= "stylesheet" type="text/css" href="./css/info.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script type="text/javascript" src="./js/index.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
  <script type="text/javascript" src="./js/info.js"></script>
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<form action="#">
 <div id="user-profile-2" class="user-profile">
 			<div class="tabbable">
 				<ul class="nav nav-tabs padding-18">
@@ -58,7 +58,7 @@
 								<div class="profile-user-info">
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 
-											<input id="allChk" type="checkbox" onclick="allChk(this)"/>
+											<input id="allChk" type="checkbox" onclick="allChk1(this)"/>
 										</div>
 									
 										<div class="profile-info-name"> No </div>
@@ -100,6 +100,12 @@
 									</div>
 									</c:forEach>
 								</div>
+								<div class="form-group">        
+							      <div class="col-sm-offset-2 col-sm-10">
+							        <button type="button" class="btn btn-default" onclick="admin_accept()">승인</button>
+							        <button type="button" class="btn btn-default" onclick="admin_accept_refuse()">미승인</button>
+							      </div>
+							    </div>
 							<div class="hr hr-5 dotted"></div>
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -109,6 +115,7 @@
 				</div>
 			</div>
 		</div>
+		</form>		
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>
