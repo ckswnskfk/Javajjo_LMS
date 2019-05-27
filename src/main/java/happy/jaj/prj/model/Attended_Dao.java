@@ -46,9 +46,9 @@ public class Attended_Dao implements Attended_Interface {
 	}
 //	cal_monlist : 강사 캘린더 출결 조회
 	@Override
-	public List<Attended_DTO> cal_monlist(Map<String, String> map) {
+	public String cal_monlist(Map<String, String> map) {
 		logger.info("Attended_Dao cal_monlist 실행{}", map);
-		return  sqlSessionTemplate.selectList(NS_Attended+"cal_monlist", map);
+		return  sqlSessionTemplate.selectOne(NS_Attended+"cal_monlist", map);
 	}
 //	cal_daylist : 강사 출석부 조회
 	@Override
@@ -62,6 +62,9 @@ public class Attended_Dao implements Attended_Interface {
 		logger.info("Attended_Dao cal_detail 실행{}", id);
 		return sqlSessionTemplate.selectList(NS_Attended+"cal_detail", id);
 	}
+	
+	
+	
 	// 결석 문자 발송 ( 생각중 )
 //	@Override
 //	public boolean cal_sms() {
