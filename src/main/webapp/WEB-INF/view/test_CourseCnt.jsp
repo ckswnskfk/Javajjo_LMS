@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 등록</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="./js/test.js"></script>
 </head>
 <%
@@ -18,7 +19,7 @@
 
 
 <h1>회차</h1>
- <form action="./test_CouresSel.do" method="get" onsubmit="return selectCoursecnt()"> 
+ <form action="./test_CouresSel.do" method="post" onsubmit="return selectCoursecnt()"> 
  	<table> 
  		<tr> 
  			<td>과정명</td> 

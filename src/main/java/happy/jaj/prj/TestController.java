@@ -99,9 +99,30 @@ public class TestController {
 		return "test_CourseCnt";
 	}
 	
-	// 선택한 과정의 회차 과목의 문제 들고옴 
-	@RequestMapping(value="/test_CouresSel.do", method=RequestMethod.GET,
+	@RequestMapping(value="/test_CouresSel.do", method=RequestMethod.POST,
 			produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void testCourseSel1(String coursecode, HttpSession session) {
+		logger.info("TESTController testCourseSel1");
+		System.out.println(coursecode);
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		boolean isc = iService.test_deltestall(testsession.getTestcode());
+		
+		System.out.println("문제 삭제 성공 ? ");
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("subjectcode", testsession.getSubjectcode());
+		map.put("coursecode", coursecode);
+		List<Test_Exam_DTO> list = iService.test_coursecopy(map); //examcode, testcode
+		for(Test_Exam_DTO dto : list) {
+			iService.te_insert(dto);
+		}
+		
+
+	}
+	// 선택한 과정의 회차 과목의 문제 들고옴 
+//	@RequestMapping(value="/test_CouresSel1.do", method=RequestMethod.GET,
+//			produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String testCourseSel(HttpSession session, String coursecode, Model model, String examcode, String allot) {
 		logger.info("TESTController testCourseSel");
@@ -168,9 +189,11 @@ public class TestController {
 	public String testSelList(HttpSession session, Model model) {
 		logger.info("TESTController testSelList");
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		
 		List<Exam_Sel_DTO> list = iService.test_typesel(testsession.getSubjecttype());
 		model.addAttribute("list", list);
-		return "test_ExamList";
+		
+		return "test_ExamListSel";
 	}
 	
 	// 과목유형 과제유형 동일한 문제 조회
@@ -258,6 +281,7 @@ public class TestController {
 	//과제 추가
 	@RequestMapping(value="/test_Input.do", method=RequestMethod.GET)
 	public String testInsert(TestSession_DTO dto, HttpSession session, Model model) {
+//		subjectcode=S00001&subjecttype=HTML&examtype=서술형&subjectname=화면%20설계
 		logger.info("TestController testInsert {}");
 		// 받는 값 : testname(test), testday(subject_test)
 		// subjectcode(subject-test), subjectname(subject), subjecttype(test), examtype(test)
@@ -353,14 +377,15 @@ public class TestController {
 		String testcode1 = "";
 		
 //		String st1 = (String)session.getAttribute("testcode");
+//		System.out.println("■■■■■■■■■■ session의 testcode : "+dto.getTestcode());
 		TestSession_DTO dto = (TestSession_DTO)session.getAttribute("testsession");
-		System.out.println("■■■■■■■■■■ session의 testcode : "+dto.getTestcode());
-		String st1 = dto.getTestcode();
-		if(st1==null) {
+		if(dto==null) {
 //			testcode1 = (String)req.getAttribute("testcode");
 			testcode1 = testcode;
 			System.out.println("■■■■■■■■■■■ 화면에서 받은 testcode : "+testcode);
 		}else {
+		    dto = (TestSession_DTO)session.getAttribute("testsession");
+			String st1 = dto.getTestcode();
 			testcode1 = st1;
 		}
 		
@@ -389,6 +414,7 @@ public class TestController {
 			model.addAttribute("dto", list);
 			
 			int total = iService.te_selectsum(testcode1);
+	
 			model.addAttribute("total", total);
 			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
 			

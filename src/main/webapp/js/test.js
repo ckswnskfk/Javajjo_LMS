@@ -118,22 +118,41 @@ function coursecnt(){
 
 function selectCoursecnt(){ // 팝업에서 선택완료 클릭시
 	
-	var coursecode = document.getElementById("coursecode");
-	alert(coursecode[coursecode.selectedIndex].value);
+	var chk = confirm("문제를 복사하기 위해서는 등록되어있는 문제를 삭제해야 합니다. 정말삭제하시겠습니까?");
+	var coursecode = document.getElementById("coursecode").value;
+//	alert(coursecode[coursecode.selectedIndex].value);
 
 	window.opener.getReturnValue(coursecode);
-	window.close();
+
+//	window.close();
+//	alert(chk);
+	
+//	var coursecnt = document.getElementsByName("coursecode");
+//	var coursecode = coursecode[coursecode.selectedIndex].value;
+//	if(chk){
+//		$.ajax({
+//			url : "./test_CouresSel.do",
+//			data : {"coursecode":coursecode},
+//			type : "post",
+//			success : function(){
+//				opener.location.reload(); 
+//				window.close();
+//			}
+//		});
+//	}
 	
 }
 
 function getReturnValue(coursecode){
-	alert("확인");
+	alert(coursecode);
 	$.ajax({
 		url : "./test_CouresSel.do",
 		data : {"coursecode": coursecode},
 		dataType : "json",
-		success : function(msg){
-			alert(msg.lists[0].examnum);
+		type : "post",
+		success : function(){
+			
+//			alert(msg.lists[0].examnum);
 //			results = msg.list;
 //			var html = "<tr>";
 //			$.each(results , function(i){

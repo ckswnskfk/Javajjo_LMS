@@ -8,6 +8,7 @@
 			<provider-property name="@dbeaver-connection-type@" value="BASIC"/>
 			<provider-property name="@dbeaver-check-schema-content@" value="false"/>
 			<provider-property name="@dbeaver-always-show-dba@" value="false"/>
+			<bootstrap autocommit="false"/>
 		</connection>
 	</data-source>
 	<data-source id="oracle_thin-16af316bc1d-42a3c48243e83aac" provider="oracle" driver="oracle_thin" name="Oracle - xe 2" save-password="true" read-only="false">

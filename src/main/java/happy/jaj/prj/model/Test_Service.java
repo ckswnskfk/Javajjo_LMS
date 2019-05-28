@@ -315,6 +315,12 @@ public class Test_Service implements Test_IService {
 		logger.info("Test_Service test_deltestexam {}", dto);
 		return test_Interface.test_deltestexam(dto);
 	}
+
+	@Override
+	public boolean test_deltestall(String testcode) {
+		logger.info("Test_Service test_deltestall {}",testcode);
+		return test_Interface.test_deltestall(testcode);
+	}
 	
 	
 

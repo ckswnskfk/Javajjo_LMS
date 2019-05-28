@@ -2,16 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Test_Mapper">
 
-	<!-- 과제에 문제 삭제 -->
+	<!-- 과제에 연결된 문제 삭제 -->
 	<delete id="test_deltestexam" parameterType="TestExamDTO">
 	DELETE FROM TEST_EXAM
 	WHERE TESTCODE=#{testcode} AND EXAMCODE=#{examcode}
+	</delete>
 	
+	<!-- 과제에 연결되 문제 모두 삭제 -->
+	<delete id="test_deltestall" parameterType="java.lang.String">
+	DELETE FROM TEST_EXAM
+	WHERE TESTCODE=#{testcode} 
 	</delete>
 
 	<!-- 과정명이 동일한 과정들 중 회차를 선택해 문제 조회 -->
 	<select id="test_coursecopy" parameterType="java.util.Map" resultType="TestExamDTO">
-	SELECT EXAMCODE, TESTCODE
+	SELECT EXAMCODE, TESTCODE, ALLOT, EXAMNUM
 	FROM TEST_EXAM
  		WHERE TESTCODE = (SELECT TESTCODE
 			FROM COURSE_SUBJECT JOIN SUBJECT_TEST USING (SUBJECTCODE)
@@ -110,7 +115,7 @@
 	<!--문제 등록(서술형)  -->
 	<insert id="examdes_insert" parameterType="ExamDesDTO">
 		<selectKey order="BEFORE" resultType="java.lang.String" keyProperty="examcode">
-		SELECT 'ED'||LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),3))+1),5,0) FROM
+		SELECT 'ED'||LPAD((TO_NUMBER(SUBSTR(MAX(EXAMCODE),3))+1),5,0) AS EXAMCODE FROM
 		EXAMDESCRIPTIVE
 		</selectKey>
 	INSERT INTO EXAMDESCRIPTIVE(EXAM, EXAMCODE, EXPLANATION, STANDARD, C_ANSWER)
@@ -155,9 +160,8 @@
 	</update>
 
 	<!--문제 총점 조회   -->
-	<select id="te_selectsum" parameterType="java.lang.String"
-		resultType="java.lang.Integer">
-		SELECT SUM(ALLOT) FROM TEST_EXAM
+	<select id="te_selectsum" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT CASE WHEN SUM(ALLOT) > 0 THEN SUM(ALLOT) ELSE 0 END FROM TEST_EXAM
 		WHERE TESTCODE=#{testcode}
 		GROUP BY TESTCODE
 	</select>

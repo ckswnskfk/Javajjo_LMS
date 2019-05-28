@@ -107,7 +107,8 @@ public class Test_Dao implements Test_Interface {
 	@Override
 	public int te_selectsum(String seq) {
 		logger.info("Test_Dao te_selectsum {}",seq);
-		return sqlSession.selectOne(NS+"te_selectsum", seq);
+		String obj = sqlSession.selectOne(NS+"te_selectsum", seq);
+		return  obj==null ? 0: Integer.parseInt(obj);
 	}
 
 	@Override
@@ -286,6 +287,13 @@ public class Test_Dao implements Test_Interface {
 		logger.info("Test_Dao test_deltestexam {}", dto);
 		int n = sqlSession.delete(NS+"test_deltestexam",dto);
 		return (n>0)? true: false;
+	}
+
+	@Override
+	public boolean test_deltestall(String testcode) {
+		logger.info("Test_Dao test_deltestall {}",testcode);
+		int n = sqlSession.delete(NS+"test_deltestall",testcode);
+		return n>0? true: false;
 	}
 
 	
