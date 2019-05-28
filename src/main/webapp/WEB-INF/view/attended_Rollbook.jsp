@@ -24,15 +24,18 @@
 					<th>이름</th>
 					<th>출결</th>
 					<th>시간</th>
-
-					<!-- 		<th>문자발송</th> -->
+				
 				</tr>
 				<c:forEach var="AttendedDTO" items="${dlists}">
 					<tr>
 						<td><a href="./attended_Detail.do?id=${AttendedDTO.id}">${AttendedDTO.id}</a></td>
 						<td>${AttendedDTO.name}</td>
-						<td>${AttendedDTO.a_check}</td>
-						<td>${AttendedDTO.regdate}</td>
+						<c:if test="${AttendedDTO.a_check == null}">
+						<td><p>결석</p></td>
+						</c:if>
+						<c:if test="${AttendedDTO.regdate == null}">
+						<td><input type="submit"  value="결석문자발송"></td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</table>
@@ -57,7 +60,6 @@
 
 		}
 	</script>
-	<input type="button" value="결석문자발송" onclick="sms()">
 
 
 

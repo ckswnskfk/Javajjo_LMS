@@ -54,7 +54,7 @@
 
 
  
-	<h1>과정명 : </h1>	<p>${Course_DTO.coursename}</p>
+	<h1>과정명 : ${cdto.coursename}</h1>	
 	
 	<div id="menu">
 		  <p id="now"></p>		  
@@ -155,7 +155,7 @@
 		});		
 	 	
 	 	$(document).ready(function (){
-			// 달 이동
+			// 달 이동 
 		 	$("#prev").click(function() {
 		 		calendar.move(-1);
 		 		calendar.render();
