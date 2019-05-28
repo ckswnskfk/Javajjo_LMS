@@ -37,7 +37,7 @@
 	
 	<!-- 강의실 추가 -->
 	<insert id="room_add" parameterType="EmptyDTO">
-	INSERT INTO EMPTY_BOARD VALUES(#{code},#{name},#{personel})
+	INSERT INTO EMPTY_BOARD VALUES(EMPTY_BOARD_SEQ.NEXTVAL,#{name},#{personel})
 	</insert>
 
 

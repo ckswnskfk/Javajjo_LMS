@@ -153,18 +153,13 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/room_main.do", method=RequestMethod.GET)
-	public String room_main() {
+	public String room_main(Model model) {
 		logger.info("BoardController room_main 실행");
+		List<Empty_DTO> lists = board_IService.room_boardlist();
+		model.addAttribute("lists", lists);
 		return "room_Main";
 	}
 	
-	@RequestMapping(value="/room_boardlist.do", method=RequestMethod.GET)
-	public String room_boardlist(HttpServletRequest req) {
-		logger.info("BoardController room_boardlist 실행");
-		List<Empty_DTO> lists = board_IService.room_boardlist();
-		req.setAttribute("lists", lists);
-		return "jemin_index";
-	}
 	@RequestMapping(value="/room_emptyboardlist.do", method=RequestMethod.GET)
 	public String room_emptyboardlist(HttpServletRequest req) {
 		logger.info("BoardController room_emptyboardlist 실행");
@@ -204,15 +199,11 @@ public class BoardController {
 		board_IService.room_empty_cancle(dto);
 		return "jemin_index";
 	}
-	@RequestMapping(value="/room_add.do", method=RequestMethod.GET)
-	public String room_add(HttpServletRequest req) {
+	@RequestMapping(value="/room_add.do", method=RequestMethod.POST)
+	public String room_add(Empty_DTO dto) {
 		logger.info("BoardController room_add 실행");
-		String code = req.getParameter("code");
-		String name = req.getParameter("name");
-		String personel = req.getParameter("personel");
-		Empty_DTO dto = new Empty_DTO(code, name, personel);
 		board_IService.room_add(dto);
-		return "jemin_index";
+		return "redirect:/room_main.do";
 	}
 	
 }
