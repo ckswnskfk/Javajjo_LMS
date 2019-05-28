@@ -16,7 +16,7 @@
 <%@ include file="./include/header.jsp" %>
 	<div id="container">
 		<h2>공지사항 게시판</h2>
-		<form action="#" method="post" id="frm" onsubmit="return chkBox()">
+		<form action="#" method="get">
 			<table class="table table-hover" style="width: 80%; margin: 0 auto">
 				<colgroup>
 					<col width="10%">
@@ -27,33 +27,29 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<td>
-							<input type="checkbox">
-						</td>
 						<th>No</th>
 						<th>Title</th>
 						<th>Id</th>
+						<th>Readcount</th>
 						<th>Regdate</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${lists}" var="dto" varStatus="vs">
 					<tr>
-						<td>
-							<input type="checkbox">
-						</td>
 						<td>${vs.count}</td>
 						<td><a href="./notice_detail.do?seq=${dto.seq}">${dto.title}</a></td>
 						<td>${dto.id}</td>
+						<td>${dto.readcount}</td>
 						<td>${dto.regdate}</td>
 					</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 			<div class="input-group" style="width: 70%; margin: 0 auto;">
-		      <input type="text" class="form-control" placeholder="Search" name="search">
+		      <input type="text" class="form-control" placeholder="Search" name="title">
 		      <div class="input-group-btn">
-		        <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+		        <button class="btn btn-default" type="button" onclick="notice_search()"><i class="glyphicon glyphicon-search"></i></button>
 		      </div>
 		    </div>
 		    <c:choose>
@@ -64,7 +60,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<input type="button" class="btn btn-default"
-					 value="글 작성"/>
+					 value="글 작성" onclick="notice_form()"/>
 				</div>
 			</div>
 			</c:otherwise>

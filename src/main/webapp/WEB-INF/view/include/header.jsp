@@ -36,11 +36,15 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="./notice_list.do">게시판
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">게시판
+            <span class="caret"></span></a>
+	        <ul class="dropdown-menu">
+	          <li><a href="./notice_list.do">공지 게시판</a></li>
+	          <li><a href="./file_infoboardlist.do">자료 게시판</a></li>
+	          <li><a href="./room_main.do">빈 강의실</a></li>
+	        </ul>
+	      </li>
           <c:choose>
          	 <c:when test="${member.table eq 'Student'}">
           		<li class="nav-item">
@@ -69,11 +73,13 @@
          	 <c:when test="${member.table eq 'Student'}">
           		<li class="nav-item">
 				  <a class="nav-link" href="./test_Course_Submit.do">과제 관리</a>
+				  과제 제출, 성적 조회
          		</li>
          	</c:when>
          	<c:when test="${member.table eq 'Teacher'}">
          		<li class="nav-item">
          			<a class="nav-link" href="./test_Course_Insert.do">과제 관리</a>
+         			과제 등록, 과제 채점, 성적 조회
          		</li>
          	</c:when>
           </c:choose>

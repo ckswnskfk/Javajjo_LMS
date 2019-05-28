@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import happy.jaj.prj.dtos.Empty_DTO;
 import happy.jaj.prj.dtos.FileBoard_DTO;
@@ -43,114 +44,112 @@ public class BoardController {
 	public String notice_oneselect(String seq, Model model) {
 		logger.info("BoardController notice_oneselect 실행");
 		Notice_DTO dto = board_IService.notice_oneselect(seq);
-		model.addAttribute("dto", dto);
+		boolean isc =board_IService.notice_readcount(seq);
+		if(isc) {
+			model.addAttribute("dto", dto);
+		}
 		return "notice_Detail";
 	}
 	
-	@RequestMapping(value="/notice_write.do", method=RequestMethod.GET)
-	public String notice_insert(HttpServletRequest req) {
-		logger.info("BoardController notice_insert 실행");
-		String title = req.getParameter("title");
-		String content = req.getParameter("content");
-		String id = req.getParameter("id");
-		Notice_DTO dto = new Notice_DTO(title, content, id);
-		board_IService.notice_insert(dto);
-		return "jemin_index";
+	@RequestMapping(value="/notice_form.do", method=RequestMethod.GET)
+	public String notice_form() {
+		logger.info("BoardController notice_form 실행");
+		return "notice_Form";
 	}
+	
+	@RequestMapping(value="/notice_write.do", method=RequestMethod.POST)
+	public String notice_insert(Notice_DTO dto, Model model) {
+		logger.info("BoardController notice_insert 실행");
+		boolean isc = board_IService.notice_insert(dto);
+		if(isc) {
+			logger.info("notice_insert 성공");
+		}
+		return "redirect:/notice_list.do";
+	}
+	
 	
 	@RequestMapping(value="/notice_search.do", method=RequestMethod.GET)
-	public String notice_find(HttpServletRequest req) {
+	public String notice_find(@RequestParam Map<String, String> map, Model model) {
 		logger.info("BoardController notice_find 실행");
 		RowNum_DTO dto = new RowNum_DTO();
-		String start = Integer.toString(dto.getStart());
-		String last = Integer.toString(dto.getLast());
-		String title = req.getParameter("title");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("start", start);
-		map.put("last", last);
-		map.put("title", title);
+		map.put("start", String.valueOf(dto.getStart()));
+		map.put("last", String.valueOf(dto.getLast()));
 		List<Notice_DTO> lists =board_IService.notice_find(map);
-		req.setAttribute("lists", lists);
-		return "jemin_index";
+		model.addAttribute("lists", lists);
+		return "notice_List";
 	}
 	
-	@RequestMapping(value="/notice_readcount.do", method=RequestMethod.GET)
-	public String notice_readcount(HttpServletRequest req) {
-		logger.info("BoardController notice_readcount 실행");
-		String seq = req.getParameter("seq");
-		board_IService.notice_readcount(seq);
-		return "jemin_index";
-	}
 	@RequestMapping(value="/file_infoboardlist.do", method=RequestMethod.GET)
-	public String file_infoboardlist(HttpServletRequest req) {
+	public String file_infoboardlist(Model model) {
 		logger.info("BoardController file_infoboardlist 실행");
 		RowNum_DTO dto = new RowNum_DTO();
 		List<FileBoard_DTO> lists = board_IService.file_infoboardlist(dto);
-		req.setAttribute("lists", lists);
-		return "jemin_index";
+		model.addAttribute("lists", lists);
+		return "file_BoardList";
 	}
 	@RequestMapping(value="/file_infodetailboard.do", method=RequestMethod.GET)
-	public String file_infodetailboard(HttpServletRequest req) {
+	public String file_infodetailboard(String seq, Model model) {
 		logger.info("BoardController file_infodetailboard 실행");
-		String seq = req.getParameter("seq");
 		FileBoard_DTO dto = board_IService.file_infodetailboard(seq);
-		req.setAttribute("dto", dto);
-		return "jemin_index";
+		boolean isc = board_IService.file_inforeadcount(seq);
+		if(isc) {
+			model.addAttribute("dto", dto);
+		}
+		return "file_DetailBoard";
 	}
 	@RequestMapping(value="/file_infodeleteboard.do", method=RequestMethod.GET)
-	public String file_infodeleteboard(HttpServletRequest req) {
+	public String file_infodeleteboard(String[] seq, Model model) {
 		logger.info("BoardController file_infodeleteboard 실행");
-		String[] seq = req.getParameterValues("seq");
 		Map<String, String[]> map = new HashMap<String, String[]>();
 		map.put("list", seq);
-		board_IService.file_infodeleteboard(map);
-		return "jemin_index";
+		boolean isc = board_IService.file_infodeleteboard(map);
+		if(isc) {
+			logger.info("file_infodeleteboard 성공");
+		}
+		return "redirect:/file_infoboardlist.do";
 	}
-	@RequestMapping(value="/file_infomodifyboard.do", method=RequestMethod.GET)
-	public String file_infomodifyboard(HttpServletRequest req) {
+	
+	@RequestMapping(value="/file_infomodifyboardform.do", method=RequestMethod.POST)
+	public String file_infomodifyboardform(Model model, String seq) {
+		logger.info("BoardController file_infomodifyboardform 실행");
+		FileBoard_DTO dto = board_IService.file_infodetailboard(seq);
+		model.addAttribute("dto", dto);
+		return "file_ModifyBoard";
+	}
+	
+	@RequestMapping(value="/file_infomodifyboard.do", method=RequestMethod.POST)
+	public String file_infomodifyboard(FileBoard_DTO dto) {
 		logger.info("BoardController file_infomodifyboard 실행");
-		String title = req.getParameter("title");
-		String content = req.getParameter("content");
-		String seq = req.getParameter("seq");
-		FileBoard_DTO dto = new FileBoard_DTO(seq, title, content, "", "");
 		board_IService.file_infomodifyboard(dto);
-		return "jemin_index";
+		return "redirect:/file_infoboardlist.do";
 	}
-	@RequestMapping(value="/file_infowriteboard.do", method=RequestMethod.GET)
-	public String file_infowriteboard(HttpServletRequest req) {
+	
+	@RequestMapping(value="/file_infowriteboardform.do", method=RequestMethod.GET)
+	public String file_infowriteboardform() {
+		logger.info("BoardController file_infowriteboardform 실행");
+		return "file_WriteBoard";
+	}
+	
+	@RequestMapping(value="/file_infowriteboard.do", method=RequestMethod.POST)
+	public String file_infowriteboard(FileBoard_DTO dto) {
 		logger.info("BoardController file_infowriteboard 실행");
-		String id = req.getParameter("id");
-		String title = req.getParameter("title");
-		String content = req.getParameter("content");
-		String filename = req.getParameter("filename");
-		String newfilename = req.getParameter("newfilename");
-		FileBoard_DTO dto = new FileBoard_DTO(id, title, content, "", filename, newfilename);
-		board_IService.file_infowriteboard(dto);
-		return "jemin_index";
+		boolean isc = board_IService.file_infowriteboard(dto);
+		if(isc) {
+			logger.info("file_infowriteboard 성공");
+		}
+		return "redirect:/file_infoboardlist.do";
 	}
 	@RequestMapping(value="/file_infosearchboard.do", method=RequestMethod.GET)
-	public String file_infosearchboard(HttpServletRequest req) {
+	public String file_infosearchboard(@RequestParam Map<String, Object> map, Model model) {
 		logger.info("BoardController file_infosearchboard 실행");
 		RowNum_DTO dto = new RowNum_DTO();
 		int start = dto.getStart();
 		int last = dto.getLast();
-		String title = req.getParameter("title");
-		String id = req.getParameter("id");
-		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("last", last);
-		map.put("title", title);
-		map.put("id", id);
 		List<FileBoard_DTO> lists = board_IService.file_infosearchboard(map);
-		req.setAttribute("lists", lists);
-		return "jemin_index";
-	}
-	@RequestMapping(value="/file_inforeadcount.do", method=RequestMethod.GET)
-	public String file_inforeadcount(HttpServletRequest req) {
-		logger.info("BoardController file_inforeadcount 실행");
-		String seq = req.getParameter("seq");
-		board_IService.file_inforeadcount(seq);
-		return "jemin_index";
+		model.addAttribute("lists", lists);
+		return "file_BoardList";
 	}
 	@RequestMapping(value="/room_boardlist.do", method=RequestMethod.GET)
 	public String room_boardlist(HttpServletRequest req) {

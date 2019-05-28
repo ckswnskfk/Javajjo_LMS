@@ -16,15 +16,7 @@
 <%@ include file="./include/header.jsp" %>
 	<div id="container">
 		<h2>공지사항 게시판</h2>
-		<form action="#" method="post" id="frm" onsubmit="return chkBox()">
 			<table class="table table-hover" style="width: 80%; margin: 0 auto">
-				<colgroup>
-					<col width="10%">
-					<col width="15%">
-					<col width="30%">
-					<col width="30%">
-					<col width="15%">
-				</colgroup>
 				<tbody>
 					<tr>
 						<th>ID</th>
