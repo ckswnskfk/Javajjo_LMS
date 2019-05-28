@@ -43,14 +43,14 @@ public class CourseController {
 	
 	
 	
-	@RequestMapping(value="/course_add.do", method=RequestMethod.POST)
+	@RequestMapping(value="/course_add.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String course_add(Course_DTO dto) {
 		logger.info("CourseController course_add 실행");
 		int n = course_IService.course_add(dto);
 		return "redirect:/course_List.do";
 	}
 	
-	@RequestMapping(value="/move.do", method=RequestMethod.GET)
+	@RequestMapping(value="/move.do", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String move() {
 //		JSONObject json=new JSONObject();

@@ -81,7 +81,7 @@
 						"</div>"+
 						"<div class='modal-footer'>"+
 						"<input class='btn btn-success' type='button' value='과정등록' onclick='update()'>"+
-						"<button type='button' class-'btn btn-default' data-dismiss='modal'>취소</button>"+
+						"<button type='button' class='btn btn-default' data-dismiss='modal'>취소</button>"+
 						"</div>";
 						$("#frmModify").html(htmlModal);
 			}
@@ -89,14 +89,14 @@
 	}
 	function update(){
 		var frm=document.getElementById("frmModify");
-// 		frm.action="./course_add.do";
+		frm.action="./course_add.do";
 		var title=document.getElementById("motitle").value;
 		var content=$("#mocontent").val();
 // 		alert(title+"/"+content);
 		if(title==""||content==""){
-			alert("모든항목을 입력해주세요.")
+			alert("모든항목을 입력해주세요.");
 		}else{
-			location.href="./course_add.do?coursename="+title+"&startdate="+content
+			location.href="./course_add.do?coursename="+title+"&startdate="+content;
 		}
 	}
 	function check(bool){

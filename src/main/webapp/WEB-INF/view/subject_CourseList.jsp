@@ -22,7 +22,7 @@
 	<c:forEach items="${list }" var="dto">
 		<tr>
 			<td>
-				<a href="./subject_select_all.do">${dto.coursename }</a>
+				<a href="./subject_select_all.do?coursecode=${dto.coursecode}">${dto.coursename }</a>
 			</td>
 			<td>
 				<fmt:parseDate value="${dto.startdate}" pattern="yyyy-MM-dd HH:mm:ss" var="Stringdate"/>
