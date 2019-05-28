@@ -42,6 +42,7 @@
 				<td>
 					<label><b>결재란</b></label><br/>
 					<c:if test="${yesMap.dto.stm eq 'Y'}">
+						<img alt="signature" src="./img/home_img.png">
 						${yesMap.newfilename}
 					</c:if>
 				</td>

@@ -77,9 +77,7 @@
 	}
 	
 	function addSignature() {
-		$("#layerpop").attr("class", "modal fade show");
-		$("#layerpop").css("display", "block");
-		
+		alert("aaa");
 	}
 	
 	function chkSignature() {
@@ -91,7 +89,7 @@
 			success: function(n) {
 				alert("이미 사인을 등록하셨습니다.");
 			}, error: function() {
-				addSignature();
+				$("#addSignature").click();
 			}
 		});
 	}
@@ -120,6 +118,7 @@
         	</c:if>
         	<c:if test="${member.table ne 'Student'}">
         		<button class="btn btn-outline-success" onclick="chkSignature()">사인 등록</button>
+        		<input id="addSignature" type="hidden" data-toggle="modal" data-target="#layerpop">
         	</c:if>
         	
         		<div class="modal fade" id="layerpop" >
@@ -134,11 +133,7 @@
 							<div class="modal-body">
 								<form action="./addSignature.do" method="post" enctype="multipart/form-data" onsubmit="addSignature()">
 									<input type="hidden" name="id" value="${member.id}">
-									<input type="text" name="filename">
-									
-									<!-- 테스트용 -->
-									<input type="text" name="newfilename">
-									
+									<input type="file" name="originalfilename">
 									<button type="submit">등록</button>
 								</form>
 							</div>

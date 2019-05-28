@@ -211,8 +211,8 @@ public class AbsentController {
 	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.POST)
 	public String insert_absent_form(App_Form_DTO dto, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("AbsentController insert_absent_form 실행");
-		String contextRoot = new HttpServletRequestWrapper(mtReq).getRealPath("/");
-		System.out.println(contextRoot);
+//		String contextRoot = new HttpServletRequestWrapper(mtReq).getRealPath("/");
+//		System.out.println(contextRoot);
 		String studentId = dto.getStudent_id();
 		MultipartFile reqFilename = mtReq.getFile("originalfilename");
 		int n;
@@ -228,7 +228,7 @@ public class AbsentController {
 			UUID uuid = UUID.randomUUID();
 			Date from = new Date();
 			SimpleDateFormat transFormat  = new SimpleDateFormat("yyyy-MM-dd");
-			String today = transFormat .format(from);
+			String today = transFormat.format(from);
 
 			newfilename = uuid.toString()+"_"+today+"_"+studentId+"_"+filename;
 			
@@ -277,9 +277,33 @@ public class AbsentController {
 	}
 	
 	@RequestMapping(value="/addSignature.do", method=RequestMethod.POST)
-	public void add_signature(@RequestParam Map<String, String> map) {
+	public String add_signature(@RequestParam Map<String, String> map, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("AbsentController add_signature 실행");
+		MultipartFile reqFilename = mtReq.getFile("originalfilename");
+		String signature_id = map.get("id");
+		String filename = reqFilename.getOriginalFilename();
+		String newfilename = "";
+		
+		// 이름 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
+		UUID uuid = UUID.randomUUID();
+		newfilename = uuid.toString()+"_"+signature_id+"_"+filename;
+		
+		File dir = new File(uploadPath+"\\signature");
+		File target = new File(uploadPath+"\\signature", newfilename);
+		
+		// 폴더가 없다면 폴더를 생성
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		// 파일을 서버에 저장
+		FileCopyUtils.copy(reqFilename.getBytes(), target);
+		map.put("filename", filename);
+		map.put("newfilename", newfilename);
+		
 		int n = absent_IService.add_signature(map);
 		System.out.println(n);
+		
+		return "absent";
 	}
 }
