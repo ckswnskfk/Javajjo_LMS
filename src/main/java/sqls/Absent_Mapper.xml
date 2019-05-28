@@ -131,4 +131,17 @@
 		WHERE FORM_SEQ = #{seq}
 	</update>
 	
+	<!-- 사인 이미지를 이미 등록했는지 확인 -->
+	<select id="chk_signature" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT 1
+		FROM SIGNATURE
+		WHERE SIGNATURE_ID = #{id}
+	</select>
+	
+	<!-- 강사 및 관리자가 사인 이미지를 등록함 -->
+	<insert id="add_signature" parameterType="java.util.Map">
+		INSERT INTO SIGNATURE
+		(SIGNATURE_ID, USECHECK, FILENAME, NEWFILENAME)
+		VALUES(#{id}, 'Y', #{filename}, #{newfilename})
+	</insert>
 </mapper>

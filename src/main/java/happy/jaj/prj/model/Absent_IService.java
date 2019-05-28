@@ -42,4 +42,9 @@ public interface Absent_IService {
 	// 강사 및 관리자가 승인을 함+동시에 처리일 업데이트(승인)
 	public int update_is_approve_Yes(Map<String, String> map);
 	
+	// 사인 이미지를 이미 등록했는지 확인
+	public int chk_signature(String id);
+	
+	// 강사 및 관리자가 사인이미지를 등록
+	public int add_signature(Map<String, String> map);
 }

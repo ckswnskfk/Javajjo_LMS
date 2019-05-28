@@ -125,6 +125,18 @@ public class Absent_Dao implements Absent_Interface {
 		return sqlSessionTemplate.update(NS+"update_process_date_yes", seq);
 	}
 
-
+	// 사인 이미지를 이미 등록했는지 확인
+	@Override
+	public int chk_signature(String id) {
+		logger.info("Absent_Dao chk_signature 실행 {}", id);
+		return sqlSessionTemplate.selectOne(NS+"chk_signature", id);
+	}
+	
+	// 강사 및 관리자가 사인이미지를 등록
+	@Override
+	public int add_signature(Map<String, String> map) {
+		logger.info("Absent_Dao add_signature 실행 {}", map);
+		return sqlSessionTemplate.insert(NS+"add_signature", map);
+	}
 
 }

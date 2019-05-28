@@ -103,8 +103,23 @@ public class Absent_Service implements Absent_IService {
 	public int update_is_approve_Yes(Map<String, String> map) {
 		logger.info("Absent_Interface update_is_approve_Yes 실행");
 		int n = absent_Interface.update_is_approve_Yes(map);
-		absent_Interface.update_process_date_yes(map.get("seq"));
+		n += absent_Interface.update_process_date_yes(map.get("seq"));
 		return n;
 	}
+
+	// 사인 이미지를 이미 등록했는지 확인
+	@Override
+	public int chk_signature(String id) {
+		logger.info("Absent_Interface chk_signature 실행");
+		return absent_Interface.chk_signature(id);
+	}
+	
+	// 강사 및 관리자가 사인이미지를 등록
+	@Override
+	public int add_signature(Map<String, String> map) {
+		logger.info("Absent_Interface add_signature 실행");
+		return  absent_Interface.add_signature(map);
+	}
+
 
 }

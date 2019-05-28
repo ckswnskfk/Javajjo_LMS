@@ -267,4 +267,19 @@ public class AbsentController {
 		System.out.println(n);
 		return "absent";
 	}
+	
+	@RequestMapping(value="/chkSignature.do", method=RequestMethod.POST)
+	@ResponseBody
+	public int chk_signature(@RequestBody String id) {
+		logger.info("AbsentController chk_signature 실행");
+		String inid = id.substring(0, 11);
+		return absent_IService.chk_signature(inid);
+	}
+	
+	@RequestMapping(value="/addSignature.do", method=RequestMethod.POST)
+	public void add_signature(@RequestParam Map<String, String> map) {
+		logger.info("AbsentController add_signature 실행");
+		int n = absent_IService.add_signature(map);
+		System.out.println(n);
+	}
 }

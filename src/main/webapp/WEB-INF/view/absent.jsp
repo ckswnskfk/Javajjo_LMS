@@ -77,7 +77,23 @@
 	}
 	
 	function addSignature() {
+		$("#layerpop").attr("class", "modal fade show");
+		$("#layerpop").css("display", "block");
 		
+	}
+	
+	function chkSignature() {
+		var id = "${member.id}";
+		$.ajax({
+			url: "./chkSignature.do",
+			data: id,
+			type: "post",
+			success: function(n) {
+				alert("이미 사인을 등록하셨습니다.");
+			}, error: function() {
+				addSignature();
+			}
+		});
 	}
 	
 </script>
@@ -103,8 +119,37 @@
         		<button id="toAppForm" onclick="location.href='./to_app_form.do'">결석 신청</button>
         	</c:if>
         	<c:if test="${member.table ne 'Student'}">
-        		<button id="addSignature">사인 등록</button>
+        		<button class="btn btn-outline-success" onclick="chkSignature()">사인 등록</button>
         	</c:if>
+        	
+        		<div class="modal fade" id="layerpop" >
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<!-- header -->
+							<div class="modal-header">
+								<!-- header title -->
+								<h4 class="modal-title">사인 등록</h4>
+							</div>
+							<!-- body -->
+							<div class="modal-body">
+								<form action="./addSignature.do" method="post" enctype="multipart/form-data" onsubmit="addSignature()">
+									<input type="hidden" name="id" value="${member.id}">
+									<input type="text" name="filename">
+									
+									<!-- 테스트용 -->
+									<input type="text" name="newfilename">
+									
+									<button type="submit">등록</button>
+								</form>
+							</div>
+							<!-- Footer -->
+							<div class="modal-footer">
+								Footer
+								<button type="button" class="btn btn-outline-success" data-dismiss="modal">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>
         </div>
       </div>
     </div>
