@@ -151,6 +151,13 @@ public class BoardController {
 		model.addAttribute("lists", lists);
 		return "file_BoardList";
 	}
+	
+	@RequestMapping(value="/room_main.do", method=RequestMethod.GET)
+	public String room_main() {
+		logger.info("BoardController room_main 실행");
+		return "room_Main";
+	}
+	
 	@RequestMapping(value="/room_boardlist.do", method=RequestMethod.GET)
 	public String room_boardlist(HttpServletRequest req) {
 		logger.info("BoardController room_boardlist 실행");

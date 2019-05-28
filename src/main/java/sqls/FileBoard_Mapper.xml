@@ -50,16 +50,13 @@
 				ORDER BY SEQ DESC)
 		WHERE RNUM BETWEEN #{start} AND #{last}
 		<choose>
-			<when test="id != null and title != null">
-				AND TITLE LIKE '%'||#{title}||'%'
-				AND ID LIKE '%'||#{id}||'%'
+			<when test="searchOption == 'all'">
+				AND ID LIKE '%'||#{keyword}||'%'
+				OR TITLE LIKE '%'||#{keyword}||'%'
 			</when>
-			<when test="id != null">
-				AND ID LIKE '%'||#{id}||'%'
-			</when>
-			<when test="title != null">
-				AND TITLE LIKE '%'||#{title}||'%'
-			</when>
+			<otherwise>
+				AND ${searchOption} LIKE '%'||#{keyword}||'%'
+			</otherwise>
 		</choose>
 	</select>
 	

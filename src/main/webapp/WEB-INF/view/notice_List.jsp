@@ -46,8 +46,8 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<div class="input-group" style="width: 70%; margin: 0 auto;">
-		      <input type="text" class="form-control" placeholder="Search" name="title">
+			<div class="input-group" style="width: 50%; margin: 0 auto;">
+		      <input type="text" class="form-control" placeholder="제목으로 검색..." name="title">
 		      <div class="input-group-btn">
 		        <button class="btn btn-default" type="button" onclick="notice_search()"><i class="glyphicon glyphicon-search"></i></button>
 		      </div>

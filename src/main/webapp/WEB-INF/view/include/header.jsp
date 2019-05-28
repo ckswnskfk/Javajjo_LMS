@@ -71,16 +71,25 @@
           </c:choose>
           <c:choose>
          	 <c:when test="${member.table eq 'Student'}">
-          		<li class="nav-item">
-				  <a class="nav-link" href="./test_Course_Submit.do">과제 관리</a>
-				  과제 제출, 성적 조회
-         		</li>
+          		<li class="dropdown">
+		            <a class="dropdown-toggle" data-toggle="dropdown" href="#">과제 관리
+		            <span class="caret"></span></a>
+			        <ul class="dropdown-menu">
+			          <li><a href="./test_Course_Submit.do">과제 제출</a></li>
+			          <li><a href="./test_Course_Result.do">성적 조회</a></li>
+			        </ul>
+			      </li>
          	</c:when>
          	<c:when test="${member.table eq 'Teacher'}">
-         		<li class="nav-item">
-         			<a class="nav-link" href="./test_Course_Insert.do">과제 관리</a>
-         			과제 등록, 과제 채점, 성적 조회
-         		</li>
+         		<li class="dropdown">
+		            <a class="dropdown-toggle" data-toggle="dropdown" href="#">과제 관리
+		            <span class="caret"></span></a>
+			        <ul class="dropdown-menu">
+			          <li><a href="./test_Course_Insert.do">과제 등록</a></li>
+			          <li><a href="./test_Course_Mark.do">과제 채점</a></li>
+			          <li><a href="./test_Course_Result.do">성적 조회</a></li>
+			        </ul>
+			      </li>
          	</c:when>
           </c:choose>
           <li class="nav-item">
