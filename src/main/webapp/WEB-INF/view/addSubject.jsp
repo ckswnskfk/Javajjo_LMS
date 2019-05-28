@@ -13,6 +13,7 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
+
 <table>
 	<tr>
 		<th>과목이름</th>
@@ -21,12 +22,19 @@
 	<c:forEach items="${lists }" var="dto">
 		<tr>
 			<td>
-			<input type="checkbox" name="chk1" value="${dto.subjectcode}">${dto.subjectname}
+				<input type="checkbox" name="chk1" value="${dto.subjectcode}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
 		</tr>
 	</c:forEach>
+	
 </table>
+
+<input type="button" value="▼빼기">
+<input type="button" value="▲추가" onclick="subadd()">
+
+
+
 
 <form action="">
 <table>
@@ -37,7 +45,7 @@
 	<c:forEach items="${listss }" var="dto">
 		<tr>
 			<td>
-			<input type="checkbox" name="chk" onclick="ccc(this.checked)" value="${dto.subjectcode}">${dto.subjectname}
+			<input type="checkbox" name="chk" onclick="ccc()" value="${dto.subjectcode}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
 		</tr>
@@ -45,7 +53,6 @@
 </table>
 </form>
 <input type="button" value="과목 등록" onclick="momo()">
-
 
 <div id="myModal1" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -65,6 +72,11 @@
 
 
 <script type="text/javascript">
+function subadd(){
+	
+}
+
+
 function momo(){
 	ajaxSubadd();
 	$("#myModal1").modal();
@@ -100,7 +112,7 @@ var ajaxSubadd=function(){
 	});
 }
 function update(){
-	
+	var coursecode = "${dto.coursecode}";
 	var frm=document.getElementById("frmModify");
 	var name=document.getElementById("moname").value;
 	var type=document.getElementById("motype").value;
@@ -108,25 +120,22 @@ function update(){
 	if(name==""||type==""){
 		alert("모든 항목을 입력해주세요.");
 		}else{
-			location.href="./subject_add.do?subjectname="+name+"&subjecttype="+type+"&examtype="+exam
+			location.href="./subject_add.do?subjectname="+name+"&subjecttype="+type+"&examtype="+exam+"&coursecode="+coursecode;
 		}
 	}
-
-
-// 	function ccc(bool){
-// // 		var chks=document.querySelector('input[name="chk"]:checked');
-// 		var chks=document.getElementsByName("chk");
-// 		for(var i = 0; i < chks.length; i++){
-// 			if(chks[i].checked){
-				
-// 			}
-// 		}
-		
-		
-		alert(typeof chks);
-		
-	}
-	
+function ccc(){
+	 var chks =  document.getElementsByName("chk");
+	   var c = 0;
+	   for (var i = 0; i < chks.length; i++) {
+	      if(chks[i].checked){
+	        alert(chks[i].value);
+	    	  c++;
+	      }
+	   }
+	   if(c>0){
+		   location
+	   }
+}
 
 
 </script>

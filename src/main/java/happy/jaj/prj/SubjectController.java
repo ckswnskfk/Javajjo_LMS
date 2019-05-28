@@ -43,12 +43,20 @@ public class SubjectController {
 	
 	// 전체 과목 조회
 	@RequestMapping(value="/subject_select_all.do", method=RequestMethod.GET)
-	public String subject_select_all(Model model,Course_DTO dto) {
+	public String subject_select_all(Model model,Course_Subject_DTO dto, String coursecode) {
 		logger.info("SubjectController subject_select_all 실행");
+		System.out.println(coursecode);
 		List<Subject_DTO> list = subject_IService.subject_select_all();
-		List<Subject_DTO> lists = subject_IService.subject_choice(dto.getCoursecode());
+		if (dto == null) {
+			List<Subject_DTO> lists = subject_IService.subject_choice(coursecode);
+			model.addAttribute("lists", lists);
+		}else {
+			List<Subject_DTO> lists = subject_IService.subject_choice(dto.getCoursecode());			
+			model.addAttribute("lists", lists);
+		}
 		model.addAttribute("listss", list);
-		model.addAttribute("lists", lists);
+		model.addAttribute("dto",dto);
+		System.out.println("******************************************"+dto);
 		return "addSubject";
 	}
 	
@@ -93,10 +101,11 @@ public class SubjectController {
 	
 	// 새로운 과목 생성
 	@RequestMapping(value="/subject_add.do", method={RequestMethod.GET, RequestMethod.POST})
-	public String subject_add(Subject_DTO dto) {
+	public String subject_add(Subject_DTO dto, String coursecode) {
 		logger.info("SubjectController subject_add 실행");
 		int n = subject_IService.subject_add(dto);
-		return "redirect:/subject_select_all.do";
+		System.out.println(coursecode);
+		return "redirect:/subject_select_all.do?coursecode="+coursecode;
 	}
 	
 	@RequestMapping(value="/add.do", method={RequestMethod.GET, RequestMethod.POST})

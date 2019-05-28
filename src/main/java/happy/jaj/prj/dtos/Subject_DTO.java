@@ -2,6 +2,7 @@ package happy.jaj.prj.dtos;
 
 public class Subject_DTO {
 
+	private String coursecode;
 	private String subjectcode;
 	private String subjectname;
 	private String subjecttype;
@@ -27,6 +28,14 @@ public class Subject_DTO {
 		this.subjectname = subjectname;
 		this.subjecttype = subjecttype;
 		this.typecode = typecode;
+	}
+
+	public String getCoursecode() {
+		return coursecode;
+	}
+
+	public void setCoursecode(String coursecode) {
+		this.coursecode = coursecode;
 	}
 
 	public String getsubjectcode() {

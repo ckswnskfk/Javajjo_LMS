@@ -24,7 +24,7 @@
 	</select>
 	
 	<!-- 과정에 해당하는 과목 조회 -->
-	<select id="subject_choice" parameterType="CourseDTO" resultType="SubjectDTO">
+	<select id="subject_choice" parameterType="CourseSubjectDTO" resultType="SubjectDTO">
 		SELECT SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE
 		FROM SUBJECT JOIN COURSE_SUBJECT 
 		USING (SUBJECTCODE) WHERE COURSECODE = #{coursecode}
