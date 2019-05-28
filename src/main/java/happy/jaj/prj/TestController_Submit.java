@@ -1,5 +1,6 @@
 package happy.jaj.prj;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import happy.jaj.prj.dtos.Course_DTO;
+import happy.jaj.prj.dtos.Exam_Des_DTO;
+import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.TestSession_DTO;
+import happy.jaj.prj.dtos.Test_Exam_DTO;
 import happy.jaj.prj.model.Test_IService;
 
 @Controller
@@ -60,6 +64,7 @@ public class TestController_Submit {
 	@RequestMapping(value="/test_List_Submit.do", method=RequestMethod.GET)
 	public String Testlist(HttpSession session, TestSession_DTO dto, Model model) {
 		logger.info("TestController Testlist");
+		System.out.println(dto);
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		testsession.setSubjectcode(dto.getSubjectcode());
 		testsession.setSubjectname(dto.getSubjectname());
@@ -70,14 +75,65 @@ public class TestController_Submit {
 		model.addAttribute("dto", STdto);
 		System.out.println("TSdto");
 		
-		if(STdto != null) {
+
 			testsession.setTestname(STdto.getTestname());
 			testsession.setTestday(STdto.getTestday());
 			testsession.setTestcode(STdto.getTestcode());
-		}
+		
+		System.out.println("■■■■■■■■■■ session : "+testsession);
 		session.setAttribute("testsession", testsession);
 		
 		return "test_List_Stu";
+	}
+	
+	@RequestMapping(value="/division_Stu.do", method=RequestMethod.GET)
+	public String ExamDivision(HttpSession session, Model model) {
+		logger.info("TestController ExamDivision");
+		
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		System.out.println(" 과제 유형 : "+testsession.getExamtype());
+		if(testsession.getExamtype().equals("서술형")) {
+			
+			
+			return "redirect:./desc_Detail.do";
+		}else {
+			return "redirect:/sel_Detail.do";
+		}
+	}
+	
+	@RequestMapping(value="/desc_Detail.do", method=RequestMethod.GET)
+	public String DescDetail(HttpSession session, Model model) {
+		logger.info("TestController DescDetail");
+		
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		String testcode = testsession.getTestcode();
+		List<Test_Exam_DTO> list = iService.te_selectlist(testcode);
+		Test_Exam_DTO dto = list.get(0);
+		System.out.println("○ : "+dto);
+		
+		System.out.println("- testcode : "+testcode);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("testcode", testcode);
+		map.put("examocde", dto.getExamcode());
+	 	Exam_Sel_DTO ESdto = iService.te_testselect(map);
+	 	System.out.println("● : "+ ESdto);
+		
+		return "";
+//		return "test_DetailDescription";
+	}
+	
+	@RequestMapping(value="/sel_Detail.do", method=RequestMethod.GET)
+	public String SelDetail(HttpSession session, Model model) {
+		logger.info("TestController SelDetail");
+		
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		List<Test_Exam_DTO> list = iService.te_testselectlist(testsession.getTestcode());
+		Test_Exam_DTO dto = list.get(0);
+		System.out.println("■■■■■■■■■■■■■■■■■■■ dto : "+dto);
+		Exam_Sel_DTO EDdto = iService.test_examsel(dto.getExamcode());
+		model.addAttribute("dto", EDdto);
+		
+		return "";
 	}
 	
 	

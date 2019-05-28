@@ -757,38 +757,38 @@ public class TestController {
 	
 	
 	//등록된 서술형문제 조회
-	@RequestMapping(value="/desc_Detail.do", method=RequestMethod.GET)
-	public String te_select(Test_Exam_DTO dto) {
-		logger.info("TESTController te_select{}");
-		// testcode, examcode
-		
-//		String testcode = req.getParameter("testcode");
-//		String examcode = req.getParameter("examcode");
-		System.out.println("■■■■■■■■testcode= : "+dto.getTestcode()+", examcode : "+dto.getExamcode());
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("testcode", dto.getTestcode());
-		map.put("examcode", dto.getExamcode());
-		Exam_Des_DTO EDdto = iService.te_select(map);
-		System.out.println(EDdto);
-		return "te_select";
-	}
+//	@RequestMapping(value="/desc_Detail.do", method=RequestMethod.GET)
+//	public String te_select(Test_Exam_DTO dto) {
+//		logger.info("TESTController te_select{}");
+//		// testcode, examcode
+//		
+////		String testcode = req.getParameter("testcode");
+////		String examcode = req.getParameter("examcode");
+//		System.out.println("■■■■■■■■testcode= : "+dto.getTestcode()+", examcode : "+dto.getExamcode());
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("testcode", dto.getTestcode());
+//		map.put("examcode", dto.getExamcode());
+//		Exam_Des_DTO EDdto = iService.te_select(map);
+//		System.out.println(EDdto);
+//		return "te_select";
+//	}
 	
 	//등록된 선택형문제 조회
-	@RequestMapping(value="/sel_Detail.do", method=RequestMethod.GET)
-	public String te_testselect(Test_Exam_DTO dto) {
-		logger.info("TESTController te_testselect{}");
-		// testcode, examcode
-		
-//		String testcode = req.getParameter("testcode");
-//		String examcode = req.getParameter("examcode");
-		System.out.println("testcode : "+dto.getTestcode()+", examcode : "+dto.getExamcode());
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("testcode", dto.getTestcode());
-		map.put("examcode", dto.getExamcode());
-		Exam_Sel_DTO ESdto = iService.te_testselect(map);
-		System.out.println(dto);
-		return "te_testselect";
-	}
+//	@RequestMapping(value="/sel_Detail.do", method=RequestMethod.GET)
+//	public String te_testselect(Test_Exam_DTO dto) {
+//		logger.info("TESTController te_testselect{}");
+//		// testcode, examcode
+//		
+////		String testcode = req.getParameter("testcode");
+////		String examcode = req.getParameter("examcode");
+//		System.out.println("testcode : "+dto.getTestcode()+", examcode : "+dto.getExamcode());
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("testcode", dto.getTestcode());
+//		map.put("examcode", dto.getExamcode());
+//		Exam_Sel_DTO ESdto = iService.te_testselect(map);
+//		System.out.println(dto);
+//		return "te_testselect";
+//	}
 
 	//과제에 해당하는 문제리스트 조회(서술형)
 	@RequestMapping(value="/desc_ListForm.do",method=RequestMethod.GET)
