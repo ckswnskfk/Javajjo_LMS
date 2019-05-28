@@ -296,5 +296,11 @@ public class Test_Dao implements Test_Interface {
 		return n>0? true: false;
 	}
 
+	@Override
+	public List<Course_DTO> test_courselist(String id) {
+		logger.info("Test_Dao test_courselist {}", id);
+		return sqlSession.selectList(NS+"test_courselist",id);
+	}
+
 	
 }

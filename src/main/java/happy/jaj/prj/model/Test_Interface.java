@@ -17,6 +17,9 @@ import happy.jaj.prj.dtos.Test_Exam_DTO;
 
 public interface Test_Interface {
 	
+	//수강과정 조회
+	public List<Course_DTO> test_courselist(String id);
+	
 	// 과제의 문제 삭제
 	public boolean test_deltestexam(Test_Exam_DTO dto);
 	

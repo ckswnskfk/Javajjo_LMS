@@ -82,12 +82,12 @@
 				<td>배점</td>
 			</tr>			
 			<% 
-			for(int i=1; i<list.size(); i++){
+			for(int i=0; i<list.size(); i++){
 				Test_Exam_DTO dto = list.get(i);
 			%>
 				<tr>
 					<td><input type="checkbox" name="examcode" value='<%=dto.getExamcode()%>'></td>
-					<td><%=i %></td>
+					<td><%=i+1 %></td>
 					<td><a href="./desc_Exam_ModifyForm.do?examcode=<%=dto.getExamcode()%>&examnum=<%=dto.getExamnum()%>&allot=<%=dto.getAllot()%>"><%=dto.getExam() %></a></td>
 					<td><%=dto.getAllot() %></td>
 				</tr>

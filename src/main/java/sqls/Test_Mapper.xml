@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="happy.jaj.prj.Test_Mapper">
 
+	<!-- 학생 수강 과정 조회 -->
+	<select id="test_courselist" parameterType="java.lang.String" resultType="CourseDTO">
+		SELECT COURSENAME, STARTDATE, COURSECNT, COURSECODE
+  		FROM USERCOURSE JOIN COURSE 
+  		USING (COURSECODE) WHERE USERCOURSE.ID = #{id}
+  	</select>
+
 	<!-- 과제에 연결된 문제 삭제 -->
 	<delete id="test_deltestexam" parameterType="TestExamDTO">
 	DELETE FROM TEST_EXAM
@@ -64,15 +71,17 @@
     
         <!-- 과목유형과 과제유형동일한 문제 조회(선택형) -->
     <select id="test_typesel" parameterType="java.lang.String" resultType="ExamSelDTO">
-    SELECT EXAMCODE, EXAM, C_ANSWER, ALLOT, EXAMNUM
-	FROM TEST_EXAM JOIN EXAMSELECT USING (EXAMCODE)
-		WHERE  TESTCODE IN 
-(SELECT TESTCODE	
-	FROM TEST
-		WHERE SUBJECTTYPE = #{subjecttype} AND EXAMTYPE = '선택형')
+	SELECT  EXAM, EXAMCODE, C_ANSWER, EXAMNUM, ALLOT FROM TEST_EXAM JOIN
+	EXAMSELECT USING (EXAMCODE) 
+		WHERE TESTCODE IN (SELECT TESTCODE FROM TEST WHERE SUBJECTTYPE = #{type} AND EXAMTYPE = '선택형') 
+	
     </select>
 
-
+<!-- private String exam; -->
+<!-- 	private String examcode; -->
+<!-- 	private String c_answer; -->
+<!-- 	private String examnum; -->
+<!-- 	private String allot; -->
 	<!--과제 추가 -->
 	<insert id="test_insert" parameterType="TestDTO">
 		<selectKey keyProperty="testcode" resultType="java.lang.String" order="BEFORE">

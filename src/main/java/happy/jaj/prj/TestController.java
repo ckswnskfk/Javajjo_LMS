@@ -218,7 +218,12 @@ public class TestController {
 			model.addAttribute("list", list);
 			return "test_ExamCopyDesc";
 		}else {
-			List<Test_Exam_DTO> list = iService.te_testselectlist(testsession.getTestcode());
+			model.addAttribute("examtype", testsession.getExamtype());
+			List<Exam_Sel_DTO> list = new ArrayList<>();
+			for(int i=0; i<examcode.length; i++) {
+				Exam_Sel_DTO dto = iService.test_examsel(examcode[i]);
+				list.add(dto);
+			}
 			model.addAttribute("list", list);
 			return "test_ExamCopySel";
 		}
@@ -234,8 +239,10 @@ public class TestController {
 		System.out.println("문제코드 : "+Arrays.toString(examcode));
 		System.out.println("번호 : "+Arrays.toString(examnum));
 		System.out.println("배점 : "+Arrays.toString(allot));
-//		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
-		String testcode =  "T00052";/*testsession.getTestcode();*/
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		System.out.println(testsession.getTestcode());
+//		String testcode =  "T00052";
+		String testcode = testsession.getTestcode();
 		
 		for (int i = 0; i < allot.length; i++) {
 			Test_Exam_DTO dto = new Test_Exam_DTO(testcode, examcode[i], allot[i], examnum[i], "");
@@ -657,7 +664,7 @@ public class TestController {
 			model.addAttribute("total", total);
 			System.out.println("▼▼▼▼▼▼▼▼▼▼ total : "+total);
 			
-			return "test_DescriptionListForm";
+			return "test_SelectListForm";
 		}
 //		
 //		int total = iService.te_selectsum(testsession.getTestcode());

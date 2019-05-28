@@ -321,6 +321,12 @@ public class Test_Service implements Test_IService {
 		logger.info("Test_Service test_deltestall {}",testcode);
 		return test_Interface.test_deltestall(testcode);
 	}
+
+	@Override
+	public List<Course_DTO> test_courselist(String id) {
+		logger.info("Test_Service test_courselist {}",id);
+		return test_Interface.test_courselist(id);
+	}
 	
 	
 
