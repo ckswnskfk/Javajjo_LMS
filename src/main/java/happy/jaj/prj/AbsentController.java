@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -210,6 +211,8 @@ public class AbsentController {
 	@RequestMapping(value="/insert_absent_form.do", method=RequestMethod.POST)
 	public String insert_absent_form(App_Form_DTO dto, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("AbsentController insert_absent_form 실행");
+		String contextRoot = new HttpServletRequestWrapper(mtReq).getRealPath("/");
+		System.out.println(contextRoot);
 		String studentId = dto.getStudent_id();
 		MultipartFile reqFilename = mtReq.getFile("originalfilename");
 		int n;

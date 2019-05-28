@@ -28,7 +28,7 @@
 	
 	<bean id="uploadPath" class="java.lang.String">
 		<!-- 생성자를 통해 빈을 주입받음  uploadPath 를 부르면 value를 반환-->
-		<constructor-arg value="C:\\happy\\upload"/>
+		<constructor-arg value="C:\Happy_Clipse\workspace_JSP\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Javajjo_LMS\upload"/>
 	</bean>
 	
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
