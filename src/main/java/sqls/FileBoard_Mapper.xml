@@ -39,7 +39,7 @@
 		(SEQ, ID, TITLE, CONTENT, REGDATE, READCOUNT,
 		FILENAME, NEWFILENAME)
 		VALUES(FILE_BOARD_SEQ.NEXTVAL,
-		#{id}, #{title}, #{content}, SYSDATE, 0, '','')
+		#{id}, #{title}, #{content}, SYSDATE, 0, #{filename},#{newfilename})
 	</insert>
 	
 	<!-- 게시판 글 검색 -->

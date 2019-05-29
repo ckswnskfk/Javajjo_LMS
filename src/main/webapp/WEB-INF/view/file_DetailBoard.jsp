@@ -44,11 +44,11 @@
 						<th>Filename</th>
 						<td>
 						<c:choose>
-							<c:when test="${dto.filename ne ''}">
+							<c:when test="${dto.filename eq null}">
 								파일이 없습니다.
 							</c:when>
 							<c:otherwise>
-								${dto.filename}
+								<a href="./file_infodownload.do?filename=${dto.filename}&newfilename=${dto.newfilename}">${dto.filename}</a>
 							</c:otherwise>
 						</c:choose>
 						</td>

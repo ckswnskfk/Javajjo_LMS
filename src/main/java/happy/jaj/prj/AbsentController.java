@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,9 +54,52 @@ public class AbsentController {
 	
 	// 완성
 	// 리스트 폼으로 이동
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/absentListForm.do", method=RequestMethod.GET)
-	public String absent_List_Form() {
+	public String absent_List_Form(HttpSession session, Model model) {
 		logger.info("AbsentController absent_List_Form 실행");
+		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
+		lmap.put("stm", "N");
+		if (lmap.get("table").trim().equalsIgnoreCase("Student")) {
+			List<App_Form_DTO> list = absent_IService.student_absent_list(lmap);
+			JSONArray jArray = new JSONArray();
+			JSONObject data = null;
+			for (int i = 0; i < list.size(); i++) {
+				data = new JSONObject();
+				data.put("form_seq", list.get(i).getForm_seq());
+				data.put("app_date", list.get(i).getApp_date());
+				data.put("process_date", list.get(i).getProcess_date());
+				data.put("coursecode", list.get(i).getCoursecode());
+				data.put("coursename", list.get(i).getCoursename());
+				data.put("stm", list.get(i).getStm());
+				data.put("start_date", list.get(i).getStart_date());
+				data.put("recipient_id", list.get(i).getRecipient_id());
+				data.put("absent_days", list.get(i).getAbsent_days());
+				
+				jArray.add(data);
+			}
+			model.addAttribute("jArray", jArray);
+		} else {
+			List<App_Form_DTO> list = absent_IService.recipient_absent_list(lmap);
+			JSONArray jArray = new JSONArray();
+			JSONObject data = null;
+			for (int i = 0; i < list.size(); i++) {
+				data = new JSONObject();
+				data.put("form_seq", list.get(i).getForm_seq());
+				data.put("app_date", list.get(i).getApp_date());
+				data.put("process_date", list.get(i).getProcess_date());
+				data.put("student_name", list.get(i).getStudent_name());
+				data.put("coursecode", list.get(i).getCoursecode());
+				data.put("coursename", list.get(i).getCoursename());
+				data.put("stm", list.get(i).getStm());
+				data.put("start_date", list.get(i).getStart_date());
+				data.put("recipient_id", list.get(i).getRecipient_id());
+				data.put("absent_days", list.get(i).getAbsent_days());
+				
+				jArray.add(data);
+			}
+			model.addAttribute("jArray", jArray);
+		}
 		return "absent";
 	}
 	
@@ -246,7 +290,7 @@ public class AbsentController {
 			dto.setNewfilename(newfilename);
 			n = absent_IService.insert_absent_form(dto);
 		}
-		return "absent";
+		return "redirect:/absentListForm.do";
 	}
 
 	
@@ -256,7 +300,7 @@ public class AbsentController {
 		logger.info("AbsentController insert_unapprove_reason 실행");
 		int n = absent_IService.insert_unapprove_reason(map);
 		System.out.println(n);
-		return "absent";
+		return "redirect:/absentListForm.do";
 	}
 	
 	// 강사 및 관리자가 승인을 함
@@ -265,7 +309,7 @@ public class AbsentController {
 		logger.info("AbsentController update_is_approve_Yes 실행");
 		int n = absent_IService.update_is_approve_Yes(map);
 		System.out.println(n);
-		return "absent";
+		return "redirect:/absentListForm.do";
 	}
 	
 	@RequestMapping(value="/chkSignature.do", method=RequestMethod.POST)
@@ -283,13 +327,13 @@ public class AbsentController {
 		String signature_id = map.get("id");
 		String filename = reqFilename.getOriginalFilename();
 		String newfilename = "";
-		
+		String signaturePath = "C:\\Users\\ChanJu\\git\\Javajjo_LMS\\src\\main\\webapp\\upload\\signature";
 		// 이름 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
 		UUID uuid = UUID.randomUUID();
 		newfilename = uuid.toString()+"_"+signature_id+"_"+filename;
 		
-		File dir = new File(uploadPath+"\\signature");
-		File target = new File(uploadPath+"\\signature", newfilename);
+		File dir = new File(signaturePath);
+		File target = new File(signaturePath, newfilename);
 		
 		// 폴더가 없다면 폴더를 생성
 		if (!dir.exists()) {
@@ -304,6 +348,6 @@ public class AbsentController {
 		int n = absent_IService.add_signature(map);
 		System.out.println(n);
 		
-		return "absent";
+		return "redirect:/absentListForm.do";
 	}
 }

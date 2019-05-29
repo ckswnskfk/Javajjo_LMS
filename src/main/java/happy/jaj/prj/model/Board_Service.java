@@ -117,9 +117,9 @@ public class Board_Service implements Board_IService {
 
 	// 빈 강의실 조회
 	@Override
-	public List<Room_Empty_DTO> room_emptyboardlist(String regdate) {
-		logger.info("room_emptyboardlist Service 실행 {}", regdate);
-		return board_interface.room_emptyboardlist(regdate);
+	public int room_emptyboardlist(Map<String, String> map) {
+		logger.info("room_emptyboardlist Service 실행 {}", map);
+		return board_interface.room_emptyboardlist(map);
 	}
 
 	// 빈강의실 예약 확인

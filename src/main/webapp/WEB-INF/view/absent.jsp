@@ -51,7 +51,13 @@
 		     		}
 		     		if(ob.lists[i].coursename == null){
 		     			htmlInvlud += "<td>관리자</td>"
-		     						+ "<td>"+ob.lists[i].stm+"</td>";
+		     			if (ob.lists[i].stm == 'N') {
+		     				htmlInvlud += "<td>진행중</td>";
+						} else if (ob.lists[i].stm == 'Y') {
+							htmlInvlud += "<td>승인</td>";
+						} else {
+							htmlInvlud += "<td>미승인</td>";
+						}
 		     		} else {
 		     			htmlInvlud += "<td>"+ob.lists[i].coursename+"</td>";
 		     			if (ob.lists[i].stm == 'N') {
@@ -76,8 +82,16 @@
 		});
 	}
 	
-	function addSignature() {
-		alert("aaa");
+	
+	function fileChk(filename) {
+		var ext = filename.split(".").pop().toLowerCase();
+		if ($.inArray(ext, ["gif", "jpg", "jpeg", "png"]) == -1) {
+			alert("이미지 파일(gif, jpg, jpeg, png)만 업로드 가능합니다.");
+			$("#originalfilename").val("");
+			return;
+		} else {
+			$("#submit").attr("disabled", false);
+		}
 	}
 	
 	function chkSignature() {
@@ -103,14 +117,51 @@
         <h1 class="mt-5">결석 신청 내역</h1>
         <div>
         	<select id="select_stm" name="select_stm" onchange="stmSelect(this.value)">
-        		<option selected="selected">선택하세요</option>
-        		<option value="N">진행중</option>
+        		<option value="N" selected="selected">진행중</option>
         		<option value="Y">승인</option>
         		<option value="R">미승인</option>
         	</select>
         </div>
         <div id="list">
-        
+        	<table class="table">
+        		<tr>
+        			<td>문서 번호</td>
+        			<td>신청일</td>
+        			<c:if test="${member.table ne 'Student'}">
+	        			<td>신청자 이름</td>
+        			</c:if>
+        			<td>과정명</td>
+        			<td>상태</td>
+        		</tr>
+        		<c:forEach var="dto" items="${jArray}">
+        			<tr>
+        				<td>
+        					${dto.form_seq}
+        				</td>
+        				<td>
+        					<a href="./absent_detail_yes.do?seq=${dto.form_seq}&id=${dto.recipient_id}&stm=${dto.stm}">${dto.app_date}</a>
+        				</td>
+        				<c:if test="${member.table ne 'Student'}">
+        					<td>
+        						${dto.student_name}
+        					</td>
+        				</c:if>
+        				<c:if test="${dto.coursename == null}">
+        					<td>
+        						관리자
+        					</td>
+        				</c:if>
+        				<c:if test="${dto.coursename != null}">
+	        				<td>
+	        					${dto.coursename}
+	        				</td>
+        				</c:if>
+        				<td>
+        					진행중
+        				</td>
+        			</tr>
+        		</c:forEach>
+        	</table>
         </div>
         <div>
         	<c:if test="${member.table eq 'Student'}">
@@ -118,6 +169,7 @@
         	</c:if>
         	<c:if test="${member.table ne 'Student'}">
         		<button class="btn btn-outline-success" onclick="chkSignature()">사인 등록</button>
+        		<button class="btn btn-outline-success">사인 확인</button>
         		<input id="addSignature" type="hidden" data-toggle="modal" data-target="#layerpop">
         	</c:if>
         	
@@ -131,10 +183,10 @@
 							</div>
 							<!-- body -->
 							<div class="modal-body">
-								<form action="./addSignature.do" method="post" enctype="multipart/form-data" onsubmit="addSignature()">
+								<form action="./addSignature.do" method="post" enctype="multipart/form-data"">
 									<input type="hidden" name="id" value="${member.id}">
-									<input type="file" name="originalfilename">
-									<button type="submit">등록</button>
+									<input type="file" id="originalfilename" name="originalfilename" onchange="fileChk(this.value)">
+									<button type="submit" id="submit" disabled="disabled">등록</button>
 								</form>
 							</div>
 							<!-- Footer -->

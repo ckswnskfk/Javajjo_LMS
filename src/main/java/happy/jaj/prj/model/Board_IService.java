@@ -51,7 +51,7 @@ public interface Board_IService {
 	public List<Empty_DTO> room_boardlist();
 	
 	// 빈 강의실 조회
-	public List<Room_Empty_DTO> room_emptyboardlist(String regdate);
+	public int room_emptyboardlist(Map<String, String> map);
 	
 	// 빈강의실 예약 확인
 	public String room_empty_check(Room_Empty_DTO dto);

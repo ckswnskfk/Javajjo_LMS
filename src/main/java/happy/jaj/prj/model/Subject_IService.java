@@ -1,6 +1,7 @@
 package happy.jaj.prj.model;
 
 import java.util.List;
+import java.util.Map;
 
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Course_Subject_DTO;
@@ -25,4 +26,6 @@ public interface Subject_IService {
 		
 	// 새로운 과목 생성
 	public int subject_add(Subject_DTO dto);
+
+	public Subject_DTO subjectname(String re);
 }

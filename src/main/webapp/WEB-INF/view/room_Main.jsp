@@ -30,6 +30,7 @@
 <%@ include file="./include/header.jsp" %>
 <div class="container">
  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">강의실 목록</button>
+ <input type="hidden" id="id" value="${member.id}">
  
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
