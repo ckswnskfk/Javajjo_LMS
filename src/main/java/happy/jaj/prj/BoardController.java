@@ -1,19 +1,32 @@
 package happy.jaj.prj;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import happy.jaj.prj.dtos.Empty_DTO;
 import happy.jaj.prj.dtos.FileBoard_DTO;
@@ -30,6 +43,9 @@ public class BoardController {
 	
 	@Autowired
 	private Board_IService board_IService;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
 	
 	@RequestMapping(value="/notice_list.do", method=RequestMethod.GET)
 	public String notice_Allselect(Model model) {
@@ -131,14 +147,58 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/file_infowriteboard.do", method=RequestMethod.POST)
-	public String file_infowriteboard(FileBoard_DTO dto) {
+	public String file_infowriteboard(FileBoard_DTO dto, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("BoardController file_infowriteboard 실행");
-		boolean isc = board_IService.file_infowriteboard(dto);
-		if(isc) {
-			logger.info("file_infowriteboard 성공");
+		
+		
+		MultipartFile reqFilename = mtReq.getFile("originalfilename");
+		String filename = reqFilename.getOriginalFilename();
+		String newfilename = "";
+		
+		// 첨부 파일이 없으면 바로 글 작성
+		if(filename.trim().equalsIgnoreCase("")) {
+			dto.setFilename(filename);
+			dto.setNewfilename(newfilename);
+			board_IService.file_infowriteboard(dto);
+		}else {
+			//이름이 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
+			UUID uuid = UUID.randomUUID();
+			Date form = new Date();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String today = transFormat.format(form);
+			
+			newfilename = uuid.toString()+"_"+today+"_"+dto.getId()+"_"+filename;
+			
+			File dir = new File(uploadPath);
+			File target = new File(uploadPath, newfilename);
+			
+			// 폴더가 없다면 폴더를 생성
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			
+			// 파일을 서버에 저장
+			FileCopyUtils.copy(reqFilename.getBytes(), target);
+			
+			// 받아온 dto에는 파일 이름이 없기 때문에 직접 넣어주고 dao 실행
+			dto.setFilename(filename);
+			dto.setNewfilename(newfilename);
+			board_IService.file_infowriteboard(dto);;
+						
 		}
 		return "redirect:/file_infoboardlist.do";
 	}
+	
+	// 상세조회한 신청서에서 첨부파일 다운
+		@RequestMapping(value="/file_infodownload.do", method=RequestMethod.GET)
+		public ModelAndView download(String newfilename) {
+			String fullPath = uploadPath+"\\"+newfilename;
+			File file = new File(fullPath);
+			// download라는 id를 가진 Bean에 downloadFile 이라는 이름의 file을 전달
+			return new ModelAndView("download","downloadFile",file);
+		}
+		
+		
 	@RequestMapping(value="/file_infosearchboard.do", method=RequestMethod.GET)
 	public String file_infosearchboard(@RequestParam Map<String, Object> map, Model model) {
 		logger.info("BoardController file_infosearchboard 실행");
@@ -161,43 +221,58 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/room_emptyboardlist.do", method=RequestMethod.GET)
-	public String room_emptyboardlist(HttpServletRequest req) {
+	public String room_emptyboardlist(String regdate, Model model, Room_Empty_DTO Rdto) {
 		logger.info("BoardController room_emptyboardlist 실행");
-		String regdate = req.getParameter("regdate");
-		List<Room_Empty_DTO> lists = board_IService.room_emptyboardlist(regdate);
-		req.setAttribute("lists", lists);
-		return "jemin_index";
+		Map<String, String> map = new HashMap<String,String>();
+		
+		// 강의실 목록 확인
+		List<Empty_DTO> lists = board_IService.room_boardlist();
+		
+		// 강의실 별 남은 수용인원 계산
+		for(int i = 0 ; i < lists.size();i++) {
+			Empty_DTO dto = lists.get(i);
+			map.put("code", dto.getCode());
+			map.put("regdate", regdate);
+			int count = board_IService.room_emptyboardlist(map);
+			int personel = (int)Integer.parseInt(dto.getPersonel());
+			personel = personel-count;
+			String personelStr = String.valueOf(personel);
+			dto.setPersonel(personelStr);
+			
+			
+		// 빈강의실 예약 확인 - Y면 예약 가능 N이면 예약 불가
+			Rdto.setCode(dto.getCode());
+			String room = board_IService.room_empty_check(Rdto);
+			if(room == null || room =="") {
+				room = "Y";
+			}else {
+				room = "N";
+			}
+			dto.setCheck(room);
+			
+			lists.set(i, dto);
+		}
+		
+		model.addAttribute("lists", lists);
+		model.addAttribute("regdate", regdate);
+		return "room_EmptyBoardList";
 	}
-	@RequestMapping(value="/room_empty_check.do", method=RequestMethod.GET)
-	public String room_empty_check(HttpServletRequest req) {
-		logger.info("BoardController room_empty_check 실행");
-		String code = req.getParameter("code");
-		String id = req.getParameter("id");
-		String regdate = req.getParameter("regdate");
-		Room_Empty_DTO dto = new Room_Empty_DTO(code, id, regdate);
-		String room = board_IService.room_empty_check(dto);
-		req.setAttribute("room", room);
-		return "jemin_index";
-	}
+	
 	@RequestMapping(value="/room_empty_request.do", method=RequestMethod.GET)
-	public String room_empty_request(HttpServletRequest req) {
+	public String room_empty_request(Room_Empty_DTO dto, Model model) {
 		logger.info("BoardController room_empty_request 실행");
-		String code = req.getParameter("code");
-		String id = req.getParameter("id");
-		String regdate = req.getParameter("regdate");
-		Room_Empty_DTO dto = new Room_Empty_DTO(code, id, regdate);
 		board_IService.room_empty_request(dto);
-		return "jemin_index";
+		model.addAttribute("regdate", dto.getRegdate());
+		model.addAttribute("id", dto.getId());
+		return "redirect:/room_emptyboardlist.do";
 	}
 	@RequestMapping(value="/room_empty_cancle.do", method=RequestMethod.GET)
-	public String room_empty_cancle(HttpServletRequest req) {
+	public String room_empty_cancle(Room_Empty_DTO dto, Model model) {
 		logger.info("BoardController room_empty_cancle 실행");
-		String code = req.getParameter("code");
-		String id = req.getParameter("id");
-		String regdate = req.getParameter("regdate");
-		Room_Empty_DTO dto = new Room_Empty_DTO(code, id, regdate);
 		board_IService.room_empty_cancle(dto);
-		return "jemin_index";
+		model.addAttribute("regdate", dto.getRegdate());
+		model.addAttribute("id", dto.getId());
+		return "redirect:/room_emptyboardlist.do";
 	}
 	@RequestMapping(value="/room_add.do", method=RequestMethod.POST)
 	public String room_add(Empty_DTO dto) {

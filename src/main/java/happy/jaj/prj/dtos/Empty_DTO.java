@@ -5,6 +5,7 @@ public class Empty_DTO {
 	private String code;
 	private String name;
 	private String personel;
+	private String check;
 	
 	public Empty_DTO() {
 	}
@@ -14,6 +15,16 @@ public class Empty_DTO {
 		this.code = code;
 		this.name = name;
 		this.personel = personel;
+	}
+	
+	
+
+	public String getCheck() {
+		return check;
+	}
+
+	public void setCheck(String check) {
+		this.check = check;
 	}
 
 	public String getCode() {

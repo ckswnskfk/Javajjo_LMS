@@ -11,6 +11,7 @@ if(mm<10) {
     mm='0'+mm
 } 
 
+
 today = yyyy+"-"+mm+"-"+dd;
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -21,7 +22,7 @@ today = yyyy+"-"+mm+"-"+dd;
       editable: true,
       eventLimit: true,
       dateClick: function(info) {
-  	    alert(info.dateStr);
+    	  room_emptyboardlist(info.dateStr);
   	  }
     });
 
@@ -33,4 +34,23 @@ function room_add(){
 	frm.action="./room_add.do";
 	frm.method="post";
 	frm.submit();
+}
+
+function room_emptyboardlist(msg){
+	var id = document.getElementById("id").value;
+	var year = msg.substr(0,4);
+	var month = msg.substr(5,2);
+	var day = msg.substr(8,2);
+	var regdate = year+month+day
+	location.href="./room_emptyboardlist.do?regdate="+regdate+"&id="+id;
+}
+
+function room_empty_request(code,regdate,id){
+	alert("예약이 완료되었습니다.");
+	location.href="./room_empty_request.do?code="+code+"&regdate="+regdate+"&id=0"+id;
+}
+
+function room_empty_cancle(code,regdate,id){
+	alert("예약취소가 완료되었습니다.");
+	location.href="./room_empty_cancle.do?code="+code+"&regdate="+regdate+"&id=0"+id;
 }

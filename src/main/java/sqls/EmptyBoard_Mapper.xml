@@ -7,11 +7,12 @@
 		SELECT CODE,NAME,PERSONEL FROM EMPTY_BOARD
 	</select>
 	
-	<!-- 빈강의실 조회 -->
-	<select id="room_emptyboardlist" parameterType="java.lang.String" resultType="RoomEmptyDTO">
-		SELECT NAME,PERSONEL,ID,REGDATE 
+	<!-- 빈강의실 조회용 숫자 -->
+	<select id="room_emptyboardlist" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*)
 		FROM EMPTY_USER JOIN EMPTY_BOARD USING(CODE)
 		WHERE TO_CHAR(REGDATE,'YYYYMMDD')=#{regdate}
+		AND CODE = #{code}
 	</select>
 	
 	<!-- 빈강의실 예약 확인 -->

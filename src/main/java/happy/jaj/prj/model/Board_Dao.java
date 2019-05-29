@@ -122,9 +122,9 @@ public class Board_Dao implements Board_Interface {
 
 	// 빈 강의실 조회
 	@Override
-	public List<Room_Empty_DTO> room_emptyboardlist(String regdate) {
-		logger.info("room_emptyboardlist Dao 실행 {}", regdate);
-		return sqlSession.selectList(NS_Emp+"room_emptyboardlist", regdate);
+	public int room_emptyboardlist(Map<String, String> map) {
+		logger.info("room_emptyboardlist Dao 실행 {}", map);
+		return sqlSession.selectOne(NS_Emp+"room_emptyboardlist", map);
 	}
 
 	// 빈강의실 예약 확인
