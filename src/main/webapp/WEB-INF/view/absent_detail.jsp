@@ -42,8 +42,7 @@
 				<td>
 					<label><b>결재란</b></label><br/>
 					<c:if test="${yesMap.dto.stm eq 'Y'}">
-						<img alt="signature" src="./img/home_img.png">
-						${yesMap.newfilename}
+						<img alt="signature" src="<c:url value='./upload/signature/${yesMap.newfilename}'/>">
 					</c:if>
 				</td>
 				<td>
@@ -60,8 +59,11 @@
 				</td>
 			</tr>
 			<tr>
-				<td><label><b>수강 과정</b></label><br/>
+				<td><label><b>수강 과정(신청 수신인)</b></label><br/>
 					${yesMap.dto.coursename}
+					<c:if test="${yesMap.dto.coursename == null}">
+						관리자
+					</c:if>
 				</td>
 				<td><label><b>결석 시작일</b></label><br/>
 					${yesMap.dto.start_date}
@@ -92,14 +94,19 @@
 			</c:if>
 			<c:if test="${yesMap.dto.stm eq 'N' and member.table ne 'Student'}">
 				<tr>
-					<td>
+					<td colspan="3">
 						<button onclick="location.href='./update_is_approve_Yes.do?seq=${yesMap.dto.form_seq}&stm=Y'">승인</button>
 					</td>
-					<td>
+					<td colspan="3">
 						<button onclick="unapprove()">미승인</button>
 					</td>
 				</tr>
 			</c:if>
+			<tr>
+				<td colspan="3">
+					<button class="btn btn-outline-success" onclick="location.href='./absentListForm.do'">목록으로</button>
+				</td>
+			</tr>
 		</table>
       </div>
     </div>
