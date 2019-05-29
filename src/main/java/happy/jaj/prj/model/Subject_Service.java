@@ -61,5 +61,12 @@ public class Subject_Service implements Subject_IService {
 		return subject_Interface.subject_add(dto);
 	}
 
+	@Override
+	public Subject_DTO subjectname(String re) {
+		logger.info("Subject_Service subjectname 실행");
+		return subject_Interface.subjectname(re);
+	}
+
+	
 	
 }

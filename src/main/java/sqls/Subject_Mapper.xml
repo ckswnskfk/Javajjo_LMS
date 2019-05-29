@@ -43,4 +43,10 @@
 		((SELECT 'S'|| LPAD((TO_NUMBER(SUBSTR(MAX(SUBJECTCODE),2))+1),5,0)  FROM SUBJECT),
 		#{subjectname}, #{subjecttype}, #{examtype})
 	</insert>
+	
+<!-- 	이름 뿌려주는용도 -->
+	<select id="subjectname" parameterType="java.lang.String" resultType="SubjectDTO">
+		SELECT SUBJECTNAME FROM SUBJECT WHERE SUBJECTCODE=#{subjectcode}
+		
+	</select>
 </mapper>

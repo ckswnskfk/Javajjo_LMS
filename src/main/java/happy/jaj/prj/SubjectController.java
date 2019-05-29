@@ -1,5 +1,9 @@
 package happy.jaj.prj;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Course_Subject_DTO;
@@ -112,6 +118,41 @@ public class SubjectController {
 	@ResponseBody
 	public String add() {
 		return "addSubject";
+	}
+	
+	
+	@SuppressWarnings("null")
+	@RequestMapping(value="/submit.do", method=RequestMethod.GET)
+	public String submit(HttpServletRequest req,Model model) {
+		String re=req.getParameter("subjectcode");
+		System.out.println(re);
+		String[] rere=re.split(",");
+		System.out.println(rere);
+		
+		List<Subject_DTO> add = new ArrayList<Subject_DTO>();
+		for(int i=0; i<rere.length; i++) {
+			System.out.println("@#$@#$@#$@#$@#$@#$@#$@##$@#$@#$");
+			add.add(subject_IService.subjectname(rere[i]));
+			System.out.println(rere[i]);
+		}
+		model.addAttribute("add",add);
+		
+//		logger.info("Controller multidel{}",Arrays.toString(req));
+//		Map<String, String[]> map=new HashMap<String,String[]>();
+//		map.put("seq_", chkVal);
+//		String str=subject_IService.subjectname(map);
+//		model.addAttribute("add",str);
+		
+//		String[] arrayParam = request.getParameterValues("subjectcode");
+//		logger.info("Controller submit{}");
+//		for (int i = 0; i < arrayParam.length; i++) {
+//			System.out.println(arrayParam[i]);
+//			List<Subject_DTO> list= subject_IService.subjectname(arrayParam[i]);
+//		}
+////		model.addAttribute("add",arrayParam);
+//
+//		return "ddd";
+		return "ddd";
 	}
 	
 	

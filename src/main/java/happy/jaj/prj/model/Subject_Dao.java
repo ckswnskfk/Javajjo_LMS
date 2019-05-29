@@ -1,6 +1,7 @@
 package happy.jaj.prj.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -61,6 +62,12 @@ public class Subject_Dao implements Subject_Interface {
 	public int subject_add(Subject_DTO dto) {
 		logger.info("Subject_Dao subject_add 실행 {}", dto);
 		return sqlSessionTemplate.insert(NS+"subject_add", dto);
+	}
+
+	@Override
+	public Subject_DTO subjectname(String re) {
+		logger.info("Subject_Dao subjectname 실행 {}", re);
+		return sqlSessionTemplate.selectOne(NS+"subjectname", re);
 	}
 
 }
