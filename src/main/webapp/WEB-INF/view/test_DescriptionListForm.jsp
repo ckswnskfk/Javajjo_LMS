@@ -64,7 +64,7 @@
 		<input type="button" value="추가" onclick="examdesclist()">
 		<input type="button" value="복사" onclick="coursecnt()">
 		<input type="button" value="삭제" onclick="examdelete()">
-	<form action="#" name="del">
+	<form action="#" name="del" method="post">
 	<table>
 		<%
 		if(list.size()==0){
@@ -86,10 +86,12 @@
 				Test_Exam_DTO dto = list.get(i);
 			%>
 				<tr>
-					<td><input type="checkbox" name="examcode" value='<%=dto.getExamcode()%>'></td>
-					<td><%=i+1 %></td>
+					<td>
+					<input type="hidden" name="examcode" value="<%=dto.getExamcode()%>">
+					<input type="checkbox" name="examcode" value='<%=dto.getExamcode()%>'></td>
+					<td><input type="hidden" name="examnum" value='<%=i+1%>'><%=i+1 %></td>
 					<td><a href="./desc_Exam_ModifyForm.do?examcode=<%=dto.getExamcode()%>&examnum=<%=dto.getExamnum()%>&allot=<%=dto.getAllot()%>"><%=dto.getExam() %></a></td>
-					<td><%=dto.getAllot() %></td>
+					<td><input type="hidden" name="allot" value="<%=dto.getAllot()%>"><%=dto.getAllot() %></td>
 				</tr>
 			<% 
 			}
@@ -103,9 +105,9 @@
 		}
 		%>
 	</table>
-	</form>
-		<input type="button" value="문제 등록" onclick="examinsert()">
+		<input type="submit" value="문제 등록" onclick="examinsert()">
 		<input type="button" value="뒤로 가기" onclick="testback()">
+	</form>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

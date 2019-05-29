@@ -937,4 +937,30 @@ public class TestController {
 		System.out.println(dto);
 		return "score_selectsum";
 	}
+	
+	// 문제번호 수정
+	@RequestMapping(value="/updateExam.do", method=RequestMethod.POST)
+	public String testExamUpdate(String[] examnum, String[] examcode, String[] allot, HttpSession session, Model model) {
+		logger.info("TESTController testExamUpdate");
+		System.out.println(Arrays.toString(examnum));
+		System.out.println(Arrays.toString(examcode));
+		System.out.println(Arrays.toString(allot));
+		for (int i = 0; i < allot.length; i++) {
+			Test_Exam_DTO dto = new Test_Exam_DTO("", examcode[i], allot[i], examnum[i], "");
+			iService.te_modify(dto);
+		}
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		if(testsession.getExamtype().equals("서술형")) {
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testsession.getTestcode());
+			model.addAttribute("dto", list);
+			
+			return "test_DescriptionList";
+		}else {
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_testselectlist(testsession.getTestcode());
+			model.addAttribute("dto", list);
+			return "test_SelectList";
+		}
+	}
+	
+	
 }

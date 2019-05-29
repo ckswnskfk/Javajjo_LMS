@@ -193,9 +193,9 @@
 	<!--과제에 해당하는 문제 조회(서술형)  -->
 	<select id="te_select" parameterType="java.util.Map"
 		resultType="ExamDesDTO">
-		SELECT EXAMNUM, EXAM, EXPLANATION, STANDARD, ALLOT, EXAMCODE, C_ANSWER
-		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING (EXAMCODE)
-		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
+		SELECT EXAM, EXAMCODE, C_ANSWER, EXAMNUM, ALLOT, EXPLANATION
+		FROM TEST_EXAM JOIN EXAMDESCRIPTIVE USING(EXAMCODE)
+		WHERE TESTCODE = #{testcode} AND EXAMNUM=#{examnum}
 	</select>
 	
 	<!-- 과제에 해당하는 문제 리스트 조회 (서술형) -->
@@ -210,7 +210,7 @@
 	<select id="te_testselect" parameterType="java.util.Map" resultType="ExamSelDTO">
 		SELECT EXAM, EXAMCODE, C_ANSWER, EXAMNUM, ALLOT
 		FROM TEST_EXAM JOIN EXAMSELECT USING(EXAMCODE)
-		WHERE TESTCODE = #{testcode} AND EXAMCODE = #{examcode}
+		WHERE TESTCODE = #{testcode} AND EXAMNUM = #{examnum}
 	</select>
 	
 	<!--과제에 해당하는 문제리스트 조회(선택형) -->
@@ -252,8 +252,8 @@
 	<!--학생 서술형 답안수정(답변경, 파일변경)  -->
 	<update id="answerd_modify" parameterType="AnswerDesDTO">
 		UPDATE ANSWERDESCRIPTIVE
-		SET ANSWER = #{answer}, ORIGINFILE = #{orginfile}, NEWFILEANME=#{newfilename}
-		WHERE ID = #{id} AND EXAMCODE =#{examcode} AND EXAMNUM = #{examnum}
+		SET ANSWER = #{answer}, ORIGINFILE = #{originfile}, NEWFILENAME=#{newfilename}
+		WHERE ID = #{id} AND EXAMNUM = #{examnum}
 	</update>
 
 	<!--(강사)학생 서술형 답안 조회 -->
@@ -261,7 +261,7 @@
 		resultType="AnswerDesDTO">
 		SELECT EXAMNUM, ANSWER, ORIGINFILE, NEWFILENAME
 		FROM ANSWERDESCRIPTIVE
-		WHERE ID = #{id} AND EXAMCODE = #{examcode} AND EXAMNUM = #{examnum}
+		WHERE ID = #{id} AND EXAMNUM = #{examnum}
 		ORDER BY EXAMNUM
 	</select>
 

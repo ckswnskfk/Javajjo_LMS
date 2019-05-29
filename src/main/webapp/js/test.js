@@ -258,6 +258,7 @@ function StuTest(testday){
 //	var diff = (today.getTime()-testday.getTime());
 //    diff = Math.ceil(diff / (1000 * 3600 * 24));
     location.href = "./division_Stu.do";
+    
 	
 //	if(diff<0){
 //		alert("시험기간 전입니다.");
@@ -270,3 +271,41 @@ function StuTest(testday){
 //		alert("과제 제출기간이 지났습니다.");
 //	}
 }
+
+function examinsert(){
+	var frm = document.forms[0];
+	frm.action="./updateExam.do";
+}
+
+function pageexam(bool){ //판단
+	
+	var examnum = document.getElementsByName("examnum")[0].value;
+	
+	if((Number(examnum)-1)=="0"&&bool){
+		alert("첫번째 문제입니다.");
+	}else if(examnum=="10"){
+		alert("마지막 문제입니다.");
+	}else{
+		pageUpDown(bool, examnum);
+	}
+//	location.href = "./desc_Detail.do?examnum="+examnum;
+}
+
+function pageUpDown(bool, examnum){ //보냄
+
+	var frm = document.forms[0];
+	
+	if(bool){
+		document.getElementsByName("page")[0].value="0";
+		document.getElementsByName("examnum")[0].value = Number(examnum)-1;		
+	}else{
+		document.getElementsByName("page")[0].value="1";
+		document.getElementsByName("examnum")[0].value = Number(examnum)+1;
+	}
+	alert(document.getElementsByName("examnum")[0].value);
+	frm.method="post";
+	frm.action = "./desc_Detail.do";
+	frm.submit();
+}
+
+
