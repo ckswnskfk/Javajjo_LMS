@@ -28,4 +28,6 @@ public interface Subject_IService {
 	public int subject_add(Subject_DTO dto);
 
 	public Subject_DTO subjectname(String re);
+	
+	public int course_sub_Del(List<Course_Subject_DTO> list);
 }

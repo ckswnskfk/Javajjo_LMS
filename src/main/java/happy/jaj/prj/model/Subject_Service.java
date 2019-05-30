@@ -57,6 +57,15 @@ public class Subject_Service implements Subject_IService {
 		}
 		return cnt;
 	}
+	@Override
+	public int course_sub_Del(List<Course_Subject_DTO> list) {
+		logger.info("Subject_Service course_sub_Del 실행");
+		int cnt = 0;
+		for (int i = 0; i < list.size(); i++) {
+			cnt += subject_Interface.course_sub_Del(list.get(i));
+		}
+		return cnt;
+	}
 	
 	// 새로운 과목 생성
 	@Override
