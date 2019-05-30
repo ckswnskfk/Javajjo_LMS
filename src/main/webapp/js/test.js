@@ -82,6 +82,14 @@ function selexaminsert(){
 	} 
 }
 
+function examinsert(){
+	alert("문제등록 버튼");
+	var frm = document.forms[0];
+	frm.action="./updateExam.do";
+	frm.method="post";
+	frm.submit();
+}
+
 function coursecnt(){
 //	window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
 	window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
@@ -272,18 +280,15 @@ function StuTest(testday){
 //	}
 }
 
-function examinsert(){
-	var frm = document.forms[0];
-	frm.action="./updateExam.do";
-}
 
-function pageexam(bool){ //판단
+
+function pageexam(bool, max){ //판단
 	
 	var examnum = document.getElementsByName("examnum")[0].value;
 	
 	if((Number(examnum)-1)=="0"&&bool){
 		alert("첫번째 문제입니다.");
-	}else if(examnum=="10"){
+	}else if(examnum==max&&bool==false){
 		alert("마지막 문제입니다.");
 	}else{
 		pageUpDown(bool, examnum);
@@ -296,16 +301,26 @@ function pageUpDown(bool, examnum){ //보냄
 	var frm = document.forms[0];
 	
 	if(bool){
-		document.getElementsByName("page")[0].value="0";
-		document.getElementsByName("examnum")[0].value = Number(examnum)-1;		
+		document.getElementsByName("page")[0].value="-1";
+//		document.getElementsByName("examnum")[0].value = Number(examnum)-1;		
 	}else{
-		document.getElementsByName("page")[0].value="1";
-		document.getElementsByName("examnum")[0].value = Number(examnum)+1;
+		document.getElementsByName("page")[0].value="0";
+//		document.getElementsByName("examnum")[0].value = Number(examnum)+1;
 	}
-	alert(document.getElementsByName("examnum")[0].value);
+//	alert(document.getElementsByName("examnum")[0].value);
 	frm.method="post";
 	frm.action = "./desc_Detail.do";
 	frm.submit();
 }
+
+function numberclick(examnum){
+	var frm = document.forms[0];
+	document.getElementsByName("page")[0].value=examnum;
+	frm.method = "post";
+	frm.action="./desc_Detail.do";
+	frm.submit();
+}
+
+
 
 

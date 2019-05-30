@@ -87,8 +87,8 @@
 			%>
 				<tr>
 					<td>
-					<input type="hidden" name="examcode" value="<%=dto.getExamcode()%>">
-					<input type="checkbox" name="examcode" value='<%=dto.getExamcode()%>'></td>
+					<input type="hidden" name="exam" value="<%=dto.getExamcode()%>">
+					<input type="checkbox" class="del" name="examcode" value='<%=dto.getExamcode()%>'></td>
 					<td><input type="hidden" name="examnum" value='<%=i+1%>'><%=i+1 %></td>
 					<td><a href="./desc_Exam_ModifyForm.do?examcode=<%=dto.getExamcode()%>&examnum=<%=dto.getExamnum()%>&allot=<%=dto.getAllot()%>"><%=dto.getExam() %></a></td>
 					<td><input type="hidden" name="allot" value="<%=dto.getAllot()%>"><%=dto.getAllot() %></td>
