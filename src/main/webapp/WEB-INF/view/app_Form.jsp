@@ -107,7 +107,7 @@
 				<tr>
 					<td>
 						<label><b>결석 시작일</b></label><br/>
-						<input id="start_date" name="start_date" type="text" maxlength="255" style="width: 200px" placeholder="ex) 20XX-XX-XX"/>
+						<input id="start_date" name="start_date" type="date" maxlength="255" style="width: 200px" placeholder="ex) 20XX-XX-XX"/>
 						<div id="start_date_chk">
 
 						</div>
