@@ -25,6 +25,11 @@ public class Subject_DTO {
 	}
 	
 	
+	public Subject_DTO(String subjectcode) {
+		super();
+		this.subjectcode = subjectcode;
+	}
+
 	public Subject_DTO(String coursecode, String subjectcode, String subjectname, String subjecttype, String examtype,
 			String time, String typecode, String seq) {
 		super();

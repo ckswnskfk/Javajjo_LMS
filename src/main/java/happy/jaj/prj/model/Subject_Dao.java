@@ -76,4 +76,9 @@ public class Subject_Dao implements Subject_Interface {
 		return sqlSessionTemplate.delete(NS+"course_sub_Del", dto);
 	}
 
+	@Override
+	public int subDel(Subject_DTO dto) {
+		logger.info("Subject_Dao subDel 실행 {}", dto);
+		return sqlSessionTemplate.delete(NS+"subDel", dto);
+	}
 }

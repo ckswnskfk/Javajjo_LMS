@@ -53,4 +53,8 @@
 	<delete id="course_sub_Del" parameterType="CourseSubjectDTO">
 	DELETE FROM COURSE_SUBJECT WHERE SEQ=#{seq}
 	</delete>
+	
+	<delete id="subDel" parameterType="SubjectDTO">
+		DELETE FROM SUBJECT WHERE SUBJECTCODE=#{subjectcode}
+	</delete>
 </mapper>

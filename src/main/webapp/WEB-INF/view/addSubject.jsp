@@ -26,6 +26,7 @@
 				<input type="checkbox" name="seq" value="${dto.seq}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
+			<td>${dto.time}</td>
 		</tr>
 	</c:forEach>
 
@@ -39,7 +40,7 @@
 
 
 
-<form action="">
+<form action="./subDel.do" method="post">
 <table>
 	<tr>
 		<th>과목이름</th>
@@ -49,14 +50,14 @@
 		<tr>
 			<td>
 			<div>
-			<input type="checkbox"  name="chk" id="chk" value="${dto.subjectcode }">${dto.subjectname}
+			<input type="checkbox"  name="subjectcode" id="chk" value="${dto.subjectcode }">${dto.subjectname}
 			</div>
 			</td>
 			<td>${dto.subjecttype}</td>
 		</tr>
 	</c:forEach>
 </table>
-<!-- <input type="submit" value="보내기"> -->
+<input type="submit" value="과목삭제">
 </form>
 <input type="button" value="과목 등록" onclick="momo()">
 
@@ -81,9 +82,7 @@
 
 
 <script type="text/javascript">
-function subdel(){
-	
-}
+
 
 function momo(){
 	ajaxSubadd();
@@ -134,7 +133,7 @@ function update(){
 	
 function subadd(){
 	var items = [];
-	$('input:checkbox[name="chk"]:checked').each(function () {
+	$('input:checkbox[name="subjectcode"]:checked').each(function () {
 	    items.push($(this).val());
 // 	    alert(items);
 		

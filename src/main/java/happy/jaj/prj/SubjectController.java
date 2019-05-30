@@ -144,5 +144,18 @@ public class SubjectController {
 		int n = subject_IService.course_sub_Del(lists);
 		return (n>0)?"redirect:/subject_select_all.do?coursecode="+(String)session.getAttribute("coursecode"):"chanju_index";
 	}
+	@RequestMapping(value="/subDel.do", method=RequestMethod.POST)
+	public String subDel(String[] subjectcode,HttpSession session) {
+		logger.info("SubjectController subDel 실행");
+		System.out.println(Arrays.toString(subjectcode));
+		List<Subject_DTO> lists = new ArrayList<Subject_DTO>();
+		for (int i = 0; i < subjectcode.length; i++) {
+			Subject_DTO dto 
+			= new Subject_DTO(subjectcode[i]);
+			lists.add(dto);
+		}
+		int n = subject_IService.subDel(lists);
+		return (n>0)?"redirect:/subject_select_all.do?coursecode="+(String)session.getAttribute("coursecode"):"chanju_index";
+	}
 	
 }
