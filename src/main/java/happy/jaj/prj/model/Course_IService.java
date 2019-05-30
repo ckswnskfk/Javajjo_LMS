@@ -14,4 +14,6 @@ public interface Course_IService {
 	
 	// (관리자)과정 등록(새로운 과정)
 	public int course_add(Course_DTO dto);
+	
+	public int codeDel(List<Course_DTO> dto);
 }
