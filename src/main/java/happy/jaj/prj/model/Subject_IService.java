@@ -22,7 +22,7 @@ public interface Subject_IService {
 	public List<Subject_DTO> subject_choice(String coursecode);
 	
 	// 과정에 과목 추가
-	public int subject_add_course(Course_Subject_DTO dto);
+	public int subject_add_course(List<Course_Subject_DTO> list);
 		
 	// 새로운 과목 생성
 	public int subject_add(Subject_DTO dto);

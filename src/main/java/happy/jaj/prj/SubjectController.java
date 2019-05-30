@@ -49,9 +49,9 @@ public class SubjectController {
 	
 	// 전체 과목 조회
 	@RequestMapping(value="/subject_select_all.do", method=RequestMethod.GET)
-	public String subject_select_all(Model model,Course_Subject_DTO dto, String coursecode) {
+	public String subject_select_all(Model model,Course_Subject_DTO dto, String coursecode, HttpSession session) {
 		logger.info("SubjectController subject_select_all 실행");
-		System.out.println(coursecode);
+//		System.out.println(coursecode);
 		List<Subject_DTO> list = subject_IService.subject_select_all();
 		if (dto == null) {
 			List<Subject_DTO> lists = subject_IService.subject_choice(coursecode);
@@ -62,6 +62,7 @@ public class SubjectController {
 		}
 		model.addAttribute("listss", list);
 		model.addAttribute("dto",dto);
+		session.setAttribute("coursecode", coursecode);
 		System.out.println("******************************************"+dto);
 		return "addSubject";
 	}
@@ -91,19 +92,25 @@ public class SubjectController {
 //	}
 	
 	// 과정에 과목 추가
-	@RequestMapping(value="/subject_add_course.do", method=RequestMethod.GET)
-	public String subject_add_course(HttpServletRequest req) {
+	@RequestMapping(value="/subject_add_course.do", method=RequestMethod.POST)
+	public String subject_add_course(HttpSession session, String[] code, String[] time, String[] content, String[] startday) {
 		logger.info("SubjectController subject_add_course 실행");
-		String coursecode = req.getParameter("coursecode");
-		String subjectcode = req.getParameter("subjectcode");
-		String subjecttime = req.getParameter("subjecttime");
-		String content = req.getParameter("content");
-		String startdate = req.getParameter("startdate");
-		Course_Subject_DTO dto = new Course_Subject_DTO(coursecode, subjectcode, subjecttime, content, startdate);
-		int n = subject_IService.subject_add_course(dto);
-		req.setAttribute("n", n);
-		return "chanju_index";
-	}
+		System.out.println(Arrays.toString(code));
+		System.out.println(Arrays.toString(time));
+		System.out.println(Arrays.toString(content));
+		System.out.println(Arrays.toString(startday));
+		List<Course_Subject_DTO> lists = new ArrayList<Course_Subject_DTO>();
+		
+		for (int i = 0; i < code.length; i++) {
+			Course_Subject_DTO dto 
+			= new Course_Subject_DTO((String)session.getAttribute("coursecode"), code[i], time[i], content[i], startday[i]);
+//			System.out.println(dto);
+			lists.add(dto);
+		}
+		int n = subject_IService.subject_add_course(lists);
+		return (n>0)?"redirect:/subject_select_all.do?coursecode="+(String)session.getAttribute("coursecode"):"chanju_index";
+//		return null;
+	} 
 	
 	// 새로운 과목 생성
 	@RequestMapping(value="/subject_add.do", method={RequestMethod.GET, RequestMethod.POST})
@@ -121,17 +128,13 @@ public class SubjectController {
 	}
 	
 	
-	@SuppressWarnings("null")
 	@RequestMapping(value="/submit.do", method=RequestMethod.GET)
 	public String submit(HttpServletRequest req,Model model) {
 		String re=req.getParameter("subjectcode");
-		System.out.println(re);
 		String[] rere=re.split(",");
-		System.out.println(rere);
 		
 		List<Subject_DTO> add = new ArrayList<Subject_DTO>();
 		for(int i=0; i<rere.length; i++) {
-			System.out.println("@#$@#$@#$@#$@#$@#$@#$@##$@#$@#$");
 			add.add(subject_IService.subjectname(rere[i]));
 			System.out.println(rere[i]);
 		}
@@ -152,7 +155,7 @@ public class SubjectController {
 ////		model.addAttribute("add",arrayParam);
 //
 //		return "ddd";
-		return "ddd";
+		return "timecon_set";
 	}
 	
 	

@@ -46,7 +46,7 @@
 	
 <!-- 	이름 뿌려주는용도 -->
 	<select id="subjectname" parameterType="java.lang.String" resultType="SubjectDTO">
-		SELECT SUBJECTNAME FROM SUBJECT WHERE SUBJECTCODE=#{subjectcode}
+		SELECT SUBJECTNAME,SUBJECTCODE FROM SUBJECT WHERE SUBJECTCODE=#{subjectcode}
 		
 	</select>
 </mapper>
