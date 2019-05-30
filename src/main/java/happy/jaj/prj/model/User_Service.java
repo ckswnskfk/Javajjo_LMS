@@ -51,7 +51,14 @@ public class User_Service implements User_IService {
 		logger.info("student_join Service 실행 {}", dto);
 		return user_interface.student_join(dto);
 	}
-
+	
+	//아이디 중복 체크
+	@Override
+	public String student_duplicate(String id) {
+		logger.info("student_duplicate Service 실행 {}", id);
+		return user_interface.student_duplicate(id);
+	}
+	
 	//과정 조회
 	@Override
 	public List<Course_DTO> student_course(String id) {

@@ -66,6 +66,16 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	/* --------------------   학생    ------------------------*/
+	
+	//회원 가입 승인 확인
+	@RequestMapping(value="/student_join_check.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String student_join_check(@RequestParam Map<String, String> map) {
+		logger.info("UserController student_join_check 실행");
+		Student_DTO Sdto = user_IService.student_login(map);
+		return Sdto.getS_check();
+	}
+		
 	//로그인
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String student_login(@RequestParam Map<String, String> map, HttpSession session) {
@@ -157,6 +167,57 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 			logger.info("회원가입 완료");
 		}
 		return "loginForm";
+	}
+	
+	//아이디 중복 체크
+	@RequestMapping(value="/student_join_duplicate.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String student_join_duplicate(String id) {
+		logger.info("UserController student_join_duplicate 실행");
+		String isc = user_IService.student_duplicate(id);
+		return isc;
+	}
+	
+	//본인인증용 메세지 전송
+	@RequestMapping(value="/id_check_num.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String id_check_num(String id) {
+		logger.info("UserController id_check_num 실행");
+		Random_Number rn = new Random_Number();
+		String pw = rn.Random_Pw();
+		
+		String api_key = "NCSBBEI5PLLEXGD2";
+		String api_secret = "OFVHZ33HQYWVQSCCZRWTYRWZNE8ZT1LU";
+		
+		Message coolsms = new Message(api_key, api_secret);
+		HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", id); // 수신번호
+	    params.put("from", "01065491058");
+	    params.put("type", "SMS"); // Message type ( SMS, LMS, MMS, ATA )
+	    params.put("text", "[JAJ]본인확인 인증번호["+pw+"]입니다.\"타인 노출 금지\""); // 문자내용    
+	    params.put("app_version", "JAVA SDK v1.2"); // application name and version
+		
+		logger.info("초기화된 비밀 번호 ------------------------------: "+pw);
+		try {
+			JSONObject result = coolsms.send(params);
+			if ((long)result.get("success_count") > 0) {
+		          // 메시지 보내기 성공 및 전송결과 출력
+		          System.out.println("성공");            
+		          System.out.println("group_id : "+result.get("group_id")); // 그룹아이디
+		          System.out.println("result_code : "+result.get("result_code")); // 결과코드
+		          System.out.println("result_message"+result.get("result_message"));  // 결과 메시지
+		          System.out.println("success_count"+result.get("success_count")); // 메시지아이디
+		          System.out.println("error_count"+result.get("error_count"));  // 여러개 보낼시 오류난 메시지 수
+		      } else {
+		          // 메시지 보내기 실패
+		          System.out.println("실패");
+		          System.out.println(result.get("code")); // REST API 에러코드
+		          System.out.println(result.get("message")); // 에러메시지
+		      } 
+		} catch (CoolsmsException e) {
+			e.printStackTrace();
+		}
+	return pw;
 	}
 	
 	//과정 조회

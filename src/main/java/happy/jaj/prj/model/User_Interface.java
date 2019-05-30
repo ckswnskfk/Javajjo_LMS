@@ -25,6 +25,9 @@ public interface User_Interface {
 	//회원가입
 	public boolean student_join(Student_DTO dto);
 	
+	//아이디 중복 체크
+	public String student_duplicate(String id);
+	
 	//과정 조회
 	public List<Course_DTO> student_course(String id);
 	

@@ -74,6 +74,14 @@ public class User_Dao implements User_Interface {
 		
 		return ((sqlSession.insert(NS_Stu+"student_join", dto)) > 0);
 	}
+	
+	//아이디 중복 체크
+	@Override
+	public String student_duplicate(String id) {
+		logger.info("student_duplicate Dao 실행 {}", id);
+		return sqlSession.selectOne(NS_Stu+"student_duplicate", id);
+	}
+	
 
 	//과정 조회
 	@Override

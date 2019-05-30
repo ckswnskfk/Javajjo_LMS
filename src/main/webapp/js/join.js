@@ -5,6 +5,17 @@ function join(){
 	var pw = document.getElementById("pw").value;
 	var pwRe = document.getElementById("pwRe").value;
 	var remember = document.getElementsByName("remember")[0];
+	var id_check = document.getElementById("id_check").value;
+	
+	
+	if(id_check == "N"){
+		$("#err_id").css("color","red");
+		document.getElementById("err_id").innerHTML="아이디 중복 확인과 본인인증을 완료해주세요"
+		return false;
+	}else{
+		$("#err_id").css("color","blue");
+		document.getElementById("err_id").innerHTML="사용가능한 아이디 입니다.";
+	}
 	
 	if(!isNaN(pw) || !pwCheck()){
 		$("#err_pw").css("color","red");
@@ -175,4 +186,46 @@ function t_modify(){
 	alert("강사 정보 수정이 완료되었습니다.");
 	return true;
 	
+}
+
+function id_duplicate(){
+	var id = document.getElementById("id").value;
+	$.ajax({
+		url: "./student_join_duplicate.do",
+		data: {"id" : id},
+		type: "POST",
+		success: function(obj) {
+			if(obj == null || obj == ""){
+				alert("사용가능한 아이디 입니다.");
+				$("#yeah").attr("disabled", false);
+			}else{
+				alert("중복된 아이디는 사용이 불가능 합니다.");
+			}
+		}
+		});
+}
+function id_check_go(){
+	var id = document.getElementById("id").value;
+	$.ajax({
+		url: "./id_check_num.do",
+		data:{"id" : id},
+		type:"POST",
+		success:function(obj){
+			document.getElementById("id_check_number").value = obj;
+		}
+	});
+	alert(id+"번호로 인증번호가 발송 되었습니다.");
+}
+
+function id_check_ok(){
+	var id_check_number = document.getElementById("id_check_number").value;
+	var idRe = document.getElementById("idRe").value;
+	var id_check = document.getElementById("id_check").value;
+	
+	if(id_check_number == idRe){
+		alert("인증 번호가 일치 합니다. 회원가입을 진행해 주세요");
+		document.getElementById("id_check").value = "Y";
+	}else{
+		alert("인증 번호가 일치하지 않습니다. 다시 시도해 주세요");
+	}
 }

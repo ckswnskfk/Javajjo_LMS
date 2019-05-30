@@ -4,7 +4,7 @@
 
 	<!-- 학생 로그인 -->
 	<select id="student_login" parameterType="java.util.Map" resultType="StudentDTO">
-		SELECT ID, NAME, PW 
+		SELECT ID, NAME, PW ,S_CHECK
  		FROM STUDENT WHERE ID=#{id} AND PW=#{pw}
 	</select>
 	
@@ -29,6 +29,17 @@
 		INSERT INTO STUDENT VALUES(#{id},
 		 #{name}, #{pw},#{gender}, #{birth}, #{addr}, 'N','N')
 	</insert>
+	
+	<!-- 아이디 중복 체크 -->
+	<select id="student_duplicate" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT ID
+		FROM STUDENT
+		WHERE ID = #{id}
+		UNION ALL
+		SELECT ID
+		FROM TEACHER
+		WHERE ID = #{id}
+	</select>
 	
 	<!-- 학생 과정 조회 -->
 	<select id="student_course" parameterType="java.lang.String" resultType="CourseDTO">
