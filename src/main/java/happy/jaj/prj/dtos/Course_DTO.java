@@ -13,6 +13,11 @@ public class Course_DTO {
 	public Course_DTO() {
 	}
 
+	public Course_DTO(String coursecode) {
+		super();
+		this.coursecode = coursecode;
+	}
+
 	public Course_DTO(String coursecode, String coursename, String startdate, String id, String teacher_name,
 			String time, String coursecnt) {
 		super();

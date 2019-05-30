@@ -41,5 +41,10 @@ public class Course_Dao implements Course_Interface {
 		return sqlSessionTemplate.insert(NS+"course_add", dto);
 	}
 	
+	public int codeDel(Course_DTO dto) {
+		logger.info("Course_Dao codeDel 실행");
+		return sqlSessionTemplate.delete(NS+"codeDel", dto);
+	}
+	
 	
 }

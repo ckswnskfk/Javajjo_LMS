@@ -37,6 +37,16 @@ public class Course_Service implements Course_IService {
 		logger.info("Course_Service course_add 실행");
 		return course_Interface.course_add(dto);
 	}
+
+	@Override
+	public int codeDel(List<Course_DTO> dto) {
+		logger.info("Course_Service codeDel 실행");
+		int cnt=0;
+		for (int i = 0; i < dto.size(); i++) {
+			cnt += course_Interface.codeDel(dto.get(i));
+		}
+		return cnt;
+	}
 	
 	
 }

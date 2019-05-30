@@ -27,4 +27,8 @@
 		#{coursename}, #{startdate}, 1)
 	</insert>
 	
+	<delete id="codeDel" parameterType="CourseDTO">
+	DELETE FROM COURSE WHERE COURSECODE=#{coursecode}
+	</delete>
+	
 </mapper>
