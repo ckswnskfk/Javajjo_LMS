@@ -109,20 +109,7 @@ public class User_Dao implements User_Interface {
 	@Override
 	public Teacher_DTO teacher_login(Map<String, String> map) {
 		logger.info("teacher_login Dao 실행 {}", map);
-		//좋은 방법
-		//입력한 id에 해당하는 pw(DB)
-		String securityPw = sqlSession.selectOne(NS_Stu+"teacher_login_find", map.get("id")); //$2a$10$GgCM.MtWE2uQlI6OP/0oSe9cgBhFUeEBqNHj3gP4/n4mI56KnE9ZW
-		
-		//dto.getPw() : 내가 로그인시 입력한 비밀번호(1111)
-		//$2a$10$GgCM.MtWE2uQlI6OP/0oSe9cgBhFUeEBqNHj3gP4/n4mI56KnE9ZW -> 1111로 디코딩해서 두개가 일치하는지 확인 
-		//이 순서로 넣어주어야 한다.
-		if(passwordEncoder.matches(map.get("pw"), securityPw)) { // 역으로 디코딩해줘서
-			map.put("pw", securityPw);
-			return sqlSession.selectOne(NS_Tea+"teacher_login", map);
-		}
-				
-		return null;
-		
+		return sqlSession.selectOne(NS_Tea+"teacher_login", map);
 	}
 
 	//정보 조회
