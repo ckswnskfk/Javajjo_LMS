@@ -14,6 +14,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -52,10 +53,17 @@ public class BoardController {
 	String uploadPath;
 	
 	@RequestMapping(value="/notice_list.do", method=RequestMethod.GET)
-	public String notice_Allselect(Model model) {
+	public String notice_Allselect(Model model, RowNum_DTO dto) {
 		logger.info("BoardController notice_Allselect 실행");
-		RowNum_DTO dto = new RowNum_DTO();
-		List<Notice_DTO> lists = board_IService.notice_Allselect(dto);
+		List<Notice_DTO> lists = null;
+		
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = board_IService.notice_Allselect_count();
+		dto.setTotal(cnt);
+		lists = board_IService.notice_Allselect(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "notice_List";
 	}
@@ -89,22 +97,54 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/notice_search.do", method=RequestMethod.GET)
-	public String notice_find(@RequestParam Map<String, String> map, Model model) {
+	public String notice_find(@RequestParam Map<String, String> map, Model model, RowNum_DTO dto, HttpSession session) {
 		logger.info("BoardController notice_find 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		String find = "find";
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = board_IService.notice_find_count(map.get("title"));
+		dto.setTotal(cnt);
 		map.put("start", String.valueOf(dto.getStart()));
 		map.put("last", String.valueOf(dto.getLast()));
 		List<Notice_DTO> lists =board_IService.notice_find(map);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
+		model.addAttribute("find", find);
+		session.setAttribute("search", map.get("title"));
+		return "notice_List";
+	}
+	
+	@RequestMapping(value="/notice_search_page.do", method=RequestMethod.GET)
+	public String notice_find_page(@RequestParam Map<String, String> map, Model model, RowNum_DTO dto, HttpSession session) {
+		logger.info("BoardController notice_find 실행");
+		String find = "find";
+		map.put("title", session.getAttribute("search").toString());
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = board_IService.notice_find_count(map.get("title"));
+		dto.setTotal(cnt);
+		map.put("start", String.valueOf(dto.getStart()));
+		map.put("last", String.valueOf(dto.getLast()));
+		List<Notice_DTO> lists =board_IService.notice_find(map);
+		model.addAttribute("pg", dto);
+		model.addAttribute("lists", lists);
+		model.addAttribute("find", find);
 		return "notice_List";
 	}
 	
 	@RequestMapping(value="/file_infoboardlist.do", method=RequestMethod.GET)
-	public String file_infoboardlist(Model model) {
+	public String file_infoboardlist(Model model, RowNum_DTO dto) {
 		logger.info("BoardController file_infoboardlist 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		if(dto == null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = board_IService.file_infoboardlist_count();
+		dto.setTotal(cnt);
 		List<FileBoard_DTO> lists = board_IService.file_infoboardlist(dto);
 		model.addAttribute("lists", lists);
+		model.addAttribute("pg", dto);
 		return "file_BoardList";
 	}
 	@RequestMapping(value="/file_infodetailboard.do", method=RequestMethod.GET)

@@ -11,6 +11,12 @@
 		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
+	<!-- 게시판 개수 조회 -->
+	<select id="notice_Allselect_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM NOTICE_BOARD
+	</select>
+	
 	<!-- 게시판 상세 조히 -->
 	<select id="notice_oneselect" parameterType="java.lang.String" resultType="NoticeDTO">
 		SELECT SEQ,TITLE,CONTENT,ID,REGDATE,READCOUNT 
@@ -31,6 +37,13 @@
 			FROM (SELECT SEQ,TITLE,CONTENT,ID,REGDATE,
 			READCOUNT FROM NOTICE_BOARD ORDER BY SEQ))
 	WHERE RNUM BETWEEN #{start} AND #{last} AND TITLE LIKE '%'||#{title}||'%'
+	</select>
+	
+	<!-- 게시판 글 검색 카운트 -->
+	<select id="notice_find_count" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM NOTICE_BOARD
+	WHERE TITLE LIKE '%'||#{title}||'%'
 	</select>
 	
 	<!-- 게시판 조회수 증가 -->
