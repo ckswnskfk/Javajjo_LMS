@@ -80,6 +80,14 @@ public class Subject_Service implements Subject_IService {
 		return subject_Interface.subjectname(re);
 	}
 
-	
+	@Override
+	public int subDel(List<Subject_DTO> dto) {
+		logger.info("Course_Service codeDel 실행");
+		int cnt=0;
+		for (int i = 0; i < dto.size(); i++) {
+			cnt += subject_Interface.subDel(dto.get(i));
+		}
+		return cnt;
+	}
 	
 }
