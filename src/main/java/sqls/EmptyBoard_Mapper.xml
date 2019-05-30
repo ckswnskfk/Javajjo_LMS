@@ -7,6 +7,13 @@
 		SELECT CODE,NAME,PERSONEL FROM EMPTY_BOARD
 	</select>
 	
+	<!-- 강의실 상세 조회 -->
+	<select id="room_detailboardlist" resultType="EmptyDTO" parameterType="java.lang.String">
+		SELECT CODE,NAME,PERSONEL 
+		FROM EMPTY_BOARD
+		WHERE CODE = #{code}
+	</select>
+	
 	<!-- 빈강의실 조회용 숫자 -->
 	<select id="room_emptyboardlist" parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT COUNT(*)

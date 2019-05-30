@@ -50,6 +50,9 @@ public interface Board_IService {
 	// 강의실 조회
 	public List<Empty_DTO> room_boardlist();
 	
+	// 강의실 상세 조회
+	public Empty_DTO room_detailboardlist(String code);
+	
 	// 빈 강의실 조회
 	public int room_emptyboardlist(Map<String, String> map);
 	

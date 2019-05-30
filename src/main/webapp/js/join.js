@@ -4,6 +4,7 @@ function join(){
 	var id = document.getElementById("id").value;
 	var pw = document.getElementById("pw").value;
 	var pwRe = document.getElementById("pwRe").value;
+	var remember = document.getElementsByName("remember")[0];
 	
 	if(!isNaN(pw) || !pwCheck()){
 		$("#err_pw").css("color","red");
@@ -48,7 +49,12 @@ function join(){
 		$("#err_birth").css("color","blue");
 		document.getElementById("err_birth").innerHTML="생년월일이 선택 되었습니다.";
 	}
-	
+	if(!remember.checked){
+		$("#err_remember").css("color","red");
+		document.getElementById("err_remember").innerHTML="약관에 동의 해주세요";
+		remember.focus();
+		return false;
+	}
 	frm.action="./student_join.do";
 	frm.method="post";
 	alert("회원가입이 완료되었습니다.");
@@ -61,7 +67,7 @@ function pwCheck(){
 	var pw = document.getElementById("pw");
 	
 	 if((pw.value).match(re)) {
-           return true; // 유효성에 맞는아이디
+           return true; // 유효성에 맞는 비밀번호
        }
 //	       alert(message);
        pw.focus();
@@ -82,7 +88,7 @@ function nameCheck(){
 	var name = document.getElementById("name");
 	
 	 if((name.value).match(re)) {
-           return true; // 유효성에 맞는아이디
+           return true; // 유효성에 맞는이름
        }
 //	       alert(message);
        name.focus();
@@ -92,12 +98,22 @@ function nameCheck(){
 function dateCheck(){
 	var re = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/; 
 	var birth = document.getElementById("birth");
-	 if((birth.value).match(re)) {
-           return true; // 유효성에 맞는아이디
-       }
+	var date = new Date(birth.value);
+	var today = new Date();
+	
+	
+	if(date >= today){
+		alert("오늘 이후의 날짜는 선택할 수 없습니다.");
+		return false;
+	}
+	
+	if((birth.value).match(re)) {
+           return true; // 유효성에 맞는날짜
+    }
 //	       alert(message);
-       birth.focus();
-       return false; // 유효성에 맞지않다
+    birth.focus();
+    return false; // 유효성에 맞지않다
+      
 }
 
 function t_join(){

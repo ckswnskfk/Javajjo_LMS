@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ import happy.jaj.prj.dtos.Room_Empty_DTO;
 import happy.jaj.prj.dtos.RowNum_DTO;
 import happy.jaj.prj.dtos.Student_DTO;
 import happy.jaj.prj.model.Board_IService;
+import happy.jaj.prj.model.User_IService;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Controller
 public class BoardController {
@@ -190,13 +194,13 @@ public class BoardController {
 	}
 	
 	// 상세조회한 신청서에서 첨부파일 다운
-		@RequestMapping(value="/file_infodownload.do", method=RequestMethod.GET)
-		public ModelAndView download(String newfilename) {
-			String fullPath = uploadPath+"\\"+newfilename;
-			File file = new File(fullPath);
-			// download라는 id를 가진 Bean에 downloadFile 이라는 이름의 file을 전달
-			return new ModelAndView("download","downloadFile",file);
-		}
+	@RequestMapping(value="/file_infodownload.do", method=RequestMethod.GET)
+	public ModelAndView download(String newfilename) {
+		String fullPath = uploadPath+"\\"+newfilename;
+		File file = new File(fullPath);
+		// download라는 id를 가진 Bean에 downloadFile 이라는 이름의 file을 전달
+		return new ModelAndView("download","downloadFile",file);
+	}
 		
 		
 	@RequestMapping(value="/file_infosearchboard.do", method=RequestMethod.GET)
@@ -261,7 +265,45 @@ public class BoardController {
 	@RequestMapping(value="/room_empty_request.do", method=RequestMethod.GET)
 	public String room_empty_request(Room_Empty_DTO dto, Model model) {
 		logger.info("BoardController room_empty_request 실행");
-		board_IService.room_empty_request(dto);
+		
+		Empty_DTO edto = board_IService.room_detailboardlist(dto.getCode());
+		
+		String api_key = "NCSBBEI5PLLEXGD2";
+		String api_secret = "OFVHZ33HQYWVQSCCZRWTYRWZNE8ZT1LU";
+		
+		Message coolsms = new Message(api_key, api_secret);
+		HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", dto.getId()); // 수신번호
+	    params.put("from", "01065491058");
+	    params.put("type", "SMS"); // Message type ( SMS, LMS, MMS, ATA )
+	    params.put("text", "[JAJ]빈 강의실 예약이 완료 되었습니다. \n 강의실 이름 : "+edto.getName()
+	    		+ "\n날짜 : "+dto.getRegdate()); // 문자내용    
+	    params.put("app_version", "JAVA SDK v1.2"); // application name and version
+		boolean isc = board_IService.room_empty_request(dto);
+		if(isc) {
+			logger.info("강의실 예약 "+isc);
+			try {
+				JSONObject result = coolsms.send(params);
+				if ((long)result.get("success_count") > 0) {
+			          // 메시지 보내기 성공 및 전송결과 출력
+			          System.out.println("성공");            
+			          System.out.println("group_id : "+result.get("group_id")); // 그룹아이디
+			          System.out.println("result_code : "+result.get("result_code")); // 결과코드
+			          System.out.println("result_message"+result.get("result_message"));  // 결과 메시지
+			          System.out.println("success_count"+result.get("success_count")); // 메시지아이디
+			          System.out.println("error_count"+result.get("error_count"));  // 여러개 보낼시 오류난 메시지 수
+			      } else {
+			          // 메시지 보내기 실패
+			          System.out.println("실패");
+			          System.out.println(result.get("code")); // REST API 에러코드
+			          System.out.println(result.get("message")); // 에러메시지
+			      } 
+			} catch (CoolsmsException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
 		model.addAttribute("regdate", dto.getRegdate());
 		model.addAttribute("id", dto.getId());
 		return "redirect:/room_emptyboardlist.do";
@@ -269,7 +311,44 @@ public class BoardController {
 	@RequestMapping(value="/room_empty_cancle.do", method=RequestMethod.GET)
 	public String room_empty_cancle(Room_Empty_DTO dto, Model model) {
 		logger.info("BoardController room_empty_cancle 실행");
-		board_IService.room_empty_cancle(dto);
+		
+		Empty_DTO edto = board_IService.room_detailboardlist(dto.getCode());
+		
+		String api_key = "NCSBBEI5PLLEXGD2";
+		String api_secret = "OFVHZ33HQYWVQSCCZRWTYRWZNE8ZT1LU";
+		
+		Message coolsms = new Message(api_key, api_secret);
+		HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", dto.getId()); // 수신번호
+	    params.put("from", "01065491058");
+	    params.put("type", "SMS"); // Message type ( SMS, LMS, MMS, ATA )
+	    params.put("text", "[JAJ]빈 강의실 예약취소가 완료 되었습니다. \n 강의실 이름 : "+edto.getName()
+		+ "\n날짜 : "+dto.getRegdate()); // 문자내용        
+	    params.put("app_version", "JAVA SDK v1.2"); // application name and version
+		boolean isc = board_IService.room_empty_cancle(dto);
+		if(isc) {
+			logger.info("강의실 예약 "+isc);
+			try {
+				JSONObject result = coolsms.send(params);
+				if ((long)result.get("success_count") > 0) {
+			          // 메시지 보내기 성공 및 전송결과 출력
+			          System.out.println("성공");            
+			          System.out.println("group_id : "+result.get("group_id")); // 그룹아이디
+			          System.out.println("result_code : "+result.get("result_code")); // 결과코드
+			          System.out.println("result_message"+result.get("result_message"));  // 결과 메시지
+			          System.out.println("success_count"+result.get("success_count")); // 메시지아이디
+			          System.out.println("error_count"+result.get("error_count"));  // 여러개 보낼시 오류난 메시지 수
+			      } else {
+			          // 메시지 보내기 실패
+			          System.out.println("실패");
+			          System.out.println(result.get("code")); // REST API 에러코드
+			          System.out.println(result.get("message")); // 에러메시지
+			      } 
+			} catch (CoolsmsException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		model.addAttribute("regdate", dto.getRegdate());
 		model.addAttribute("id", dto.getId());
 		return "redirect:/room_emptyboardlist.do";

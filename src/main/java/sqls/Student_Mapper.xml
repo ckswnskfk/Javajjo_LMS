@@ -8,6 +8,12 @@
  		FROM STUDENT WHERE ID=#{id} AND PW=#{pw}
 	</select>
 	
+	<!-- 비밀번호 암호화 로그인용 pw 찾기 -->
+	<select id="student_login_find" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT PW FROM STUDENT WHERE ID = #{id}
+	</select>
+	
+	
 	<!-- 학생 비밀번호 초기화용 정보 찾기 -->
 	<select id="student_pwre" parameterType="java.util.Map" resultType="java.lang.String">
 		SELECT ID FROM STUDENT WHERE ID=#{id} AND NAME=#{name}

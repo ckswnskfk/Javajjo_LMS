@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import happy.jaj.prj.dtos.Admin_DTO;
@@ -27,12 +28,27 @@ public class User_Dao implements User_Interface {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder; // crypto로 해야한다.
+	
 	/* --------------------   학생    ------------------------*/
 	//로그인
 	@Override
 	public Student_DTO student_login(Map<String, String> map) {
 		logger.info("student_login Dao 실행 {}", map);
-		return sqlSession.selectOne(NS_Stu+"student_login", map);
+		//좋은 방법
+		//입력한 id에 해당하는 pw(DB)
+		String securityPw = sqlSession.selectOne(NS_Stu+"student_login_find", map.get("id")); //$2a$10$GgCM.MtWE2uQlI6OP/0oSe9cgBhFUeEBqNHj3gP4/n4mI56KnE9ZW
+		
+		//dto.getPw() : 내가 로그인시 입력한 비밀번호(1111)
+		//$2a$10$GgCM.MtWE2uQlI6OP/0oSe9cgBhFUeEBqNHj3gP4/n4mI56KnE9ZW -> 1111로 디코딩해서 두개가 일치하는지 확인 
+		//이 순서로 넣어주어야 한다.
+		if(passwordEncoder.matches(map.get("pw"), securityPw)) { // 역으로 디코딩해줘서
+			map.put("pw", securityPw);
+			return sqlSession.selectOne(NS_Stu+"student_login", map);
+		}
+				
+		return null;
 	}
 	
 	//비밀번호 초기화 정보 찾기
@@ -53,6 +69,9 @@ public class User_Dao implements User_Interface {
 	@Override
 	public boolean student_join(Student_DTO dto) {
 		logger.info("student_join Dao 실행 {}", dto);
+		String encodePw = passwordEncoder.encode(dto.getPw());
+		dto.setPw(encodePw);
+		
 		return ((sqlSession.insert(NS_Stu+"student_join", dto)) > 0);
 	}
 
@@ -82,7 +101,20 @@ public class User_Dao implements User_Interface {
 	@Override
 	public Teacher_DTO teacher_login(Map<String, String> map) {
 		logger.info("teacher_login Dao 실행 {}", map);
-		return sqlSession.selectOne(NS_Tea+"teacher_login", map);
+		//좋은 방법
+		//입력한 id에 해당하는 pw(DB)
+		String securityPw = sqlSession.selectOne(NS_Stu+"teacher_login_find", map.get("id")); //$2a$10$GgCM.MtWE2uQlI6OP/0oSe9cgBhFUeEBqNHj3gP4/n4mI56KnE9ZW
+		
+		//dto.getPw() : 내가 로그인시 입력한 비밀번호(1111)
+		//$2a$10$GgCM.MtWE2uQlI6OP/0oSe9cgBhFUeEBqNHj3gP4/n4mI56KnE9ZW -> 1111로 디코딩해서 두개가 일치하는지 확인 
+		//이 순서로 넣어주어야 한다.
+		if(passwordEncoder.matches(map.get("pw"), securityPw)) { // 역으로 디코딩해줘서
+			map.put("pw", securityPw);
+			return sqlSession.selectOne(NS_Tea+"teacher_login", map);
+		}
+				
+		return null;
+		
 	}
 
 	//정보 조회

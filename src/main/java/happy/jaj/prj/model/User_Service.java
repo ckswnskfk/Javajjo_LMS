@@ -30,6 +30,7 @@ public class User_Service implements User_IService {
 		return user_interface.student_login(map);
 	}
 	
+	
 	//비밀전호 초기화 정보 찾기
 	@Override
 	public String student_pwre(Map<String, String> map) {
@@ -79,7 +80,7 @@ public class User_Service implements User_IService {
 		logger.info("teacher_login Service 실행 {}", map);
 		return user_interface.teacher_login(map);
 	}
-
+	
 	//정보 조회
 	@Override
 	public Teacher_DTO teacher_info(String id) {

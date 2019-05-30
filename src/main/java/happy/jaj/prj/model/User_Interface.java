@@ -15,7 +15,7 @@ public interface User_Interface {
 	/* --------------------   학생    ------------------------*/
 	//로그인
 	public Student_DTO student_login(Map<String, String> map);
-	
+
 	//비밀번호 초기화 정보 찾기
 	public String student_pwre(Map<String, String> map);
 	

@@ -114,6 +114,13 @@ public class Board_Service implements Board_IService {
 		logger.info("room_boardlist Service 실행");
 		return board_interface.room_boardlist();
 	}
+	
+	// 강의실  상세 조회
+	@Override
+	public Empty_DTO room_detailboardlist(String code) {
+		logger.info("room_detailboardlist Service 실행");
+		return board_interface.room_detailboardlist(code);
+	}
 
 	// 빈 강의실 조회
 	@Override

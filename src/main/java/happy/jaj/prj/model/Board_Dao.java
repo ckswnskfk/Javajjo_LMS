@@ -119,6 +119,13 @@ public class Board_Dao implements Board_Interface {
 		logger.info("room_boardlist Dao 실행");
 		return sqlSession.selectList(NS_Emp+"room_boardlist");
 	}
+	
+	// 강의실 상세 조회
+	@Override
+	public Empty_DTO room_detailboardlist(String code) {
+		logger.info("room_detailboardlist Dao 실행");
+		return sqlSession.selectOne(NS_Emp+"room_detailboardlist",code);
+	}
 
 	// 빈 강의실 조회
 	@Override

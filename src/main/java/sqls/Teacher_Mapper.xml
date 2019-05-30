@@ -8,6 +8,11 @@
  		FROM TEACHER
   		WHERE ID=#{id} AND PW=#{pw}
   	</select>
+  	
+  	<!-- 비밀번호 암호화 로그인용 pw 찾기(강사) -->
+	<select id="teacher_login_find" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT PW FROM TEACHER WHERE ID = #{id}
+	</select>
 	
 	<!-- 본인 정보 조회(강사) -->
 	<select id="teacher_info" parameterType="java.lang.String" resultType="TeacherDTO">
