@@ -83,13 +83,21 @@
 	}
 	
 	
-	function fileChk(filename) {
-		var ext = filename.split(".").pop().toLowerCase();
+	function fileChk(targetObj, $target) {
+		var ext = targetObj.value.split(".").pop().toLowerCase();
 		if ($.inArray(ext, ["gif", "jpg", "jpeg", "png"]) == -1) {
 			alert("이미지 파일(gif, jpg, jpeg, png)만 업로드 가능합니다.");
 			$("#originalfilename").val("");
 			return;
 		} else {
+			if (targetObj.files && targetObj.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#img_preview').attr('src', e.target.result);
+					$('#img_preview').attr('style', 'display:');
+				}
+				reader.readAsDataURL(targetObj.files[0]);
+			}
 			$("#submit").attr("disabled", false);
 		}
 	}
@@ -115,13 +123,14 @@
     <div class="row">
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">결석 신청 내역</h1>
-        <div>
+        <div><br>
         	<select id="select_stm" name="select_stm" onchange="stmSelect(this.value)">
         		<option value="N" selected="selected">진행중</option>
         		<option value="Y">승인</option>
         		<option value="R">미승인</option>
         	</select>
         </div>
+        <br>
         <div id="list">
         	<table class="table">
         		<tr>
@@ -163,13 +172,14 @@
         		</c:forEach>
         	</table>
         </div>
+        <br>
         <div>
         	<c:if test="${member.table eq 'Student'}">
         		<button id="toAppForm" onclick="location.href='./to_app_form.do'">결석 신청</button>
         	</c:if>
         	<c:if test="${member.table ne 'Student'}">
         		<button class="btn btn-outline-success" onclick="chkSignature()">사인 등록</button>
-        		<button class="btn btn-outline-success">사인 확인</button>
+<!--         		<button class="btn btn-outline-success">사인 확인</button> -->
         		<input id="addSignature" type="hidden" data-toggle="modal" data-target="#layerpop">
         	</c:if>
         	
@@ -182,10 +192,12 @@
 								<h4 class="modal-title">사인 등록</h4>
 							</div>
 							<!-- body -->
+							
 							<div class="modal-body">
-								<form action="./addSignature.do" method="post" enctype="multipart/form-data"">
+								<form action="./addSignature.do" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="id" value="${member.id}">
-									<input type="file" id="originalfilename" name="originalfilename" onchange="fileChk(this.value)">
+									<input type="file" id="originalfilename" name="originalfilename" onchange="fileChk(this,$('#img_preview'))">
+									<img id="img_preview" alt="img_preview" src="" style="display:none;">
 									<button type="submit" id="submit" disabled="disabled">등록</button>
 								</form>
 							</div>

@@ -59,7 +59,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td><label><b>수강 과정(신청 수신인)</b></label><br/>
+				<td><label><b>수강 과정(수신인)</b></label><br/>
 					${yesMap.dto.coursename}
 					<c:if test="${yesMap.dto.coursename == null}">
 						관리자
