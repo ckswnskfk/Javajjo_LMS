@@ -17,10 +17,12 @@ import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
+import happy.jaj.prj.dtos.Student_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
+import happy.jaj.prj.dtos.UserCourse_DTO;
 
 @Repository
 public class Test_Dao implements Test_Interface {
@@ -190,7 +192,7 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public Answer_Sel_DTO answers_select(Map<String, String> map) {
+	public String answers_select(Map<String, String> map) {
 		logger.info("Test_Dao answers_select {}",map);
 		return sqlSession.selectOne(NS+"answers_select",map);
 	}
@@ -300,6 +302,18 @@ public class Test_Dao implements Test_Interface {
 	public List<Course_DTO> test_courselist(String id) {
 		logger.info("Test_Dao test_courselist {}", id);
 		return sqlSession.selectList(NS+"test_courselist",id);
+	}
+
+	@Override
+	public int test_examcount(String testcode) {
+		logger.info("Test_Dao test_examcount {}", testcode);
+		return sqlSession.selectOne(NS+"test_examcount",testcode);
+	}
+
+	@Override
+	public List<Student_DTO> test_coursestu(String coursecode) {
+		logger.info("Test_Dao test_coursestu {}", coursecode);
+		return sqlSession.selectList(NS+"test_coursestu", coursecode);
 	}
 
 	

@@ -16,10 +16,12 @@ import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
+import happy.jaj.prj.dtos.Student_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
+import happy.jaj.prj.dtos.UserCourse_DTO;
 
 @Service
 public class Test_Service implements Test_IService {
@@ -221,7 +223,7 @@ public class Test_Service implements Test_IService {
 	}
 
 	@Override
-	public Answer_Sel_DTO answers_select(Map<String, String> map) {
+	public String answers_select(Map<String, String> map) {
 		logger.info("Test_Service answers_select {}",map);
 		return test_Interface.answers_select(map);
 	}
@@ -326,6 +328,18 @@ public class Test_Service implements Test_IService {
 	public List<Course_DTO> test_courselist(String id) {
 		logger.info("Test_Service test_courselist {}",id);
 		return test_Interface.test_courselist(id);
+	}
+
+	@Override
+	public int test_examcount(String testcode) {
+		logger.info("Test_Service test_examcount {}", testcode);
+		return test_Interface.test_examcount(testcode);
+	}
+
+	@Override
+	public List<Student_DTO> test_coursestu(String coursecode) {
+		logger.info("Test_Service test_coursestu {}", coursecode);
+		return test_Interface.test_coursestu(coursecode);
 	}
 	
 	

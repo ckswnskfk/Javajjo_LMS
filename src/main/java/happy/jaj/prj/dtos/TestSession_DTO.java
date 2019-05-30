@@ -2,6 +2,7 @@ package happy.jaj.prj.dtos;
 
 public class TestSession_DTO {
 	
+	private String coursecode;
 	private String coursename;
 	private String subjectcode;
 	private String subjectname;
@@ -12,15 +13,26 @@ public class TestSession_DTO {
 	private String testday;
 	
 	
+
 	@Override
 	public String toString() {
-		return "TestSession_DTO [coursename=" + coursename + ", subjectcode=" + subjectcode + ", subjectname="
-				+ subjectname + ", subjecttype=" + subjecttype + ", examtype=" + examtype + ", testname=" + testname
-				+ ", testcode=" + testcode + ", testday=" + testday + "]";
+		return "TestSession_DTO [coursecode=" + coursecode + ", coursename=" + coursename + ", subjectcode="
+				+ subjectcode + ", subjectname=" + subjectname + ", subjecttype=" + subjecttype + ", examtype="
+				+ examtype + ", testname=" + testname + ", testcode=" + testcode + ", testday=" + testday + "]";
 	}
-	public TestSession_DTO(String coursename, String subjectcode, String subjectname, String subjecttype,
-			String examtype, String testname, String testcode, String testday) {
+	
+	public String getCoursecode() {
+		return coursecode;
+	}
+
+	public void setCoursecode(String coursecode) {
+		this.coursecode = coursecode;
+	}
+
+	public TestSession_DTO(String coursecode, String coursename, String subjectcode, String subjectname,
+			String subjecttype, String examtype, String testname, String testcode, String testday) {
 		super();
+		this.coursecode = coursecode;
 		this.coursename = coursename;
 		this.subjectcode = subjectcode;
 		this.subjectname = subjectname;
@@ -30,6 +42,7 @@ public class TestSession_DTO {
 		this.testcode = testcode;
 		this.testday = testday;
 	}
+
 	public TestSession_DTO() {
 		super();
 		// TODO Auto-generated constructor stub

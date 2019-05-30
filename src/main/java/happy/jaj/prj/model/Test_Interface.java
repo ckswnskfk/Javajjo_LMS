@@ -10,12 +10,20 @@ import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.dtos.Exam_Des_DTO;
 import happy.jaj.prj.dtos.Exam_Sel_DTO;
 import happy.jaj.prj.dtos.Score_DTO;
+import happy.jaj.prj.dtos.Student_DTO;
 import happy.jaj.prj.dtos.Subject_DTO;
 import happy.jaj.prj.dtos.Subject_Test_DTO;
 import happy.jaj.prj.dtos.Test_DTO;
 import happy.jaj.prj.dtos.Test_Exam_DTO;
+import happy.jaj.prj.dtos.UserCourse_DTO;
 
 public interface Test_Interface {
+	
+	// 수강학생조회
+	public List<Student_DTO> test_coursestu(String coursecode);
+	
+	// 문제갯수 조회
+	public int test_examcount(String testcode);
 	
 	//수강과정 조회
 	public List<Course_DTO> test_courselist(String id);
@@ -98,7 +106,7 @@ public interface Test_Interface {
 	//학생 선택형 답안 등록 수정
 	public boolean answers_modify(Answer_Sel_DTO dto);
 	//학생 선택형 답안 등록 조회
-	public Answer_Sel_DTO answers_select(Map<String, String> map);
+	public String answers_select(Map<String, String> map);
 	//등록_학생점수채점(서술형)
 	public boolean score_insertd(Score_DTO dto);
 	//등록-자동채점(선택형)

@@ -19,14 +19,27 @@
 <%
 	Exam_Des_DTO dto = (Exam_Des_DTO)request.getAttribute("dto");
 	Answer_Des_DTO answer = (Answer_Des_DTO)request.getAttribute("answer");
+	int maxexam=(int)request.getAttribute("maxexamnum");
 %>
 <form action="#" method="post">
 	<table>
 		<tr>
+			<td></td>
+			<td>
+			<%
+			for(int i=1; i<(maxexam+1);i++){
+				%>
+				<input type="button" value="<%=i%>번" onclick="numberclick(<%=i%>)">
+				<% 
+			}
+			%>
+			</td>
+		</tr>
+		<tr>
 			<td><p style="font-size: 20px">
 			<input type="hidden" name="examcode" value='<%=dto.getExamcode()%>'>
 			<input type="hidden" name="examnum" value='<%=dto.getExamnum()%>'>
-			<input type="hidden" name="page" value>
+			<input type="hidden" name="page" >
 			<%=dto.getExamnum() %></p></td>
 			<td><%=dto.getExam() %><a style="color:red"><%=dto.getAllot() %></a></td>
 		</tr>
@@ -42,8 +55,8 @@
 			<td colspan="3"><input type="file" name="file"></td>
 		</tr>
 		<tr>
-			<td><input type="button" value="← 이전문제" onclick="pageexam(true)"></td>
-			<td><input type="button" value="다음 문제 →" onclick="pageexam(false)"></td>
+			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
+			<td><input type="button" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
 			<td><input type="button" value="시험 제출"></td>
 		</tr>
 	</table>
