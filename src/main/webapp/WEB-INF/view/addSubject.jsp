@@ -13,7 +13,7 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
-
+<form action="./cosubDel.do" method="post">
 <table>
 	<tr>
 		<th>과목이름</th>
@@ -23,15 +23,17 @@
 	
 		<tr>
 			<td>
-				<input type="checkbox" name="chk1" value="${dto.subjectcode}">${dto.subjectname}
+				<input type="checkbox" name="seq" value="${dto.seq}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
 		</tr>
 	</c:forEach>
-	
-</table>
 
-<input type="button" value="▼빼기">
+</table>
+<div>
+<input type="submit" value="▼빼기" >
+</div>
+</form>
 <input type="button" value="▲추가" onclick="subadd()">
 
 
@@ -75,24 +77,14 @@
   </div>
 </div>
 
-<!-- <div id="myModal2" class="modal fade" role="dialog"> -->
-<!--   <div class="modal-dialog"> -->
-<!--     Modal content -->
-<!--     <div class="modal-content"> -->
-<!--       <div class="modal-header"> -->
-<!--         <h4 class="modal-title">상세 등록</h4> -->
-<!--         <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-<!--       </div> -->
-<!--       <div class="modal-body"> -->
-<!-- 		<form action="#" role="form" method="post" id="frmModify1"></form> -->
-<!--       </div> -->
-<!--     </div> -->
-<!--   </div> -->
-<!-- </div> -->
 <%@include file="./include/footer.jsp" %>
 
 
 <script type="text/javascript">
+function subdel(){
+	
+}
+
 function momo(){
 	ajaxSubadd();
 	$("#myModal1").modal();

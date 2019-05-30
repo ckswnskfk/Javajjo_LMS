@@ -12,6 +12,11 @@ public class Course_Subject_DTO {
 	public Course_Subject_DTO() {
 	}
 
+	public Course_Subject_DTO(String seq) {
+		super();
+		this.seq = seq;
+	}
+
 	public Course_Subject_DTO(String seq, String coursecode, String subjectcode, String subjecttime, String content,
 			String startdate) {
 		super();

@@ -69,5 +69,11 @@ public class Subject_Dao implements Subject_Interface {
 		logger.info("Subject_Dao subjectname 실행 {}", re);
 		return sqlSessionTemplate.selectOne(NS+"subjectname", re);
 	}
+	
+	@Override
+	public int course_sub_Del(Course_Subject_DTO dto) {
+		logger.info("Subject_Dao course_sub_Del 실행 {}", dto);
+		return sqlSessionTemplate.delete(NS+"course_sub_Del", dto);
+	}
 
 }

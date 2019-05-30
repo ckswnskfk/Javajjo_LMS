@@ -25,7 +25,7 @@
 	
 	<!-- 과정에 해당하는 과목 조회 -->
 	<select id="subject_choice" parameterType="CourseSubjectDTO" resultType="SubjectDTO">
-		SELECT SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE
+		SELECT SEQ,SUBJECTCODE, SUBJECTNAME, SUBJECTTYPE, EXAMTYPE
 		FROM SUBJECT JOIN COURSE_SUBJECT 
 		USING (SUBJECTCODE) WHERE COURSECODE = #{coursecode}
 	</select>
@@ -49,4 +49,8 @@
 		SELECT SUBJECTNAME,SUBJECTCODE FROM SUBJECT WHERE SUBJECTCODE=#{subjectcode}
 		
 	</select>
+	<!-- 과정에 들어가있는 과정 삭제 -->
+	<delete id="course_sub_Del" parameterType="CourseSubjectDTO">
+	DELETE FROM COURSE_SUBJECT WHERE SEQ=#{seq}
+	</delete>
 </mapper>

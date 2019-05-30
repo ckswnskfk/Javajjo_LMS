@@ -81,16 +81,6 @@ public class SubjectController {
 		return "chanju_index";
 	}
 	
-//	// 과정에 해당하는 과목 조회
-//	@RequestMapping(value="/subject_choice.do", method=RequestMethod.GET)
-//	public String subject_choice(HttpServletRequest req) {
-//		logger.info("SubjectController subject_choice 실행");
-//		String coursecode = req.getParameter("coursecode");
-//		List<Subject_DTO> list = subject_IService.subject_choice(coursecode);
-//		req.setAttribute("list", list);
-//		return "chanju_index";
-//	}
-	
 	// 과정에 과목 추가
 	@RequestMapping(value="/subject_add_course.do", method=RequestMethod.POST)
 	public String subject_add_course(HttpSession session, String[] code, String[] time, String[] content, String[] startday) {
@@ -139,24 +129,20 @@ public class SubjectController {
 			System.out.println(rere[i]);
 		}
 		model.addAttribute("add",add);
-		
-//		logger.info("Controller multidel{}",Arrays.toString(req));
-//		Map<String, String[]> map=new HashMap<String,String[]>();
-//		map.put("seq_", chkVal);
-//		String str=subject_IService.subjectname(map);
-//		model.addAttribute("add",str);
-		
-//		String[] arrayParam = request.getParameterValues("subjectcode");
-//		logger.info("Controller submit{}");
-//		for (int i = 0; i < arrayParam.length; i++) {
-//			System.out.println(arrayParam[i]);
-//			List<Subject_DTO> list= subject_IService.subjectname(arrayParam[i]);
-//		}
-////		model.addAttribute("add",arrayParam);
-//
-//		return "ddd";
 		return "timecon_set";
 	}
-	
+	@RequestMapping(value="/cosubDel.do", method=RequestMethod.POST)
+	public String course_sub_Del(String[] seq,HttpSession session) {
+		logger.info("SubjectController course_sub_Del 실행");
+		System.out.println(Arrays.toString(seq));
+		List<Course_Subject_DTO> lists = new ArrayList<Course_Subject_DTO>();
+		for (int i = 0; i < seq.length; i++) {
+			Course_Subject_DTO dto 
+			= new Course_Subject_DTO(seq[i]);
+			lists.add(dto);
+		}
+		int n = subject_IService.course_sub_Del(lists);
+		return (n>0)?"redirect:/subject_select_all.do?coursecode="+(String)session.getAttribute("coursecode"):"chanju_index";
+	}
 	
 }

@@ -29,15 +29,8 @@
 		<td><input type="date" name="startday" id="startday"></td>
 	</tr>
 </c:forEach>
-<tr>
-<td>
-<input type="button" onclick="subadd()" value="추가">
-</td>
-</tr>
 </table>
 <div>
-${coursecode}
-<!-- <button onclick="setadd()">등록하기</button> -->
 <input type="submit" value="등록하기">
 </div>
 </form>
@@ -45,29 +38,6 @@ ${coursecode}
 
 <%@include file="./include/footer.jsp" %>
 
-<script type="text/javascript">
-// 	function setadd(){
-// 		var code=[];
-// 		$('input:hidden[id="code"]').each(function () {
-// 			code.push($(this).val());
-// 		});
-// 		alert(code);
-// 		var time=[];
-// 		$('input:text[id="time"]').each(function () {
-// 			time.push($(this).val());
-// 		});
-// 		alert(time);
-// 		var content=[];
-// 		$('input:text[id="content"]').each(function () {
-// 			content.push($(this).val());
-// 		});
-// 		alert(content);
-// 		var startday=[];
-// 		$('input:date[id="startday"]').each(function () {
-// 			startday.push($(this).val());
-// 		});
-// 		alert(startday);
-// 	}
-</script>
+
 </body>
 </html>

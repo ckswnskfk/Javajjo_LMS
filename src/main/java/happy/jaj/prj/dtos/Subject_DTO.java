@@ -9,6 +9,8 @@ public class Subject_DTO {
 	private String examtype;
 	private String time;
 	private String typecode;
+	private String seq;
+	
 	
 	public Subject_DTO() {
 	}
@@ -22,12 +24,34 @@ public class Subject_DTO {
 		this.time = time;
 	}
 	
+	
+	public Subject_DTO(String coursecode, String subjectcode, String subjectname, String subjecttype, String examtype,
+			String time, String typecode, String seq) {
+		super();
+		this.coursecode = coursecode;
+		this.subjectcode = subjectcode;
+		this.subjectname = subjectname;
+		this.subjecttype = subjecttype;
+		this.examtype = examtype;
+		this.time = time;
+		this.typecode = typecode;
+		this.seq = seq;
+	}
+
 	public Subject_DTO(String subjectcode, String subjectname, String subjecttype, String typecode) {
 		super();
 		this.subjectcode = subjectcode;
 		this.subjectname = subjectname;
 		this.subjecttype = subjecttype;
 		this.typecode = typecode;
+	}
+
+	public String getSeq() {
+		return seq;
+	}
+
+	public void setSeq(String seq) {
+		this.seq = seq;
 	}
 
 	public String getCoursecode() {
