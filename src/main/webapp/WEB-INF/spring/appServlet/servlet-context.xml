@@ -11,7 +11,7 @@
 	<mvc:annotation-driven/>
 	
 <!-- 	<context:annotation-config/> -->
-<!-- 	<mvc:resources location="/WEB-INF/view/images/" mapping="/images/**"/> -->
+<!-- 	<mvc:resources mapping="/image/**" location="file:///C:/Happy_Clipse/workspace_JSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Javajjo_LMS/upload/signature/"/> -->
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/"/>
