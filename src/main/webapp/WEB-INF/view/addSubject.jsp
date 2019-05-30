@@ -48,8 +48,6 @@
 			<td>
 			<div>
 			<input type="checkbox"  name="chk" id="chk" value="${dto.subjectcode }">${dto.subjectname}
-			<input type="hidden" name="chname" id="chname" value="${dto.subjectname}">
-			<input type="hidden" name="subname" id="subname" value="${dto.subjectcode }">
 			</div>
 			</td>
 			<td>${dto.subjecttype}</td>
@@ -77,21 +75,20 @@
   </div>
 </div>
 
-<div id="myModal2" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">상세 등록</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-		<form action="#" role="form" method="post" id="frmModify1"></form>
-      </div>
-    </div>
-  </div>
-</div>
-<label></label>
+<!-- <div id="myModal2" class="modal fade" role="dialog"> -->
+<!--   <div class="modal-dialog"> -->
+<!--     Modal content -->
+<!--     <div class="modal-content"> -->
+<!--       <div class="modal-header"> -->
+<!--         <h4 class="modal-title">상세 등록</h4> -->
+<!--         <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+<!--       </div> -->
+<!--       <div class="modal-body"> -->
+<!-- 		<form action="#" role="form" method="post" id="frmModify1"></form> -->
+<!--       </div> -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </div> -->
 <%@include file="./include/footer.jsp" %>
 
 
@@ -151,7 +148,7 @@ function subadd(){
 		
 	});
 		location.href="./submit.do?subjectcode="+items;
-		alert(items)
+// 		alert(items)
 }
 	
 

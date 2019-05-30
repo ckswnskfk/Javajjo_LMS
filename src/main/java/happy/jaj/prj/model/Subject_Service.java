@@ -49,9 +49,13 @@ public class Subject_Service implements Subject_IService {
 	
 	// 과정에 과목 추가
 	@Override
-	public int subject_add_course(Course_Subject_DTO dto) {
+	public int subject_add_course(List<Course_Subject_DTO> list) {
 		logger.info("Subject_Service subject_add_course 실행");
-		return subject_Interface.subject_add_course(dto);
+		int cnt = 0;
+		for (int i = 0; i < list.size(); i++) {
+			cnt += subject_Interface.subject_add_course(list.get(i));
+		}
+		return cnt;
 	}
 	
 	// 새로운 과목 생성
