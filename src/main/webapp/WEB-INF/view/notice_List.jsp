@@ -46,6 +46,22 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			<input type="hidden" name="index" id="index" value="${pg.index}">
+			<input type="hidden" name="pageNum" id="pageNum" value="${pg.pageNum}">
+			<input type="hidden" name="listNum" id="listNum" value="${pg.listNum}">
+			
+			<div class="center">
+				<ul class="pagination">
+					<li><a href="#" onclick="pageFrist(${pg.pageList},${pg.pageList},'notice','${find}')">&laquo;</a></li>
+					<li><a href="#" onclick="pagePre(${pg.pageNum},${pg.pageList},'notice','${find}')">&lsaquo;</a></li>
+					<c:forEach var="i" begin="${pg.pageNum}" end="${pg.count}" step="1">
+						<li><a href="#" onclick="pageIndex(${i},'notice','${find}')">${i}</a></li>
+					</c:forEach>
+					<li><a href="#" onclick="pageNext(${pg.pageNum},${pg.total},${pg.listNum} ,${pg.pageList},'notice','${find}')">&rsaquo;</a></li>
+					<li><a href="#" onclick="pageLast(${pg.pageNum},${pg.total},${pg.listNum} ,${pg.pageList},'notice','${find}')">&raquo;</a></li>
+				</ul>
+			</div>
+			
 			<div class="input-group" style="width: 50%; margin: 0 auto;">
 		      <input type="text" class="form-control" placeholder="제목으로 검색..." name="title">
 		      <div class="input-group-btn">

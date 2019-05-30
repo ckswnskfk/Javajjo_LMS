@@ -14,6 +14,9 @@ public interface Board_IService {
 	// 공지사항 전체 조회
 	public List<Notice_DTO> notice_Allselect(RowNum_DTO dto);
 	
+	// 공지사항 갯수 조회
+	public int notice_Allselect_count();
+	
 	// 공지사항 상세 조회
 	public Notice_DTO notice_oneselect(String seq);
 	
@@ -23,11 +26,20 @@ public interface Board_IService {
 	// 공지사항 글 검색
 	public List<Notice_DTO> notice_find(Map<String, String> map);
 	
+	// 공지사항 글 검색 갯수 조회
+	public int notice_find_count(String title);
+	
 	// 공지사항 조회수 증가
 	public boolean notice_readcount(String seq);
 	
 	// 자료게시판 전체 조회
 	public List<FileBoard_DTO> file_infoboardlist(RowNum_DTO dto);
+	
+	// 자료게시판 전체 조회 갯수
+	public int file_infoboardlist_count();
+	
+	// 자료게시판 글 검색 갯수
+	public int file_infosearchboard_count(Map<String, Object> map);
 	
 	// 자료게시판 상세 조회
 	public FileBoard_DTO file_infodetailboard(String seq);

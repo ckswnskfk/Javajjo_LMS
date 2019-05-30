@@ -11,6 +11,12 @@
 		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
+	<!-- 게시판 전체 조회 갯수 -->
+	<select id="file_infoboardlist_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM FILE_BOARD
+	</select>
+	
 	<!-- 게시판 상세 조회 -->
 	<select id="file_infodetailboard" parameterType="java.lang.String" resultType="FileBoardDTO">
 		SELECT SEQ, ID, TITLE, CONTENT, REGDATE, READCOUNT,
@@ -56,6 +62,21 @@
 			</when>
 			<otherwise>
 				AND ${searchOption} LIKE '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 게시판 글 검색 갯수-->
+	<select id="file_infosearchboard_count" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM FILE_BOARD
+		<choose>
+			<when test="searchOption == 'all'">
+				WHERE ID LIKE '%'||#{keyword}||'%'
+				OR TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+			<otherwise>
+				WHERE ${searchOption} LIKE '%'||#{keyword}||'%'
 			</otherwise>
 		</choose>
 	</select>

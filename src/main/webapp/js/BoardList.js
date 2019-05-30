@@ -58,3 +58,122 @@ function file_infosearchboard(){
 	frm.action="./file_infosearchboard.do";
 	frm.submit();
 }
+
+/////////////page
+function pageList(){
+	var index = document.getElementById("index");
+	var pageNum = document.getElementById("pageNum");
+	var listNum = document.getElementById("listNum");
+	
+	index.value = 0;
+	pageNum.value = 1;
+	listNum.value= document.getElementById("list").value;
+	
+}
+
+
+
+//페이지 숫자 눌렀을때
+function pageIndex(pageNum,table,find){
+	var frm = document.getElementsByTagName("form")[0];
+	var index = document.getElementById("index");
+	index.value = pageNum-1;
+	if(table == "notice"){
+		if(find == "find"){
+			frm.action="./notice_search_page.do";
+			frm.submit();
+		}else{
+			frm.action="./notice_list.do";
+			frm.submit();
+		}
+	}
+}
+
+function pageFrist(num, pageList,table,find){
+	var frm = document.getElementsByTagName("form")[0];
+	var pageNum = document.getElementById("pageNum");
+	var index = document.getElementById("index");
+	
+	pageNum.value = 1;
+	index.value = 0;
+	if(table == "notice"){
+		if(find == "find"){
+			frm.action="./notice_search_page.do";
+			frm.submit();
+		}else{
+			frm.action="./notice_list.do";
+			frm.submit();
+		}
+	}
+}
+function pagePre(num, pageList,table,find){
+	var frm = document.getElementsByTagName("form")[0];
+	if(0<num-pageList){ // 한페이지가 더 있다.
+		num -= pageList;
+		varpageNum  = document.getElementById("pageNum");
+		var index = document.getElementById("index");
+		
+		pageNum.value = num;
+		index.value = num-1;
+		if(table == "notice"){
+			if(find == "find"){
+				frm.action="./notice_search_page.do";
+				frm.submit();
+			}else{
+				frm.action="./notice_list.do";
+				frm.submit();
+			}
+		}
+	}
+}
+
+function pageNext(num, total, listNum, pageList,table,find){
+	var frm = document.getElementsByTagName("form")[0];
+	var index = Math.ceil(total/listNum); //묶음 40/5 => 8
+	var max = Math.ceil(index/pageList); // 글의 갯수 8/5 => 2
+	
+	if(max*pageList > num+pageList){
+		num += pageList;
+		
+		var pageNum = document.getElementById("pageNum");
+		var index = document.getElementById("index");
+		
+		pageNum.value = num;
+		index.value = num-1;
+		if(table == "notice"){
+			if(find == "find"){
+				frm.action="./notice_search_page.do";
+				frm.submit();
+			}else{
+				frm.action="./notice_list.do";
+				frm.submit();
+			}
+		}
+	}
+	
+}
+
+function pageLast(num, total, listNum, pageList,table,find){
+	var frm = document.getElementsByTagName("form")[0];
+	var idx = Math.ceil(total/listNum);
+	var max = Math.ceil(idx/pageList);
+	
+	while(max*pageList > num+pageList){
+		num += pageList
+	}
+	
+	var pageNum = document.getElementById("pageNum");
+	var index = document.getElementById("index");
+	
+	pageNum.value= num;
+	index.value = idx-1;
+	if(table == "notice"){
+		if(find == "find"){
+			frm.action="./notice_search_page.do";
+			frm.submit();
+		}else{
+			frm.action="./notice_list.do";
+			frm.submit();
+		}
+	}
+}

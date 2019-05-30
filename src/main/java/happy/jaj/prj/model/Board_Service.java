@@ -28,6 +28,13 @@ public class Board_Service implements Board_IService {
 		logger.info("notice_Allselect Service 실행 {}", dto);
 		return board_interface.notice_Allselect(dto);
 	}
+	
+	// 공지사항 갯수 조회
+	@Override
+	public int notice_Allselect_count() {
+		logger.info("notice_Allselect_count Service 실행 {}");
+		return board_interface.notice_Allselect_count();
+	}
 
 	// 공지사항 상세 조회
 	@Override
@@ -49,6 +56,13 @@ public class Board_Service implements Board_IService {
 		logger.info("notice_find Service 실행 {}", map);
 		return board_interface.notice_find(map);
 	}
+	
+	// 공지사항 글 검색 갯수 조회
+	@Override
+	public int notice_find_count(String title) {
+		logger.info("notice_find_count Service 실행 {}", title);
+		return board_interface.notice_find_count(title);
+	}
 
 	// 공지사항 조회수 증가
 	@Override
@@ -63,6 +77,20 @@ public class Board_Service implements Board_IService {
 	public List<FileBoard_DTO> file_infoboardlist(RowNum_DTO dto) {
 		logger.info("file_infoboardlist Service 실행 {}", dto);
 		return board_interface.file_infoboardlist(dto);
+	}
+	
+	// 자료게시판 전체 조회 갯수
+	@Override
+	public int file_infoboardlist_count() {
+		logger.info("file_infoboardlist Service 실행 {}");
+		return board_interface.file_infoboardlist_count();
+	}
+	
+	// 자료게시판 글 검색 갯수
+	@Override
+	public int file_infosearchboard_count(Map<String, Object> map) {
+		logger.info("file_infosearchboard Service 실행 {}", map);
+		return board_interface.file_infosearchboard_count(map);
 	}
 	
 	// 자료게시판 상세 조회
