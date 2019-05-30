@@ -62,9 +62,9 @@
 <%@include file="./include/footer.jsp" %>
 <script type="text/javascript">
 function nameCheck(){
-	var orgname=document.getElementById("coname");
-	var savename=document.getElementById("motitle");
-	if(orgname.equals(savename)){
+	var orgname=document.getElementById("coname").value;
+	var savename=document.getElementById("motitle").value;
+	if(orgname==savename){
 		return false;
 	}
 	return true;
@@ -120,7 +120,7 @@ function dateCheck(){
 		}else if(!dateCheck()){
 			alert("오늘 또는 과거에 과정을 생성할 수 없습니다.");
 		}else if(!nameCheck()){
-			alert("같은 이름의 과정은 새로 생성하지 못합니다. ");
+			alert("같은 이름의 과정은 새로 생성하지 못합니다.");
 		}
 		else{
 			location.href="./course_add.do?coursename="+title+"&startdate="+content;
@@ -128,10 +128,18 @@ function dateCheck(){
 	}
 	function check(bool){
 		var chks=document.querySelector('input[name="radio"]:checked').value;
-		var date=document.querySelector('input[id="date"]').value;
+// 		var ddate=document.querySelector('input[id="date"]');
+		var mocontent = document.getElementById("date").value;
+		var date = new Date(mocontent.value);
+		var today = new Date();
+		if(date < today){
+			alert("오늘 또는 과거에 과정을 생성할 수 없습니다.");	
+		}else{
+		location.href="./course_cnt.do?coursename="+chks+"&startdate="+mocontent
+			
+		}
 // 		alert(date);
 // 		alert(chks);
-// 		location.href="./course_cnt.do?coursename="+chks+"&startdate="+date
 	}
 
 </script>
