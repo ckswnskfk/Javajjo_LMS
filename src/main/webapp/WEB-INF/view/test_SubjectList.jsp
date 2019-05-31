@@ -11,11 +11,11 @@
 <meta charset="UTF-8">
 <title>과제 관리</title>
 </head>
+<body>
 <%
 	List<Subject_DTO> list = (List<Subject_DTO>)request.getAttribute("list");
 // 	String coursename = (String)session.getAttribute("coursename");
 %>
-<body>
 <%@include file="./include/header.jsp" %>
 <h1>과목 조회</h1>
 <h3>과정명 : ${testsession.coursename}</h3>

@@ -58,6 +58,13 @@
 		frm.action="./sel_Detail.do";
 		frm.submit();
 	}
+	function examsubmit(){
+		var submit = confirm("제출하면 수정이 불가능합니다. \n 그래도 제출하시겠습니까?");
+		if(submit){
+			alert("제출이 완료되었습니다.");
+			location.href="./test_Sel_Score.do";
+		}
+	}
 </script>
 <%
 	Exam_Sel_DTO dto = (Exam_Sel_DTO)request.getAttribute("dto");
@@ -110,7 +117,7 @@
 		<tr>
 			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
 			<td><input type="button" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
-			<td><input type="button" value="시험 제출"></td>
+			<td><input type="button" value="시험 제출" onclick="examsubmit()"></td>
 		</tr>
 	</table>
 </form>

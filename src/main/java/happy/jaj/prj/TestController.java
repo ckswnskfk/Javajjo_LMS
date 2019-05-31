@@ -879,64 +879,64 @@ public class TestController {
 //		return "answerd_select";
 //	}
 	
-	//과제에 해당하는 문제,답 조회(선택형)
-	@RequestMapping(value="/sel_Detail_Exam.do", method=RequestMethod.GET)
-	public String answers_select(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController answers_select{}");
-		String id = req.getParameter("id");
-		String examcode = req.getParameter("examcode");
-		System.out.println("id : "+id+", examcode : "+examcode);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("examcode", examcode);
-		
-
-		return "answers_select";
-	}
+//	//과제에 해당하는 문제,답 조회(선택형)
+//	@RequestMapping(value="/sel_Detail_Exam.do", method=RequestMethod.GET)
+//	public String answers_select(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController answers_select{}");
+//		String id = req.getParameter("id");
+//		String examcode = req.getParameter("examcode");
+//		System.out.println("id : "+id+", examcode : "+examcode);
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("id", id);
+//		map.put("examcode", examcode);
+//		
+//
+//		return "answers_select";
+//	}
 	
-	//선택형 문제 자동 점수 등록 
-	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.GET)
-	public String score_inserts(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController score_inserts {}");
-		String id = req.getParameter("id");
-		String testcode = req.getParameter("testcode");
-		String examcode = req.getParameter("examcode");
-		System.out.println("id : "+id+", testcode : "+testcode+", examcodee : "+examcode);
-		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, 0);
-		boolean isc = iService.score_inserts(sdto);
-		System.out.println("선택형 문제 자동 점수 등록 성공?"+isc);
-		return "score_inserts";
-	}
+//	//선택형 문제 자동 점수 등록 
+//	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.GET)
+//	public String score_inserts(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController score_inserts {}");
+//		String id = req.getParameter("id");
+//		String testcode = req.getParameter("testcode");
+//		String examcode = req.getParameter("examcode");
+//		System.out.println("id : "+id+", testcode : "+testcode+", examcodee : "+examcode);
+//		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, 0);
+//		boolean isc = iService.score_inserts(sdto);
+//		System.out.println("선택형 문제 자동 점수 등록 성공?"+isc);
+//		return "score_inserts";
+//	}
 	
-	//서술형 문제 점수 등록 
-	@RequestMapping(value="test_Desc_Score.do", method=RequestMethod.GET)
-	public String score_insertd(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController score_insertd {}");
-		String id = req.getParameter("id");
-		String testcode = req.getParameter("testcode");
-		String examcode = req.getParameter("examcode");
-		int score = Integer.parseInt(req.getParameter("score"));
-		System.out.println("id : "+id+", testcode : "+testcode+", examcode : "+examcode+", score : "+score);
-		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, score);
-		boolean isc = iService.score_insertd(sdto);
-		System.out.println("서술형 문제 점수 등록 성공 ? "+isc);
-		return "score_insertd";
-	}
-	
-	//총점 점수 조회
-	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.GET)
-	public String score_selectsum(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController score_selectsum {}");
-		String id = req.getParameter("id");
-		String testcode = req.getParameter("testcode");
-		System.out.println("id : "+id+", testcode : "+testcode);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("testcode", testcode);
-		Score_DTO dto = iService.score_selectsum(map);
-		System.out.println(dto);
-		return "score_selectsum";
-	}
+//	//서술형 문제 점수 등록 
+//	@RequestMapping(value="test_Desc_Score.do", method=RequestMethod.GET)
+//	public String score_insertd(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController score_insertd {}");
+//		String id = req.getParameter("id");
+//		String testcode = req.getParameter("testcode");
+//		String examcode = req.getParameter("examcode");
+//		int score = Integer.parseInt(req.getParameter("score"));
+//		System.out.println("id : "+id+", testcode : "+testcode+", examcode : "+examcode+", score : "+score);
+//		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, score);
+//		boolean isc = iService.score_insertd(sdto);
+//		System.out.println("서술형 문제 점수 등록 성공 ? "+isc);
+//		return "score_insertd";
+//	}
+//	
+//	//총점 점수 조회
+//	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.GET)
+//	public String score_selectsum(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController score_selectsum {}");
+//		String id = req.getParameter("id");
+//		String testcode = req.getParameter("testcode");
+//		System.out.println("id : "+id+", testcode : "+testcode);
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("id", id);
+//		map.put("testcode", testcode);
+//		Score_DTO dto = iService.score_selectsum(map);
+//		System.out.println(dto);
+//		return "score_selectsum";
+//	}
 	
 	// 문제번호 수정
 	@RequestMapping(value="/updateExam.do", method=RequestMethod.POST)
@@ -961,6 +961,8 @@ public class TestController {
 			return "test_SelectList";
 		}
 	}
+	
+	
 	
 	
 }

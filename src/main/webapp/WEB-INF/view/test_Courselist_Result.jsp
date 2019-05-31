@@ -23,7 +23,7 @@
 		<td>회차</td>
 	</tr>
 	<tr>
-		<td><a href="./test_Subject_Insert.do?coursecode=<%=dto.getCoursecode() %>&coursename=<%=dto.getCoursename()%>"><%=dto.getCoursename() %></a></td>
+		<td><a href="./test_Subject_Result.do?coursecode=<%=dto.getCoursecode() %>&coursename=<%=dto.getCoursename()%>"><%=dto.getCoursename() %></a></td>
 		<td><%=dto.getStartdate() %></td>
 		<td><%=dto.getCoursecnt() %></td>
 	</tr>

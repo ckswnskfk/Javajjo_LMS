@@ -28,7 +28,7 @@
 	for(Subject_DTO dto: list){
 		%>
 		<tr>
-			<td><a href="./test_List_Submit.do?subjectcode=<%=dto.getsubjectcode()%>&subjecttype=<%=dto.getsubjecttype()%>&examtype=<%=dto.getexamtype()%>&subjectname=<%=dto.getsubjectname()%>"><%=dto.getsubjectname() %></a></td>
+			<td><a href="./test_Test_Result.do?subjectcode=<%=dto.getsubjectcode()%>&subjecttype=<%=dto.getsubjecttype()%>&examtype=<%=dto.getexamtype()%>&subjectname=<%=dto.getsubjectname()%>"><%=dto.getsubjectname() %></a></td>
 			<td><%=dto.getsubjecttype() %></td>
 			<td><%=dto.getexamtype() %></td>
 		</tr>

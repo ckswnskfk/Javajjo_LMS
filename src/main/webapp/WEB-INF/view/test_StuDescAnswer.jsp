@@ -1,0 +1,106 @@
+<%@page import="happy.jaj.prj.dtos.Answer_Des_DTO"%>
+<%@page import="happy.jaj.prj.dtos.Exam_Des_DTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("UTF-8"); %>
+<% response.setContentType("text/html; charset=UTF-8"); %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>과제 관리</title>
+<script type="text/javascript">
+function pageexam(bool, max){ //판단
+	
+	var examnum = document.getElementsByName("examnum")[0].value;
+	var score = document.getElementsByName("score")[0];
+	if(score.value==null || score.value==""){
+		alert("점수를 입력해주세요.");
+		score.focus();
+	}else if (isNaN(score.value)){
+		alert("점수는 숫자 입력만 가능합니다.");
+		score.focus();
+	}else{
+		
+		if((Number(examnum)-1)=="0"&&bool){
+			alert("첫번째 문제입니다.");
+		}else if(examnum==max&&bool==false){
+			alert("마지막 문제입니다.");
+		}else{
+			pageUpDown(bool, examnum);
+		}
+	}
+	
+	
+	
+//	location.href = "./desc_Detail.do?examnum="+examnum;
+}
+
+function pageUpDown(bool, examnum){ //보냄
+
+	var frm = document.forms[0];
+	
+	if(bool){
+		document.getElementsByName("page")[0].value="-1";
+//		document.getElementsByName("examnum")[0].value = Number(examnum)-1;		
+	}else{
+		document.getElementsByName("page")[0].value="0";
+//		document.getElementsByName("examnum")[0].value = Number(examnum)+1;
+	}
+//	alert(document.getElementsByName("examnum")[0].value);
+	frm.method="post";
+	frm.action = "./desc_Detail_Exam.do";
+	frm.submit();
+}
+</script>
+</head>
+<%
+	Answer_Des_DTO answer = (Answer_Des_DTO)request.getAttribute("answer");
+	Exam_Des_DTO dto = (Exam_Des_DTO)request.getAttribute("dto");
+	int maxexam = (int)request.getAttribute("maxexamnum");
+%>
+<body>
+<%@include file="./include/header.jsp" %>
+<form action="#" method="post">
+<table>
+	<tr>
+			<td><p style="font-size: 20px">
+			<input type="hidden" name="examcode" value='<%=dto.getExamcode()%>'>
+			<input type="hidden" name="examnum" value='<%=dto.getExamnum()%>'>
+			<input type="hidden" name="page" >
+			<input type="hidden" name="id" value="${id}">
+			<%=dto.getExamnum() %></p></td>
+			<td><%=dto.getExam() %></td>
+		</tr>
+		<tr>
+			<td>설명</td>
+			<td colspan="2"><%=dto.getExplanation() %></td>
+		</tr>
+		<tr>
+			<td>채점기준</td>
+			<td><%=dto.getStandard() %></td>
+		</tr>
+		<tr>
+			<td>답안</td>
+			<td colspan="2"><textarea cols="50" rows="5" name="answer"><c:choose><c:when test="${answer.answer eq null}">널</c:when><c:otherwise>${answer.answer}</c:otherwise></c:choose></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="3"><input type="file" name="file"></td>
+		</tr>
+		<tr>
+			<td>배점</td>
+			<td><%=dto.getAllot() %></td>
+		</tr>
+		<tr>
+			<td>점 수 </td>
+			<td><input type="text" placeholder="점수를 입력해주세요." name="score" value="<c:choose><c:when test="${scoredto eq null}"></c:when><c:otherwise>${scoredto}</c:otherwise></c:choose>"><td></tr>
+		<tr>
+			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
+			<td><input type="button" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
+			<td><input type="button" value="시험 제출"></td>
+		</tr>
+</table>
+</form>
+<%@include file="./include/footer.jsp" %>
+</body>
+</html>
