@@ -17,7 +17,7 @@
 %>
 <%@include file="./include/header.jsp" %>
 <h1>과목 조회</h1>
-<h3>과정명 : ${testsession.coursename}</h3>
+<h3>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h3>
 <table>
 <% 
 	if(list==null){
