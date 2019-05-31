@@ -147,7 +147,7 @@ function admin_student_delete() {
 		obj.action = "./admin_student_delete.do";
 		obj.method = "post";
 		alert("학생 탈퇴 완료");
-		return true;
+		obj.submit();
 	} else {
 		alert("탈퇴시킬 학생을 선택해 주세요");
 	}

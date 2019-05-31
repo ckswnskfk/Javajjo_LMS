@@ -21,6 +21,11 @@ today = yyyy+"-"+mm+"-"+dd;
       defaultDate: today,
       editable: true,
       eventLimit: true,
+      events: [
+          {
+            
+          }
+        ],
       dateClick: function(info) {
     	  room_emptyboardlist(info.dateStr);
   	  }

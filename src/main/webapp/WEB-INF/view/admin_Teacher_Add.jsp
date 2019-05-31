@@ -43,7 +43,7 @@
       <div class="col-sm-8">          
         <select name="coursecode">
         	<c:forEach items="${Alists}" var="adto" varStatus="vs">
-				<option value="${adto.coursecode}">${adto.coursename}</option>
+				<option value="${adto.coursecode}">${adto.coursename} (${adto.coursecnt}회차)</option>
 			</c:forEach>
         </select>
         <span id="err_course"></span>

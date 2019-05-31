@@ -61,7 +61,7 @@
 											<div class="profile-info-value">
 												<select name="Acoursecode">
 													<c:forEach items="${Alists}" var="adto" varStatus="vs">
-													<option value="${adto.coursecode}">${adto.coursename} ${adto.coursecnt}회차</option>
+													<option value="${adto.coursecode}">${adto.coursename} (${adto.coursecnt}회차)</option>
 													</c:forEach>
 												</select>
 											</div>
