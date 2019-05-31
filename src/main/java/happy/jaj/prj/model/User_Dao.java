@@ -108,6 +108,8 @@ public class User_Dao implements User_Interface {
 	@Override
 	public boolean student_modify(Student_DTO dto) {
 		logger.info("student_modify Dao 실행 {}", dto);
+		String encodePw = passwordEncoder.encode(dto.getPw());
+		dto.setPw(encodePw);
 		return ((sqlSession.update(NS_Stu+"student_modify", dto)) > 0 );
 	}
 
@@ -264,6 +266,8 @@ public class User_Dao implements User_Interface {
 	@Override
 	public boolean admin_student_modify(Map<String, String> map) {
 		logger.info("admin_student_modify Dao 실행 {}", map);
+		String encodePw = passwordEncoder.encode(map.get("pw"));
+		map.put("pw",encodePw);
 		return ((sqlSession.update(NS_Adm+"admin_student_modify", map)) > 0 );
 	}
 

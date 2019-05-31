@@ -44,14 +44,6 @@
 									</div>
 									
 									<div class="profile-info-row">
-										<div class="profile-info-name"> Pw </div>
-
-										<div class="profile-info-value">
-											<span>${dto.pw}</span>
-										</div>
-									</div>
-									
-									<div class="profile-info-row">
 										<div class="profile-info-name"> Name </div>
 
 										<div class="profile-info-value">
