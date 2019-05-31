@@ -69,7 +69,7 @@
 											<input type="submit" class="btn btn-default"
 											 value="수정하기"/>
 											<input type="button" class="btn btn-default"
-											 value="취소" onclick="history.back()"/>
+											 value="취소" onclick="location.href='./admin_info.do'"/>
 										</div>
 									</div>
 								<div class="hr hr-5 dotted"></div>

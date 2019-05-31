@@ -47,7 +47,8 @@
 											<div class="profile-info-row">
 											<div class="profile-info-value">
 												<input type="radio" name="coursecode" value="${sdto.coursecode}">
-												<span>${sdto.coursename}</span>
+												<span>${sdto.coursename} </span>
+												<span>${sdto.coursecnt}회차</span>
 											</div>
 											</div>
 											</c:forEach>
@@ -60,7 +61,7 @@
 											<div class="profile-info-value">
 												<select name="Acoursecode">
 													<c:forEach items="${Alists}" var="adto" varStatus="vs">
-													<option value="${adto.coursecode}">${adto.coursename}</option>
+													<option value="${adto.coursecode}">${adto.coursename} ${adto.coursecnt}회차</option>
 													</c:forEach>
 												</select>
 											</div>
