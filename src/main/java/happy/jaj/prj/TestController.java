@@ -345,10 +345,12 @@ public class TestController {
 		logger.info("TestController courseSubject");
 		// 받아오는 값 : testname, testday, subjectcode
 		// 세션에서 받아오는 값 : subjecttype, examtype
-		// 
 		
-		String subjecttype = (String)session.getAttribute("subjecttype");
-		String examtype = (String)session.getAttribute("examtype");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		String subjecttype = testsession.getSubjecttype();
+		String examtype = testsession.getExamtype();
+//		String subjecttype = (String)session.getAttribute("subjecttype");
+//		String examtype = (String)session.getAttribute("examtype");
 		
 //		String testname = req.getParameter("testname");
 //		String testday = req.getParameter("testday");
@@ -360,7 +362,7 @@ public class TestController {
 		boolean isc = iService.test_Transaction(tdto, sdto);
 		System.out.println("과제 추가 성공 ?"+isc);
 		
-		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+//		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 	
 //		session.setAttribute("testname", dto.getTestname());
 //		session.setAttribute("testday", dto.getTestday());	
