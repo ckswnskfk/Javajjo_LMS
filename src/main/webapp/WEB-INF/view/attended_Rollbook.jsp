@@ -18,11 +18,11 @@
 
 
 		<form action="#" method="get" id="rollbook">
-			<table>
+			<table class="table table-bordered">
 				<tr>
 					<th>아이디</th>
 					<th>이름</th>
-					<th>출결</th>
+					<th>출결(Y : 입실 , N : 퇴실)</th>
 					<th>시간</th>
 				
 				</tr>
@@ -30,12 +30,23 @@
 					<tr>
 						<td><a href="./attended_Detail.do?id=${AttendedDTO.id}">${AttendedDTO.id}</a></td>
 						<td>${AttendedDTO.name}</td>
-						<c:if test="${AttendedDTO.a_check == null}">
-						<td><p>결석</p></td>
-						</c:if>
-						<c:if test="${AttendedDTO.regdate == null}">
-						<td><input type="submit"  value="결석문자발송"></td>
-						</c:if>
+						<c:choose>
+						<c:when test="${AttendedDTO.a_check eq null}">
+						<td>결석</td>
+						</c:when>
+						<c:otherwise>
+						<td>${AttendedDTO.a_check}</td>
+						</c:otherwise>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${AttendedDTO.regdate eq null}">
+								<td><input type="submit"  value="결석문자발송"></td>
+							</c:when>
+							<c:otherwise>
+								<td>${AttendedDTO.regdate}</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</c:forEach>
 			</table>

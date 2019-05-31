@@ -12,7 +12,6 @@
 <body>
 <%@include file="./include/header.jsp" %>
 <h1>과정 목록 </h1>
-<p>${id}</p>
 <div>
 
 	<form action="#" method="get" id="attended_Student_Course">
@@ -22,7 +21,7 @@
 	<tr>
 	</tr>	
 		<tr>	
-			<td><a href="././attended_Student.do?id=${member.id}">${Course_DTO.coursename}</a></td>
+			<td><a href="./attended_Student.do?id=${member.id}">${Course_DTO.coursename}</a></td>
 		
 		</tr>
 	</table>
