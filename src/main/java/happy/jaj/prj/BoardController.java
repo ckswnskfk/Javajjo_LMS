@@ -178,9 +178,49 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/file_infomodifyboard.do", method=RequestMethod.POST)
-	public String file_infomodifyboard(FileBoard_DTO dto) {
+	public String file_infomodifyboard(FileBoard_DTO dto, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("BoardController file_infomodifyboard 실행");
-		board_IService.file_infomodifyboard(dto);
+		
+		MultipartFile reqFilename = mtReq.getFile("originalfilename");
+		String filename = reqFilename.getOriginalFilename();
+		String newfilename = "";
+		
+		FileBoard_DTO Odto = board_IService.file_infodetailboard(dto.getSeq());
+		// 첨부 파일이 없으면 바로 글 수정
+		if(filename.trim().equalsIgnoreCase("")) {
+			dto.setFilename(Odto.getFilename());
+			dto.setNewfilename(Odto.getNewfilename());
+			board_IService.file_infomodifyboard(dto);
+		}else {
+			//수정시 원본파일 삭제
+			File OriFile = new File(uploadPath+"\\board",Odto.getNewfilename());
+			if(OriFile.exists()){
+				OriFile.delete();
+			}
+			
+			//이름이 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
+			UUID uuid = UUID.randomUUID();
+			Date form = new Date();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String today = transFormat.format(form);
+			
+			newfilename = uuid.toString()+"_"+today+"_"+dto.getId()+"_"+filename;
+			
+			File dir = new File(uploadPath+"\\board");
+			File target = new File(uploadPath+"\\board", newfilename);
+			
+			// 폴더가 없다면 폴더를 생성
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			
+			// 파일을 서버에 저장
+			FileCopyUtils.copy(reqFilename.getBytes(), target);
+			
+			dto.setFilename(filename);
+			dto.setNewfilename(newfilename);
+			board_IService.file_infomodifyboard(dto);
+		}
 		return "redirect:/file_infoboardlist.do";
 	}
 	
@@ -213,8 +253,8 @@ public class BoardController {
 			
 			newfilename = uuid.toString()+"_"+today+"_"+dto.getId()+"_"+filename;
 			
-			File dir = new File(uploadPath);
-			File target = new File(uploadPath, newfilename);
+			File dir = new File(uploadPath+"\\board");
+			File target = new File(uploadPath+"\\board", newfilename);
 			
 			// 폴더가 없다면 폴더를 생성
 			if (!dir.exists()) {
@@ -236,7 +276,7 @@ public class BoardController {
 	// 상세조회한 신청서에서 첨부파일 다운
 	@RequestMapping(value="/file_infodownload.do", method=RequestMethod.GET)
 	public ModelAndView download(String newfilename) {
-		String fullPath = uploadPath+"\\"+newfilename;
+		String fullPath = uploadPath+"\\board\\"+newfilename;
 		File file = new File(fullPath);
 		// download라는 id를 가진 Bean에 downloadFile 이라는 이름의 file을 전달
 		return new ModelAndView("download","downloadFile",file);
@@ -244,15 +284,43 @@ public class BoardController {
 		
 		
 	@RequestMapping(value="/file_infosearchboard.do", method=RequestMethod.GET)
-	public String file_infosearchboard(@RequestParam Map<String, Object> map, Model model) {
+	public String file_infosearchboard(@RequestParam Map<String, Object> map, Model model, RowNum_DTO dto, HttpSession session) {
 		logger.info("BoardController file_infosearchboard 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		String find = "find";
+		
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = board_IService.file_infosearchboard_count(map);
+		dto.setTotal(cnt);
 		int start = dto.getStart();
 		int last = dto.getLast();
 		map.put("start", start);
 		map.put("last", last);
 		List<FileBoard_DTO> lists = board_IService.file_infosearchboard(map);
 		model.addAttribute("lists", lists);
+		model.addAttribute("pg", dto);
+		model.addAttribute("find", find);
+		session.setAttribute("keyword", map.get("keyword"));
+		return "file_BoardList";
+	}
+	
+	@RequestMapping(value="/file_infosearchboard_page.do", method=RequestMethod.GET)
+	public String file_infosearchboard_page(@RequestParam Map<String, Object> map, Model model, RowNum_DTO dto, HttpSession session) {
+		logger.info("BoardController file_infosearchboard_page 실행");
+		String find = "find";
+		map.put("keyword", session.getAttribute("keyword").toString());
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = board_IService.file_infosearchboard_count(map);
+		dto.setTotal(cnt);
+		map.put("start", String.valueOf(dto.getStart()));
+		map.put("last", String.valueOf(dto.getLast()));
+		List<FileBoard_DTO> lists =board_IService.file_infosearchboard(map);
+		model.addAttribute("pg", dto);
+		model.addAttribute("lists", lists);
+		model.addAttribute("find", find);
 		return "file_BoardList";
 	}
 	

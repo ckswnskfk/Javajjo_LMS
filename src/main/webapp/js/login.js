@@ -11,19 +11,44 @@ function login(){
 				if(obj == "N"){
 					alert("회원가입 승인 대기중 입니다.");
 					
-				}else{
+				}else if(obj == "Y"){
 					frm.action = "./login.do";
 					frm.submit();
+				}else{
+					alert("회원 정보가 없습니다.");
 				}
 			}
 		});
 		
 	}else if(document.getElementsByName("tableChk")[1].checked == true){
-		frm.action = "./teacher_login.do";
-		frm.submit();
+		$.ajax({
+			url: "./teacher_login_check.do",
+			data:{"id" : id, "pw":pw},
+			type:"POST",
+			success:function(obj){
+				if(obj == "Y"){
+					frm.action = "./teacher_login.do";
+					frm.submit();
+				}else{
+					alert("회원 정보가 없습니다.");
+				}
+			}
+		});
 	}else if(document.getElementsByName("tableChk")[2].checked == true){
-		frm.action = "./admin_login.do";
-		frm.submit();
+		$.ajax({
+			url: "./admin_login_check.do",
+			data:{"id" : id, "pw":pw},
+			type:"POST",
+			success:function(obj){
+				if(obj == "Y"){
+					frm.action = "./admin_login.do";
+					frm.submit();
+				}else{
+					alert("회원 정보가 없습니다.");
+				}
+			}
+		});
+		
 	}
 }
 function regiForm(){

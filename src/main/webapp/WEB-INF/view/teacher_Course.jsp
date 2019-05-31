@@ -28,11 +28,11 @@
 					<li class="active">
 						<a data-toggle="tab" href="#feed">
 							<i class="orange ace-icon fa fa-rss bigger-120"></i>
-							수강중인 과정 조회
+							학생 정보 조회
 						</a>
 					</li>
 				</ul>
-	
+			<form action="#" method="get">
 				<div class="tab-content no-border padding-14">
 					<div id="home" class="tab-pane in active">
 						<div class="row">
@@ -85,7 +85,24 @@
 	
 						<div class="space-20"></div>
 					</div><!-- /#home -->
+						<input type="hidden" name="coursecode" id="coursecode" value="${pg.coursecode}">
+						<input type="hidden" name="index" id="index" value="${pg.index}">
+						<input type="hidden" name="pageNum" id="pageNum" value="${pg.pageNum}">
+						<input type="hidden" name="listNum" id="listNum" value="${pg.listNum}">
+						
+						<div class="center">
+							<ul class="pagination">
+								<li><a href="#" onclick="pageFrist(${pg.pageList},${pg.pageList},'teacher_student')">&laquo;</a></li>
+								<li><a href="#" onclick="pagePre(${pg.pageNum},${pg.pageList},'teacher_student')">&lsaquo;</a></li>
+								<c:forEach var="i" begin="${pg.pageNum}" end="${pg.count}" step="1">
+									<li><a href="#" onclick="pageIndex(${i},'teacher_student')">${i}</a></li>
+								</c:forEach>
+								<li><a href="#" onclick="pageNext(${pg.pageNum},${pg.total},${pg.listNum} ,${pg.pageList},'teacher_student')">&rsaquo;</a></li>
+								<li><a href="#" onclick="pageLast(${pg.pageNum},${pg.total},${pg.listNum} ,${pg.pageList},'teacher_student')">&raquo;</a></li>
+							</ul>
+						</div>
 				</div>
+				</form>
 			</div>
 		</div>
 	<%@ include file="./include/footer.jsp" %>

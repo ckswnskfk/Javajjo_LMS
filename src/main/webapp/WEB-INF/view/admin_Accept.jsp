@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-<form action="#">
+<form action="#" method="get">
 <div id="user-profile-2" class="user-profile">
 			<div class="tabbable">
 				<ul class="nav nav-tabs padding-18">
@@ -112,7 +112,23 @@
 	
 						<div class="space-20"></div>
 					</div><!-- /#home -->
-				</div>
+					<input type="hidden" name="coursecode" id="coursecode" value="${pg.coursecode}">
+							<input type="hidden" name="index" id="index" value="${pg.index}">
+							<input type="hidden" name="pageNum" id="pageNum" value="${pg.pageNum}">
+							<input type="hidden" name="listNum" id="listNum" value="${pg.listNum}">
+							
+							<div class="center">
+								<ul class="pagination">
+									<li><a href="#" onclick="pageFrist(${pg.pageList},${pg.pageList},'admin_accept')">&laquo;</a></li>
+									<li><a href="#" onclick="pagePre(${pg.pageNum},${pg.pageList},'admin_accept')">&lsaquo;</a></li>
+									<c:forEach var="i" begin="${pg.pageNum}" end="${pg.count}" step="1">
+										<li><a href="#" onclick="pageIndex(${i},'admin_accept')">${i}</a></li>
+									</c:forEach>
+									<li><a href="#" onclick="pageNext(${pg.pageNum},${pg.total},${pg.listNum} ,${pg.pageList},'admin_accept')">&rsaquo;</a></li>
+									<li><a href="#" onclick="pageLast(${pg.pageNum},${pg.total},${pg.listNum} ,${pg.pageList},'admin_accept')">&raquo;</a></li>
+								</ul>
+							</div>
+					</div>
 			</div>
 		</div>
 		</form>		

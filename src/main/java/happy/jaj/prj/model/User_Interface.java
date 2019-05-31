@@ -22,6 +22,9 @@ public interface User_Interface {
 	//비밀번호 초기화
 	public boolean resetPw(Map<String, String> map);
 	
+	//초기화 후 암호화 처리
+	public boolean resetPwLock(Map<String, String> map);
+	
 	//회원가입
 	public boolean student_join(Student_DTO dto);
 	
@@ -50,6 +53,9 @@ public interface User_Interface {
 	//담당 과정 수강 학생 조회
 	public List<Student_DTO> teacher_student_list(RowNum_DTO dto);
 	
+	//담당 과정 수강 학생 수 조회
+	public int teacher_student_list_count(RowNum_DTO dto);
+	
 	/* --------------------   관리자   ------------------------*/
 	//로그인
 	public Admin_DTO admin_login(Map<String, String> map);
@@ -63,6 +69,9 @@ public interface User_Interface {
 	//회원가입 신청 조회
 	public List<Student_DTO> admin_accept_list(RowNum_DTO dto);
 	
+	//회원가입 신청 수 조회
+	public int admin_accept_list_count();
+	
 	//회원가입 신청 승인
 	public boolean admin_accept(Map<String, String[]> map);
 	
@@ -71,6 +80,9 @@ public interface User_Interface {
 	
 	//강사 조회
 	public List<Teacher_DTO> admin_teacher_list(RowNum_DTO dto);
+	
+	//강사 수 조회
+	public int admin_teacher_list_count();
 	
 	//강사 탈퇴
 	public boolean admin_teacher_delete(String id);
@@ -83,6 +95,9 @@ public interface User_Interface {
 	
 	//전체 학생 조회
 	public List<Student_DTO> admin_student_list(RowNum_DTO dto);
+	
+	//전체 학생 수 조회
+	public int admin_student_list_count();
 	
 	//학생 탈퇴
 	public boolean admin_student_delete(Map<String, String[]> map);

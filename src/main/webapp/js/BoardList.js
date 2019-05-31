@@ -86,6 +86,14 @@ function pageIndex(pageNum,table,find){
 			frm.action="./notice_list.do";
 			frm.submit();
 		}
+	}else{
+		if(find == "find"){
+			frm.action="./file_infosearchboard_page.do";
+			frm.submit();
+		}else{
+			frm.action="./file_infoboardlist.do";
+			frm.submit();
+		}
 	}
 }
 
@@ -102,6 +110,14 @@ function pageFrist(num, pageList,table,find){
 			frm.submit();
 		}else{
 			frm.action="./notice_list.do";
+			frm.submit();
+		}
+	}else{
+		if(find == "find"){
+			frm.action="./file_infosearchboard_page.do";
+			frm.submit();
+		}else{
+			frm.action="./file_infoboardlist.do";
 			frm.submit();
 		}
 	}
@@ -121,6 +137,14 @@ function pagePre(num, pageList,table,find){
 				frm.submit();
 			}else{
 				frm.action="./notice_list.do";
+				frm.submit();
+			}
+		}else{
+			if(find == "find"){
+				frm.action="./file_infosearchboard_page.do";
+				frm.submit();
+			}else{
+				frm.action="./file_infoboardlist.do";
 				frm.submit();
 			}
 		}
@@ -148,6 +172,14 @@ function pageNext(num, total, listNum, pageList,table,find){
 				frm.action="./notice_list.do";
 				frm.submit();
 			}
+		}else{
+			if(find == "find"){
+				frm.action="./file_infosearchboard_page.do";
+				frm.submit();
+			}else{
+				frm.action="./file_infoboardlist.do";
+				frm.submit();
+			}
 		}
 	}
 	
@@ -173,6 +205,14 @@ function pageLast(num, total, listNum, pageList,table,find){
 			frm.submit();
 		}else{
 			frm.action="./notice_list.do";
+			frm.submit();
+		}
+	}else{
+		if(find == "find"){
+			frm.action="./file_infosearchboard_page.do";
+			frm.submit();
+		}else{
+			frm.action="./file_infoboardlist.do";
 			frm.submit();
 		}
 	}
