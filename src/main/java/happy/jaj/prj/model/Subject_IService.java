@@ -32,4 +32,6 @@ public interface Subject_IService {
 	public int course_sub_Del(List<Course_Subject_DTO> list);
 	
 	public int subDel(List<Subject_DTO> dto);
+	
+	public List<Course_DTO> copySelectCnt(String coursename);
 }
