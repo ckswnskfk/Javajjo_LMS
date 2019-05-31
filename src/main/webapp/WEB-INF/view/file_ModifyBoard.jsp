@@ -16,7 +16,7 @@
 <%@ include file="./include/header.jsp" %>
 	<div id="container">
 		<h2>자료 게시판</h2>
-		<form action="#" method="post">
+		<form action="#" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="seq" value="${dto.seq}">
 			<table class="table table-hover" style="width: 80%; margin: 0 auto">
 				<tbody>
@@ -34,6 +34,12 @@
 						<th>Content</th>
 						<td>
 							<textarea rows="20" cols="100" name="content" placeholder="${dto.content}"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>파일 첨부 : </th>
+						<td>
+							<input type="file" id="originalfilename" name="originalfilename">
 						</td>
 					</tr>
 				</tbody>

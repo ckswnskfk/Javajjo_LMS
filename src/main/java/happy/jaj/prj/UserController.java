@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,7 +74,11 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String student_join_check(@RequestParam Map<String, String> map) {
 		logger.info("UserController student_join_check 실행");
 		Student_DTO Sdto = user_IService.student_login(map);
-		return Sdto.getS_check();
+		if(Sdto == null) {
+			return "X";
+		}else {
+			return Sdto.getS_check();
+		}
 	}
 		
 	//로그인
@@ -107,6 +112,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//비밀번호 초기화
+	@Transactional
 	@RequestMapping(value="/password_Reset.do", method=RequestMethod.POST)
 	public String resetPw(Student_DTO dto) {
 		logger.info("UserController resetPw 실행");
@@ -149,6 +155,13 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 				e.printStackTrace();
 			}
 		}
+		
+		//초기화 후 암호화 처리
+		boolean isc2 = user_IService.resetPwLock(map);
+		if(isc2) {
+			logger.info("암호화 성공");
+		}
+		
 		return "loginForm";
 	}
 	
@@ -253,18 +266,24 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String student_modify(Student_DTO dto, HttpSession session) {
 		logger.info("UserController student_modify 실행");
 		boolean isc = user_IService.student_modify(dto);
-		if(isc) {
-			logger.info("------------------- 정보 수정 완료 ---------------- 학생");
-			Map<String, String> mapSession = new HashMap<String, String>();
-			mapSession.put("table", "Student");
-			mapSession.put("id", dto.getId());
-			mapSession.put("name", dto.getName());
-			session.setAttribute("member", mapSession);
-		}
-		return "redirect:/main.do";
+		return "redirect:/loginForm.do";
 	}
 	
 	/* --------------------   강사   ------------------------*/
+	//로그인 확인
+	@RequestMapping(value="/teacher_login_check.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String teacher_login_check(@RequestParam Map<String, String> map) {
+		logger.info("UserController teacher_login_check 실행");
+		Teacher_DTO dto = user_IService.teacher_login(map);
+		if(dto == null) {
+			return "X";
+		}else {
+			return "Y";
+		}
+	}
+		
+		
 	//로그인
 	@RequestMapping(value="/teacher_login.do", method=RequestMethod.POST)
 	public String teacher_login(@RequestParam Map<String, String> map,HttpSession session) {
@@ -302,27 +321,39 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String teacher_modify(@RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("UserController teacher_modify 실행");
 		boolean isc = user_IService.teacher_modify(map);
-		if(isc) {
-			logger.info("--------------------------- 정보 수정 완료 ------------강사 ");
-			Map<String, String> mapSession = new HashMap<String, String>();
-			mapSession.put("table", "Teacher");
-			mapSession.put("id", map.get("id"));
-			mapSession.put("name", map.get("name"));
-			session.setAttribute("member", mapSession);
-		}
-		return "redirect:/main.do";
+		return "redirect:/loginForm.do";
 	}
 	
 	//담당 과정 수강 학생 조회
 	@RequestMapping(value="/teacher_student_list.do", method=RequestMethod.GET)
 	public String teacher_student_list(RowNum_DTO dto, Model model) {
 		logger.info("UserController teacher_student_list 실행");
-		List<Student_DTO> lists = user_IService.teacher_student_list(dto);
+		List<Student_DTO> lists =  null;
+		if(dto == null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.teacher_student_list_count(dto);
+		dto.setTotal(cnt);
+		lists = user_IService.teacher_student_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "teacher_Course";
 	}
 	
 	/* --------------------   관리자   ------------------------*/
+	//로그인 확인
+	@RequestMapping(value="/admin_login_check.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String admin_login_check(@RequestParam Map<String, String> map) {
+		logger.info("UserController admin_login_check 실행");
+		Admin_DTO dto = user_IService.admin_login(map);
+		if(dto == null) {
+			return "X";
+		}else {
+			return "Y";
+		}
+	}
+		
 	//로그인
 	@RequestMapping(value="/admin_login.do", method=RequestMethod.POST)
 	public String admin_login(@RequestParam Map<String, String> map,HttpSession session) {
@@ -360,23 +391,20 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String admin_modify(@RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("UserController admin_modify 실행");
 		boolean isc = user_IService.admin_modify(map);
-		if(isc) {
-			logger.info("--------------------------- 정보 수정 완료 ------------관리자 ");
-			Map<String, String> mapSession = new HashMap<String, String>();
-			mapSession.put("table", "Admin");
-			mapSession.put("id", map.get("id"));
-			mapSession.put("name", map.get("name"));
-			session.setAttribute("member", mapSession);
-		}
-		return "redirect:/main.do";
+		return "redirect:/loginForm.do";
 	}
 	
 	//회원가입 신청 조회
 	@RequestMapping(value="/admin_accept_list.do", method=RequestMethod.GET)
-	public String admin_accept_list(Model model) {
+	public String admin_accept_list(Model model, RowNum_DTO dto) {
 		logger.info("UserController admin_accept_list 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.admin_accept_list_count();
+		dto.setTotal(cnt);
 		List<Student_DTO> lists = user_IService.admin_accept_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "admin_Accept";
 	}
@@ -409,10 +437,15 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//강사 조회
 	@RequestMapping(value="/admin_teacher_list.do", method=RequestMethod.GET)
-	public String admin_teacher_list(Model model) {
+	public String admin_teacher_list(Model model, RowNum_DTO dto) {
 		logger.info("UserController admin_teacher_list 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.admin_teacher_list_count();
+		dto.setTotal(cnt);
 		List<Teacher_DTO> lists = user_IService.admin_teacher_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "admin_Teacher_List";
 	}
@@ -471,10 +504,15 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//전체 학생 조회
 	@RequestMapping(value="/admin_student_list.do", method=RequestMethod.GET)
-	public String admin_student_list(Model model) {
+	public String admin_student_list(Model model, RowNum_DTO dto) {
 		logger.info("UserController admin_student_list 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.admin_student_list_count();
+		dto.setTotal(cnt);
 		List<Student_DTO> lists = user_IService.admin_student_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "admin_Student_List";
 	}
@@ -494,10 +532,10 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//학생 상세 조회
 	@RequestMapping(value="/admin_student_detail.do", method=RequestMethod.GET)
-	public String admin_student_detail(String id, Model model) {
+	public String admin_student_detail(String id, Model model, HttpSession session) {
 		logger.info("UserController admin_student_detail 실행");
 		Student_DTO dto = user_IService.admin_student_detail(id);
-		model.addAttribute("id", id);
+		session.setAttribute("id", id);
 		model.addAttribute("dto", dto);
 		return "admin_Student_Detail";
 	}

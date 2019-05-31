@@ -44,6 +44,12 @@ public class User_Service implements User_IService {
 		logger.info("resetPw Service 실행 {}", map);
 		return user_interface.resetPw(map);
 	}
+	
+	//초기화 후 암호화 처리
+	public boolean resetPwLock(Map<String, String> map) {
+		logger.info("resetPwLock Service 실행 {}", map);
+		return user_interface.resetPwLock(map);
+	}
 
 	//회원가입
 	@Override
@@ -108,6 +114,13 @@ public class User_Service implements User_IService {
 		logger.info("teacher_student_list Service 실행 {}", dto);
 		return user_interface.teacher_student_list(dto);
 	}
+	
+	//담당 과정 수강 학생 수 조회
+	@Override
+	public int teacher_student_list_count(RowNum_DTO dto){
+		logger.info("teacher_student_list_count Service 실행 {}", dto);
+		return user_interface.teacher_student_list_count(dto);
+	}
 
 	/* --------------------   관리자   ------------------------*/
 	//로그인
@@ -137,6 +150,13 @@ public class User_Service implements User_IService {
 		logger.info("admin_accept_list Service 실행 {}", dto);
 		return user_interface.admin_accept_list(dto);
 	}
+	
+	//회원가입 신청 수 조회
+	@Override
+	public int admin_accept_list_count(){
+		logger.info("admin_accept_list_count Service 실행 {}");
+		return user_interface.admin_accept_list_count();
+	}
 
 	//회원가입 신청 승인
 	@Override
@@ -157,6 +177,13 @@ public class User_Service implements User_IService {
 	public List<Teacher_DTO> admin_teacher_list(RowNum_DTO dto) {
 		logger.info("admin_teacher_list Service 실행 {}", dto);
 		return user_interface.admin_teacher_list(dto);
+	}
+	
+	//강사 수 조회
+	@Override
+	public int admin_teacher_list_count(){
+		logger.info("admin_teacher_list_count Service 실행 {}");
+		return user_interface.admin_teacher_list_count();
 	}
 
 	//강사 탈퇴
@@ -185,9 +212,15 @@ public class User_Service implements User_IService {
 	public List<Student_DTO> admin_student_list(RowNum_DTO dto) {
 		logger.info("admin_student_list Service 실행 {}", dto);
 		return user_interface.admin_student_list(dto);
-		
 	}
-
+	
+	//전체 학생 수 조회
+	@Override
+	public int admin_student_list_count(){
+		logger.info("admin_student_list_count Service 실행 {}");
+		return user_interface.admin_student_list_count();
+	}
+	
 	//학생 탈퇴
 	@Override
 	public boolean admin_student_delete(Map<String, String[]> map) {

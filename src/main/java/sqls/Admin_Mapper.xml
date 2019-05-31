@@ -21,8 +21,15 @@
 	<select id="admin_accept_list" parameterType="RowNumDTO" resultType="StudentDTO">
 		SELECT ID, NAME, PW, GENDER, BIRTH, ADDR 
 		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, GENDER, BIRTH, ADDR,
-		DELFLAG, S_CHECK FROM STUDENT)
-		WHERE RNUM BETWEEN #{start} AND #{last} AND  S_CHECK='N'
+		DELFLAG, S_CHECK FROM STUDENT WHERE S_CHECK='N')
+		WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	
+	<!-- 학생 회원가입 신청 수 조회(관리자) -->
+	<select id="admin_accept_list_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM STUDENT
+		WHERE S_CHECK='N'
 	</select>
 	
 	<!-- 학생 회원가입 신청 승인(관리자) -->
@@ -46,6 +53,12 @@
 		SELECT ID, NAME, PW, COURSECODE, COURSENAME
 		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, COURSECODE, COURSENAME FROM TEACHER JOIN COURSE USING(COURSECODE))
 		WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	
+	<!-- 강사 수 조회(관리자) -->
+	<select id="admin_teacher_list_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM TEACHER
 	</select>
 	
 	<!-- 강사 탈퇴(관리자) -->
@@ -73,6 +86,12 @@
 		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
+	<!-- 전체 학생 수 조회(관리자) -->
+	<select id="admin_student_list_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM STUDENT
+	</select>
+	
 	<!-- 학생 탈퇴(관리자) -->
 	<update id="admin_student_delete" parameterType="java.util.Map">
 		UPDATE STUDENT SET DELFLAG ='Y' WHERE ID IN
@@ -95,15 +114,15 @@
 	
 	<!-- 학생 과정 연결 조회(관리자) 본인 과정 -->
 	<select id="admin_student_clist_sel" parameterType="java.lang.String" resultType="CourseDTO">
-		SELECT COURSENAME, COURSECODE
+		SELECT COURSENAME, COURSECODE, COURSECNT
 		FROM USERCOURSE JOIN COURSE USING (COURSECODE) 
 		WHERE COURSECODE IN ((SELECT COURSECODE FROM USERCOURSE WHERE ID=#{id}))
-		GROUP BY COURSENAME, COURSECODE
+		GROUP BY COURSENAME, COURSECODE,COURSECNT
 	</select>
 	
 	<!-- 학생 과정 연결 조회(관리자) 모든 과정 -->
 	<select id="admin_student_clist_all" resultType="CourseDTO">
-		SELECT COURSENAME ,COURSECODE FROM COURSE
+		SELECT COURSENAME ,COURSECODE,COURSECNT FROM COURSE
 	</select>
 	
 	<!-- 학생 과정 연결(관리자) -->
