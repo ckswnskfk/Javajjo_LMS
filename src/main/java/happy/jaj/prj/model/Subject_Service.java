@@ -89,5 +89,11 @@ public class Subject_Service implements Subject_IService {
 		}
 		return cnt;
 	}
+
+	@Override
+	public List<Course_DTO> copySelectCnt(String coursename) {
+		logger.info("Subject_Service copySelectCnt 실행");
+		return subject_Interface.copySelectCnt(coursename);
+	}
 	
 }

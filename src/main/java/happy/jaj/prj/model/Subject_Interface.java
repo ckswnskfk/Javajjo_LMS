@@ -33,4 +33,6 @@ public interface Subject_Interface {
 	
 	public int subDel(Subject_DTO dto);
 	
+	public List<Course_DTO> copySelectCnt(String coursename);
+	
 }

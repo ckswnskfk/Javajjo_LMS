@@ -138,8 +138,6 @@ function dateCheck(){
 		location.href="./course_cnt.do?coursename="+chks+"&startdate="+mocontent
 			
 		}
-// 		alert(date);
-// 		alert(chks);
 	}
 
 </script>

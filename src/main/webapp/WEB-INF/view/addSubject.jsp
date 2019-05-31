@@ -14,6 +14,7 @@
 <body>
 <%@include file="./include/header.jsp" %>
 <form action="./cosubDel.do" method="post">
+<b style="color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---in Course---</b>
 <table>
 	<tr>
 		<th>과목이름</th>
@@ -41,6 +42,7 @@
 
 
 <form action="./subDel.do" method="post">
+<b style="color: blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---All Subject---</b>
 <table>
 	<tr>
 		<th>과목이름</th>
@@ -61,6 +63,10 @@
 </form>
 <input type="button" value="과목 등록" onclick="momo()">
 
+<c:if test="${lists[0] eq null}">
+
+<input type="button" value="복사하기" onclick="location.href='./copySelect.do?coursename=${coursename}'">
+</c:if>
 
 
 <div id="myModal1" class="modal fade" role="dialog">

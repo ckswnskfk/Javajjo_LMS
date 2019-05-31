@@ -81,4 +81,8 @@ public class Subject_Dao implements Subject_Interface {
 		logger.info("Subject_Dao subDel 실행 {}", dto);
 		return sqlSessionTemplate.delete(NS+"subDel", dto);
 	}
+	public List<Course_DTO> copySelectCnt(String coursename){
+		logger.info("Subject_Dao copySelectCnt 실행 {}", coursename);
+		return sqlSessionTemplate.selectList(NS+"copySelectCnt", coursename);
+	}
 }

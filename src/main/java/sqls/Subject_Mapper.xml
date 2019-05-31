@@ -57,4 +57,8 @@
 	<delete id="subDel" parameterType="SubjectDTO">
 		DELETE FROM SUBJECT WHERE SUBJECTCODE=#{subjectcode}
 	</delete>
+	
+	<select id="copySelectCnt" parameterType="java.lang.String" resultType="CourseDTO">
+	SELECT COURSECNT,COURSECODE FROM COURSE WHERE COURSENAME=#{coursename}
+	</select>
 </mapper>
