@@ -35,7 +35,7 @@
 	<!-- 게시판 글 수정 -->
 	<update id="file_infomodifyboard" parameterType="FileBoardDTO">
 		UPDATE FILE_BOARD 
-		SET TITLE = #{title}, CONTENT= #{content}
+		SET TITLE = #{title}, CONTENT= #{content},FILENAME=#{filename}, NEWFILENAME=#{newfilename}
 		WHERE SEQ = #{seq}
 	</update>
 	

@@ -21,8 +21,15 @@
 	<select id="admin_accept_list" parameterType="RowNumDTO" resultType="StudentDTO">
 		SELECT ID, NAME, PW, GENDER, BIRTH, ADDR 
 		FROM (SELECT ROWNUM RNUM, ID, NAME, PW, GENDER, BIRTH, ADDR,
-		DELFLAG, S_CHECK FROM STUDENT)
-		WHERE RNUM BETWEEN #{start} AND #{last} AND  S_CHECK='N'
+		DELFLAG, S_CHECK FROM STUDENT WHERE S_CHECK='N')
+		WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	
+	<!-- 학생 회원가입 신청 수 조회(관리자) -->
+	<select id="admin_accept_list_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM STUDENT
+		WHERE S_CHECK='N'
 	</select>
 	
 	<!-- 학생 회원가입 신청 승인(관리자) -->
@@ -48,6 +55,12 @@
 		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
+	<!-- 강사 수 조회(관리자) -->
+	<select id="admin_teacher_list_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM TEACHER
+	</select>
+	
 	<!-- 강사 탈퇴(관리자) -->
 	<delete id="admin_teacher_delete" parameterType="java.lang.String">
 		DELETE FROM TEACHER WHERE ID =#{id}
@@ -71,6 +84,12 @@
 				BIRTH, ADDR, DELFLAG, S_CHECK FROM STUDENT 
 				WHERE S_CHECK = 'Y' AND DELFLAG='N')
 		WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	
+	<!-- 전체 학생 수 조회(관리자) -->
+	<select id="admin_student_list_count" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM STUDENT
 	</select>
 	
 	<!-- 학생 탈퇴(관리자) -->

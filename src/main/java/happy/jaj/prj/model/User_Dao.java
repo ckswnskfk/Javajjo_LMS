@@ -64,6 +64,13 @@ public class User_Dao implements User_Interface {
 		logger.info("resetPw Dao 실행 {}", map);
 		return ((sqlSession.update(NS_Stu+"resetPw", map)) > 0);
 	}
+	
+	//초기화 후 암호화 처리
+	public boolean resetPwLock(Map<String, String> map) {
+		String encodePw = passwordEncoder.encode(map.get("pw"));
+		map.put("pw",encodePw);
+		return((sqlSession.update(NS_Stu+"resetPw", map)) > 0);
+	}
 
 	//회원가입
 	@Override
@@ -132,6 +139,13 @@ public class User_Dao implements User_Interface {
 		logger.info("teacher_student_list Dao 실행 {}", dto);
 		return sqlSession.selectList(NS_Tea+"teacher_student_list", dto);
 	}
+	
+	//담당 과정 수강 학생 수 조회
+	@Override
+	public int teacher_student_list_count(RowNum_DTO dto){
+		logger.info("teacher_student_list_count Service 실행 {}", dto);
+		return sqlSession.selectOne(NS_Tea+"teacher_student_list_count", dto);
+	}
 
 	/* --------------------   관리자   ------------------------*/
 	//로그인
@@ -161,6 +175,13 @@ public class User_Dao implements User_Interface {
 		logger.info("admin_accept_list Dao 실행 {}", dto);
 		return sqlSession.selectList(NS_Adm+"admin_accept_list", dto);
 	}
+	
+	//회원가입 신청 수 조회
+	@Override
+	public int admin_accept_list_count(){
+		logger.info("admin_accept_list_count Service 실행 {}");
+		return sqlSession.selectOne(NS_Adm+"admin_accept_list_count");
+	}
 
 	//회원가입 신청 승인
 	@Override
@@ -181,6 +202,13 @@ public class User_Dao implements User_Interface {
 	public List<Teacher_DTO> admin_teacher_list(RowNum_DTO dto) {
 		logger.info("admin_teacher_list Dao 실행 {}", dto);
 		return sqlSession.selectList(NS_Adm+"admin_teacher_list", dto);
+	}
+	
+	//강사 수 조회
+	@Override
+	public int admin_teacher_list_count(){
+		logger.info("admin_teacher_list_count Dao 실행 {}");
+		return sqlSession.selectOne(NS_Adm+"admin_teacher_list_count");
 	}
 
 	//강사 탈퇴
@@ -209,6 +237,13 @@ public class User_Dao implements User_Interface {
 	public List<Student_DTO> admin_student_list(RowNum_DTO dto) {
 		logger.info("admin_student_list Dao 실행 {}", dto);
 		return sqlSession.selectList(NS_Adm+"admin_student_list", dto);
+	}
+	
+	//전체 학생 수 조회
+	@Override
+	public int admin_student_list_count(){
+		logger.info("admin_student_list_count Dao 실행 {}");
+		return sqlSession.selectOne(NS_Adm+"admin_student_list_count");
 	}
 
 	//학생 탈퇴

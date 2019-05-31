@@ -33,5 +33,14 @@
 		ADDR FROM STUDENT JOIN USERCOURSE USING(ID) WHERE COURSECODE = #{coursecode})
 		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
+	
+	<!-- 담당과정 수강학생 수 조회(강사) -->
+	<select id="teacher_student_list_count" parameterType="RowNumDTO" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM (SELECT ID
+				FROM STUDENT JOIN USERCOURSE USING(ID) 
+				WHERE COURSECODE = #{coursecode})
+	</select>
+	
 
 </mapper>

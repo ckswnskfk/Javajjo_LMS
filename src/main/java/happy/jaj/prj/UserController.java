@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -107,6 +108,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	//비밀번호 초기화
+	@Transactional
 	@RequestMapping(value="/password_Reset.do", method=RequestMethod.POST)
 	public String resetPw(Student_DTO dto) {
 		logger.info("UserController resetPw 실행");
@@ -149,6 +151,13 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 				e.printStackTrace();
 			}
 		}
+		
+		//초기화 후 암호화 처리
+		boolean isc2 = user_IService.resetPwLock(map);
+		if(isc2) {
+			logger.info("암호화 성공");
+		}
+		
 		return "loginForm";
 	}
 	
@@ -317,7 +326,14 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	@RequestMapping(value="/teacher_student_list.do", method=RequestMethod.GET)
 	public String teacher_student_list(RowNum_DTO dto, Model model) {
 		logger.info("UserController teacher_student_list 실행");
-		List<Student_DTO> lists = user_IService.teacher_student_list(dto);
+		List<Student_DTO> lists =  null;
+		if(dto == null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.teacher_student_list_count(dto);
+		dto.setTotal(cnt);
+		lists = user_IService.teacher_student_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "teacher_Course";
 	}
@@ -373,10 +389,15 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//회원가입 신청 조회
 	@RequestMapping(value="/admin_accept_list.do", method=RequestMethod.GET)
-	public String admin_accept_list(Model model) {
+	public String admin_accept_list(Model model, RowNum_DTO dto) {
 		logger.info("UserController admin_accept_list 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.admin_accept_list_count();
+		dto.setTotal(cnt);
 		List<Student_DTO> lists = user_IService.admin_accept_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "admin_Accept";
 	}
@@ -409,10 +430,15 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//강사 조회
 	@RequestMapping(value="/admin_teacher_list.do", method=RequestMethod.GET)
-	public String admin_teacher_list(Model model) {
+	public String admin_teacher_list(Model model, RowNum_DTO dto) {
 		logger.info("UserController admin_teacher_list 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.admin_teacher_list_count();
+		dto.setTotal(cnt);
 		List<Teacher_DTO> lists = user_IService.admin_teacher_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "admin_Teacher_List";
 	}
@@ -471,10 +497,15 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//전체 학생 조회
 	@RequestMapping(value="/admin_student_list.do", method=RequestMethod.GET)
-	public String admin_student_list(Model model) {
+	public String admin_student_list(Model model, RowNum_DTO dto) {
 		logger.info("UserController admin_student_list 실행");
-		RowNum_DTO dto = new RowNum_DTO();
+		if(dto==null) {
+			dto = new RowNum_DTO();
+		}
+		int cnt = user_IService.admin_student_list_count();
+		dto.setTotal(cnt);
 		List<Student_DTO> lists = user_IService.admin_student_list(dto);
+		model.addAttribute("pg", dto);
 		model.addAttribute("lists", lists);
 		return "admin_Student_List";
 	}
@@ -494,10 +525,10 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//학생 상세 조회
 	@RequestMapping(value="/admin_student_detail.do", method=RequestMethod.GET)
-	public String admin_student_detail(String id, Model model) {
+	public String admin_student_detail(String id, Model model, HttpSession session) {
 		logger.info("UserController admin_student_detail 실행");
 		Student_DTO dto = user_IService.admin_student_detail(id);
-		model.addAttribute("id", id);
+		session.setAttribute("id", id);
 		model.addAttribute("dto", dto);
 		return "admin_Student_Detail";
 	}
