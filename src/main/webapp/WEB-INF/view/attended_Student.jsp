@@ -13,9 +13,9 @@
 <%@include file="./include/header.jsp" %>
 <div>
 	<form action="#" method="get" id="attended_Student">
-	<table>
+	<table class="table table-bordered">
 		<tr>
-		<th>출결</th>
+		<th>출결(Y : 입실 , N : 퇴실)</th>
 		<th>시간</th>
 		</tr>	
 	<c:forEach var="Attended_DTO" items="${alists}">

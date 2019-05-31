@@ -199,11 +199,7 @@
 			</table>
 		</form>
 	</div>
-<%-- <p>${lists}</p> --%>
 
-<!-- <a href="./attended_Teacher.do?coursecode=C201900001&regdate=201905">강사 캘린더 조회</a> -->
-<a href="./attended_Teacher.do?coursecode=${Course_DTO.coursecode}&regdate=${regdate}">강사 캘린더 조회</a>
-<a href="./attended_Rollbook.do?coursecode=${Course_DTO.coursecode}&regdate=20190517">출석부 조회</a>
 
 
 <%@include file="./include/footer.jsp" %>
