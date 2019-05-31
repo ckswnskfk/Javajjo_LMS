@@ -33,6 +33,13 @@ public class Board_Dao implements Board_Interface {
 		logger.info("notice_Allselect Dao 실행 {}", dto);
 		return sqlSession.selectList(NS_Not+"notice_Allselect", dto);
 	}
+	
+	// 공지사항 갯수 조회
+	@Override
+	public int notice_Allselect_count() {
+		logger.info("notice_Allselect_count Dao 실행 {}");
+		return sqlSession.selectOne(NS_Not+"notice_Allselect_count");
+	}
 
 	// 공지사항 상세 조회
 	@Override
@@ -54,6 +61,13 @@ public class Board_Dao implements Board_Interface {
 		logger.info("notice_find Dao 실행 {}", map);
 		return sqlSession.selectList(NS_Not+"notice_find", map);
 	}
+	
+	// 공지사항 글 검색 갯수 조회
+	@Override
+	public int notice_find_count(String title) {
+		logger.info("notice_find_count Dao 실행 {}", title);
+		return sqlSession.selectOne(NS_Not+"notice_find_count", title);
+	}
 
 	// 공지사항 조회수 증가
 	@Override
@@ -69,7 +83,20 @@ public class Board_Dao implements Board_Interface {
 		logger.info("file_infoboardlist Dao 실행 {}", dto);
 		return sqlSession.selectList(NS_Fil+"file_infoboardlist", dto);
 	}
-
+	
+	// 자료게시판 전체 조회 갯수
+	@Override
+	public int file_infoboardlist_count() {
+		logger.info("file_infoboardlist Dao 실행 {}");
+		return sqlSession.selectOne(NS_Fil+"file_infoboardlist_count");
+	}
+	// 자료게시판 글 검색 갯수
+	@Override
+	public int file_infosearchboard_count(Map<String, Object> map) {
+		logger.info("file_infosearchboard Dao 실행 {}", map);
+		return sqlSession.selectOne(NS_Fil+"file_infosearchboard_count", map);
+	}
+	
 	// 자료게시판 상세 조회
 	@Override
 	public FileBoard_DTO file_infodetailboard(String seq) {

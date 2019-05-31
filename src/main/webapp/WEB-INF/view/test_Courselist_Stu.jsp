@@ -11,11 +11,11 @@
 <title>과제 관리</title>
 </head>
 <body>
-<h1>수강과정</h1>
 <%
 	List<Course_DTO> list = (List<Course_DTO>)request.getAttribute("dto");
 %>
 <%@include file="./include/header.jsp" %>
+<h1>수강과정</h1>
 <table>
 <% 
 	if(list==null){%>

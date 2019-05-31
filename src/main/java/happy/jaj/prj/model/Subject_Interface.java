@@ -31,4 +31,6 @@ public interface Subject_Interface {
 
 	public int course_sub_Del(Course_Subject_DTO dto);
 	
+	public int subDel(Subject_DTO dto);
+	
 }

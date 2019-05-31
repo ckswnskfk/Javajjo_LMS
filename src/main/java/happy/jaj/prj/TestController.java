@@ -585,7 +585,7 @@ public class TestController {
 	
 	// 서술형문제 수정 폼이동
 	@RequestMapping(value="/desc_Exam_ModifyForm.do",method=RequestMethod.GET)
-	public String moveDescExamModify(String examcode, HttpSession session, Model model) {
+	public String moveDescExamModify(String examnum, HttpSession session, Model model) {
 		logger.info("TESTController moveDescExamModify");
 		// 받은 값 : examcode
 		
@@ -593,7 +593,7 @@ public class TestController {
 //		String testcode = (String)session.getAttribute("testcode");
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("examcode", examcode);
+		map.put("examnum", examnum);
 		map.put("testcode", testsession.getTestcode());
 //		System.out.println("■■■■■■■■■■■■examcode : "+dto.getExamcode()+", testcode : "+testcode);
 		
@@ -606,12 +606,12 @@ public class TestController {
 	
 	// 선택형문제 수정 폼이동
 	@RequestMapping(value="/sel_Exam_ModifyForm.do", method=RequestMethod.GET)
-	public String moveSelExamModify(String examcode, HttpSession session, Model model) {
+	public String moveSelExamModify(String examcode, HttpSession session, Model model, String examnum) {
 		logger.info("TESTController moveSelExamModify");
 		
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("examcode", examcode);
+		map.put("examnum", examnum);
 		map.put("testcode", testsession.getTestcode());
 		Exam_Sel_DTO dto = iService.te_testselect(map);
 		System.out.println(dto);
@@ -861,23 +861,23 @@ public class TestController {
 		System.out.println("선택형 문제 답안 등록 성공 ?"+isc);
 		return "answers_insert";
 	}
-	
-	//과제에 해당하는 문제,답 조회(서술형)
-	@RequestMapping(value="/desc_Detail_Exam.do", method=RequestMethod.GET)
-	public String answerd_select(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController answerd_select{}");
-		String id = req.getParameter("id");
-		String examcode = req.getParameter("examcode");
-		String examnum = req.getParameter("examnum");
-		System.out.println("id : "+id+", examcode : "+examcode+", examnum : "+examnum);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("examcode", examcode);
-		map.put("examnum", examnum);
-		Answer_Des_DTO dto = iService.answerd_select(map);
-		System.out.println(dto);
-		return "answerd_select";
-	}
+//	
+//	//과제에 해당하는 문제,답 조회(서술형)
+//	@RequestMapping(value="/desc_Detail_Exam.do", method=RequestMethod.GET)
+//	public String answerd_select(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController answerd_select{}");
+//		String id = req.getParameter("id");
+//		String examcode = req.getParameter("examcode");
+//		String examnum = req.getParameter("examnum");
+//		System.out.println("id : "+id+", examcode : "+examcode+", examnum : "+examnum);
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("id", id);
+//		map.put("examcode", examcode);
+//		map.put("examnum", examnum);
+//		Answer_Des_DTO dto = iService.answerd_select(map);
+//		System.out.println(dto);
+//		return "answerd_select";
+//	}
 	
 	//과제에 해당하는 문제,답 조회(선택형)
 	@RequestMapping(value="/sel_Detail_Exam.do", method=RequestMethod.GET)
@@ -889,8 +889,8 @@ public class TestController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("examcode", examcode);
-		Answer_Sel_DTO dto = iService.answers_select(map);
-		System.out.println(dto);
+		
+
 		return "answers_select";
 	}
 	
@@ -940,13 +940,13 @@ public class TestController {
 	
 	// 문제번호 수정
 	@RequestMapping(value="/updateExam.do", method=RequestMethod.POST)
-	public String testExamUpdate(String[] examnum, String[] examcode, String[] allot, HttpSession session, Model model) {
+	public String testExamUpdate(String[] examnum, String[] exam, String[] allot, HttpSession session, Model model) {
 		logger.info("TESTController testExamUpdate");
 		System.out.println(Arrays.toString(examnum));
-		System.out.println(Arrays.toString(examcode));
+		System.out.println(Arrays.toString(exam));
 		System.out.println(Arrays.toString(allot));
 		for (int i = 0; i < allot.length; i++) {
-			Test_Exam_DTO dto = new Test_Exam_DTO("", examcode[i], allot[i], examnum[i], "");
+			Test_Exam_DTO dto = new Test_Exam_DTO("", exam[i], allot[i], examnum[i], "");
 			iService.te_modify(dto);
 		}
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
