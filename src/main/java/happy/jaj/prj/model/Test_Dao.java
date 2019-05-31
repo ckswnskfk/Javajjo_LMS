@@ -221,7 +221,7 @@ public class Test_Dao implements Test_Interface {
 	@Override
 	public Score_DTO score_select(Map<String, String> map) {
 		logger.info("Test_Dao score_select {}",map);
-		return (Score_DTO)sqlSession.selectList(NS+"score_select", map);
+		return sqlSession.selectOne(NS+"score_select", map);
 	}
 
 	@Override
@@ -314,6 +314,12 @@ public class Test_Dao implements Test_Interface {
 	public List<Student_DTO> test_coursestu(String coursecode) {
 		logger.info("Test_Dao test_coursestu {}", coursecode);
 		return sqlSession.selectList(NS+"test_coursestu", coursecode);
+	}
+
+	@Override
+	public String test_examcodeselect(Map<String, String> map) {
+		logger.info("Test_Dao test_examcodeselect {}",map);
+		return sqlSession.selectOne(NS+"test_examcodeselect", map);
 	}
 
 	

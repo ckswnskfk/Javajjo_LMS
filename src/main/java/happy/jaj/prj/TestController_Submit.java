@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 
 import com.thoughtworks.qdox.model.Member;
 
@@ -339,11 +340,13 @@ public class TestController_Submit {
 		return "test_StudentList";
 	}
 	
+	// 서술형 문제 채점
 	@RequestMapping(value="/desc_Detail_Exam.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String DescDetailExam(String id, String examcode, String score, String examnum, String page ,HttpSession session, Model model) {
 		logger.info("TestController DescDetailExam");
 		// examnum : 현재 자신의 페이지 
 		System.out.println("★ ID : "+id);
+		model.addAttribute("id",id);
 		
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		System.out.println(testsession);
@@ -364,8 +367,26 @@ public class TestController_Submit {
 			if(score==null) {
 				score = "0";
 			}
-			Score_DTO myscore = new Score_DTO(id, "", testsession.getTestcode(), examcode, Integer.parseInt(score));
-			boolean isc = iService.score_insertd(myscore);
+			
+			// 현재페이지 점수조회 
+			System.out.println("◆◆◆◆◆◆◆◆◆◆현재페이지 점수 조회");
+					
+			Map<String, String> pagemap = new HashMap<>();
+			pagemap.put("id", id);
+			pagemap.put("testcode", testsession.getTestcode());
+			pagemap.put("examcode", examcode);
+			Score_DTO pagedto = iService.score_select(pagemap);
+			if(pagedto==null) {
+				Score_DTO myscore = new Score_DTO(id, "", testsession.getTestcode(), examcode, Integer.parseInt(score));
+				boolean isc = iService.score_insertd(myscore);		
+				System.out.println("현재 페이지 점수 등록 성공?"+isc);
+			}else {
+				//수정
+				Score_DTO myscore = new Score_DTO(id, "", testsession.getTestcode(), examcode, Integer.parseInt(score));
+				boolean isc = iService.score_modify(myscore);
+				System.out.println("현재 페이지 점수 수정 성공?"+isc);
+			}
+			
 		}
 		
 		
@@ -383,11 +404,196 @@ public class TestController_Submit {
 		exam.put("testcode", testsession.getTestcode());
 		exam.put("examnum", String.valueOf(examnumber));
 		Exam_Des_DTO dto = iService.te_select(exam);
+		System.out.println("문제 : "+dto);
 		model.addAttribute("dto", dto);
+		
+		int maxexamnum = iService.test_examcount(testsession.getTestcode());
+		model.addAttribute("maxexamnum", maxexamnum);
+		
+		// 다음 페이지 점수 조회 
+		System.out.println("◆◆◆◆◆◆◆◆◆◆다음페이지 점수 조회");
+		Map<String, String> scoremap = new HashMap<String, String>();
+		scoremap.put("id" ,id);
+		scoremap.put("testcode", testsession.getTestcode());
+		Map<String, String> nextexam = new HashMap<String, String>();
+		nextexam.put("testcode", testsession.getTestcode());
+		nextexam.put("examnum", String.valueOf(examnumber));
+		String nextexamcode = iService.test_examcodeselect(nextexam);
+		scoremap.put("examcode", nextexamcode);
+		Score_DTO scoredto = iService.score_select(scoremap);
+		int score1;
+		if(scoredto==null) {
+			score1 = 0;
+		}else {
+			score1 = scoredto.getScore();		
+		}
+		System.out.println("◆◆◆◆◆◆◆◆◆◆다음페이지 점수 : "+scoredto);
+		model.addAttribute("scoredto",score1);
+		
 		
 		
 		return "test_StuDescAnswer";
 	}
+	
+	// 선택형 문제 자동 채점
+	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.GET)
+	public String SelDetailExam(HttpSession session, Model model) {
+		logger.info("TestController SelDetailExam");
+		//INSERT INTO SCORE(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
+//		VALUES(#{id}, 'N', #{testcode}, #{examcode}, (SELECT 
+//		(CASE WHEN C_ANSWER=ANSWER THEN ALLOT ELSE 0 END)
+//		FROM ANSWERSELECT JOIN EXAMSELECT ON
+//		ANSWERSELECT.EXAMCODE=EXAMSELECT.EXAMCODE
+//		JOIN TEST_EXAM ON EXAMSELECT.EXAMCODE=TEST_EXAM.EXAMCODE
+//		WHERE ID= #{id} AND EXAMSELECT.EXAMCODE = #{examcode}))
+		// id, testcode (session), examcode
+		// 시험제출 눌렀을때 testcode를 가져와 해당 문제들(examcode)조회 -> for문돌려서 insert
+		
+		Map<String, String> member = (Map<String, String>)session.getAttribute("member");
+		String id = member.get("id");
+		System.out.println("▶ id : "+id);
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		System.out.println("▶ session : "+testsession);
+		
+		List<Test_Exam_DTO> list = iService.te_testselectlist(testsession.getTestcode());
+		for(int i=0; i< list.size();i++) {
+			Score_DTO dto = new Score_DTO(id, "", testsession.getTestcode(), list.get(i).getExamcode(), 0);
+			boolean isc = iService.score_inserts(dto);
+			System.out.println("선택형문제 점수등록 성공 ?"+isc);	
+		}
+//		System.out.println("▶ ㄴㄷ");
+//		TestSession_DTO dto = new TestSession_DTO("", "", testsession.getSubjectcode(), testsession.getSubjectname(), testsession.getSubjecttype(), testsession.getExamtype(), "", "", "");
+//		model.addAttribute("dto", dto);
+//		return "redirect:/test_List_Submit.do?subjectcode="+testsession.getSubjectcode()+"&subjectname="+testsession.getSubjectname()+"&";	
+//		return "redirect:/test_Subject_Submit.do?coursecode="+testsession.getCoursecode();
+		return "redirect:/test_Course_Submit.do";
+	}
+	
+	//-----------------------------------------------------------------------------------------
+	
+	// 담당과정 조회(성적)(강사)
+	@RequestMapping(value="/test_Course_Result.do", method=RequestMethod.GET)
+	public String testCourseResult(HttpSession session, Model model) {
+		logger.info("TestController testCourseResult");
+		Map<String, String> map = (Map<String, String>)session.getAttribute("member");
+		String id = map.get("id");
+		System.out.println(id);
+		Course_DTO dto = iService.test_course(id);
+		model.addAttribute("dto", dto);
+		
+		return "test_Courselist_Result";
+	}
+	
+	// 수강과정 조회(성적)(학생)
+	@RequestMapping(value="/test_Course_ResultStu.do", method=RequestMethod.GET)
+	public String testCourseResultStu(HttpSession session, Model model) {
+		logger.info("TestController testCourseResultStu");
+		logger.info("TestController Courselist");
+		Map<String, String> map = (Map<String, String>)session.getAttribute("member");
+		String id = map.get("id");
+		System.out.println(id);
+		List<Course_DTO> dto = iService.test_courselist(id);
+		model.addAttribute("dto", dto);
+		
+		return "test_Courselist_Result_Stu";
+	}
+	
+	// 강사 과목 조회 
+	@RequestMapping(value="/test_Subject_Result.do", method=RequestMethod.GET)
+	public String testSubjectResult(String coursecode, String coursename, HttpSession session, Model model) {
+		logger.info("TestController testSubjectResult");
+		
+		System.out.println("받아온 값 : "+coursecode);
+		List<Subject_DTO> list = iService.test_subject(coursecode);
+		for(Subject_DTO dto:list) {			
+			System.out.println(dto);
+		}
+		model.addAttribute("list", list);
+		TestSession_DTO testsession = new TestSession_DTO();
+		testsession.setCoursename(coursename);
+
+		session.setAttribute("testsession", testsession);
+		
+		return  "test_SubjectList_Result";
+	}
+	
+	// 학생 과목 조회 
+	@RequestMapping(value="/test_Subject_ResultStu.do",method=RequestMethod.GET)
+	public String testSubjectResultStu(String coursecode, String coursename, HttpSession session, Model model) {
+		logger.info("TestController testSubjectResultStu");
+		
+		System.out.println("받아온 값 : "+coursecode);
+		List<Subject_DTO> list = iService.test_subject(coursecode);
+		for(Subject_DTO dto:list) {			
+			System.out.println(dto);
+		}
+		
+		model.addAttribute("list", list);
+		TestSession_DTO testsession = new TestSession_DTO();
+		testsession.setCoursename(coursename);
+
+		session.setAttribute("testsession", testsession);
+		
+		return "test_SubjectList_ResultStu";
+	}
+	
+//	//과제 조회(강사)
+//	@RequestMapping(value="/test_Test_ResultStu.do", method=RequestMethod.GET)
+//	public String testTestResultStu() {
+//		logger.info("TestController testTestResultStu");
+//		
+//		
+//		return "test_List_Result";
+//	}
+	
+	//과제 조회(학생)
+	@RequestMapping(value="/test_Test_ResultStu.do" , method=RequestMethod.GET)
+	public String testSubjectResultStu(TestSession_DTO dto, HttpSession session, Model model) {
+		logger.info("TestController testSubjectResultStu");
+		
+		System.out.println(dto);
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		testsession.setSubjectcode(dto.getSubjectcode());
+		testsession.setSubjectname(dto.getSubjectname());
+		testsession.setSubjecttype(dto.getSubjecttype());
+		testsession.setExamtype(dto.getExamtype());
+		
+		Subject_Test_DTO STdto = iService.se_testselect(dto.getSubjectcode());
+		model.addAttribute("dto", STdto);
+		System.out.println("TSdto");
+		
+
+			testsession.setTestname(STdto.getTestname());
+			testsession.setTestday(STdto.getTestday());
+			testsession.setTestcode(STdto.getTestcode());
+		
+		System.out.println("■■■■■■■■■■ session : "+testsession);
+		session.setAttribute("testsession", testsession);
+			
+		return "test_List_ResultStu";
+	}
+	
+	// 성적 조회
+	@RequestMapping(value="/test_Total_ResultStu.do", method=RequestMethod.GET)
+	public String testTotalResultStu(HttpSession session, Model model) {
+		logger.info("TestController testTotalResultStu");
+		// id, testcode
+		
+		Map<String, String> member = (Map<String, String>)session.getAttribute("member");
+		String id = member.get("id");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		String testcode = testsession.getTestcode();
+		Map<String, String> test = new HashMap<>();
+		test.put("id", id);
+		test.put("testcode", testcode);
+		Score_DTO dto = iService.score_selectsum(test);
+		int total = dto.getScore();
+		model.addAttribute("total", total);
+		
+		return "test_DetailScoreStu";
+	}
+	
+	
 	
 	
 	

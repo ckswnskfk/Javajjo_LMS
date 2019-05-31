@@ -341,6 +341,12 @@ public class Test_Service implements Test_IService {
 		logger.info("Test_Service test_coursestu {}", coursecode);
 		return test_Interface.test_coursestu(coursecode);
 	}
+
+	@Override
+	public String test_examcodeselect(Map<String, String> map) {
+		logger.info("Test_Service test_examcodeselect {}",map);
+		return test_Interface.test_examcodeselect(map);
+	}
 	
 	
 

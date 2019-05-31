@@ -19,6 +19,15 @@
 <h1>과목 조회</h1>
 <h3>과정명 : ${testsession.coursename}</h3>
 <table>
+<% 
+	if(list==null){
+		%>
+		<tr>
+			<td colspan="3">과목에 등록되 과제가 없습니다. </td>
+		</tr>
+		<% 
+	}else{
+%>
 	<tr>
 		<td>과목명</td>
 		<td>과목 유형</td>
@@ -28,16 +37,18 @@
 	for(Subject_DTO dto: list){
 		%>
 		<tr>
-			<td><a href="./test_List_Submit.do?subjectcode=<%=dto.getsubjectcode()%>&subjecttype=<%=dto.getsubjecttype()%>&examtype=<%=dto.getexamtype()%>&subjectname=<%=dto.getsubjectname()%>"><%=dto.getsubjectname() %></a></td>
+			<td><a href="./test_Test_ResultStu.do?subjectcode=<%=dto.getsubjectcode()%>&subjecttype=<%=dto.getsubjecttype()%>&examtype=<%=dto.getexamtype()%>&subjectname=<%=dto.getsubjectname()%>"><%=dto.getsubjectname() %></a></td>
 			<td><%=dto.getsubjecttype() %></td>
 			<td><%=dto.getexamtype() %></td>
 		</tr>
 		<% 
+	}
 	}
 	%>
 	
 </table>
 
 <%@include file="./include/footer.jsp" %>
+
 </body>
 </html>

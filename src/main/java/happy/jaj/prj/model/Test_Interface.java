@@ -19,6 +19,9 @@ import happy.jaj.prj.dtos.UserCourse_DTO;
 
 public interface Test_Interface {
 	
+	// 문제번호로 문제코드 조회
+	public String test_examcodeselect(Map<String, String> map);
+	
 	// 수강학생조회
 	public List<Student_DTO> test_coursestu(String coursecode);
 	
