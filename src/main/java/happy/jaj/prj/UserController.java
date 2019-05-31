@@ -266,15 +266,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String student_modify(Student_DTO dto, HttpSession session) {
 		logger.info("UserController student_modify 실행");
 		boolean isc = user_IService.student_modify(dto);
-		if(isc) {
-			logger.info("------------------- 정보 수정 완료 ---------------- 학생");
-			Map<String, String> mapSession = new HashMap<String, String>();
-			mapSession.put("table", "Student");
-			mapSession.put("id", dto.getId());
-			mapSession.put("name", dto.getName());
-			session.setAttribute("member", mapSession);
-		}
-		return "redirect:/main.do";
+		return "redirect:/loginForm.do";
 	}
 	
 	/* --------------------   강사   ------------------------*/
@@ -329,15 +321,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String teacher_modify(@RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("UserController teacher_modify 실행");
 		boolean isc = user_IService.teacher_modify(map);
-		if(isc) {
-			logger.info("--------------------------- 정보 수정 완료 ------------강사 ");
-			Map<String, String> mapSession = new HashMap<String, String>();
-			mapSession.put("table", "Teacher");
-			mapSession.put("id", map.get("id"));
-			mapSession.put("name", map.get("name"));
-			session.setAttribute("member", mapSession);
-		}
-		return "redirect:/main.do";
+		return "redirect:/loginForm.do";
 	}
 	
 	//담당 과정 수강 학생 조회
@@ -407,15 +391,7 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String admin_modify(@RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("UserController admin_modify 실행");
 		boolean isc = user_IService.admin_modify(map);
-		if(isc) {
-			logger.info("--------------------------- 정보 수정 완료 ------------관리자 ");
-			Map<String, String> mapSession = new HashMap<String, String>();
-			mapSession.put("table", "Admin");
-			mapSession.put("id", map.get("id"));
-			mapSession.put("name", map.get("name"));
-			session.setAttribute("member", mapSession);
-		}
-		return "redirect:/main.do";
+		return "redirect:/loginForm.do";
 	}
 	
 	//회원가입 신청 조회
