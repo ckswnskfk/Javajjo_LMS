@@ -11,7 +11,7 @@
 	<mvc:annotation-driven/>
 	
 <!-- 	<context:annotation-config/> -->
-<!-- 	<mvc:resources mapping="/image/**" location="file:///C:/Happy_Clipse/workspace_JSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Javajjo_LMS/upload/signature/"/> -->
+<!-- 	<mvc:resources mapping="/signature/**" location="file:///C:/Happy_Clipse/workspace_JSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Javajjo_LMS/upload/signature"/> -->
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/"/>
@@ -25,6 +25,7 @@
 	<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할 수 있는 최대 바이트 크기, 기본 값은 10240 바이트 -->
 		<property name="maxInMemorySize" value="100000000"/>
 	</bean>
+	
 	
 	<bean id="uploadPath" class="java.lang.String">
 		<!-- 생성자를 통해 빈을 주입받음  uploadPath 를 부르면 value를 반환-->

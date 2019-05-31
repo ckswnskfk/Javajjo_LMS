@@ -1,6 +1,7 @@
 package happy.jaj.prj;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,8 +11,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +21,6 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -33,10 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import happy.jaj.prj.dtos.Admin_DTO;
 import happy.jaj.prj.dtos.App_Form_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.model.Absent_IService;
@@ -159,6 +155,9 @@ public class AbsentController {
 		req.setAttribute("yesMap", yesMap);
 		return "absent_detail";
 	}
+	
+	
+	
 	
 	// 상세조회한 신청서에서 첨부파일 다운
 	@RequestMapping(value="/download.do", method=RequestMethod.GET)
