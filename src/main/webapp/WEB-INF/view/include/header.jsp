@@ -76,7 +76,7 @@
 		            <span class="caret"></span></a>
 			        <ul class="dropdown-menu">
 			          <li><a href="./test_Course_Submit.do">과제 제출</a></li>
-			          <li><a href="./test_Course_Result.do">성적 조회</a></li>
+			          <li><a href="./test_Course_ResultStu.do">성적 조회</a></li>
 			        </ul>
 			      </li>
          	</c:when>
