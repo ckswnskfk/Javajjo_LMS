@@ -74,7 +74,11 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	public String student_join_check(@RequestParam Map<String, String> map) {
 		logger.info("UserController student_join_check 실행");
 		Student_DTO Sdto = user_IService.student_login(map);
-		return Sdto.getS_check();
+		if(Sdto == null) {
+			return "X";
+		}else {
+			return Sdto.getS_check();
+		}
 	}
 		
 	//로그인
@@ -274,6 +278,20 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	/* --------------------   강사   ------------------------*/
+	//로그인 확인
+	@RequestMapping(value="/teacher_login_check.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String teacher_login_check(@RequestParam Map<String, String> map) {
+		logger.info("UserController teacher_login_check 실행");
+		Teacher_DTO dto = user_IService.teacher_login(map);
+		if(dto == null) {
+			return "X";
+		}else {
+			return "Y";
+		}
+	}
+		
+		
 	//로그인
 	@RequestMapping(value="/teacher_login.do", method=RequestMethod.POST)
 	public String teacher_login(@RequestParam Map<String, String> map,HttpSession session) {
@@ -339,6 +357,19 @@ private Logger logger = LoggerFactory.getLogger(UserController.class);
 	}
 	
 	/* --------------------   관리자   ------------------------*/
+	//로그인 확인
+	@RequestMapping(value="/admin_login_check.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String admin_login_check(@RequestParam Map<String, String> map) {
+		logger.info("UserController admin_login_check 실행");
+		Admin_DTO dto = user_IService.admin_login(map);
+		if(dto == null) {
+			return "X";
+		}else {
+			return "Y";
+		}
+	}
+		
 	//로그인
 	@RequestMapping(value="/admin_login.do", method=RequestMethod.POST)
 	public String admin_login(@RequestParam Map<String, String> map,HttpSession session) {
