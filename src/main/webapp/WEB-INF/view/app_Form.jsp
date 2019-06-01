@@ -26,7 +26,7 @@
 			success: function(msg) {
 				$.each(msg, function(key, value) {
 // 					alert(value.coursename);
-					$("#recipient_id").append("<option value='"+value.id+"' coursecode='"+value.coursecode+"'>"+value.coursename+"</option>")
+					$("#recipient_id").append("<option value='"+value.id+"' coursecode='"+value.coursecode+"'>"+value.coursename+" "+value.coursecnt+"회차, "+value.teacher_name+"선생님"+"</option>")
 				});
 			}
 		});
@@ -86,7 +86,6 @@
 		<form action="" onsubmit="apply(); return false;">
 			<input type="hidden" name="student_id" value="${member.id}">
 			<input id="coursecode" type="hidden" name="coursecode" value="">
-<!-- 			<input id="newfilename" type="hidden" name="newfilename" value=""> -->
 			<table class="table">
 				<tr>
 					<td>

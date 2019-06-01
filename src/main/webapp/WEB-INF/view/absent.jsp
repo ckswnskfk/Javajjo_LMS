@@ -88,6 +88,7 @@
 		if ($.inArray(ext, ["gif", "jpg", "jpeg", "png"]) == -1) {
 			alert("이미지 파일(gif, jpg, jpeg, png)만 업로드 가능합니다.");
 			$("#originalfilename").val("");
+			$('#img_preview').attr('style', 'display:none');
 			return;
 		} else {
 			if (targetObj.files && targetObj.files[0]) {
@@ -197,7 +198,7 @@
 								<form action="./addSignature.do" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="id" value="${member.id}">
 									<input type="file" id="originalfilename" name="originalfilename" onchange="fileChk(this,$('#img_preview'))">
-									<img id="img_preview" alt="img_preview" src="" style="display:none;">
+									<img id="img_preview" alt="img_preview" src="" style="display:none;" width="150px" height="100">
 									<button type="submit" id="submit" disabled="disabled">등록</button>
 								</form>
 							</div>

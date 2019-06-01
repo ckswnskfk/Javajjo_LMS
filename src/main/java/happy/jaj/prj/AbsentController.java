@@ -1,7 +1,6 @@
 package happy.jaj.prj;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +10,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -261,9 +259,10 @@ public class AbsentController {
 		int n;
 		String filename = reqFilename.getOriginalFilename();
 		String newfilename = "";
-		
 		// 첨부한 파일 없으면 바로 결석 신청
 		if (filename.trim().equalsIgnoreCase("")) {
+			dto.setFilename(filename);
+			dto.setNewfilename(newfilename);
 			n = absent_IService.insert_absent_form(dto);
 			System.out.println(n);
 		} else {
@@ -274,7 +273,6 @@ public class AbsentController {
 			String today = transFormat.format(from);
 
 			newfilename = uuid.toString()+"_"+today+"_"+studentId+"_"+filename;
-			
 			File dir = new File(uploadPath);
 			File target = new File(uploadPath, newfilename);
 			// 폴더가 없다면 폴더를 생성
