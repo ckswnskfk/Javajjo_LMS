@@ -84,10 +84,15 @@ function selexaminsert(){
 
 function examinsert(){
 	alert("문제등록 버튼");
-	var frm = document.forms[0];
-	frm.action="./updateExam.do";
-	frm.method="post";
-	frm.submit();
+	var exam = document.getElementsByName("exam");
+	if(exam.length==0){
+		alert("문제를 한개이상 등록해 주세요.");
+	}else{
+		var frm = document.forms[0];
+		frm.action="./updateExam.do";
+		frm.method="post";
+		frm.submit();
+	}
 }
 
 function coursecnt(){

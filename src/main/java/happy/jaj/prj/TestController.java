@@ -121,8 +121,8 @@ public class TestController {
 
 	}
 	// 선택한 과정의 회차 과목의 문제 들고옴 
-//	@RequestMapping(value="/test_CouresSel1.do", method=RequestMethod.GET,
-//			produces="application/text; charset=UTF-8")
+	@RequestMapping(value="/test_CouresSel1.do", method=RequestMethod.GET,
+			produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String testCourseSel(HttpSession session, String coursecode, Model model, String examcode, String allot) {
 		logger.info("TESTController testCourseSel");
@@ -269,7 +269,7 @@ public class TestController {
 	
 	//담당 과정에 해당하는 과목 조회
 	@RequestMapping(value="/test_Subject_Insert.do", method=RequestMethod.GET)
-	public String testSubject(HttpSession session, Model model, String coursecode, String coursename) {
+	public String testSubject(HttpSession session, Model model, String coursecode, String coursename,String coursecnt) {
 		logger.info("TestController testSubject");
 		
 		System.out.println("받아온 값 : "+coursecode);
@@ -280,6 +280,7 @@ public class TestController {
 		model.addAttribute("list", list);
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
+		testsession.setCoursecnt(coursecnt);
 
 		session.setAttribute("testsession", testsession);
 		return "test_SubjectList";
@@ -358,7 +359,7 @@ public class TestController {
 //		System.out.println("testname :"+testname+", testday : "+testday);
 		Test_DTO tdto = new Test_DTO("", dto.getTestname(), subjecttype, examtype);
 		
-		Subject_Test_DTO sdto = new Subject_Test_DTO(dto.getSubjectcode(), "", dto.getTestday());
+		Subject_Test_DTO sdto = new Subject_Test_DTO(testsession.getSubjectcode(), "", dto.getTestday());
 		boolean isc = iService.test_Transaction(tdto, sdto);
 		System.out.println("과제 추가 성공 ?"+isc);
 		
@@ -367,12 +368,14 @@ public class TestController {
 //		session.setAttribute("testname", dto.getTestname());
 //		session.setAttribute("testday", dto.getTestday());	
 		testsession.setTestname(dto.getTestname());
+		testsession.setTestcode(sdto.getTestcode());
 		testsession.setTestday(dto.getTestday());
+		session.setAttribute("testsession", testsession);
 		
 		String testcode = sdto.getTestcode();
 		System.out.println("■■■■■■■■■ testcode : "+testcode);
 		
-		session.setAttribute("testcode", testcode);
+//		session.setAttribute("testcode", testcode);
 		
 		return "redirect:./division.do";
 	}
@@ -388,14 +391,15 @@ public class TestController {
 //		String st1 = (String)session.getAttribute("testcode");
 //		System.out.println("■■■■■■■■■■ session의 testcode : "+dto.getTestcode());
 		TestSession_DTO dto = (TestSession_DTO)session.getAttribute("testsession");
-		if(dto==null) {
+		System.out.println("session : "+dto);
+		
+		if(dto.getTestcode()==null) {
 //			testcode1 = (String)req.getAttribute("testcode");
 			testcode1 = testcode;
 			System.out.println("■■■■■■■■■■■ 화면에서 받은 testcode : "+testcode);
 		}else {
-		    dto = (TestSession_DTO)session.getAttribute("testsession");
-			String st1 = dto.getTestcode();
-			testcode1 = st1;
+//			TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+			testcode1 = dto.getTestcode();
 		}
 		
 //		String examtype = (String)session.getAttribute("examtype");
@@ -468,6 +472,7 @@ public class TestController {
 		System.out.println("서술문제등록 성공 ? "+isc);
 		return "redirect:/moveInsertDesc.do";	
 	}
+	
 	//  서술형문제등록 후 이동
 	@RequestMapping(value="/moveInsertDesc.do", method=RequestMethod.GET)
 	public String moveInserDesc(HttpSession session, Model model) {
