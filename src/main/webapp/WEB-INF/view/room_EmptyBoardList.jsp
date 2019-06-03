@@ -38,10 +38,10 @@
 			<td colspan="4" style="text-align: right; border-bottom: 1px solid black;">
 			<c:choose>
 				<c:when test="${dto.check eq 'Y'}">
-					<input type="button" value="예약" onclick="room_empty_request(${dto.code},${regdate},${member.id})">
+					<input type="button" value="예약" onclick="room_empty_request('${dto.code}','${regdate}','${member.id}')">
 				</c:when>
 				<c:otherwise>
-					<input type="button" value="예약취소" onclick="room_empty_cancle(${dto.code},${regdate},${member.id})">
+					<input type="button" value="예약취소" onclick="room_empty_cancle('${dto.code}','${regdate}','${member.id}')">
 				</c:otherwise>
 			</c:choose>
 			</td>
