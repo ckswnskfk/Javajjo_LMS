@@ -9,6 +9,20 @@
 			<provider-property name="@dbeaver-check-schema-content@" value="false"/>
 			<provider-property name="@dbeaver-always-show-dba@" value="false"/>
 		</connection>
+		<virtual-meta-data>
+			<container name="model">
+				<container name="JAJ">
+					<entity name="TEST_EXAM">
+						<constraint name="PRIMARY" type="VIRTUAL KEY">
+							<attribute name="EXAMCODE"/>
+							<attribute name="TESTCODE"/>
+							<attribute name="ALLOT"/>
+							<attribute name="EXAMNUM"/>
+						</constraint>
+					</entity>
+				</container>
+			</container>
+		</virtual-meta-data>
 	</data-source>
 	<data-source id="oracle_thin-16b120103a8-476476cda27c487b" provider="oracle" driver="oracle_thin" name="Oracle - XE" save-password="true" show-system-objects="true" read-only="false">
 		<connection host="localhost" port="1521" server="" database="XE" url="jdbc:oracle:thin:@//localhost:1521/XE" user="JAJ" password="QlVXcSGi" home="C:\oraclexe\app\oracle\product\11.2.0\server" type="dev">

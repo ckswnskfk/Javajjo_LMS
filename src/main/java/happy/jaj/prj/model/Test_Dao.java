@@ -322,5 +322,30 @@ public class Test_Dao implements Test_Interface {
 		return sqlSession.selectOne(NS+"test_examcodeselect", map);
 	}
 
+	@Override
+	public List<Test_Exam_DTO> test_testdesclist(Map<String, String> map) {
+		logger.info("Test_Dao test_testdesclist {}", map);
+		return sqlSession.selectList(NS+"test_testdesclist", map);
+	}
+
+	@Override
+	public int test_seqselect(Map<String, String> map) {
+		logger.info("Test_Dao test_seqselect {}", map);
+		return sqlSession.selectOne(NS+"test_seqselect",map);
+	}
+
+	@Override
+	public int score_allcheck(Map<String, String> map) {
+		logger.info("Test_Dao score_allcheck {}", map);
+		return sqlSession.selectOne(NS+"score_allcheck", map);
+	}
+
+	@Override
+	public boolean score_chkupdate(Map<String, String> map) {
+		logger.info("Test_Dao score_chkupdate {}", map);
+		int n = sqlSession.update(NS+"score_chkupdate", map);
+		return n>0? true:false;
+	}
+
 	
 }

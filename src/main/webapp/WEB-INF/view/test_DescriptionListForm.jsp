@@ -105,7 +105,7 @@
 		}
 		%>
 	</table>
-		<input type="submit" value="문제 등록" onclick="examinsert()">
+		<input type="button" value="문제 등록" onclick="examinsert()">
 		<input type="button" value="뒤로 가기" onclick="testback()">
 	</form>
 <%@include file="./include/footer.jsp" %>

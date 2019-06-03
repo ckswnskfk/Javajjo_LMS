@@ -182,7 +182,6 @@ public class TestController {
 		
 		return "test_ExamList";
 	}
-
 	
 	// 과목유형과 과제유형동일한 문제 조회(선택형) 
 	@RequestMapping(value="/test_examsellist.do", method=RequestMethod.GET)
@@ -281,6 +280,7 @@ public class TestController {
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
 		testsession.setCoursecnt(coursecnt);
+		testsession.setCoursecode(coursecode);
 
 		session.setAttribute("testsession", testsession);
 		return "test_SubjectList";
@@ -413,7 +413,15 @@ public class TestController {
 		System.out.println("★★★★★★ testname : "+dto.getTestname()+", testday : "+dto.getTestday());
 		
 		if(dto.getExamtype().equals("서술형")) {
-			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testcode1);
+			Map<String, String> map = new HashMap<>();
+			map.put("coursecode", dto.getCoursecode());
+			map.put("subjectcode", dto.getSubjectcode());
+			int seq = iService.test_seqselect(map);
+			
+			Map<String, String> map1 = new HashMap<>();
+			map1.put("seq", String.valueOf(seq));
+			map1.put("testcode", testcode1);
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.test_testdesclist(map1);
 			model.addAttribute("dto", list);
 			
 			int total = iService.te_selectsum(testcode1);

@@ -220,6 +220,25 @@
 		WHERE TESTCODE = #{testcode} AND EXAMNUM=#{examnum}
 	</select>
 	
+	<!-- 과정-과목 seq조회 -->
+	<select id="test_seqselect" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT SEQ
+		FROM COURSE_SUBJECT
+			WHERE COURSECODE = #{coursecode}
+				AND SUBJECTCODE = #{subjectcode}
+	</select>
+	
+	<!-- 과제 등록시 과제에 해당하는 문제 리스트 조회(서술형) -->
+	<select id="test_testdesclist" parameterType="java.util.Map" resultType="TestExamDTO">
+		SELECT TEST_EXAM.EXAMNUM, EXAMDESCRIPTIVE.EXAM, TEST_EXAM.ALLOT, TEST_EXAM.EXAMCODE, SUBJECT_TEST.SUBJECTCODE
+		FROM COURSE_SUBJECT JOIN SUBJECT_TEST ON  COURSE_SUBJECT.SUBJECTCODE = SUBJECT_TEST.SUBJECTCODE
+		JOIN TEST_EXAM ON SUBJECT_TEST.TESTCODE = TEST_EXAM.TESTCODE
+		JOIN EXAMDESCRIPTIVE ON TEST_EXAM.EXAMCODE=EXAMDESCRIPTIVE.EXAMCODE
+		WHERE TEST_EXAM.TESTCODE = #{testcode}
+			AND COURSE_SUBJECT.SEQ = #{seq}
+		ORDER BY EXAMNUM
+	</select>
+	
 	<!-- 과제에 해당하는 문제 리스트 조회 (서술형) -->
 	<select id="te_selectlist" parameterType="java.lang.String" resultType="TestExamDTO">
 		SELECT EXAMNUM, EXAM, ALLOT, EXAMCODE
@@ -347,6 +366,21 @@
 		SELECT SUM(SCORE), ID, NAME 
 		FROM SCORE JOIN STUDENT USING(ID) WHERE TESTCODE = #{testcode} AND ID =#{id} GROUP BY ID,NAME
 	</select>
+	
+	<!-- 채점 완료 확인 -->
+	<select id="score_allcheck" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+		FROM SCORE
+			WHERE ID = #{id}
+			AND TESTCODE = #{testcode}
+	</select>
+	
+	<!-- 성적테이블 체크변경 -->
+	<update id="score_chkupdate" parameterType="java.util.Map" >
+	UPDATE SCORE SET EXAMCHECK='Y' 
+		WHERE ID = #{id}
+			AND TESTCODE = #{testcode}
+	</update>
 
 
 
