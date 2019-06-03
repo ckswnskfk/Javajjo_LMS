@@ -188,5 +188,11 @@ public class Board_Dao implements Board_Interface {
 		logger.info("room_add Dao 실행 {}", dto);
 		return ((sqlSession.insert(NS_Emp+"room_add", dto)) > 0 );
 	}
+	
+	// 빈강의실 캘린더 이벤트 추가용 날짜와 코드 조회
+	public List<Room_Empty_DTO> room_event(String id) {
+		logger.info("room_add Service 실행 {}", id);
+		return sqlSession.selectList(NS_Emp+"room_event", id);
+	}
 
 }

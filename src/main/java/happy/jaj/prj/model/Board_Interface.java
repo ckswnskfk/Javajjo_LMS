@@ -80,4 +80,7 @@ public interface Board_Interface {
 	// 강의실 추가
 	public boolean room_add(Empty_DTO dto);
 	
+	// 빈강의실 캘린더 이벤트 추가용 날짜와 코드 조회
+	public List<Room_Empty_DTO> room_event(String id);
+	
 }

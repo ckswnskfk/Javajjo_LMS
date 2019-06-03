@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -466,6 +468,42 @@ public class BoardController {
 		logger.info("BoardController room_add 실행");
 		board_IService.room_add(dto);
 		return "redirect:/room_main.do";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/room_event.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	public @ResponseBody String room_event(Model model, HttpSession session) {
+		logger.info("BoardController room_event 실행");
+		Map<String, String> map = (Map<String, String>) session.getAttribute("member");
+		String id = map.get("id");
+		List<Room_Empty_DTO> lists = board_IService.room_event(id);
+		JSONObject json = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		JSONObject data = null;
+		for (int i = 0; i < lists.size(); i++) {
+			data = new JSONObject();
+			String year = lists.get(i).getRegdate().substring(0, 4);
+			String month = lists.get(i).getRegdate().substring(5, 7);
+			String day = lists.get(i).getRegdate().substring(8, 10);
+			data.put("title", lists.get(i).getName());
+			data.put("start", year+"-"+month+"-"+day);
+			jArray.add(data);
+		}
+		json.put("lists", jArray);
+		return json.toJSONString();
+//		JSONObject json2 = new JSONObject();
+//		JSONArray jArrayTitle = new JSONArray();
+//		JSONArray jArrayStart = new JSONArray();
+//		for (int i = 0; i < lists.size(); i++) {
+//			String year = lists.get(i).getRegdate().substring(0, 4);
+//			String month = lists.get(i).getRegdate().substring(5, 7);
+//			String day = lists.get(i).getRegdate().substring(8, 10);
+//			jArrayTitle.add(lists.get(i).getCode());
+//			jArrayStart.add(year+"-"+month+"-"+day);
+//			json2.put("title", jArrayTitle);
+//			json2.put("start", jArrayStart);
+//		}
+//		return json2.toJSONString();
 	}
 	
 }
