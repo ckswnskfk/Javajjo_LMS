@@ -11,12 +11,158 @@
 <meta charset="UTF-8">
 <title>출석부 조회</title>
 </head>
+
+<%
+	String chrome = (String)request.getAttribute("Chrome");
+	String ie = (String)request.getAttribute("IE");
+	String safiri = (String)request.getAttribute("Safiri");
+	String opera = (String)request.getAttribute("Opera");
+	String firefox = (String)request.getAttribute("Firefox");
+	String etc = (String)request.getAttribute("Etc");
+	
+// 	List<ToastVisitDTO> vlists = (List<ToastVisitDTO>)request.getAttribute("vlists");
+	
+// 	String[]  weeklyCnt = (String[])request.getAttribute("weeklyCnt");
+%>
+
+
 <body>
 	<%@include file="./include/header.jsp"%>
 
+<link rel='stylesheet' type='text/css' href='./dist/tui-chart.css'/>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<!-- js -->
+
+<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/core.js'></script>
+<script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
+<script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
+<script src='./dist/tui-chart.js'></script>
+
+
+
+
+<script type="text/javascript">
+
+
+	function attDetail(id) {
+		var url = "./attended_Detail.do?id="+id;
+		var name = "attended detail";
+		var option = "width = 900,height = 500, top = 100, left = 200";
+		window.open(url,name,option);
+	}
+	</script>
+	<script type="text/javascript">
+	function attChart(){
+// 		var date = new Date();
+		var container = document.getElementById('piechart-area');
+		var data = {
+			    categories: ['Browser'], // 상세정보의 타이틀
+			    series: [ // 데이터 입력
+			        {
+			            name: 'Chrome', // 원형 차트의 각 세부 조각
+			            data: <%=chrome%> // 각 세부 조각마다 입력되는 데이터
+			        },
+			        {
+			            name: 'IE',
+			            data: <%=ie%>
+			        },
+			        {
+			            name: 'Firefox',
+			            data:  <%=firefox%>
+			        },
+			        {
+			            name: 'Safari',
+			            data: <%=safiri%>
+			        },
+			        {
+			            name: 'Opera',
+			            data: <%=opera%>
+			        },
+			        {
+			            name: 'Etc',
+			            data: <%=etc%>
+			        }
+			    ]
+			};
+			var options = {
+			    chart: { // 원형 차트 크기 조절
+			        width: 550,
+			        height: 450,
+			        title: '브라우저별 접속 현황' // 차트 제목
+			    },
+			    tooltip: {
+			        suffix: '명' //사용단위
+			    },
+			    series: {
+			        showLegend: true,
+			        showLabel: true,
+			        labelAlign: 'center'
+			    },
+			    
+			};
+			var theme = {
+					xAxis: {
+				        title: { // 차트 제목의 css
+				            fontSize: 14,
+				            fontFamily: 'Verdana',
+				            fontWeight: 'bold',
+				            color: 'blue'
+				        }
+				    }
+			};
+
+			// For apply theme
+
+			tui.chart.registerTheme('newTheme', theme);
+			// options.theme = 'myTheme';
+
+			tui.chart.pieChart(container, data, options); // 차트 실행	
+			
+			
+		var year = date.getFullYear();
+		var month = date.getMonth()+1;
+		var day = date.getDate();
+		
+		if ((day+"").length < 2) {
+			day = "0"+day;
+		}
+		
+		var getToday = year+"-"+month+"-"+day; // 오늘 날짜 
+		
+		
+		
+		
+// 		getToday - ${courseDTO.startdate};
+		
+		
+		
+		var theme = { // 차트 테마
+			    series: {
+			        colors: [ // 차트 색깔 지정
+			            '#83b14e', '#458a3f'
+			        ]
+			    }
+			};
+			// For apply theme // 차트의 테마를 적용
+			// tui.chart.registerTheme('myTheme', theme); // 테마의 이름을 입력
+			// options.theme = 'myTheme';
+			tui.chart.columnChart(container, data, options); // 차트를 생성
+
+		
+		
+	}
+
+
+</script>
+
+
 	<div>
-
-
 		<form action="#" method="get" id="rollbook">
 			<table class="table table-bordered">
 				<tr>
@@ -28,7 +174,7 @@
 				</tr>
 				<c:forEach var="AttendedDTO" items="${dlists}">
 					<tr>
-						<td><a href="./attended_Detail.do?id=${AttendedDTO.id}">${AttendedDTO.id}</a></td>
+						<td><a onclick="attDetail('${AttendedDTO.id}')">${AttendedDTO.id}</a></td>
 						<td>${AttendedDTO.name}</td>
 						<c:choose>
 						<c:when test="${AttendedDTO.a_check eq null}">
@@ -41,7 +187,7 @@
 						
 						<c:choose>
 							<c:when test="${AttendedDTO.regdate eq null}">
-								<td><input type="submit"  value="결석문자발송"></td>
+								<td><input type="button"  value="결석문자발송" onclick="sms('${AttendedDTO.id}','${regdate}')"></td>
 							</c:when>
 							<c:otherwise>
 								<td>${AttendedDTO.regdate}</td>
@@ -55,20 +201,9 @@
 
 
 	<script type="text/javascript">
-		function sms() {
-			var id = document.getElementById("inputId").value;
-			var a_check = document.getElementById("inputA_check").value;
-			alert(id + ":" + a_check);
-
-			if (a_check == null) {
-				// 		location.href="/attended_SMS.do";
-				var frm = document.forms[0];
-				frm.action = "./attended_SMS.do";
-				var result = "";
-				alert("문자발송 성공");
-
-			}
-
+		function sms(id,regdate) {
+			location.href = "./attended_SMS.do?id="+id+"&regdate="+regdate;
+			alert("성공");
 		}
 	</script>
 
