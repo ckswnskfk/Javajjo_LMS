@@ -74,11 +74,11 @@
 			<property name="useCacheControlNoStore" value="true"/>
 			
 			<!-- /view 안에서는 24시간 동안 캐쉬를 지우지 않음. 캐쉬를 삭제하지만 특정 폴더 및 파일은 유지시키기 위해 -->
-			<property name="cacheMappings">
-				<props>
-					<prop key="/image/**">86400</prop>
-				</props>
-			</property>
+<!-- 			<property name="cacheMappings"> -->
+<!-- 				<props> -->
+<!-- 					<prop key="/image/**">86400</prop> -->
+<!-- 				</props> -->
+<!-- 			</property> -->
 		</bean>
 	</mvc:interceptors>
 </beans>

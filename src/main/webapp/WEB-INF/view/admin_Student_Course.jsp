@@ -75,7 +75,19 @@
 										 <input type="button" class="btn btn-default"
 										 value="추가하기" onclick="admin_student_cconnect()"/>
 										 <input type="button" class="btn btn-default"
-										 value="목록으로" onclick="history.back()"/>
+										 value="목록으로" onclick="chkCourseModify()"/>
+											<script type="text/javascript">
+												
+												function chkCourseModify() {
+													if (sessionStorage.getItem("num") == null) {
+														window.history.go(-1);
+													} else {
+														var num = parseInt(sessionStorage.getItem("num"));
+														sessionStorage.removeItem("num");
+														window.history.go((-num));
+													}
+												}
+											</script>
 									</div>
 								</div>
 							<div class="hr hr-5 dotted"></div>

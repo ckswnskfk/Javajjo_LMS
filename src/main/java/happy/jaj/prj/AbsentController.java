@@ -155,8 +155,6 @@ public class AbsentController {
 	}
 	
 	
-	
-	
 	// 상세조회한 신청서에서 첨부파일 다운
 	@RequestMapping(value="/download.do", method=RequestMethod.GET)
 	public ModelAndView download(HttpServletRequest req, HttpServletResponse resp, String newfilename) {
@@ -309,6 +307,7 @@ public class AbsentController {
 		return "redirect:/absentListForm.do";
 	}
 	
+	// 사인 이미지를 이미 등록했는지 확인
 	@RequestMapping(value="/chkSignature.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int chk_signature(@RequestBody String id) {
@@ -317,6 +316,7 @@ public class AbsentController {
 		return absent_IService.chk_signature(inid);
 	}
 	
+	// 강사 및 관리자가 사인 이미지를 등록함
 	@RequestMapping(value="/addSignature.do", method=RequestMethod.POST)
 	public String add_signature(@RequestParam Map<String, String> map, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("AbsentController add_signature 실행");
