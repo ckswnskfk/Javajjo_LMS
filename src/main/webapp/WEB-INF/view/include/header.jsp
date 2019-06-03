@@ -42,7 +42,6 @@
 	        <ul class="dropdown-menu">
 	          <li><a href="./notice_list.do">공지 게시판</a></li>
 	          <li><a href="./file_infoboardlist.do">자료 게시판</a></li>
-	          <li><a href="./jobs_board.do">취업정보 게시판</a></li>
 	          <li><a href="./room_main.do">빈 강의실</a></li>
 	        </ul>
 	      </li>
