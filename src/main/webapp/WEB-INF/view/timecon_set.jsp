@@ -13,7 +13,7 @@
 <body>
 <%@include file="./include/header.jsp" %>
 
-<form action="./subject_add_course.do" method="post" id="formgo" name="formgo">
+<form action="#" method="post" id="formgo" name="formgo" onsubmit="return chk()">
 <table>
 	<tr>
 		<th>과목명</th>
@@ -26,7 +26,7 @@
 		<td><input type="hidden" name="code" value="${dto.subjectcode}" id="code"> ${dto.subjectname}</td>
 		<td><input type="text" name="time" id="time"></td>
 		<td><input type="text" name="content" id="content"></td>
-		<td><input type="date" name="startday" id="startday" required="required"></td>
+		<td><input type="date" name="startday" id="startday"></td>
 	</tr>
 </c:forEach>
 </table>
@@ -38,18 +38,30 @@
 
 <%@include file="./include/footer.jsp" %>
 <script type="text/javascript">
-// function chk(){
-// 	var ckdate=docoument.getElementById("startday").value;
-// 	var date=new Date(ckdate.value);
+function chk(){
+// 	alert("safdasdf");
+	var ckdate=document.getElementById("startday").value;
+// 	alert(ckdate);
+	var date=new Date(ckdate);
 // 	alert(date);
-// 	var today=new Date();
-// 	if(date < today){
-// 		alert("오늘 또는 과거의 날짜에 생성할 수 없습니다.");
-// 		return false;
-// 	}else{
-// 		return true;
-// 	}
-// }
+	var today=new Date();
+	var content=document.getElementById("content").value;
+	var time=document.getElementById("time").value;
+	
+	if(time==""||content==""){
+		alert("모든 항목을 입력해주십시오.");
+		var doc=document.getElementById("formgo");
+		doc.action="./timecon_set.jsp";
+	}else if(date < today){
+		alert("오늘 또는 과거의 날짜에 생성할 수 없습니다.");
+		var doc=document.getElementById("formgo");
+		doc.action="./timecon_set.jsp";
+	}else{
+		var doc=document.getElementById("formgo");
+		doc.action="./subject_add_course.do";
+		return true;
+	}
+}
 
 </script>
 </body>
