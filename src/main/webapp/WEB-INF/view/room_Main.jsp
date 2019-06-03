@@ -10,6 +10,66 @@
 <script src='./js/intmain.js'></script>
 <script src='./js/daymain.js'></script>
 <script type="text/javascript" src="./js/calendar.js"></script>
+<script type="text/javascript">
+
+
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+
+if(dd<10) {
+    dd='0'+dd
+} 
+
+if(mm<10) {
+    mm='0'+mm
+} 
+
+
+today = yyyy+"-"+mm+"-"+dd;
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'interaction', 'dayGrid' ],
+      defaultDate: today,
+      editable: true,
+      eventLimit: true,
+      events:room_event(),
+      dateClick: function(info) {
+    	  room_emptyboardlist(info.dateStr);
+  	  }
+    });
+    calendar.render();
+  });
+
+function room_event(){
+	var event = new Object();
+	$.ajax({
+		url : "./room_event.do",
+		type : "post",
+		async: false,
+		success :function(obj){
+			var list = JSON.parse(obj);
+			event = list;
+		},error : function(){
+			alert("no");
+		}
+	});
+	return event.lists;
+}
+// [0,{
+//     title: 'All Day Event',
+//     start: '2019-04-01'
+//   },
+//   {
+//     title: 'Long Event',
+//     start: '2019-04-07',
+//     end: '2019-04-10'
+//   },
+//   {
+// 	]
+</script>
 <style>
 
   body {

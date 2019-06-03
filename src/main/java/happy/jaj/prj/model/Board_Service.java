@@ -184,5 +184,11 @@ public class Board_Service implements Board_IService {
 		logger.info("room_add Service 실행 {}", dto);
 		return board_interface.room_add(dto);
 	}
+	
+	// 빈강의실 캘린더 이벤트 추가용 날짜와 코드 조회
+	public List<Room_Empty_DTO> room_event(String id) {
+		logger.info("room_add Service 실행 {}", id);
+		return board_interface.room_event(id);
+	}
 
 }
