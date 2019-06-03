@@ -14,7 +14,8 @@
 <title>출결 상세</title>
 </head>
 <body>
-<%@include file="./include/header.jsp" %>
+
+
 
 <div>
 	<form action="#" method="get" id="attended_Detail">
@@ -53,6 +54,5 @@
 	</form>
 
 </div>
-<%@include file="./include/footer.jsp" %>
 </body>
 </html>

@@ -81,9 +81,9 @@ public class Attended_Dao implements Attended_Interface {
 		return n>0?true:false;
 	}
 	@Override
-	public List<Attended_DTO> cal_sms(String a_check) {
+	public List<Student_DTO> cal_sms(String regdate) {
 		logger.info("Attended_Dao cal_sms 실행{}");
-		return sqlSessionTemplate.selectList(NS_Attended+"cal_sms", a_check);
+		return sqlSessionTemplate.selectList(NS_Attended+"cal_sms", regdate);
 	}
 
 	
