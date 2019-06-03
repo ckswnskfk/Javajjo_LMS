@@ -64,7 +64,7 @@
 function nameCheck(){
 	var orgname=document.getElementById("coname").value;
 	var savename=document.getElementById("motitle").value;
-	if(orgname==savename){
+	if(orgname.trim(" ")==savename.trim(" ")){
 		return false;
 	}
 	return true;
@@ -119,7 +119,7 @@ function dateCheck(){
 			alert("모든항목을 입력해주세요.");
 		}else if(!dateCheck()){
 			alert("오늘 또는 과거에 과정을 생성할 수 없습니다.");
-		}else if(!nameCheck()){
+		}else if(nameCheck()){
 			alert("같은 이름의 과정은 새로 생성하지 못합니다.");
 		}
 		else{
@@ -134,6 +134,8 @@ function dateCheck(){
 		var today = new Date();
 		if(date < today){
 			alert("오늘 또는 과거에 과정을 생성할 수 없습니다.");	
+		}else if(mocontent==""){
+			alert("날짜를 선택 해주세요.")
 		}else{
 		location.href="./course_cnt.do?coursename="+chks+"&startdate="+mocontent
 			

@@ -48,7 +48,7 @@ public class SubjectController {
 	}
 	
 	// 전체 과목 조회
-	@RequestMapping(value="/subject_select_all.do", method=RequestMethod.GET)
+	@RequestMapping(value="/subject_select_all.do", method={RequestMethod.GET,RequestMethod.POST})
 	public String subject_select_all(Model model,Course_Subject_DTO dto, String coursecode, HttpSession session,String coursename) {
 		logger.info("SubjectController subject_select_all 실행");
 //		System.out.println(coursecode);
@@ -84,7 +84,7 @@ public class SubjectController {
 //	}
 	
 	// 과정에 과목 추가
-	@RequestMapping(value="/subject_add_course.do", method=RequestMethod.POST)
+	@RequestMapping(value="/subject_add_course.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String subject_add_course(HttpSession session, String[] code, String[] time, String[] content, String[] startday) {
 		logger.info("SubjectController subject_add_course 실행");
 		System.out.println(Arrays.toString(code));
@@ -93,7 +93,7 @@ public class SubjectController {
 		System.out.println(Arrays.toString(startday));
 		List<Course_Subject_DTO> lists = new ArrayList<Course_Subject_DTO>();
 		
-		for (int i = 0; i < code.length; i++) {
+		for (int i = 0; i < time.length; i++) {
 			Course_Subject_DTO dto 
 			= new Course_Subject_DTO((String)session.getAttribute("coursecode"), code[i], time[i], content[i], startday[i]);
 			lists.add(dto);

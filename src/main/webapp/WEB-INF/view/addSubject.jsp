@@ -27,7 +27,6 @@
 				<input type="checkbox" name="seq" value="${dto.seq}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
-			<td>${dto.time}</td>
 		</tr>
 	</c:forEach>
 
@@ -56,10 +55,11 @@
 			</div>
 			</td>
 			<td>${dto.subjecttype}</td>
+			
 		</tr>
 	</c:forEach>
 </table>
-<input type="submit" value="과목삭제">
+<input type="button" value="과목삭제">
 </form>
 <input type="button" value="과목 등록" onclick="momo()">
 
@@ -142,7 +142,6 @@ function subadd(){
 	$('input:checkbox[name="subjectcode"]:checked').each(function () {
 	    items.push($(this).val());
 // 	    alert(items);
-		
 	});
 		location.href="./submit.do?subjectcode="+items;
 // 		alert(items)
