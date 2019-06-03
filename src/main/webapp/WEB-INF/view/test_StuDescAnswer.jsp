@@ -52,6 +52,39 @@ function pageUpDown(bool, examnum){ //보냄
 	frm.action = "./desc_Detail_Exam.do";
 	frm.submit();
 }
+
+function markexam(id, testcode ,maxnum){
+	// 현재 학생의 모든 문제 채점 완료?
+	var allchk;
+	$.ajax({
+		url : "./test_AllMark.do",
+		type : "post",
+		data : {"id":id, "testcode":testcode, "maxnum":maxnum}, // id, testcode 
+		async : false,
+		success : function(exam){
+			allchk = exam;
+		}
+	});
+	alert("채점한 문제 갯수 : "+allchk);
+	if(allchk!=maxnum){
+		alert("모든 문제를 채점해주세요.");
+	}else{
+		// 모든 문제를 채점 했으면 EXAMCHECK를 Y로 바꾸어 준다. 
+		$.ajax({
+			url : "./score_chkupdate.do",
+			type : "post",
+			data : {"id":id, "testcode":testcode},
+			success: function (){
+// 				alert("성공");
+				location.href="./test_Student_List.do";
+				
+			}
+		});
+	}
+	
+}
+
+
 </script>
 </head>
 <%
@@ -85,7 +118,16 @@ function pageUpDown(bool, examnum){ //보냄
 			<td colspan="2"><textarea cols="50" rows="5" name="answer"><c:choose><c:when test="${answer.answer eq null}">널</c:when><c:otherwise>${answer.answer}</c:otherwise></c:choose></textarea></td>
 		</tr>
 		<tr>
-			<td colspan="3"><input type="file" name="file"></td>
+			<td colspan="3">
+				<c:choose>
+					<c:when test="${answer.originfile eq null}">
+									파일이 없습니다.
+					</c:when>
+				<c:otherwise>
+					<a href="./test_submitdownload.do?filename=${answer.originfile}&newfilename=${answer.newfilename}">${answer.originfile}</a>
+				</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
 		<tr>
 			<td>배점</td>
@@ -97,7 +139,7 @@ function pageUpDown(bool, examnum){ //보냄
 		<tr>
 			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
 			<td><input type="button" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
-			<td><input type="button" value="시험 제출"></td>
+			<td><input type="button" value="채점 완료" onclick="markexam('${id}', '${testsession.testcode}', <%=maxexam%>)"></td>
 		</tr>
 </table>
 </form>

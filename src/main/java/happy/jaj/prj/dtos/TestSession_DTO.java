@@ -17,6 +17,14 @@ public class TestSession_DTO {
 
 	
 	
+	@Override
+	public String toString() {
+		return "TestSession_DTO [coursecode=" + coursecode + ", coursename=" + coursename + ", subjectcode="
+				+ subjectcode + ", subjectname=" + subjectname + ", subjecttype=" + subjecttype + ", examtype="
+				+ examtype + ", testname=" + testname + ", testcode=" + testcode + ", testday=" + testday
+				+ ", coursecnt=" + coursecnt + "]";
+	}
+
 	public String getCoursecnt() {
 		return coursecnt;
 	}

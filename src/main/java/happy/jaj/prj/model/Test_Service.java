@@ -347,6 +347,30 @@ public class Test_Service implements Test_IService {
 		logger.info("Test_Service test_examcodeselect {}",map);
 		return test_Interface.test_examcodeselect(map);
 	}
+
+	@Override
+	public List<Test_Exam_DTO> test_testdesclist(Map<String, String> map) {
+		logger.info("Test_Service test_testdesclist {}" , map);
+		return test_Interface.test_testdesclist(map);
+	}
+
+	@Override
+	public int test_seqselect(Map<String, String> map) {
+		logger.info("Test_Service test_seqselect {}", map);
+		return test_Interface.test_seqselect(map);
+	}
+
+	@Override
+	public int score_allcheck(Map<String, String> map) {
+		logger.info("Test_Service score_allcheck {}", map);
+		return test_Interface.score_allcheck(map);
+	}
+
+	@Override
+	public boolean score_chkupdate(Map<String, String> map) {
+		logger.info("Test_Service score_chkupdate {}", map);
+		return test_Interface.score_chkupdate(map);
+	}
 	
 	
 

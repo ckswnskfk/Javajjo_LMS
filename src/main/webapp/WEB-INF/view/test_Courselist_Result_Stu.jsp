@@ -34,7 +34,7 @@
 	<% 
 		for(Course_DTO dto : list ){ %>
 	<tr>
-		<td><a href="./test_Subject_ResultStu.do?coursecode=<%=dto.getCoursecode() %>&coursename=<%=dto.getCoursename()%>"><%=dto.getCoursename() %></a></td>
+		<td><a href="./test_Subject_ResultStu.do?coursecode=<%=dto.getCoursecode() %>&coursename=<%=dto.getCoursename()%>&coursecnt=<%=dto.getCoursecnt()%>"><%=dto.getCoursename() %></a></td>
 		<td><%=dto.getStartdate() %></td>
 		<td><%=dto.getCoursecnt() %></td>
 	</tr>

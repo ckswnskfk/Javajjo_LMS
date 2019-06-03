@@ -1,10 +1,20 @@
 package happy.jaj.prj;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.set.SynchronizedSortedSet;
@@ -13,11 +23,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 
+import com.sun.mail.iap.Response;
 import com.thoughtworks.qdox.model.Member;
 
 import happy.jaj.prj.dtos.Answer_Des_DTO;
@@ -42,6 +58,9 @@ public class TestController_Submit {
 
 	@Autowired
 	private Test_IService iService;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
 	
 	@RequestMapping(value="/test_Course_Submit.do", method=RequestMethod.GET)
 	public String Courselist(HttpSession session, Model model) {
@@ -102,25 +121,97 @@ public class TestController_Submit {
 	public String ExamDivision(HttpSession session, Model model) {
 		logger.info("TestController ExamDivision");
 		
+		
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		System.out.println(" 과제 유형 : "+testsession.getExamtype());
 		if(testsession.getExamtype().equals("서술형")) {
 			
 			
-			return "redirect:./desc_Detail.do";
+			return "redirect:./desc_Detail_First.do";
 		}else {
 			return "redirect:./sel_Detail.do";
 		}
 	}
 	
+	@RequestMapping(value="/desc_Detail_First.do", method={RequestMethod.POST, RequestMethod.GET})
+	public String DescDetailFirst(HttpSession session, Model model, HttpServletResponse resp) {
+		logger.info("TestController DescDetailFirst");
+		
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		System.out.println("session : "+testsession);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("testcode", testsession.getTestcode());
+		Map<String, String> member = (Map<String, String>)session.getAttribute("member");
+		
+		String examnum="1";
+		Answer_Des_DTO ASdto = new Answer_Des_DTO();
+		ASdto.setAnswer("");
+		model.addAttribute("answer",ASdto);
+		
+		int maxexamnum = iService.test_examcount(testsession.getTestcode());
+		model.addAttribute("maxexamnum", maxexamnum);
+		
+		// 다음 답안 조회
+		Map<String, String> answerMap = new HashMap<>();
+		answerMap.put("id", member.get("id"));
+		answerMap.put("examnum", String.valueOf(examnum));
+		Answer_Des_DTO answerdto = iService.answerd_select(answerMap);
+		if(answerdto!=null) {
+			PrintWriter print;
+			try {
+				print = resp.getWriter();
+				print.append("<script>");
+				print.append("alert('이미 제출한 과제는 응시하지 못합니다.');location.href='./test_Course_Submit.do';");
+				print.append("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// 다음 페이지 문제조회
+		System.out.println("--이동할 페이지 : "+examnum);
+		map.put("examnum", examnum);
+		Exam_Des_DTO dto = iService.te_select(map);
+		if(dto==null) {
+			System.out.println("널이다.");
+			try {
+				System.out.println("널이다2222.");
+				resp.setContentType("text/html; charset=UTF-8"); 
+				PrintWriter print = resp.getWriter();
+				print.println("<script  type=\"text/javascript\">");
+				print.println("alert('아직 과제가 등록 되어있지 않습니다.');location.href='./test_Course_Submit.do';");
+				print.println("</script>");
+				print.flush();
+			} catch (IOException e) {
+				System.out.println("널이다333333.");
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("널이다444444.");
+			model.addAttribute("dto", dto);
+			System.out.println("널이다555555.");
+		}
+		return "test_DetailDescription";
+		
+	}
+	
+//	@RequestMapping(value="/desc_Detail22.do", method=RequestMethod.POST)
+//	public void DescDetail1(HttpSession session, Model model, String examnum, String examcode, String answer, String originalfilename, String page, HttpServletResponse resp, MultipartHttpServletRequest mtReq) {
+//		System.out.println("여기");
+//	}
+	
 	// 서술형  문제 상세조회
-	@SuppressWarnings("null")
-	@RequestMapping(value="/desc_Detail.do", method={RequestMethod.POST, RequestMethod.GET})
-	public String DescDetail(HttpSession session, Model model, String examnum, String examcode, String answer, String file, String page) {
+	@RequestMapping(value="/desc_Detail.do", method=RequestMethod.POST)
+	public String DescDetail(HttpSession session, Model model, String examnum, String examcode, String answer, String originalfilename, String page, HttpServletResponse resp, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("TestController DescDetail");
 		//examnum == 현재 페이지
 		// page == -1 : 이전페이지로 이동 
 		// page == 0 : 다음 페이지로 이동
+//		System.out.println(examnum+":"+examcode+":"+answer+":"+page);
+		
+		MultipartFile reqFilename = mtReq.getFile("originalfilename");
+		String filename = reqFilename.getOriginalFilename();
+		String newfilename = "";
 		
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		System.out.println("session : "+testsession);
@@ -131,21 +222,55 @@ public class TestController_Submit {
 		// 문제갯수조회
 		int maxexamnum = iService.test_examcount(testsession.getTestcode());
 		model.addAttribute("maxexamnum", maxexamnum);
-		
+		//-------------------------------------------------------------------------
 		if(examnum==null) {
 			examnum="1";
 			Answer_Des_DTO ASdto = new Answer_Des_DTO();
 			ASdto.setAnswer("");
 			model.addAttribute("answer",ASdto);
 			
+			// 다음 답안 조회
+			Map<String, String> answerMap = new HashMap<>();
+			answerMap.put("id", member.get("id"));
+			answerMap.put("examnum", String.valueOf(examnum));
+			Answer_Des_DTO answerdto = iService.answerd_select(answerMap);
+			if(answerdto!=null) {
+				PrintWriter print;
+				try {
+					print = resp.getWriter();
+					print.append("<script>");
+					print.append("alert('이미 제출한 과제는 응시하지 못합니다.');location.href='./test_Course_Submit.do';");
+					print.append("</script>");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			// 다음 페이지 문제조회
-			System.out.println("이동할 페이지 : "+examnum);
+			System.out.println("--이동할 페이지 : "+examnum);
 			map.put("examnum", examnum);
 			Exam_Des_DTO dto = iService.te_select(map);
-			model.addAttribute("dto", dto);
-			
-			
-		}else { // 문제 저장
+			if(dto==null) {
+				System.out.println("널이다.");
+				try {
+					System.out.println("널이다2222.");
+					resp.setContentType("text/html; charset=UTF-8"); 
+					PrintWriter print = resp.getWriter();
+					print.println("<script  type=\"text/javascript\">");
+					print.println("alert('아직 과제가 등록 되어있지 않습니다.');location.href='./test_Course_Submit.do';");
+					print.println("</script>");
+					print.flush();
+				} catch (IOException e) {
+					System.out.println("널이다333333.");
+					e.printStackTrace();
+				}
+			}else {
+				System.out.println("널이다444444.");
+				model.addAttribute("dto", dto);
+			}
+		}
+		else { // 문제 저장
+		//-------------------------------------------------------------------------
 			int pagenum = Integer.parseInt(page);// 0이면 이전, 1이면 다음 
 			int examnumber=0; // 이동할 페이지
 			if(pagenum==(-1)) {
@@ -161,12 +286,70 @@ public class TestController_Submit {
 			Answer_Des_DTO answerdto = iService.answerd_select(myanswer);
 			System.out.println("답 : "+answerdto);
 			if(answerdto!= null) { // 답등록된거 있음
-				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), examcode, examnum, answer, file, "");
+				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), examcode, examnum, answer, "", "");
+				if(filename.trim().equalsIgnoreCase("")) {
+					ADdto.setOriginfile(answerdto.getOriginfile());
+					ADdto.setNewfilename(answerdto.getNewfilename());
+				}else {
+					//수정시 원본파일 삭제
+					File OriFile = new File(uploadPath+"\\test",answerdto.getNewfilename());
+					if(OriFile.exists()){
+						OriFile.delete();
+					}
+					//이름이 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
+					UUID uuid = UUID.randomUUID();
+					Date form = new Date();
+					SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String today = transFormat.format(form);
+					
+					newfilename = uuid.toString()+"_"+today+"_"+member.get("id")+"_"+filename;
+					
+					File dir = new File(uploadPath+"\\test");
+					File target = new File(uploadPath+"\\test", newfilename);
+					
+					// 폴더가 없다면 폴더를 생성
+					if (!dir.exists()) {
+						dir.mkdirs();
+					}
+					
+					// 파일을 서버에 저장
+					FileCopyUtils.copy(reqFilename.getBytes(), target);
+					
+					ADdto.setOriginfile(filename);
+					ADdto.setNewfilename(newfilename);
+				}
 				boolean isc = iService.answerd_modify(ADdto);
 				System.out.println("답안 수정 성공? "+isc);
 			}else {
-				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), examcode, examnum, answer, file, "");
+				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), examcode, examnum, answer, "", "");
 				System.out.println("■■■■■■■■ dto :"+ADdto);
+				if(filename.trim().equalsIgnoreCase("")) {
+					ADdto.setOriginfile(filename);
+					ADdto.setNewfilename(newfilename);
+				}else {
+					//이름이 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
+					UUID uuid = UUID.randomUUID();
+					Date form = new Date();
+					SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String today = transFormat.format(form);
+					
+					newfilename = uuid.toString()+"_"+today+"_"+member.get("id")+"_"+filename;
+					
+					File dir = new File(uploadPath+"\\test");
+					File target = new File(uploadPath+"\\test", newfilename);
+					
+					// 폴더가 없다면 폴더를 생성
+					if (!dir.exists()) {
+						dir.mkdirs();
+					}
+					
+					// 파일을 서버에 저장
+					FileCopyUtils.copy(reqFilename.getBytes(), target);
+					
+					// 받아온 dto에는 파일 이름이 없기 때문에 직접 넣어주고 dao 실행
+					ADdto.setOriginfile(filename);
+					ADdto.setNewfilename(newfilename);
+				}
 				boolean isc = iService.answerd_insert(ADdto);
 				System.out.println("서술형 문제 답안 등록 성공 ? "+isc);
 			}
@@ -189,16 +372,23 @@ public class TestController_Submit {
 			Exam_Des_DTO dto = iService.te_select(map);
 			model.addAttribute("dto", dto);
 		}
-		
-		
-//		
+
 		return "test_DetailDescription";
+	}
+	
+	// 상세조회한 신청서에서 첨부파일 다운
+	@RequestMapping(value="/test_submitdownload.do", method=RequestMethod.GET)
+	public ModelAndView download(String newfilename) {
+		String fullPath = uploadPath+"\\test\\"+newfilename;
+		File file = new File(fullPath);
+		// download라는 id를 가진 Bean에 downloadFile 이라는 이름의 file을 전달
+		return new ModelAndView("download","downloadFile",file);
 	}
 	
 	
 	// 선택형 문제 상세조회
 	@RequestMapping(value="/sel_Detail.do", method={RequestMethod.POST, RequestMethod.GET})
-	public String SelDetail(HttpSession session, Model model, String examnum, String examcode, String answer, String page) {
+	public String SelDetail(HttpSession session, Model model, String examnum, String examcode, String answer, String page, HttpServletResponse resp) {
 		logger.info("TestController SelDetail");
 		//examnum == 현재 페이지
 		// page == -1 : 이전페이지로 이동 
@@ -221,14 +411,51 @@ public class TestController_Submit {
 			String f_answer = "";
 			model.addAttribute("answer", f_answer);
 			
+			// 다음 답안 조회
+			Map<String, String> answerMap = new HashMap<>();
+			answerMap.put("id", member.get("id"));
+			answerMap.put("examnum", String.valueOf(examnum));
+			String answerstr = iService.answers_select(answerMap);
+			if(answerstr!=null) {
+				PrintWriter print;
+				try {
+					print = resp.getWriter();
+					print.append("<script>");
+					print.append("alert('이미 제출한 과제는 응시하지 못합니다.');location.href='./test_Course_Submit.do';");
+					print.append("</script>");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		
+			
+			
 			// 다음 페이지 문제조회
 			System.out.println("이동할 페이지 : "+examnum);
 			map.put("examnum", examnum);
 			Exam_Sel_DTO dto = iService.te_testselect(map);
-			model.addAttribute("dto", dto);
+			if(dto==null) {
+				System.out.println("1널이다.");
+				PrintWriter print;
+				try {
+					System.out.println("1널이다2222.");
+//					resp.setContentType("text/html; charset=UTF-8"); 
+					print = resp.getWriter();
+					print.append("<script>");
+					print.append("alert('아직 과제가 등록 되어있지 않습니다.');location.href='./test_Course_Submit.do';");
+					print.append("</script>");
+
+				} catch (IOException e) {
+					System.out.println("1널이다333333.");
+					e.printStackTrace();
+				}
+			}else {
+				System.out.println("널이다444444.");
+				model.addAttribute("dto", dto);
+				List<ContentSelect_DTO> contentlist = iService.content_select(dto.getExamcode());
+				model.addAttribute("contentlist", contentlist);
+			}
 			
-			List<ContentSelect_DTO> contentlist = iService.content_select(dto.getExamcode());
-			model.addAttribute("contentlist", contentlist);
 			
 			
 		}else { // 문제 저장
@@ -301,8 +528,13 @@ public class TestController_Submit {
 	public String markSubjectList(String coursecode, String coursename, Model model, HttpSession session) {
 		logger.info("TestController markSubjectList");
 		System.out.println(coursecode+":"+coursename);
-		List<Subject_DTO> list = iService.test_subject(coursecode);
-		
+		List<Subject_DTO> list1 = iService.test_subject(coursecode);
+		List<Subject_DTO> list = new ArrayList<>();
+		for(Subject_DTO dto : list1) {
+			if(dto.getexamtype().equals("서술형")) {
+				list.add(dto);
+			}
+		}		
 		model.addAttribute("list", list);
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
@@ -319,21 +551,36 @@ public class TestController_Submit {
 		
 		System.out.println(dto);
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
-		testsession.setSubjectcode(dto.getSubjectcode());
-		testsession.setSubjectname(dto.getSubjectname());
-		testsession.setSubjecttype(dto.getSubjecttype());
-		testsession.setExamtype(dto.getExamtype());
+		System.out.println("session : "+testsession);
+		System.out.println("받아온  dto : "+dto);
+		if(dto.getSubjectcode()!=null) {
+			testsession.setSubjectcode(dto.getSubjectcode());
+			testsession.setSubjectname(dto.getSubjectname());
+			testsession.setSubjecttype(dto.getSubjecttype());
+			testsession.setExamtype(dto.getExamtype());	
+		}
 		
-		List<Student_DTO> list = iService.test_coursestu(testsession.getCoursecode());
 		
-		model.addAttribute("list", list);
-		
-		Subject_Test_DTO test = iService.se_testselect(dto.getSubjectcode());
+		Subject_Test_DTO test = iService.se_testselect(testsession.getSubjectcode());
 		
 		testsession.setTestname(test.getTestname());
 		testsession.setTestday(test.getTestday());
 		testsession.setTestcode(test.getTestcode());
 		
+		List<Student_DTO> list = iService.test_coursestu(testsession.getCoursecode());
+		int[] intlist = new int[list.size()];
+		int i = 0;
+		for(Student_DTO stu : list) {
+			Map<String, String> map = new HashMap<>();
+			map.put("id", stu.getId());
+			map.put("testcode", testsession.getTestcode());
+			int cnt = iService.score_allcheck(map);
+			intlist[i++] = cnt;
+			System.out.println(cnt);
+		}
+		System.out.println(intlist[0]);System.out.println(Arrays.toString(intlist));
+		model.addAttribute("list", list);
+		model.addAttribute("countlist", intlist);
 		System.out.println("■■■■■■■■■■ session : "+testsession);
 		session.setAttribute("testsession", testsession);
 		
@@ -435,6 +682,38 @@ public class TestController_Submit {
 		return "test_StuDescAnswer";
 	}
 	
+	@RequestMapping(value="/test_AllMark.do", method=RequestMethod.POST,
+			produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String AllCheckMark(String id, String testcode, String maxnum) {
+		logger.info("TestController AllCheckMark");
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("testcode", testcode);
+		
+		int allchk = iService.score_allcheck(map);
+		System.out.println(allchk);
+		String str =String.valueOf(allchk);
+		
+		return str; 
+	}
+	
+	// 성적 테이블 체크 변경
+	@RequestMapping(value="/score_chkupdate.do", method=RequestMethod.POST,
+			produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void scoreChkUpdate(String id, String testcode) {
+		logger.info("TestController scoreChkUpdate");
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("testcode", testcode);
+		boolean isc = iService.score_chkupdate(map);
+		System.out.println("체크 변경 성공 ? "+isc);
+		
+	}
+	
 	// 선택형 문제 자동 채점
 	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.GET)
 	public String SelDetailExam(HttpSession session, Model model) {
@@ -500,7 +779,7 @@ public class TestController_Submit {
 	
 	// 강사 과목 조회 
 	@RequestMapping(value="/test_Subject_Result.do", method=RequestMethod.GET)
-	public String testSubjectResult(String coursecode, String coursename, HttpSession session, Model model) {
+	public String testSubjectResult(String coursecode, String coursename, String coursecnt, HttpSession session, Model model) {
 		logger.info("TestController testSubjectResult");
 		
 		System.out.println("받아온 값 : "+coursecode);
@@ -511,6 +790,7 @@ public class TestController_Submit {
 		model.addAttribute("list", list);
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
+		testsession.setCoursecnt(coursecnt);
 
 		session.setAttribute("testsession", testsession);
 		
@@ -519,7 +799,7 @@ public class TestController_Submit {
 	
 	// 학생 과목 조회 
 	@RequestMapping(value="/test_Subject_ResultStu.do",method=RequestMethod.GET)
-	public String testSubjectResultStu(String coursecode, String coursename, HttpSession session, Model model) {
+	public String testSubjectResultStu(String coursecode, String coursename, String coursecnt, HttpSession session, Model model) {
 		logger.info("TestController testSubjectResultStu");
 		
 		System.out.println("받아온 값 : "+coursecode);
@@ -531,6 +811,7 @@ public class TestController_Submit {
 		model.addAttribute("list", list);
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
+		testsession.setCoursecnt(coursecnt);
 
 		session.setAttribute("testsession", testsession);
 		
@@ -572,6 +853,38 @@ public class TestController_Submit {
 			
 		return "test_List_ResultStu";
 	}
+	
+	//과제 조회(강사)
+	@RequestMapping(value="/test_Test_Result.do", method=RequestMethod.GET)
+	public String testSubjectResult(TestSession_DTO dto, HttpSession session, Model model) {
+		logger.info("TestController testSubjectResult");
+		System.out.println(dto);
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		testsession.setSubjectcode(dto.getSubjectcode());
+		testsession.setSubjectname(dto.getSubjectname());
+		testsession.setSubjecttype(dto.getSubjecttype());
+		testsession.setExamtype(dto.getExamtype());
+		
+		Subject_Test_DTO STdto = iService.se_testselect(dto.getSubjectcode());
+		model.addAttribute("dto", STdto);
+		System.out.println("TSdto");
+		
+
+			testsession.setTestname(STdto.getTestname());
+			testsession.setTestday(STdto.getTestday());
+			testsession.setTestcode(STdto.getTestcode());
+		
+		System.out.println("■■■■■■■■■■ session : "+testsession);
+		session.setAttribute("testsession", testsession);
+		
+		return "test_List_Result";
+	}
+	
+//	// 성적 조회
+//	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.GET)
+//	public public TestController_Submit() {
+//		// TODO Auto-generated constructor stub
+//	}
 	
 	// 성적 조회
 	@RequestMapping(value="/test_Total_ResultStu.do", method=RequestMethod.GET)

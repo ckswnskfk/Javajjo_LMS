@@ -25,7 +25,7 @@
 	<h4>과제명 :${testsession.testname}</h4>
 	<h4>과제 날짜 : ${testsession.testday}</h4>
 	<input type="button" value="성적확인" onclick="StuScore()">
-	<input type="button" value="뒤로가기" onclick="javascript:.history.back()"> 
+	<input type="button" value="뒤로가기" onclick=""> 
 <%@include file="./include/footer.jsp" %>	
 
 </body>
