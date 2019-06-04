@@ -53,17 +53,18 @@
 		SELECT SEQ, ID, TITLE, REGDATE, READCOUNT
 		FROM (SELECT ROWNUM RNUM ,SEQ, ID, TITLE, CONTENT,
 				REGDATE, READCOUNT, FILENAME, NEWFILENAME FROM FILE_BOARD
-				ORDER BY SEQ DESC)
-		WHERE RNUM BETWEEN #{start} AND #{last}
+				WHERE
 		<choose>
 			<when test="searchOption == 'all'">
-				AND ID LIKE '%'||#{keyword}||'%'
+				ID LIKE '%'||#{keyword}||'%'
 				OR TITLE LIKE '%'||#{keyword}||'%'
 			</when>
 			<otherwise>
-				AND ${searchOption} LIKE '%'||#{keyword}||'%'
+				${searchOption} LIKE '%'||#{keyword}||'%'
 			</otherwise>
 		</choose>
+		ORDER BY SEQ DESC)
+		WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 	
 	<!-- 게시판 글 검색 갯수-->
