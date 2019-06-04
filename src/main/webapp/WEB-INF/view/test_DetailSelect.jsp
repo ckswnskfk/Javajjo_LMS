@@ -60,9 +60,12 @@
 	}
 	function examsubmit(){
 		var submit = confirm("제출하면 수정이 불가능합니다. \n 그래도 제출하시겠습니까?");
+		var frm = document.forms[0];
 		if(submit){
 			alert("제출이 완료되었습니다.");
-			location.href="./test_Sel_Score.do";
+			frm.action="./test_Sel_Score.do";
+			frm.method="post";
+			frm.submit();
 		}
 	}
 </script>

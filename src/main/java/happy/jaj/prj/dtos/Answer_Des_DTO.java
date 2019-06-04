@@ -8,9 +8,38 @@ public class Answer_Des_DTO {
 	private String answer;
 	private String originfile;
 	private String newfilename;
+	private String page;
 	
 	public Answer_Des_DTO() {
 	}
+	
+	
+
+	public String getPage() {
+		return page;
+	}
+
+
+
+	public void setPage(String page) {
+		this.page = page;
+	}
+
+
+
+	public Answer_Des_DTO(String id, String examcode, String examnum, String answer, String originfile,
+			String newfilename, String page) {
+		super();
+		this.id = id;
+		this.examcode = examcode;
+		this.examnum = examnum;
+		this.answer = answer;
+		this.originfile = originfile;
+		this.newfilename = newfilename;
+		this.page = page;
+	}
+
+
 
 	public Answer_Des_DTO(String id, String examcode, String examnum, String answer, String originfile,
 			String newfilename) {
@@ -71,12 +100,15 @@ public class Answer_Des_DTO {
 		this.newfilename = newfilename;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "Answer_Des_DTO [id=" + id + ", examcode=" + examcode + ", examnum=" + examnum + ", answer=" + answer
-				+ ", originfile=" + originfile + ", newfilename=" + newfilename + "]";
+				+ ", originfile=" + originfile + ", newfilename=" + newfilename + ", page=" + page + "]";
 	}
 
+	
 	
 	
 	

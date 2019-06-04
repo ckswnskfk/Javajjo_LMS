@@ -150,5 +150,8 @@ public interface Test_IService {
 		
 		// 채점 완료 확인
 		public int score_allcheck(Map<String, String> map);
+		
+		// 과제 평균 조회
+		public int test_avg(String testcode);
 
 }

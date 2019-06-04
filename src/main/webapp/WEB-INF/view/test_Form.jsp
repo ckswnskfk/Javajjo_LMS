@@ -9,6 +9,14 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<style type="text/css">
+.test_session{
+	border: 1px solid black;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+</style>
 <%
 // 	Map<String, String> map = (Map<String, String>)request.getAttribute("map");
 // 	String subjectcode = (String)request.getAttribute("subjectcode");
@@ -41,23 +49,26 @@
 </script>
 <body>
 <%@include file="./include/header.jsp" %>
-	<h1>과제 등록</h1>
-	<h4>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h4>
-	<h4>과목명 : ${testsession.subjectname}</h4>
-	<hr>
-	<h4>과목유형 : ${testsession.subjecttype}</h4>
-	<h4>과제유형 : ${testsession.examtype}</h4>
-	<hr>
+<div class="container">
+
+	
+<%-- 	<input type="hidden" name="subjectcode" value='${testsession.subjectcode}%>'> --%>
+	<div class="test_session">
+		<h2>과제 등록</h2>
+		<hr>
+		<h4>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h4>
+		<h4>과목명 : ${testsession.subjectname}</h4>
+		<hr>
+		<h4>과목유형 : ${testsession.subjecttype}</h4>
+		<h4>과제유형 : ${testsession.examtype}</h4>
+	</div>
+	<table class="table">
+		<form action="./test_Regi.do" method="get" onsubmit="return testinsert()">
+		
 
 	<%
 		if(dto==null){
-	%>
-
-<form action="./test_Regi.do" method="get" onsubmit="return testinsert()">
-	
-<%-- 	<input type="hidden" name="subjectcode" value='${testsession.subjectcode}%>'> --%>
-	<table>
-		
+	%>		
 		<tr>
 			<td>과제명</td>
 			<td><input type="text" name="testname"></td>
@@ -69,17 +80,20 @@
 		<tr>
 			<td><input type="submit" value="과제 등록"></td>
 		</tr>
+		</form>
 	</table>
-</form>
 		<%
 		}else{
 			%>
+		<div class="test_session">
 			<h4>과제명 :${testsession.testname }</h4>
 			<h4>과제 날짜 : ${testsession.testday}</h4>
-			<input type="button" value="다음" onclick="testForm()">
+		</div>
+			<input type="button" class="btn btn-success" value="다음" onclick="testForm()">
 			<% 
 		}
 		%>
+		
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

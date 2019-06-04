@@ -335,12 +335,12 @@
 	<!--등록-자동채점(선택형)  -->
 	<insert id="score_inserts" parameterType="ScoreDTO">
 		INSERT INTO SCORE(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
-		VALUES(#{id}, 'N', #{testcode}, #{examcode}, (SELECT 
-		(CASE WHEN C_ANSWER=ANSWER THEN ALLOT ELSE 0 END)
-		FROM ANSWERSELECT JOIN EXAMSELECT ON
-		ANSWERSELECT.EXAMCODE=EXAMSELECT.EXAMCODE
-		JOIN TEST_EXAM ON EXAMSELECT.EXAMCODE=TEST_EXAM.EXAMCODE
-		WHERE ID= #{id} AND EXAMSELECT.EXAMCODE = #{examcode}))
+		VALUES(#{id}, 'N', #{testcode}, #{examcode}, (SELECT (CASE WHEN T1.AW='H' THEN ALLOT ELSE 0 END) FROM
+(SELECT (CASE WHEN C_ANSWER=ANSWER THEN 'H' ELSE 'F' END) AW, ANSWERSELECT.EXAMCODE AE, id
+	FROM ANSWERSELECT JOIN EXAMSELECT ON ANSWERSELECT.EXAMCODE=EXAMSELECT.EXAMCODE	) T1
+	JOIN TEST_EXAM T2
+		ON T1.AE = T2.EXAMCODE
+	WHERE T1.ID=#{id} AND T2.EXAMCODE=#{examcode}))
 	</insert>
 
 	<!--학생 서술형 점수 수정  -->
@@ -363,7 +363,7 @@
 
 	<!-- 총점 조회 -->
 	<select id="score_selectsum" parameterType="java.util.Map" resultType="ScoreDTO">
-		SELECT SUM(SCORE), ID, NAME 
+		SELECT SUM(SCORE) AS SCORE, ID, NAME 
 		FROM SCORE JOIN STUDENT USING(ID) WHERE TESTCODE = #{testcode} AND ID =#{id} GROUP BY ID,NAME
 	</select>
 	
@@ -381,6 +381,13 @@
 		WHERE ID = #{id}
 			AND TESTCODE = #{testcode}
 	</update>
+	
+	<!-- 과제 평균 -->
+	<select id="test_avg" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT AVG(SCORE)
+FROM (SELECT SUM(SCORE) AS SCORE, ID, NAME
+		FROM SCORE JOIN STUDENT USING(ID) WHERE TESTCODE = #{testcode} GROUP BY ID,NAME)
+	</select>
 
 
 

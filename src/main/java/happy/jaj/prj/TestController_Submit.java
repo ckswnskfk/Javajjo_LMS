@@ -202,7 +202,7 @@ public class TestController_Submit {
 	
 	// 서술형  문제 상세조회
 	@RequestMapping(value="/desc_Detail.do", method=RequestMethod.POST)
-	public String DescDetail(HttpSession session, Model model, String examnum, String examcode, String answer, String originalfilename, String page, HttpServletResponse resp, MultipartHttpServletRequest mtReq) throws IOException {
+	public String DescDetail(HttpSession session, Model model, Answer_Des_DTO dto, HttpServletResponse resp, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("TestController DescDetail");
 		//examnum == 현재 페이지
 		// page == -1 : 이전페이지로 이동 
@@ -212,6 +212,7 @@ public class TestController_Submit {
 		MultipartFile reqFilename = mtReq.getFile("originalfilename");
 		String filename = reqFilename.getOriginalFilename();
 		String newfilename = "";
+		
 		
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		System.out.println("session : "+testsession);
@@ -223,8 +224,8 @@ public class TestController_Submit {
 		int maxexamnum = iService.test_examcount(testsession.getTestcode());
 		model.addAttribute("maxexamnum", maxexamnum);
 		//-------------------------------------------------------------------------
-		if(examnum==null) {
-			examnum="1";
+		if(dto.getExamnum()==null) {
+			String examnum="1";
 			Answer_Des_DTO ASdto = new Answer_Des_DTO();
 			ASdto.setAnswer("");
 			model.addAttribute("answer",ASdto);
@@ -249,7 +250,7 @@ public class TestController_Submit {
 			// 다음 페이지 문제조회
 			System.out.println("--이동할 페이지 : "+examnum);
 			map.put("examnum", examnum);
-			Exam_Des_DTO dto = iService.te_select(map);
+			Exam_Des_DTO EDdto = iService.te_select(map);
 			if(dto==null) {
 				System.out.println("널이다.");
 				try {
@@ -271,31 +272,47 @@ public class TestController_Submit {
 		}
 		else { // 문제 저장
 		//-------------------------------------------------------------------------
-			int pagenum = Integer.parseInt(page);// 0이면 이전, 1이면 다음 
+			int pagenum = Integer.parseInt(dto.getPage());// 0이면 이전, 1이면 다음 
 			int examnumber=0; // 이동할 페이지
 			if(pagenum==(-1)) {
-				examnumber = Integer.parseInt(examnum)-1;
+				examnumber = Integer.parseInt(dto.getExamnum())-1;
 			}else if(pagenum==0){				
-				examnumber = Integer.parseInt(examnum)+1; // 이동할 문제 번호
+				examnumber = Integer.parseInt(dto.getExamnum())+1; // 이동할 문제 번호
 			}else {
 				examnumber = pagenum; // 이동할 문제 
 			}
 			Map<String, String> myanswer = new HashMap<>();
 			myanswer.put("id", member.get("id"));
-			myanswer.put("examnum", examnum);
+			myanswer.put("examnum", dto.getExamnum());
 			Answer_Des_DTO answerdto = iService.answerd_select(myanswer);
 			System.out.println("답 : "+answerdto);
+			System.out.println(dto);
 			if(answerdto!= null) { // 답등록된거 있음
-				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), examcode, examnum, answer, "", "");
+				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), dto.getExamcode(), dto.getExamnum(), dto.getAnswer(), "", "");
 				if(filename.trim().equalsIgnoreCase("")) {
-					ADdto.setOriginfile(answerdto.getOriginfile());
-					ADdto.setNewfilename(answerdto.getNewfilename());
-				}else {
-					//수정시 원본파일 삭제
-					File OriFile = new File(uploadPath+"\\test",answerdto.getNewfilename());
-					if(OriFile.exists()){
-						OriFile.delete();
+					if(answerdto.getOriginfile() == null || answerdto.getOriginfile() == "") {
+						ADdto.setOriginfile("");
+						ADdto.setNewfilename("");
+					}else {
+						ADdto.setOriginfile(answerdto.getOriginfile());
+						ADdto.setNewfilename(answerdto.getNewfilename());
 					}
+				}else {
+					File dir = new File(uploadPath+"\\test");
+					// 폴더가 없다면 폴더를 생성
+					if (!dir.exists()) {
+						dir.mkdirs();
+					}
+					if(answerdto.getOriginfile() == null || answerdto.getOriginfile() == "") {
+					}else {
+						//수정시 원본파일 삭제
+						File OriFile = new File(uploadPath+"\\test",answerdto.getNewfilename());
+//					File OriFile = new File(uploadPath+"\\test",dto.getNewfilename());
+						if(OriFile.exists()){
+							OriFile.delete();
+						}
+					}
+					System.out.println("■■■■■■■■ dto : 여까지 나오나1");
 					//이름이 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
 					UUID uuid = UUID.randomUUID();
 					Date form = new Date();
@@ -304,24 +321,23 @@ public class TestController_Submit {
 					
 					newfilename = uuid.toString()+"_"+today+"_"+member.get("id")+"_"+filename;
 					
-					File dir = new File(uploadPath+"\\test");
+					System.out.println("■■■■■■■■ dto : 여까지 나오나2");
 					File target = new File(uploadPath+"\\test", newfilename);
 					
-					// 폴더가 없다면 폴더를 생성
-					if (!dir.exists()) {
-						dir.mkdirs();
-					}
+					System.out.println("■■■■■■■■ dto : 여까지 나오나3");
 					
 					// 파일을 서버에 저장
 					FileCopyUtils.copy(reqFilename.getBytes(), target);
 					
 					ADdto.setOriginfile(filename);
 					ADdto.setNewfilename(newfilename);
+					System.out.println("■■■■■■■■ dto : 여까지 나오나4");
 				}
 				boolean isc = iService.answerd_modify(ADdto);
 				System.out.println("답안 수정 성공? "+isc);
 			}else {
-				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), examcode, examnum, answer, "", "");
+				System.out.println("■■■■■■■■ dto : 여까진 나옴 ");
+				Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), dto.getExamcode(), dto.getExamnum(), dto.getAnswer(), "", "");
 				System.out.println("■■■■■■■■ dto :"+ADdto);
 				if(filename.trim().equalsIgnoreCase("")) {
 					ADdto.setOriginfile(filename);
@@ -367,10 +383,10 @@ public class TestController_Submit {
 			model.addAttribute("answer",ASdto);
 			
 			// 다음 페이지 문제조회
-			System.out.println("이동할 페이지 : "+examnum);
+			System.out.println("이동할 페이지 : "+examnumber);
 			map.put("examnum", String.valueOf(examnumber));
-			Exam_Des_DTO dto = iService.te_select(map);
-			model.addAttribute("dto", dto);
+			Exam_Des_DTO EDdto = iService.te_select(map);
+			model.addAttribute("dto", EDdto);
 		}
 
 		return "test_DetailDescription";
@@ -715,8 +731,8 @@ public class TestController_Submit {
 	}
 	
 	// 선택형 문제 자동 채점
-	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.GET)
-	public String SelDetailExam(HttpSession session, Model model) {
+	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.POST)
+	public String SelDetailExam(HttpSession session, Model model, Answer_Des_DTO answer) {
 		logger.info("TestController SelDetailExam");
 		//INSERT INTO SCORE(ID, EXAMCHECK, TESTCODE, EXAMCODE, SCORE)
 //		VALUES(#{id}, 'N', #{testcode}, #{examcode}, (SELECT 
@@ -728,11 +744,30 @@ public class TestController_Submit {
 		// id, testcode (session), examcode
 		// 시험제출 눌렀을때 testcode를 가져와 해당 문제들(examcode)조회 -> for문돌려서 insert
 		
+		// 세션정보 확인 
 		Map<String, String> member = (Map<String, String>)session.getAttribute("member");
 		String id = member.get("id");
 		System.out.println("▶ id : "+id);
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 		System.out.println("▶ session : "+testsession);
+		
+		
+		Map<String, String> myanswer = new HashMap<>();
+		myanswer.put("id", member.get("id"));
+		myanswer.put("examnum", answer.getExamnum());
+		String h_answer = iService.answers_select(myanswer);
+		System.out.println("답 : "+h_answer);
+		if(h_answer!= null) { // 답등록된거 있음
+//			Answer_Des_DTO ADdto = new Answer_Des_DTO(member.get("id"), examcode, examnum, answer, file, "");
+			Answer_Sel_DTO pageanswer = new Answer_Sel_DTO(member.get("id"), answer.getExamcode(), answer.getExamnum(), (answer==null)?"":answer.getAnswer());
+			boolean isc = iService.answers_modify(pageanswer);
+			System.out.println("답안 수정 성공? "+isc);
+		}else {
+			Answer_Sel_DTO pageanswer = new Answer_Sel_DTO(member.get("id"), answer.getExamcode(), answer.getExamnum(), (answer==null)?"":answer.getAnswer());
+			System.out.println("■■■■■■■■ dto :"+pageanswer);
+			boolean isc = iService.answers_insert(pageanswer);
+			System.out.println("서술형 문제 답안 등록 성공 ? "+isc);
+		}
 		
 		List<Test_Exam_DTO> list = iService.te_testselectlist(testsession.getTestcode());
 		for(int i=0; i< list.size();i++) {
@@ -758,8 +793,8 @@ public class TestController_Submit {
 		String id = map.get("id");
 		System.out.println(id);
 		Course_DTO dto = iService.test_course(id);
+
 		model.addAttribute("dto", dto);
-		
 		return "test_Courselist_Result";
 	}
 	
@@ -791,6 +826,7 @@ public class TestController_Submit {
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
 		testsession.setCoursecnt(coursecnt);
+		testsession.setCoursecode(coursecode);
 
 		session.setAttribute("testsession", testsession);
 		
@@ -881,14 +917,44 @@ public class TestController_Submit {
 	}
 	
 //	// 성적 조회
-//	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.GET)
-//	public public TestController_Submit() {
-//		// TODO Auto-generated constructor stub
-//	}
+	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.GET)
+	public String testTotalResult(HttpSession session, Model model) {
+		logger.info("TestController testTotalResult");
+		
+		// 수강 학생 리스트 조회
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		List<Student_DTO> list = iService.test_coursestu(testsession.getCoursecode());
+		
+		List<Score_DTO> scorelist = new ArrayList<>();
+		// 학생 점수 조회 
+		for(Student_DTO dto : list) {
+			Map<String, String> map = new HashMap<>();
+			map.put("testcode", testsession.getTestcode());
+			map.put("id", dto.getId());
+			Score_DTO sdto = iService.score_selectsum(map);
+			if(sdto==null) {
+				Score_DTO sdto1 = new Score_DTO();
+				sdto1.setId(dto.getId());
+				sdto1.setScore(-1);
+				scorelist.add(sdto1);
+			}else {
+				
+				scorelist.add(sdto);
+			}
+		}
+		
+		int avg = iService.test_avg(testsession.getTestcode());
+		model.addAttribute("avg", avg);
+		model.addAttribute("list", list);
+		model.addAttribute("scorelist", scorelist);
+		
+		
+		return "test_ScoreStudentList";
+	}
 	
 	// 성적 조회
 	@RequestMapping(value="/test_Total_ResultStu.do", method=RequestMethod.GET)
-	public String testTotalResultStu(HttpSession session, Model model) {
+	public String testTotalResultStu(HttpSession session, Model model, HttpServletResponse resp) {
 		logger.info("TestController testTotalResultStu");
 		// id, testcode
 		
@@ -902,6 +968,22 @@ public class TestController_Submit {
 		Score_DTO dto = iService.score_selectsum(test);
 		int total = dto.getScore();
 		model.addAttribute("total", total);
+		if(dto.getId() == null) {
+			System.out.println("값 없음");
+			PrintWriter print;
+			try {
+				print = resp.getWriter();
+				print.append("<script>");
+				print.append("alert('아직 채점 전인 과제입니다. ');location.href='./test_Course_Submit.do';");
+				print.append("</script>");
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		}
+		
+		int avg = iService.test_avg(testsession.getTestcode());
+		model.addAttribute("avg", avg);
 		
 		return "test_DetailScoreStu";
 	}

@@ -371,6 +371,12 @@ public class Test_Service implements Test_IService {
 		logger.info("Test_Service score_chkupdate {}", map);
 		return test_Interface.score_chkupdate(map);
 	}
+
+	@Override
+	public int test_avg(String testcode) {
+		logger.info("Test_Service test_avg {}", testcode);
+		return test_Interface.test_avg(testcode);
+	}
 	
 	
 

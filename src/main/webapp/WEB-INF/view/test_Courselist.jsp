@@ -11,23 +11,40 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
-<h1>담당과정</h1>
+<script type="text/javascript">
+	function subjectmove(){
+		var frm = document.forms[0];
+		frm.action="./test_Subject_Insert.do";
+		frm.method = "post";
+		frm.submit();
+	}
+</script>
+<!-- <h1>담당과정</h1> -->
 <%
 	Course_DTO dto = (Course_DTO)request.getAttribute("dto");
 %>
-<table>
+<div class="container">
+	<h2>담당과정</h2>
+  	
+	<form action="">
+	<table class="table">
+		<thead>
+		<tr>
+			<td>과정명</td>
+			<td>시작날짜</td>
+			<td>회차</td>
+		</tr>
+		</thead>
+		<tr>
+			<td><input type="hidden" name="coursename" value='<%=dto.getCoursename()%>'><%=dto.getCoursename() %></a></td>
+			<td><input type="hidden" name="coursecode" value='<%=dto.getCoursecode()%>'><%=dto.getStartdate() %></td>
+			<td><input type="hidden" name="coursecnt" value='<%=dto.getCoursecnt()%>'><%=dto.getCoursecnt() %></td>
+		</tr>
+	</table>
+	</form>
+	<input type="button" class="btn btn-success" value="다음" onclick="subjectmove()">
+</div>
 
-	<tr>
-		<td>과정명</td>
-		<td>시작날짜</td>
-		<td>회차</td>
-	</tr>
-	<tr>
-		<td><a href="./test_Subject_Insert.do?coursecode=<%=dto.getCoursecode() %>&coursename=<%=dto.getCoursename()%>&coursecnt=<%=dto.getCoursecnt()%>"><%=dto.getCoursename() %></a></td>
-		<td><%=dto.getStartdate() %></td>
-		<td><%=dto.getCoursecnt() %></td>
-	</tr>
-</table>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>
