@@ -190,16 +190,23 @@ public class BoardController {
 		FileBoard_DTO Odto = board_IService.file_infodetailboard(dto.getSeq());
 		// 첨부 파일이 없으면 바로 글 수정
 		if(filename.trim().equalsIgnoreCase("")) {
-			dto.setFilename(Odto.getFilename());
-			dto.setNewfilename(Odto.getNewfilename());
-			board_IService.file_infomodifyboard(dto);
-		}else {
-			//수정시 원본파일 삭제
-			File OriFile = new File(uploadPath+"\\board",Odto.getNewfilename());
-			if(OriFile.exists()){
-				OriFile.delete();
+			if(Odto.getFilename() == null || Odto.getFilename() =="") {
+				dto.setFilename("");
+				dto.setNewfilename("");
+			}else {
+				dto.setFilename(Odto.getFilename());
+				dto.setNewfilename(Odto.getNewfilename());
 			}
-			
+				board_IService.file_infomodifyboard(dto);
+		}else {
+			if(Odto.getFilename() == null || Odto.getFilename() =="") {
+			}else {
+				//수정시 원본파일 삭제
+				File OriFile = new File(uploadPath+"\\board",Odto.getNewfilename());
+				if(OriFile.exists()){
+					OriFile.delete();
+				}
+			}
 			//이름이 겹치지 않기 위해 고유한 랜덤값을 추가한 파일 이름 생성
 			UUID uuid = UUID.randomUUID();
 			Date form = new Date();

@@ -19,15 +19,20 @@
 	<tr>
 		<th>과목이름</th>
 		<th>과목타입</th>
+		<th>수업 시간</th>
 	</tr>
-	<c:forEach items="${lists }" var="dto">
+	<c:forEach items="${lists}" var="dto">
 	
 		<tr>
 			<td>
 				<input type="checkbox" name="seq" value="${dto.seq}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
+
+			<td>${dto.subjecttime}</td>
+
 			<td><input type="hidden" id="inin" value="${dto.subjectcode}"></td>
+
 		</tr>
 	</c:forEach>
 
