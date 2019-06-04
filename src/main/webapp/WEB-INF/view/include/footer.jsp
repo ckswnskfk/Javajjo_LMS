@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id = "footer">
-<h1>푸터!</h1>
+	<div id ="copy">&lt;Copyright 2019. JAJ. All rights reserved.&gt;</div>
 </div>
 </body>
 </html>

@@ -1,15 +1,6 @@
 	body,p,div{
 		margin: 0;
 	}
-	
-	table{
-		border: 2px dotted blue;
-		border-collapse: collapse;
-		width: 500px;
-	}
-	th,td{
-		border: 1px solid pink;
-	}
 	#main{
 		width: 800px;
 		height: 650px;
@@ -18,3 +9,11 @@
 	#wrap{
 		margin-left: 200px;
 	}
+	li{
+		padding: 10px 20px;
+		display: inline-block;
+	}
+	ul{
+		text-align: center;
+	}
+	
