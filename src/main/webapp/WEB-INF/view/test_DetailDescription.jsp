@@ -53,7 +53,7 @@
 			<td colspan="2"><textarea cols="50" rows="5" name="answer"><c:choose><c:when test="${answer.answer eq null}">널</c:when><c:otherwise>${answer.answer}</c:otherwise></c:choose></textarea></td>
 		</tr>
 		<tr>
-			<td colspan="3"><input type="file" id="originalfilename" name="originalfilename"></td>
+			<td colspan="3"><input type="file" id="originalfilename" name="originalfilename">${answer.originfile}</td>
 		</tr>
 		<tr>
 			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>

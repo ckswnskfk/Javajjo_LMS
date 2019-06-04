@@ -136,6 +136,9 @@ public interface Test_Interface {
 	
 	// 성적 체크 변경
 	public boolean score_chkupdate(Map<String, String> map);
+	
+	// 과제 평균 조회
+	public int test_avg(String testcode);
 
 	
 }
