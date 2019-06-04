@@ -267,7 +267,7 @@ public class TestController {
 	}
 	
 	//담당 과정에 해당하는 과목 조회
-	@RequestMapping(value="/test_Subject_Insert.do", method=RequestMethod.GET)
+	@RequestMapping(value="/test_Subject_Insert.do", method=RequestMethod.POST)
 	public String testSubject(HttpSession session, Model model, String coursecode, String coursename,String coursecnt) {
 		logger.info("TestController testSubject");
 		
