@@ -10,6 +10,7 @@ public class Subject_DTO {
 	private String time;
 	private String typecode;
 	private String seq;
+	private String subjecttime;
 	
 	
 	public Subject_DTO() {
@@ -49,6 +50,15 @@ public class Subject_DTO {
 		this.subjectname = subjectname;
 		this.subjecttype = subjecttype;
 		this.typecode = typecode;
+	}
+
+	
+	public String getSubjecttime() {
+		return subjecttime;
+	}
+
+	public void setSubjecttime(String subjecttime) {
+		this.subjecttime = subjecttime;
 	}
 
 	public String getSeq() {
