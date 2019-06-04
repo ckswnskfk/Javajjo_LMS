@@ -7,8 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
-<script type="text/javascript" src="./js/test.js"></script>
 </head>
+<script type="text/javascript">
+	function StuScore(){
+		location.href = "./test_Total_ResultStu.do";
+	}
+</script>
 <body>
 <%@include file="./include/header.jsp" %>
 	<h1>과제 등록</h1>
@@ -20,9 +24,9 @@
 	<hr>
 	<h4>과제명 :${testsession.testname}</h4>
 	<h4>과제 날짜 : ${testsession.testday}</h4>
+	<input type="button" value="성적확인" onclick="StuScore()">
+	<input type="button" value="뒤로가기" onclick=""> 
+<%@include file="./include/footer.jsp" %>	
 
-	<input type="button" value="과제 제출" onclick="StuTest('${testsession.testday}')">
-	<input type="button" value="뒤로가기" onclick="javascript:.history.back()"> 
-<%@include file="./include/footer.jsp" %>
 </body>
 </html>

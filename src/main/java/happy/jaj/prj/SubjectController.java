@@ -48,10 +48,11 @@ public class SubjectController {
 	}
 	
 	// 전체 과목 조회
-	@RequestMapping(value="/subject_select_all.do", method=RequestMethod.GET)
-	public String subject_select_all(Model model,Course_Subject_DTO dto, String coursecode, HttpSession session) {
+	@RequestMapping(value="/subject_select_all.do", method={RequestMethod.GET,RequestMethod.POST})
+	public String subject_select_all(Model model,Course_Subject_DTO dto, String coursecode, HttpSession session,String coursename) {
 		logger.info("SubjectController subject_select_all 실행");
 //		System.out.println(coursecode);
+//		System.out.println(coursename);
 		List<Subject_DTO> list = subject_IService.subject_select_all();
 		if (dto == null) {
 			List<Subject_DTO> lists = subject_IService.subject_choice(coursecode);
@@ -62,27 +63,28 @@ public class SubjectController {
 		}
 		model.addAttribute("listss", list);
 		model.addAttribute("dto",dto);
+		model.addAttribute("coursename",coursename);
 		session.setAttribute("coursecode", coursecode);
 		System.out.println("******************************************"+dto);
 		return "addSubject";
 	}
 	
-	// 해당 과정명의 전 회차 조회
-	@RequestMapping(value="/subject_pre_course.do", method=RequestMethod.GET)
-	public String subject_pre_course(HttpServletRequest req) {
-		logger.info("SubjectController subject_pre_course 실행");
-		String coursename = req.getParameter("coursename");
-		String coursecnt = req.getParameter("coursecnt");
-		Course_DTO dto = new Course_DTO();
-		dto.setCoursename(coursename);
-		dto.setCoursecnt(coursecnt);
-		List<Subject_DTO> list = subject_IService.subject_pre_course(dto);
-		req.setAttribute("list", list);
-		return "chanju_index";
-	}
+//	// 해당 과정명의 전 회차 조회
+//	@RequestMapping(value="/subject_pre_course.do", method=RequestMethod.GET)
+//	public String subject_pre_course(HttpServletRequest req) {
+//		logger.info("SubjectController subject_pre_course 실행");
+//		String coursename = req.getParameter("coursename");
+//		String coursecnt = req.getParameter("coursecnt");
+//		Course_DTO dto = new Course_DTO();
+//		dto.setCoursename(coursename);
+//		dto.setCoursecnt(coursecnt);
+//		List<Subject_DTO> list = subject_IService.subject_pre_course(dto);
+//		req.setAttribute("list", list);
+//		return "chanju_index";
+//	}
 	
 	// 과정에 과목 추가
-	@RequestMapping(value="/subject_add_course.do", method=RequestMethod.POST)
+	@RequestMapping(value="/subject_add_course.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String subject_add_course(HttpSession session, String[] code, String[] time, String[] content, String[] startday) {
 		logger.info("SubjectController subject_add_course 실행");
 		System.out.println(Arrays.toString(code));
@@ -91,15 +93,13 @@ public class SubjectController {
 		System.out.println(Arrays.toString(startday));
 		List<Course_Subject_DTO> lists = new ArrayList<Course_Subject_DTO>();
 		
-		for (int i = 0; i < code.length; i++) {
+		for (int i = 0; i < time.length; i++) {
 			Course_Subject_DTO dto 
 			= new Course_Subject_DTO((String)session.getAttribute("coursecode"), code[i], time[i], content[i], startday[i]);
-//			System.out.println(dto);
 			lists.add(dto);
 		}
 		int n = subject_IService.subject_add_course(lists);
 		return (n>0)?"redirect:/subject_select_all.do?coursecode="+(String)session.getAttribute("coursecode"):"chanju_index";
-//		return null;
 	} 
 	
 	// 새로운 과목 생성
@@ -158,4 +158,24 @@ public class SubjectController {
 		return (n>0)?"redirect:/subject_select_all.do?coursecode="+(String)session.getAttribute("coursecode"):"chanju_index";
 	}
 	
+	@RequestMapping(value="/copySelect.do", method=RequestMethod.GET)
+	public String copySelect(HttpSession session,Model model,String coursename) {
+		logger.info("SubjectController copySelect 실행");
+//		System.out.println(session);
+//		System.out.println("!@#!@##%#$$#%&#%^&$%^&%$^&"+coursename);
+		List<Course_DTO> list=subject_IService.copySelectCnt(coursename);
+		model.addAttribute("cnt",list);
+		model.addAttribute("coursecode",session);
+		
+		return "copySelect";
+	}
+	
+//	@RequestMapping(value="/cntsel.do", method=RequestMethod.POST)
+//	public String cntsel(HttpSession session,String coursecnt) {
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+coursecode);
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+coursecnt);
+//		
+//	
+//		return "chanju_index";
+//	}
 }

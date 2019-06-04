@@ -11,7 +11,7 @@
 	<mvc:annotation-driven/>
 	
 <!-- 	<context:annotation-config/> -->
-<!-- 	<mvc:resources mapping="/image/**" location="file:///C:/Happy_Clipse/workspace_JSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Javajjo_LMS/upload/signature/"/> -->
+<!-- 	<mvc:resources mapping="/signature/**" location="file:///C:/Happy_Clipse/workspace_JSP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Javajjo_LMS/upload/signature"/> -->
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/"/>
@@ -25,6 +25,7 @@
 	<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할 수 있는 최대 바이트 크기, 기본 값은 10240 바이트 -->
 		<property name="maxInMemorySize" value="100000000"/>
 	</bean>
+	
 	
 	<bean id="uploadPath" class="java.lang.String">
 		<!-- 생성자를 통해 빈을 주입받음  uploadPath 를 부르면 value를 반환-->
@@ -73,11 +74,11 @@
 			<property name="useCacheControlNoStore" value="true"/>
 			
 			<!-- /view 안에서는 24시간 동안 캐쉬를 지우지 않음. 캐쉬를 삭제하지만 특정 폴더 및 파일은 유지시키기 위해 -->
-			<property name="cacheMappings">
-				<props>
-					<prop key="/image/**">86400</prop>
-				</props>
-			</property>
+<!-- 			<property name="cacheMappings"> -->
+<!-- 				<props> -->
+<!-- 					<prop key="/image/**">86400</prop> -->
+<!-- 				</props> -->
+<!-- 			</property> -->
 		</bean>
 	</mvc:interceptors>
 </beans>

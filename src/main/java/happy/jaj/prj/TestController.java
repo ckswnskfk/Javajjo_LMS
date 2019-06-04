@@ -121,8 +121,8 @@ public class TestController {
 
 	}
 	// 선택한 과정의 회차 과목의 문제 들고옴 
-//	@RequestMapping(value="/test_CouresSel1.do", method=RequestMethod.GET,
-//			produces="application/text; charset=UTF-8")
+	@RequestMapping(value="/test_CouresSel1.do", method=RequestMethod.GET,
+			produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String testCourseSel(HttpSession session, String coursecode, Model model, String examcode, String allot) {
 		logger.info("TESTController testCourseSel");
@@ -182,7 +182,6 @@ public class TestController {
 		
 		return "test_ExamList";
 	}
-
 	
 	// 과목유형과 과제유형동일한 문제 조회(선택형) 
 	@RequestMapping(value="/test_examsellist.do", method=RequestMethod.GET)
@@ -269,7 +268,7 @@ public class TestController {
 	
 	//담당 과정에 해당하는 과목 조회
 	@RequestMapping(value="/test_Subject_Insert.do", method=RequestMethod.GET)
-	public String testSubject(HttpSession session, Model model, String coursecode, String coursename) {
+	public String testSubject(HttpSession session, Model model, String coursecode, String coursename,String coursecnt) {
 		logger.info("TestController testSubject");
 		
 		System.out.println("받아온 값 : "+coursecode);
@@ -280,6 +279,8 @@ public class TestController {
 		model.addAttribute("list", list);
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
+		testsession.setCoursecnt(coursecnt);
+		testsession.setCoursecode(coursecode);
 
 		session.setAttribute("testsession", testsession);
 		return "test_SubjectList";
@@ -345,10 +346,12 @@ public class TestController {
 		logger.info("TestController courseSubject");
 		// 받아오는 값 : testname, testday, subjectcode
 		// 세션에서 받아오는 값 : subjecttype, examtype
-		// 
 		
-		String subjecttype = (String)session.getAttribute("subjecttype");
-		String examtype = (String)session.getAttribute("examtype");
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		String subjecttype = testsession.getSubjecttype();
+		String examtype = testsession.getExamtype();
+//		String subjecttype = (String)session.getAttribute("subjecttype");
+//		String examtype = (String)session.getAttribute("examtype");
 		
 //		String testname = req.getParameter("testname");
 //		String testday = req.getParameter("testday");
@@ -356,21 +359,23 @@ public class TestController {
 //		System.out.println("testname :"+testname+", testday : "+testday);
 		Test_DTO tdto = new Test_DTO("", dto.getTestname(), subjecttype, examtype);
 		
-		Subject_Test_DTO sdto = new Subject_Test_DTO(dto.getSubjectcode(), "", dto.getTestday());
+		Subject_Test_DTO sdto = new Subject_Test_DTO(testsession.getSubjectcode(), "", dto.getTestday());
 		boolean isc = iService.test_Transaction(tdto, sdto);
 		System.out.println("과제 추가 성공 ?"+isc);
 		
-		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+//		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
 	
 //		session.setAttribute("testname", dto.getTestname());
 //		session.setAttribute("testday", dto.getTestday());	
 		testsession.setTestname(dto.getTestname());
+		testsession.setTestcode(sdto.getTestcode());
 		testsession.setTestday(dto.getTestday());
+		session.setAttribute("testsession", testsession);
 		
 		String testcode = sdto.getTestcode();
 		System.out.println("■■■■■■■■■ testcode : "+testcode);
 		
-		session.setAttribute("testcode", testcode);
+//		session.setAttribute("testcode", testcode);
 		
 		return "redirect:./division.do";
 	}
@@ -386,14 +391,15 @@ public class TestController {
 //		String st1 = (String)session.getAttribute("testcode");
 //		System.out.println("■■■■■■■■■■ session의 testcode : "+dto.getTestcode());
 		TestSession_DTO dto = (TestSession_DTO)session.getAttribute("testsession");
-		if(dto==null) {
+		System.out.println("session : "+dto);
+		
+		if(dto.getTestcode()==null) {
 //			testcode1 = (String)req.getAttribute("testcode");
 			testcode1 = testcode;
 			System.out.println("■■■■■■■■■■■ 화면에서 받은 testcode : "+testcode);
 		}else {
-		    dto = (TestSession_DTO)session.getAttribute("testsession");
-			String st1 = dto.getTestcode();
-			testcode1 = st1;
+//			TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+			testcode1 = dto.getTestcode();
 		}
 		
 //		String examtype = (String)session.getAttribute("examtype");
@@ -407,7 +413,15 @@ public class TestController {
 		System.out.println("★★★★★★ testname : "+dto.getTestname()+", testday : "+dto.getTestday());
 		
 		if(dto.getExamtype().equals("서술형")) {
-			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.te_selectlist(testcode1);
+			Map<String, String> map = new HashMap<>();
+			map.put("coursecode", dto.getCoursecode());
+			map.put("subjectcode", dto.getSubjectcode());
+			int seq = iService.test_seqselect(map);
+			
+			Map<String, String> map1 = new HashMap<>();
+			map1.put("seq", String.valueOf(seq));
+			map1.put("testcode", testcode1);
+			List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)iService.test_testdesclist(map1);
 			model.addAttribute("dto", list);
 			
 			int total = iService.te_selectsum(testcode1);
@@ -466,6 +480,7 @@ public class TestController {
 		System.out.println("서술문제등록 성공 ? "+isc);
 		return "redirect:/moveInsertDesc.do";	
 	}
+	
 	//  서술형문제등록 후 이동
 	@RequestMapping(value="/moveInsertDesc.do", method=RequestMethod.GET)
 	public String moveInserDesc(HttpSession session, Model model) {
@@ -879,64 +894,64 @@ public class TestController {
 //		return "answerd_select";
 //	}
 	
-	//과제에 해당하는 문제,답 조회(선택형)
-	@RequestMapping(value="/sel_Detail_Exam.do", method=RequestMethod.GET)
-	public String answers_select(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController answers_select{}");
-		String id = req.getParameter("id");
-		String examcode = req.getParameter("examcode");
-		System.out.println("id : "+id+", examcode : "+examcode);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("examcode", examcode);
-		
-
-		return "answers_select";
-	}
+//	//과제에 해당하는 문제,답 조회(선택형)
+//	@RequestMapping(value="/sel_Detail_Exam.do", method=RequestMethod.GET)
+//	public String answers_select(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController answers_select{}");
+//		String id = req.getParameter("id");
+//		String examcode = req.getParameter("examcode");
+//		System.out.println("id : "+id+", examcode : "+examcode);
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("id", id);
+//		map.put("examcode", examcode);
+//		
+//
+//		return "answers_select";
+//	}
 	
-	//선택형 문제 자동 점수 등록 
-	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.GET)
-	public String score_inserts(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController score_inserts {}");
-		String id = req.getParameter("id");
-		String testcode = req.getParameter("testcode");
-		String examcode = req.getParameter("examcode");
-		System.out.println("id : "+id+", testcode : "+testcode+", examcodee : "+examcode);
-		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, 0);
-		boolean isc = iService.score_inserts(sdto);
-		System.out.println("선택형 문제 자동 점수 등록 성공?"+isc);
-		return "score_inserts";
-	}
+//	//선택형 문제 자동 점수 등록 
+//	@RequestMapping(value="/test_Sel_Score.do", method=RequestMethod.GET)
+//	public String score_inserts(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController score_inserts {}");
+//		String id = req.getParameter("id");
+//		String testcode = req.getParameter("testcode");
+//		String examcode = req.getParameter("examcode");
+//		System.out.println("id : "+id+", testcode : "+testcode+", examcodee : "+examcode);
+//		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, 0);
+//		boolean isc = iService.score_inserts(sdto);
+//		System.out.println("선택형 문제 자동 점수 등록 성공?"+isc);
+//		return "score_inserts";
+//	}
 	
-	//서술형 문제 점수 등록 
-	@RequestMapping(value="test_Desc_Score.do", method=RequestMethod.GET)
-	public String score_insertd(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController score_insertd {}");
-		String id = req.getParameter("id");
-		String testcode = req.getParameter("testcode");
-		String examcode = req.getParameter("examcode");
-		int score = Integer.parseInt(req.getParameter("score"));
-		System.out.println("id : "+id+", testcode : "+testcode+", examcode : "+examcode+", score : "+score);
-		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, score);
-		boolean isc = iService.score_insertd(sdto);
-		System.out.println("서술형 문제 점수 등록 성공 ? "+isc);
-		return "score_insertd";
-	}
-	
-	//총점 점수 조회
-	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.GET)
-	public String score_selectsum(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("TESTController score_selectsum {}");
-		String id = req.getParameter("id");
-		String testcode = req.getParameter("testcode");
-		System.out.println("id : "+id+", testcode : "+testcode);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("testcode", testcode);
-		Score_DTO dto = iService.score_selectsum(map);
-		System.out.println(dto);
-		return "score_selectsum";
-	}
+//	//서술형 문제 점수 등록 
+//	@RequestMapping(value="test_Desc_Score.do", method=RequestMethod.GET)
+//	public String score_insertd(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController score_insertd {}");
+//		String id = req.getParameter("id");
+//		String testcode = req.getParameter("testcode");
+//		String examcode = req.getParameter("examcode");
+//		int score = Integer.parseInt(req.getParameter("score"));
+//		System.out.println("id : "+id+", testcode : "+testcode+", examcode : "+examcode+", score : "+score);
+//		Score_DTO sdto = new Score_DTO(id, "", testcode, examcode, score);
+//		boolean isc = iService.score_insertd(sdto);
+//		System.out.println("서술형 문제 점수 등록 성공 ? "+isc);
+//		return "score_insertd";
+//	}
+//	
+//	//총점 점수 조회
+//	@RequestMapping(value="/test_Total_Result.do", method=RequestMethod.GET)
+//	public String score_selectsum(HttpServletRequest req, HttpServletResponse resp) {
+//		logger.info("TESTController score_selectsum {}");
+//		String id = req.getParameter("id");
+//		String testcode = req.getParameter("testcode");
+//		System.out.println("id : "+id+", testcode : "+testcode);
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("id", id);
+//		map.put("testcode", testcode);
+//		Score_DTO dto = iService.score_selectsum(map);
+//		System.out.println(dto);
+//		return "score_selectsum";
+//	}
 	
 	// 문제번호 수정
 	@RequestMapping(value="/updateExam.do", method=RequestMethod.POST)
@@ -961,6 +976,8 @@ public class TestController {
 			return "test_SelectList";
 		}
 	}
+	
+	
 	
 	
 }

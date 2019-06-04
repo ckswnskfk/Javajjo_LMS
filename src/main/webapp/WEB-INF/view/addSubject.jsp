@@ -14,6 +14,7 @@
 <body>
 <%@include file="./include/header.jsp" %>
 <form action="./cosubDel.do" method="post">
+<b style="color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---in Course---</b>
 <table>
 	<tr>
 		<th>과목이름</th>
@@ -27,7 +28,11 @@
 				<input type="checkbox" name="seq" value="${dto.seq}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
+
 			<td>${dto.subjecttime}</td>
+
+			<td><input type="hidden" id="inin" value="${dto.subjectcode}"></td>
+
 		</tr>
 	</c:forEach>
 
@@ -42,6 +47,7 @@
 
 
 <form action="./subDel.do" method="post">
+<b style="color: blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---All Subject---</b>
 <table>
 	<tr>
 		<th>과목이름</th>
@@ -49,19 +55,24 @@
 	</tr>
 	<c:forEach items="${listss }" var="dto">
 		<tr>
-			<td>
-			<div>
+			<td id="soso">
+			<div id="soso">
 			<input type="checkbox"  name="subjectcode" id="chk" value="${dto.subjectcode }">${dto.subjectname}
 			</div>
 			</td>
 			<td>${dto.subjecttype}</td>
+			
 		</tr>
 	</c:forEach>
 </table>
-<input type="submit" value="과목삭제">
+<input type="button" value="과목삭제">
 </form>
 <input type="button" value="과목 등록" onclick="momo()">
 
+<%-- <c:if test="${lists[0] eq null}"> --%>
+
+<%-- <input type="button" value="복사하기" onclick="location.href='./copySelect.do?coursename=${coursename}'"> --%>
+<%-- </c:if> --%>
 
 
 <div id="myModal1" class="modal fade" role="dialog">
@@ -134,118 +145,30 @@ function update(){
 	
 function subadd(){
 	var items = [];
+	var itemtest = items.join();
 	$('input:checkbox[name="subjectcode"]:checked').each(function () {
 	    items.push($(this).val());
-// 	    alert(items);
-		
 	});
-		location.href="./submit.do?subjectcode="+items;
-// 		alert(items)
-}
-	
-
-// 	function subadd(){
-// 		var checkArr=[];//
-		
-// 		$("input[name='chk']:checked").each(function(i)){
-// 			checkArr.push($(this).val());
-// 		}
-// 	}
-	
-	
-// 	function subadd() {
-// 		var chk = document.getElementsByName("chk"); // 체크박스객체를 담는다
-// 		var len = chk.length;    //체크박스의 전체 개수
-// 		var checkRow = '';      //체크된 체크박스의 value를 담기위한 변수
-// 		var checkCnt = 0;        //체크된 체크박스의 개수
-// 		var checkLast = '';      //체크된 체크박스 중 마지막 체크박스의 인덱스를 담기위한 변수
-// 		var rowid = '';             //체크된 체크박스의 모든 value 값을 담는다
-// 		var cnt = 0;                 
-
-// 		for(var i=0; i<len; i++){
-// 		if(chk[i].checked == true){
-// 		checkCnt++;        //체크된 체크박스의 개수
-// 		checkLast = i;     //체크된 체크박스의 인덱스
-// 		}
-// 		} 
-
-// 		for(var i=0; i<len; i++){
-// 		if(chk[i].checked == true){  //체크가 되어있는 값 구분
-// 		checkRow = chk[i].value;
-
-// 		if(checkCnt == 1){                            //체크된 체크박스의 개수가 한 개 일때,
-// 		rowid += "'"+checkRow+"'";        //'value'의 형태 (뒤에 ,(콤마)가 붙지않게)
-// 		}else{                                            //체크된 체크박스의 개수가 여러 개 일때,
-// 		if(i == checkLast){                     //체크된 체크박스 중 마지막 체크박스일 때,
-// 		rowid += "'"+checkRow+"'";  //'value'의 형태 (뒤에 ,(콤마)가 붙지않게)
-// 		}else{
-// 		rowid += "'"+checkRow+"',";	 //'value',의 형태 (뒤에 ,(콤마)가 붙게)         			
-// 		}
-// 		}
-// 		cnt++;
-// 		checkRow = '';    //checkRow초기화.
-// 		}
-// 		alert(rowid);    //'value1', 'value2', 'value3' 의 형태로 출력된다.
-// 		}
-
-
-
-	
-// 	var chks =  document.getElementsByName("chk");
-// 	var subcode=$(item).attr("value1");
-// 	var subname=$(item).attr("value2");
-// 	alert(subname);
-// 	   var c = 0;
-// 	   for (var i = 0; i < chks.length; i++) {
-// 	      if(chks[i].checked){
-// 	        alert(chks[i].value1);
-// 	    	  c++;
-// 	      }
-// 	   }
-// }
-
-
-
-
-// var htmltest ="";
-
-// 	var chks = $("input[name=chk]:checked").each(function(index, item){
-// 		var subcode=$(item).attr("value1");
-// 		var subname=$(item).attr("value2");
-		
-// 		htmltest += "<label>"+subname+"</label>"+
-// 		"<input type='text' name='"+subcode+"' id='subnam' required='required'><input type='text'>"+
-// 		"</div>";
-// 	});
-	
-// 	var htmlModal=
-// 		"<div class='form-group'>"+
-// 		htmltest +
-// 		"<div class='modal-footer'>"+
-// 		"<input class='btn btn-success' type='button' value='추가하기' onclick='textsub()'>"+
-// 		"<button type='button' class='btn btn-default' data-dismiss='modal'>취소</button>"+
-// 		"</div>";
-	
-// 		$("#frmModify1").html(htmlModal);
-// 		$("#myModal2").modal();
-// }
-// 			alert(""htmltest)
-// 			var htmlModal=
-// 				"<div class='form-group'>"+ htmltest +
-// 				"<div class='modal-footer'>"+
-// 				"<input class='btn btn-success' type='button' value='추가하기'>"+
-// 				"<button type='button' class='btn btn-default' data-dismiss='modal'>취소</button>"+
-// 				"</div>";
-// 				$("#frmModify1").html(htmlModal);
-// 		}
-// 	});
-// }
-// function textsub(){
-// 	var dk=document.getElementById("subnam").value;
-// 	alert(dk);
-// }
-
+	var soso = [];
+	$('input:hidden[id="inin"]').each(function () {
+	    soso.push($(this).val());
+	});
+	var sosotest = soso.join();
+		var count = 0;
+		for (var i = 0; i < soso.length; i++) {
+			if (sosotest.indexOf(items[i]) > -1) {
+				count++;
+			}
+		}
+		if (count >= 1) {
+			alert("이미 존재하는 과목이 있습니다.");
+		}else if(soso.lengt==null){
+			alert("하나이상의 과목을 선택해주십시오.");
+		}
+		else {
+			location.href = "./submit.do?subjectcode=" + items;
+		}
+	}
 </script>
-
 </body>
 </html>

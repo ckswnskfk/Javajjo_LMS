@@ -51,7 +51,7 @@
 <body>
 <%@include file="./include/header.jsp" %>
 	<h1>과제 등록</h1>
-		<h4>과정명 : ${testsession.coursename}</h4>
+		<h4>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h4>
 		<h4>과목명 : ${testsession.subjectname}</h4>
 		<hr>
 		<h4>과목유형 : ${testsession.subjecttype}</h4>
@@ -105,7 +105,7 @@
 		}
 		%>
 	</table>
-		<input type="submit" value="문제 등록" onclick="examinsert()">
+		<input type="button" value="문제 등록" onclick="examinsert()">
 		<input type="button" value="뒤로 가기" onclick="testback()">
 	</form>
 <%@include file="./include/footer.jsp" %>

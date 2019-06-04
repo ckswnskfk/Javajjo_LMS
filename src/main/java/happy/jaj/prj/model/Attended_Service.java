@@ -63,9 +63,9 @@ public class Attended_Service implements Attended_IService {
 	}
 	// 결석 문자 발송 ( 생각중 )
 	@Override
-	public List<Attended_DTO> cal_sms(String a_check) {
+	public List<Student_DTO> cal_sms(String regdate) {
 		logger.info("Attended_Service cal_sms 실행");
-		return attended_Interface.cal_sms(a_check);
+		return attended_Interface.cal_sms(regdate);
 	}
 	
 	

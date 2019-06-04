@@ -29,7 +29,7 @@ public interface Attended_Interface {
 	public List<Student_DTO> cal_detail(String id);
 	
 	// 결석 문자 발송 ( 생각중 )
-	public List<Attended_DTO> cal_sms(String a_check);
+	public List<Student_DTO> cal_sms(String regdate);
 	
 	//	cal_attended : 출석 및 퇴실,결석
 	public boolean cal_attended(Attended_DTO dto);

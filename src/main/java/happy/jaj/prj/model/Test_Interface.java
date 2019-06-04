@@ -19,6 +19,9 @@ import happy.jaj.prj.dtos.UserCourse_DTO;
 
 public interface Test_Interface {
 	
+	// 문제번호로 문제코드 조회
+	public String test_examcodeselect(Map<String, String> map);
+	
 	// 수강학생조회
 	public List<Student_DTO> test_coursestu(String coursecode);
 	
@@ -84,6 +87,9 @@ public interface Test_Interface {
 	//과제에 해당하는 문제 조회(선택형)
 	public Exam_Sel_DTO te_testselect(Map<String, String> map);
 	
+	// 과제 등록시 과제에 해당하는 문제 리스트 조회(서술형)
+	public List<Test_Exam_DTO> test_testdesclist(Map<String, String> map);
+	
 	//과제에 해당하는 문제리시트 조회(서술형)
 	public List<Test_Exam_DTO> te_selectlist(String seq);
 	//과제에 해당하는 문제리시트 조회(선택형)
@@ -122,5 +128,14 @@ public interface Test_Interface {
 	//선택형 문제 조회
 	public Exam_Sel_DTO test_examsel(String examcode);
 	
+	// 과정-과목 seq 조회
+	public int test_seqselect(Map<String, String> map);
+	
+	// 채점 완료 확인
+	public int score_allcheck(Map<String, String> map);
+	
+	// 성적 체크 변경
+	public boolean score_chkupdate(Map<String, String> map);
 
+	
 }

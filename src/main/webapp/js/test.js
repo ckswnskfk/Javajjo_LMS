@@ -83,11 +83,17 @@ function selexaminsert(){
 }
 
 function examinsert(){
-	alert("문제등록 버튼");
-	var frm = document.forms[0];
-	frm.action="./updateExam.do";
-	frm.method="post";
-	frm.submit();
+//	alert("문제등록 버튼");
+	var exam = document.getElementsByName("exam");
+	if(exam.length==0){
+		alert("문제를 한개이상 등록해 주세요.");
+//		return false;
+	}else{
+		var frm = document.forms[0];
+		frm.action="./updateExam.do";
+		frm.method="post";
+		frm.submit();
+	}
 }
 
 function coursecnt(){
@@ -297,6 +303,7 @@ function pageexam(bool, max){ //판단
 }
 
 function pageUpDown(bool, examnum){ //보냄
+	alert("다음 문제");
 
 	var frm = document.forms[0];
 	
@@ -307,7 +314,7 @@ function pageUpDown(bool, examnum){ //보냄
 		document.getElementsByName("page")[0].value="0";
 //		document.getElementsByName("examnum")[0].value = Number(examnum)+1;
 	}
-//	alert(document.getElementsByName("examnum")[0].value);
+	alert(document.getElementsByName("examnum")[0].value);
 	frm.method="post";
 	frm.action = "./desc_Detail.do";
 	frm.submit();
@@ -321,6 +328,9 @@ function numberclick(examnum){
 	frm.submit();
 }
 
+function examsubmit(){
+	location.href = "./test_Course_Submit.do";
+}
 
 
 

@@ -153,6 +153,7 @@ function admin_student_delete() {
 	}
 }
 
+
 function admin_student_cdelete() {
 	var check = document.getElementsByName("coursecode");
 	var cntCheck = 0;
@@ -163,6 +164,14 @@ function admin_student_cdelete() {
 	}
 	if (cntCheck > 0) {
 		var obj = document.forms[0]; //form 요소 모두 가져올 수 있음
+		if (sessionStorage.getItem("num") == null) {
+			var num = 2;
+			sessionStorage.setItem("num", num);
+		} else {
+			var num = parseInt(sessionStorage.getItem("num"));
+			num += 1;
+			sessionStorage.setItem("num", num);
+		}
 		obj.action = "./admin_student_cdelete.do";
 		obj.method = "post";
 		obj.submit();
@@ -171,10 +180,19 @@ function admin_student_cdelete() {
 	}
 }
 
+
 function admin_student_cconnect() {
 	var con = confirm("과정을 추가 하시겠습니까?");
 	if (con) {
 		var obj = document.forms[0]; //form 요소 모두 가져올 수 있음
+		if (sessionStorage.getItem("num") == null) {
+			var num = 2;
+			sessionStorage.setItem("num", num);
+		} else {
+			var num = parseInt(sessionStorage.getItem("num"));
+			num += 1;
+			sessionStorage.setItem("num", num);
+		}
 		obj.action = "./admin_student_cconnect.do";
 		obj.method = "post";
 		obj.submit();
@@ -182,6 +200,7 @@ function admin_student_cconnect() {
 		alert("취소하였습니다.");
 	}
 }
+
 function admin_teacher_add_form() {
 	location.href = "./admin_teacher_add_form.do";
 }

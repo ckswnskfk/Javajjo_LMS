@@ -8,10 +8,10 @@ public class Course_Subject_DTO {
 	private String subjecttime;
 	private String content;
 	private String startdate;
-	
+
 	public Course_Subject_DTO() {
 	}
-
+	
 	public Course_Subject_DTO(String seq) {
 		super();
 		this.seq = seq;

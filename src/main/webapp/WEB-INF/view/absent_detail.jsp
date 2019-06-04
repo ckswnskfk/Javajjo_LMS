@@ -42,7 +42,7 @@
 				<td>
 					<label><b>결재란</b></label><br/>
 					<c:if test="${yesMap.dto.stm eq 'Y'}">
-						<img alt="signature" src="<c:url value='./upload/signature/${yesMap.newfilename}'/>">
+						<img alt="signature" src="<c:url value='/upload/signature/${yesMap.newfilename}'/>" width="200px" height="120px">
 					</c:if>
 				</td>
 				<td>

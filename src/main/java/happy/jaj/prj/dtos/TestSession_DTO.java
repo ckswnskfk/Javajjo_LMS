@@ -11,16 +11,28 @@ public class TestSession_DTO {
 	private String testname;
 	private String testcode;
 	private String testday;
+	private String coursecnt;
 	
 	
 
+	
+	
 	@Override
 	public String toString() {
 		return "TestSession_DTO [coursecode=" + coursecode + ", coursename=" + coursename + ", subjectcode="
 				+ subjectcode + ", subjectname=" + subjectname + ", subjecttype=" + subjecttype + ", examtype="
-				+ examtype + ", testname=" + testname + ", testcode=" + testcode + ", testday=" + testday + "]";
+				+ examtype + ", testname=" + testname + ", testcode=" + testcode + ", testday=" + testday
+				+ ", coursecnt=" + coursecnt + "]";
 	}
-	
+
+	public String getCoursecnt() {
+		return coursecnt;
+	}
+
+	public void setCoursecnt(String coursecnt) {
+		this.coursecnt = coursecnt;
+	}
+
 	public String getCoursecode() {
 		return coursecode;
 	}
@@ -41,6 +53,22 @@ public class TestSession_DTO {
 		this.testname = testname;
 		this.testcode = testcode;
 		this.testday = testday;
+	}
+	
+
+	public TestSession_DTO(String coursecode, String coursename, String subjectcode, String subjectname,
+			String subjecttype, String examtype, String testname, String testcode, String testday, String coursecnt) {
+		super();
+		this.coursecode = coursecode;
+		this.coursename = coursename;
+		this.subjectcode = subjectcode;
+		this.subjectname = subjectname;
+		this.subjecttype = subjecttype;
+		this.examtype = examtype;
+		this.testname = testname;
+		this.testcode = testcode;
+		this.testday = testday;
+		this.coursecnt = coursecnt;
 	}
 
 	public TestSession_DTO() {

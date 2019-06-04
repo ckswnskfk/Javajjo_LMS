@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +19,6 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -33,10 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import happy.jaj.prj.dtos.Admin_DTO;
 import happy.jaj.prj.dtos.App_Form_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
 import happy.jaj.prj.model.Absent_IService;
@@ -160,6 +154,7 @@ public class AbsentController {
 		return "absent_detail";
 	}
 	
+	
 	// 상세조회한 신청서에서 첨부파일 다운
 	@RequestMapping(value="/download.do", method=RequestMethod.GET)
 	public ModelAndView download(HttpServletRequest req, HttpServletResponse resp, String newfilename) {
@@ -262,9 +257,10 @@ public class AbsentController {
 		int n;
 		String filename = reqFilename.getOriginalFilename();
 		String newfilename = "";
-		
 		// 첨부한 파일 없으면 바로 결석 신청
 		if (filename.trim().equalsIgnoreCase("")) {
+			dto.setFilename(filename);
+			dto.setNewfilename(newfilename);
 			n = absent_IService.insert_absent_form(dto);
 			System.out.println(n);
 		} else {
@@ -275,7 +271,6 @@ public class AbsentController {
 			String today = transFormat.format(from);
 
 			newfilename = uuid.toString()+"_"+today+"_"+studentId+"_"+filename;
-			
 			File dir = new File(uploadPath);
 			File target = new File(uploadPath, newfilename);
 			// 폴더가 없다면 폴더를 생성
@@ -312,6 +307,7 @@ public class AbsentController {
 		return "redirect:/absentListForm.do";
 	}
 	
+	// 사인 이미지를 이미 등록했는지 확인
 	@RequestMapping(value="/chkSignature.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int chk_signature(@RequestBody String id) {
@@ -320,6 +316,7 @@ public class AbsentController {
 		return absent_IService.chk_signature(inid);
 	}
 	
+	// 강사 및 관리자가 사인 이미지를 등록함
 	@RequestMapping(value="/addSignature.do", method=RequestMethod.POST)
 	public String add_signature(@RequestParam Map<String, String> map, MultipartHttpServletRequest mtReq) throws IOException {
 		logger.info("AbsentController add_signature 실행");
