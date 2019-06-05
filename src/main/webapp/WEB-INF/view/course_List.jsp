@@ -11,6 +11,11 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style type="text/css">
+	table{
+		
+	}
+</style>
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
