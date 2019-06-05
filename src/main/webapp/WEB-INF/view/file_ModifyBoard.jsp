@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>자료 게시판</h2>
 		<form action="#" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="seq" value="${dto.seq}">
@@ -46,7 +46,7 @@
 			</table>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="수정 완료" onclick="file_infomodifyboard()"/>
 					<input type="button" class="btn btn-default"
 					 value="취소" onclick="history.back()"/>

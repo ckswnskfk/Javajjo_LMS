@@ -14,6 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<div class="container">
 <form action="#" method="get">
 <div id="user-profile-2" class="user-profile">
 			<div class="tabbable">
@@ -131,7 +132,8 @@
 					</div>
 			</div>
 		</div>
-		</form>		
+		</form>
+		</div>		
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>

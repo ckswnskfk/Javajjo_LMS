@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>자료 게시판</h2>
 			<form action="#">
 			<input type="hidden" name="seq" value="${dto.seq}">
@@ -65,7 +65,7 @@
 					 value="글 삭제" onclick="file_infodeleteboard()"/>
 					 </c:when>
 				</c:choose>
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="글 목록" onclick="history.back()"/>
 				</div>
 			</div>

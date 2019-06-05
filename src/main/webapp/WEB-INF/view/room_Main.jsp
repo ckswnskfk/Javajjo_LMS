@@ -157,7 +157,7 @@ function room_event(){
        </div>
        </form>
        <div class="modal-footer">
-          <button type="button" class="btn btn-default" onclick="room_add()">추가</button>
+          <button type="button" class="btn btn-info" onclick="room_add()">추가</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
       </div>
     </div>
