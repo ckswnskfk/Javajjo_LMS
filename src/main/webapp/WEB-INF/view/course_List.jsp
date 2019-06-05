@@ -129,7 +129,7 @@ function dateCheck(){
 	function check(bool){
 		var chks=document.querySelector('input[name="radio"]:checked').value;
 // 		var ddate=document.querySelector('input[id="date"]');
-		var mocontent = document.getElementById("date").value;
+		var mocontent = document.getElementById("date");
 		var date = new Date(mocontent.value);
 		var today = new Date();
 		if(date < today){
