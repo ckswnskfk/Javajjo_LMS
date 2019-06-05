@@ -3,6 +3,7 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,7 @@
 		<th>과목이름</th>
 		<th>과목타입</th>
 		<th>수업 시간</th>
+		<th>시작 날짜</th>
 	</tr>
 	<c:forEach items="${lists}" var="dto">
 	
@@ -30,6 +32,11 @@
 			<td>${dto.subjecttype}</td>
 
 			<td>${dto.subjecttime}</td>
+			
+			<td>
+			<fmt:parseDate value="${dto.startdate}" pattern="yyyy-MM-dd HH:mm:ss" var="Stringdate"/>
+			<fmt:formatDate value="${Stringdate}" pattern="yyyy-MM-dd"/>
+			</td>
 
 			<td><input type="hidden" id="inin" value="${dto.subjectcode}"></td>
 
