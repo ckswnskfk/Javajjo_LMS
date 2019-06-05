@@ -119,9 +119,8 @@ public class SubjectController {
 	
 	
 	@RequestMapping(value="/submit.do", method=RequestMethod.GET)
-	public String submit(HttpServletRequest req,Model model) {
-		String re=req.getParameter("subjectcode");
-		String[] rere=re.split(",");
+	public String submit(String subjectcode ,Model model) {
+		String[] rere=subjectcode.split(",");
 		
 		List<Subject_DTO> add = new ArrayList<Subject_DTO>();
 		for(int i=0; i<rere.length; i++) {
@@ -161,21 +160,50 @@ public class SubjectController {
 	@RequestMapping(value="/copySelect.do", method=RequestMethod.GET)
 	public String copySelect(HttpSession session,Model model,String coursename) {
 		logger.info("SubjectController copySelect 실행");
+		List<Subject_DTO> slist=(List<Subject_DTO>) session.getAttribute("ctt");
 //		System.out.println(session);
 //		System.out.println("!@#!@##%#$$#%&#%^&$%^&%$^&"+coursename);
 		List<Course_DTO> list=subject_IService.copySelectCnt(coursename);
 		model.addAttribute("cnt",list);
+		model.addAttribute("slist",slist);
 		model.addAttribute("coursecode",session);
 		
 		return "copySelect";
+	}	
+	
+	@RequestMapping(value="/cntsel.do", method=RequestMethod.GET)
+	public String cntsel(Course_DTO dto,HttpSession session,Model model) {
+		logger.info("SubjectController cntsel 실행");
+		List<Subject_DTO> list=subject_IService.cntsel(dto);
+		session.setAttribute("ctt",list);
+		model.addAttribute("coursename",dto.getCoursename());
+		return "redirect:/copySelect.do";
+	}
+	@RequestMapping(value="/timeset.do", method=RequestMethod.GET)
+	public String timeset(String seq,Model model) {
+		logger.info("SubjectController timeset 실행");
+		System.out.println("!@#!@##!@!#@!#@@#!@#@!#!@#!@!@##!@!#@"+seq);
+		String[] rere=seq.split(",");
+		System.out.println("!@#!@##!@!#@!#@@#!@#@!#!@#!@!@##!@!#@"+rere);
+		List<Subject_DTO> tlist= new ArrayList<Subject_DTO>();
+		for(int i=0; i<rere.length; i++) {
+			tlist.add(subject_IService.timeset(rere[i]));
+			System.out.println(rere[i]);
+		}
+		model.addAttribute("add",tlist);
+		return "time_set";
 	}
 	
-//	@RequestMapping(value="/cntsel.do", method=RequestMethod.POST)
-//	public String cntsel(HttpSession session,String coursecnt) {
-//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+coursecode);
-//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+coursecnt);
-//		
-//	
-//		return "chanju_index";
-//	}
+	@RequestMapping(value="/endset.do", method=RequestMethod.POST)
+	public String endset(String[] seq,String[] startdate,HttpSession session ) {
+		logger.info("SubjectController endset 실행");
+			List<Subject_DTO> lists = new ArrayList<Subject_DTO>();
+			for (int i = 0; i < seq.length; i++) {
+				Subject_DTO dto 
+				= new Subject_DTO((String)session.getAttribute("coursecode"),seq[i],startdate[i]);
+				lists.add(dto);
+			}
+			int n = subject_IService.endset(lists);
+			return (n>0)?"redirect:/subject_select_all.do?coursecode="+(String)session.getAttribute("coursecode"):"chanju_index";
+		}
 }

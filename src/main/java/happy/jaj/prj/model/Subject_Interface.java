@@ -34,5 +34,11 @@ public interface Subject_Interface {
 	public int subDel(Subject_DTO dto);
 	
 	public List<Course_DTO> copySelectCnt(String coursename);
+
+	public List<Subject_DTO> cntsel(Course_DTO dto);
+
+	public Subject_DTO timeset(String seq);
+	
+	public int endset(Subject_DTO dto);
 	
 }

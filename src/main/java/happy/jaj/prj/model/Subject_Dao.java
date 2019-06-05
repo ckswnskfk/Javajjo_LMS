@@ -81,8 +81,25 @@ public class Subject_Dao implements Subject_Interface {
 		logger.info("Subject_Dao subDel 실행 {}", dto);
 		return sqlSessionTemplate.delete(NS+"subDel", dto);
 	}
+	@Override
 	public List<Course_DTO> copySelectCnt(String coursename){
 		logger.info("Subject_Dao copySelectCnt 실행 {}", coursename);
 		return sqlSessionTemplate.selectList(NS+"copySelectCnt", coursename);
+	}
+	@Override
+	public List<Subject_DTO> cntsel(Course_DTO dto){
+	logger.info("Subject_Dao cntsel 실행 {}", dto);
+	return sqlSessionTemplate.selectList(NS+"cntsel", dto);
+}
+	@Override
+	public Subject_DTO timeset(String seq) {
+		logger.info("Subject_Dao timeset 실행 {}", seq);
+		return sqlSessionTemplate.selectOne(NS+"timeset", seq);
+	}
+	
+	@Override
+	public int endset(Subject_DTO dto) {
+		logger.info("Subject_Dao endset 실행 {}", dto);
+		return sqlSessionTemplate.insert(NS+"endset", dto);
 	}
 }
