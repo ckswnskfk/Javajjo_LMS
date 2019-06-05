@@ -5,7 +5,7 @@
 	<!-- 학생 로그인 -->
 	<select id="student_login" parameterType="java.util.Map" resultType="StudentDTO">
 		SELECT ID, NAME, PW ,S_CHECK
- 		FROM STUDENT WHERE ID=#{id} AND PW=#{pw}
+ 		FROM STUDENT WHERE ID=#{id} AND PW=#{pw} AND DELFLAG='N'
 	</select>
 	
 	<!-- 비밀번호 암호화 로그인용 pw 찾기 -->

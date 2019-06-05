@@ -62,12 +62,19 @@
 <%@include file="./include/footer.jsp" %>
 <script type="text/javascript">
 function nameCheck(){
-	var orgname=document.getElementById("coname").value;
+	var orgname=document.getElementsByName("radio");
 	var savename=document.getElementById("motitle").value;
-	if(orgname.trim(" ")==savename.trim(" ")){
+	var cnt = 0;
+	for(var i = 0 ; i < orgname.length; i++){
+		if(orgname[i].value.trim()==savename.trim()){
+			cnt++;
+		}
+	}
+	if(cnt>0){
+		return true;
+	}else{
 		return false;
 	}
-	return true;
 }
 
 function dateCheck(){
