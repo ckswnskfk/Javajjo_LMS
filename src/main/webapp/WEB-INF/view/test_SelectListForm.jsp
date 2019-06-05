@@ -9,6 +9,19 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<style type="text/css">
+.test_session{
+	border: 1px solid black;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+ tbody>tr:hover { background-color: lightyellow; } 
+ #test_back{
+ 	float: right;
+ }
+
+</style>
 <script type="text/javascript" src="./js/test.js"></script>
 </head>
 <%
@@ -44,22 +57,24 @@ function examdelete(){
 </script>
 <body>
 <%@include file="./include/header.jsp" %>
-	<h1>과제 등록</h1>
-		<h4>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h4>
-		<h4>과목명 : ${testsession.subjectname}</h4>
-		<hr>
-		<h4>과목유형 : ${testsession.subjecttype}</h4>
-		<h4>과제유형 : ${testsession.examtype}</h4>
-		<hr>
-		<h4>과제명 : ${testsession.testname}</h4>
-		<h4>과제 날짜 : ${testsession.testday}</h4>
-		<hr>
-		<input type="button" value="등록" onclick="location.href='./sel_ExamForm.do'">
-		<input type="button" value="추가" onclick="examsellist()">
-		<input type="button" value="복사" onclick="coursecnt()">
-		<input type="button" value="삭제" onclick="examdelete()">
+<div class="container">
+	<div class="test_session">
+		<h2>과제 등록</h2>
+			<h4>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h4>
+			<h4>과목명 : ${testsession.subjectname}</h4>
+			<hr>
+			<h4>과목유형 : ${testsession.subjecttype}</h4>
+			<h4>과제유형 : ${testsession.examtype}</h4>
+			<hr>
+			<h4>과제명 : ${testsession.testname}</h4>
+			<h4>과제 날짜 : ${testsession.testday}</h4>
+	</div>
+		<input type="button" class="btn btn-primary" value="등록" onclick="location.href='./sel_ExamForm.do'">
+		<input type="button" class="btn btn-success" value="추가" onclick="examsellist()">
+		<input type="button" class="btn btn-info" value="복사" onclick="coursecnt()">
+		<input type="button" class="btn btn-warning" value="삭제" onclick="examdelete()">
 <form action="#" name="del" >
-	<table>
+	<table class="table">
 		<%
 		if(list.size()==0){
 			%>
@@ -69,12 +84,15 @@ function examdelete(){
 			<% 
 		}else{
 			%>
+			<thead>
 			<tr>
 				<td><input type="checkbox" name="allchk" onclick="allSel(this.checked)"></td>
 				<td>No.</td>
 				<td>문제</td>
 				<td>배점</td>
-			</tr>			
+			</tr>	
+			</thead>
+			<tbody>	
 			<% 
 			for(int i=0; i<list.size(); i++){
 				Test_Exam_DTO dto = list.get(i);
@@ -90,6 +108,7 @@ function examdelete(){
 			<% 
 			}
 			%>
+			</tbody>	
 			<div id="append"></div>
 			<tr>
 				<td>총 점</td>
@@ -99,9 +118,10 @@ function examdelete(){
 		}
 		%>
 	</table>
-		<input type="button" value="문제 등록" onclick="examinsert()">
-		<input type="button" value="뒤로 가기" onclick="testback()">
-		</form>
+		<input type="button" value="문제 등록" onclick="examinsert()" class="btn btn-primary active">
+		<input type="button" value="뒤로 가기" onclick="testback()" class="btn btn-primary disabled" style="float: right">
+	</form>
+</div>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

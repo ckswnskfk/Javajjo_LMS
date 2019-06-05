@@ -66,9 +66,9 @@ public class Test_Service implements Test_IService {
 	}
 
 	@Override
-	public Subject_Test_DTO se_testselect(String seq) {
-		logger.info("Test_Service se_testselect {}",seq);
-		return test_Interface.se_testselect(seq);
+	public Subject_Test_DTO se_testselect(Map<String, String> map) {
+		logger.info("Test_Service se_testselect {}",map);
+		return test_Interface.se_testselect(map);
 	}
 
 	@Override
@@ -174,9 +174,9 @@ public class Test_Service implements Test_IService {
 	}
 	
 	@Override
-	public List<Test_Exam_DTO> te_testselectlist(String seq){
-		logger.info("Test_Service te_testselectlist {}",seq);
-		return test_Interface.te_testselectlist(seq);
+	public List<Test_Exam_DTO> te_testselectlist(Map<String, String> map){
+		logger.info("Test_Service te_testselectlist {}",map);
+		return test_Interface.te_testselectlist(map);
 	}
 
 	//선택형 문제 문항 조회

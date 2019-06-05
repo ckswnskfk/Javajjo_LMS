@@ -20,6 +20,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<div class="container">
 	<table>
 	<c:forEach items="${lists}" var="dto" varStatus="vs">
 		<tr>
@@ -38,17 +39,18 @@
 			<td colspan="4" style="text-align: right; border-bottom: 1px solid black;">
 			<c:choose>
 				<c:when test="${dto.check eq 'Y'}">
-					<input type="button" value="예약" onclick="room_empty_request('${dto.code}','${regdate}','${member.id}')">
+					<input type="button" class="btn btn-info" value="예약" onclick="room_empty_request('${dto.code}','${regdate}','${member.id}')">
 				</c:when>
 				<c:otherwise>
-					<input type="button" value="예약취소" onclick="room_empty_cancle('${dto.code}','${regdate}','${member.id}')">
+					<input type="button" class="btn btn-default" value="예약취소" onclick="room_empty_cancle('${dto.code}','${regdate}','${member.id}')">
 				</c:otherwise>
 			</c:choose>
 			</td>
 		</tr>
 	</c:forEach>
 	</table>
-					<input type="button" value="취소" onclick="location.href='./room_main.do'">
+	<input type="button" class="btn btn-default" value="취소" onclick="location.href='./room_main.do'">
+	</div>
 <%@ include file="./include/footer.jsp" %>
 </body>
 </html>

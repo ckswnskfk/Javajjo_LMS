@@ -122,7 +122,7 @@ function room_event(){
   </div>
   
 
-  <div id='calendar'></div>
+  <div id='calendar' style="width: 700px;"></div>
   <c:choose>
   	<c:when test="${member.table eq 'Admin'}">
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2">강의실 추가</button>
@@ -157,7 +157,7 @@ function room_event(){
        </div>
        </form>
        <div class="modal-footer">
-          <button type="button" class="btn btn-default" onclick="room_add()">추가</button>
+          <button type="button" class="btn btn-info" onclick="room_add()">추가</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
       </div>
     </div>

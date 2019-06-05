@@ -45,11 +45,13 @@
 
 	<!-- 과정명이 동일한 과정들 중 회차를 선택해 문제 조회 -->
 	<select id="test_coursecopy" parameterType="java.util.Map" resultType="TestExamDTO">
-	SELECT EXAMCODE, TESTCODE, ALLOT, EXAMNUM
-	FROM TEST_EXAM
- 		WHERE TESTCODE = (SELECT TESTCODE
-			FROM COURSE_SUBJECT JOIN SUBJECT_TEST USING (SUBJECTCODE)
-				WHERE COURSECODE = #{coursecode} AND SUBJECTCODE =#{subjectcode})
+	SELECT EXAMCODE, TESTCODE, ALLOT, EXAMNUM 
+	FROM TEST_EXAM 
+	WHERE TESTCODE IN
+	(SELECT TESTCODE 
+	FROM COURSE_SUBJECT JOIN SUBJECT_TEST USING (SUBJECTCODE) 
+	WHERE SUBJECT_TEST.COURSECODE = #{coursecode}
+	AND SUBJECTCODE =#{subjectcode})
 	</select>
 
 	<!-- 시험의 최대 번호 조회 -->
@@ -123,8 +125,8 @@
 
 	<!--과목에 과제등록(연결)  -->
 	<insert id="se_insert" parameterType="SubjectTestDTO">
-		INSERT INTO SUBJECT_TEST(SUBJECTCODE, TESTCODE, TESTDAY)
-		VALUES(#{subjectcode}, #{testcode}, #{testday})
+		INSERT INTO SUBJECT_TEST(SUBJECTCODE, TESTCODE, TESTDAY, COURSECODE)
+		VALUES(#{subjectcode}, #{testcode}, #{testday}, #{coursecode})
 	</insert>
 
 	<!--과목의 과목유형과 과제유형이 동일한 과제 조회  -->
@@ -136,11 +138,11 @@
 	</select>
 
 	<!--과목에 해당하는 과제 조회  -->
-	<select id="se_testselect" parameterType="java.lang.String"
-		resultType="SubjectTestDTO">
+	<select id="se_testselect" parameterType="java.util.Map" resultType="SubjectTestDTO">
 		SELECT SUBJECTCODE, TESTCODE,TESTNAME, TO_CHAR(TESTDAY, 'YYYY-MM-DD') AS TESTDAY
 		FROM SUBJECT_TEST JOIN TEST USING (TESTCODE)
-		WHERE SUBJECTCODE = #{subjectcode}
+		WHERE SUBJECTCODE = #{subjectcode} 
+		AND COURSECODE = #{coursecode}
 	</select>
 
 	<!--문제 등록(서술형)  -->
@@ -231,11 +233,11 @@
 	<!-- 과제 등록시 과제에 해당하는 문제 리스트 조회(서술형) -->
 	<select id="test_testdesclist" parameterType="java.util.Map" resultType="TestExamDTO">
 		SELECT TEST_EXAM.EXAMNUM, EXAMDESCRIPTIVE.EXAM, TEST_EXAM.ALLOT, TEST_EXAM.EXAMCODE, SUBJECT_TEST.SUBJECTCODE
-		FROM COURSE_SUBJECT JOIN SUBJECT_TEST ON  COURSE_SUBJECT.SUBJECTCODE = SUBJECT_TEST.SUBJECTCODE
+		FROM SUBJECT_TEST
 		JOIN TEST_EXAM ON SUBJECT_TEST.TESTCODE = TEST_EXAM.TESTCODE
 		JOIN EXAMDESCRIPTIVE ON TEST_EXAM.EXAMCODE=EXAMDESCRIPTIVE.EXAMCODE
 		WHERE TEST_EXAM.TESTCODE = #{testcode}
-			AND COURSE_SUBJECT.SEQ = #{seq}
+		AND SUBJECT_TEST.COURSECODE = #{coursecode}
 		ORDER BY EXAMNUM
 	</select>
 	
@@ -255,10 +257,12 @@
 	</select>
 	
 	<!--과제에 해당하는 문제리스트 조회(선택형) -->
-	<select id="te_testselectlist" parameterType="java.lang.String" resultType="TestExamDTO">
-		SELECT EXAMNUM, EXAM, ALLOT, C_ANSWER, EXAMCODE
-		FROM TEST_EXAM JOIN EXAMSELECT USING(EXAMCODE)
-		WHERE TESTCODE = #{testcode} 
+	<select id="te_testselectlist" parameterType="java.util.Map" resultType="TestExamDTO">
+		SELECT TEST_EXAM.EXAMNUM, EXAMSELECT.EXAM, TEST_EXAM.ALLOT, EXAMSELECT.C_ANSWER, TEST_EXAM.EXAMCODE
+		FROM SUBJECT_TEST JOIN TEST_EXAM ON SUBJECT_TEST.TESTCODE = TEST_EXAM.TESTCODE
+		JOIN EXAMSELECT ON TEST_EXAM.EXAMCODE=EXAMSELECT.EXAMCODE
+		WHERE TEST_EXAM.TESTCODE = #{testcode}
+		AND SUBJECT_TEST.COURSECODE = #{coursecode}
 		ORDER BY EXAMNUM
 	</select>
 

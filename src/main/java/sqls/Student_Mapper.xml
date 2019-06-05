@@ -50,7 +50,7 @@
 	
 	<!-- 본인 정보 조회(학생) -->
 	<select id="student_info" parameterType="java.lang.String" resultType="StudentDTO">
-		SELECT ID, NAME, GENDER, BIRTH, ADDR
+		SELECT ID, NAME, GENDER, TO_CHAR(BIRTH,'YYYY-MM-DD') AS BIRTH, ADDR
  		FROM STUDENT WHERE ID = #{id}
  	</select>
 	

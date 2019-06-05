@@ -14,16 +14,16 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>자료 게시판</h2>
 		<form action="#" method="get">
-			<table class="table table-hover" style="width: 80%; margin: 0 auto">
+			<table class="table table-hover" style="width: 80%; height:210px; margin: 0 auto">
 				<colgroup>
 					<col width="10%">
-					<col width="30%">
-					<col width="30%">
-					<col width="10%">
+					<col width="25%">
 					<col width="20%">
+					<col width="15%">
+					<col width="30%">
 				</colgroup>
 				<thead>
 					<tr>
@@ -52,7 +52,7 @@
 			<input type="hidden" name="listNum" id="listNum" value="${pg.listNum}">
 			
 			<div class="center">
-				<ul class="pagination">
+				<ul class="pagination" style="width: 300px;">
 					<li><a href="#" onclick="pageFrist(${pg.pageList},${pg.pageList},'file','${find}')">&laquo;</a></li>
 					<li><a href="#" onclick="pagePre(${pg.pageNum},${pg.pageList},'file','${find}')">&lsaquo;</a></li>
 					<c:forEach var="i" begin="${pg.pageNum}" end="${pg.count}" step="1">
@@ -75,7 +75,7 @@
 		    </div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="글 작성" onclick="file_infowriteboardform()"/>
 				</div>
 			</div>

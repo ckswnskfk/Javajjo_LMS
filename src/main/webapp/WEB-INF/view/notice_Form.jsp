@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>공지사항 게시판</h2>
 		<form action="#" method="post">
 			<input type="hidden" name="id" value="${member.id}">
@@ -27,20 +27,24 @@
 					<tr>
 						<th>Title</th>
 						<td>
-							<input type="text" name="title" placeholder="제목을 입력해 주세요">
+							<div class="form-group">
+								<input type="text" class="form-control" name="title" placeholder="제목을 입력해 주세요">
+							</div>
 						</td>
 					</tr>
 					<tr>
 						<th>Content</th>
 						<td>
-							<textarea rows="20" cols="100" name="content"></textarea>
+							<div class="form-group">
+							<textarea rows="20" class="form-control" cols="100" name="content"></textarea>
+							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="글 등록" onclick="notice_write()"/>
 					<input type="button" class="btn btn-default"
 					 value="취소" onclick="history.back()"/>

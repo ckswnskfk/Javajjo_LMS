@@ -14,16 +14,16 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>공지사항 게시판</h2>
 		<form action="#" method="get">
-			<table class="table table-hover" style="width: 80%; margin: 0 auto">
+			<table class="table table-hover" style="width: 80%; height:210px; margin: 0 auto">
 				<colgroup>
 					<col width="10%">
 					<col width="15%">
 					<col width="30%">
-					<col width="30%">
 					<col width="15%">
+					<col width="30%">
 				</colgroup>
 				<thead>
 					<tr>
@@ -75,7 +75,7 @@
 			<c:otherwise>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="글 작성" onclick="notice_form()"/>
 				</div>
 			</div>

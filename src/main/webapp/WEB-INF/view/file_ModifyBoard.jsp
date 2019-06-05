@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>자료 게시판</h2>
 		<form action="#" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="seq" value="${dto.seq}">
@@ -27,13 +27,17 @@
 					<tr>
 						<th>Title</th>
 						<td>
-							<input type="text" name="title" placeholder="${dto.title}">
+							<div class="form-group">
+								<input type="text" class="form-control" name="title" placeholder="${dto.title}">
+							</div>
 						</td>
 					</tr>
 					<tr>
 						<th>Content</th>
 						<td>
-							<textarea rows="20" cols="100" name="content" placeholder="${dto.content}"></textarea>
+							<div class="form-group">
+								<textarea rows="20" cols="100" class="form-control" name="content" placeholder="${dto.content}"></textarea>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -46,7 +50,7 @@
 			</table>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="수정 완료" onclick="file_infomodifyboard()"/>
 					<input type="button" class="btn btn-default"
 					 value="취소" onclick="history.back()"/>

@@ -14,6 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<div class="container">
 <form action="#">
 <input type="hidden" name="id" value="${id}">
 <div id="user-profile-2" class="user-profile">
@@ -100,6 +101,7 @@
 			</div>
 		</div>
 		</form>
+		</div>
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>

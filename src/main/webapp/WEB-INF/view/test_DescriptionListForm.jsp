@@ -17,6 +17,10 @@
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+ tbody>tr:hover { background-color: lightyellow; } 
+ #test_back{
+ 	float: right;
+ }
 </style>
 <script type="text/javascript" src="./js/test.js"></script>
 </head>
@@ -31,8 +35,8 @@
 	}
 		function allSel(bool){
 			// checkbox는 value로 받으면 안된다.
-//	 		alert(bool);
-			var chks = document.getElementsByName("chk");
+// 	 		alert(bool);
+			var chks = document.getElementsByName("examcode");
 			for (var i = 0; i < chks.length; i++) {
 				chks[i].checked = bool;
 			}
@@ -40,20 +44,29 @@
 		function examdelete(){
 			var frm1 = document.forms[0];
 // 			alert(frm1);
-// 			frm1.action = "./test_deleteexam.do";
-// 			frm1.method = "post";
-// 			frm1.submit();
-			var examcode = document.getElementsByName("examcode");
-			var queryString = $("form[name=del]").serialize() ;
-			$.ajax({
-				url : "./test_deleteexam.do",
-				type : "post",
-				data : queryString,
-				success : function(){
-// 					alert("성공");
-					location.reload();
-				}
-			});
+			frm1.action = "./test_deleteexam.do";
+			frm1.method = "post";
+			frm1.submit();
+// 			location.reload();
+// 			var examcodes = document.getElementsByName("examcode");
+// 			var examcode = new Array();
+// 			for(var i = 0; i < examcodes.length;i++){
+// 				if(examcodes[i].checked){
+// 					examcode[i] = examcodes[i].value;
+// 				}
+// 			}
+// 			alert(examcode);
+// 			var queryString = $("input:checkbox[name='examcode']").is(":checked");
+// 			alert(queryString);
+// 			$.ajax({
+// 				url : "./test_deleteexam.do",
+// 				type : "post",
+// 				data : examcode,
+// 				success : function(){
+// // 					alert("성공");
+// 					location.reload();
+// 				}
+// 			});
 		}
 </script>
 <body>
@@ -70,7 +83,7 @@
 			<h4>과제명 : ${testsession.testname}</h4>
 			<h4>과제 날짜 : ${testsession.testday}</h4>
 	</div>
-		<input type="button" value="등록" onclick="location.href='./desc_ExamForm.do'" class="btn btn-primary active">
+		<input type="button" value="등록" onclick="location.href='./desc_ExamForm.do'" class="btn btn-primary">
 		<input type="button" value="추가" onclick="examdesclist()" class="btn btn-success">
 		<input type="button" value="복사" onclick="coursecnt()" class="btn btn-info">
 		<input type="button" value="삭제" onclick="examdelete()" class="btn btn-warning">
@@ -95,7 +108,8 @@
 					<td>문제</td>
 					<td>배점</td>
 				</tr>	
-			</thead>		
+			</thead>
+			<tbody>		
 			<% 
 			for(int i=0; i<list.size(); i++){
 				Test_Exam_DTO dto = list.get(i);
@@ -103,7 +117,7 @@
 				<tr>
 					<td>
 					<input type="hidden" name="exam" value="<%=dto.getExamcode()%>">
-					<input type="checkbox" class="del" name="examcode" value='<%=dto.getExamcode()%>'></td>
+					<input type="checkbox" class="del" name="examcode" value="<%=dto.getExamcode()%>"></td>
 					<td><input type="hidden" name="examnum" value='<%=i+1%>'><%=i+1 %></td>
 					<td><a href="./desc_Exam_ModifyForm.do?examcode=<%=dto.getExamcode()%>&examnum=<%=dto.getExamnum()%>&allot=<%=dto.getAllot()%>"><%=dto.getExam() %></a></td>
 					<td><input type="hidden" name="allot" value="<%=dto.getAllot()%>"><%=dto.getAllot() %></td>
@@ -111,13 +125,14 @@
 			<% 
 			}
 			%>
+			</tbody>
 			<div></div>
 			<% 
 		}
 		%>
 	</table>
 		<input type="button" value="문제 등록" onclick="examinsert()" class="btn btn-primary active">
-		<input type="button" value="뒤로 가기" onclick="testback()" class="btn btn-default" style="float: right">
+		<input type="button" value="뒤로 가기" onclick="testback()" class="btn btn-primary disabled" style="float: right">
 	</form>
 </div>
 <%@include file="./include/footer.jsp" %>
