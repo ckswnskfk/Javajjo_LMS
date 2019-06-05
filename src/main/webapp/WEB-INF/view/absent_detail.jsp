@@ -26,6 +26,21 @@
 							+ "</tr>";
 		$("tr:last").html(unapprove_reason);
 	}
+	
+	function signatureImgChk() {
+		var id = '${member.id}';
+		$.ajax({
+			url: "./chkSignature.do",
+			data: id,
+			type: "POST",
+			success: function(n) {
+				location.href='./update_is_approve_Yes.do?seq=${yesMap.dto.form_seq}&stm=Y';
+			}, error: function() {
+				alert("사인 이미지를 등록하셔야 승인을 할 수 있습니다.");
+				return false;
+			}
+		});
+	}
 </script>
 <body>
 <%@include file="./include/header.jsp" %>
@@ -95,10 +110,10 @@
 			<c:if test="${yesMap.dto.stm eq 'N' and member.table ne 'Student'}">
 				<tr>
 					<td colspan="3">
-						<button onclick="location.href='./update_is_approve_Yes.do?seq=${yesMap.dto.form_seq}&stm=Y'">승인</button>
+						<button class="btn btn-primary" onclick="signatureImgChk()">승인</button>
 					</td>
 					<td colspan="3">
-						<button onclick="unapprove()">미승인</button>
+						<button class="btn btn-danger" onclick="unapprove()">미승인</button>
 					</td>
 				</tr>
 			</c:if>
