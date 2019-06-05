@@ -11,9 +11,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="./js/join.js"></script>
 </head>
-<body>
+<body style="background-color: #F8FBEF;">
 
-<div class="container">
+<div class="container" style="background-color: white; width: 700px;">
   <h2>회원 가입</h2>
   <hr>
   <form class="form-horizontal" action="#" onsubmit="return join()">
@@ -25,15 +25,15 @@
       <div class="col-sm-8">
         <input type="text" class="form-control" id="id" placeholder="Enter id" name="id">
         <span id="err_id"></span><br>
-        <input type="button" value="아이디 중복 확인" onclick="id_duplicate()">
-        <input type="button" value="본인 인증" disabled="disabled" id="yeah" onclick="id_check_go()"/>
+        <input type="button" class="btn btn-default" value="아이디 중복 확인" onclick="id_duplicate()">
+        <input type="button" class="btn btn-default" value="본인 인증" disabled="disabled" id="yeah" onclick="id_check_go()"/>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" for="idRe">인증번호</label>
       <div class="col-sm-8">          
         <input type="text" class="form-control" id="idRe" placeholder="Enter id Check" name="idRe">
-        <input type="button" value="본인 인증 확인" id="yeah_chk" onclick="id_check_ok()"/>
+        <input type="button" class="btn btn-default" value="본인 인증 확인" id="yeah_chk" onclick="id_check_ok()"/>
       </div>
     </div>
     <div class="form-group">
@@ -93,8 +93,8 @@
       </div>
     </div>
     <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Submit</button>
+      <div class="col-sm-offset-4 col-sm-10">
+        <button type="submit" class="btn btn-info">Sign in</button>
         <button type="button" class="btn btn-default" onclick="location.href='./loginForm.do'">취소</button>
       </div>
     </div>

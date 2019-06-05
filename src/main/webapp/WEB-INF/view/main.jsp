@@ -14,12 +14,7 @@
 <%@include file="./include/header.jsp" %>
   <!-- Page Content -->
   <div class="container" id="main">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h1 class="mt-5">잡았조 메인 페이지</h1>
-        <p class="lead">메인 페이지 입니다.</p>
-      </div>
-    </div>
+  <img alt="메인 이미지" src="./img/home_img.png">
   </div>
 
 <%@include file="./include/footer.jsp" %>

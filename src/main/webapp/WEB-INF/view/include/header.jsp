@@ -18,17 +18,20 @@
 </head>
 <body>
 <div id = "header">
-<h1><a href="./main.do">메인으로 이동</a></h1>
-<a href="./logout.do">로그아웃</a>
-<c:choose>
-	<c:when test="${member.table eq 'Student'}"><a href="./student_info.do">${member.name}</a>님 환영합니다.</c:when>
-	<c:when test="${member.table eq 'Teacher'}"><a href="./teacher_info.do">${member.name}</a>님 환영합니다.</c:when>
-	<c:when test="${member.table eq 'Admin'}"><a href="./admin_info.do">${member.name}</a>님 환영합니다.</c:when>
-</c:choose>
-
+	<div id="headerOne">
+	<h1><a href="./main.do"><img alt="로고 이미지" src="./img/logo2.png"></a></h1>
+	</div>
+	<div id="headerTwo">
+		<a href="./logout.do">로그아웃</a>
+		<c:choose>
+			<c:when test="${member.table eq 'Student'}"><a href="./student_info.do">${member.name}</a>님 환영합니다.</c:when>
+			<c:when test="${member.table eq 'Teacher'}"><a href="./teacher_info.do">${member.name}</a>님 환영합니다.</c:when>
+			<c:when test="${member.table eq 'Admin'}"><a href="./admin_info.do">${member.name}</a>님 환영합니다.</c:when>
+		</c:choose>
+	</div>
 </div>
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-white static-top">
     <div class="container">
       <a class="navbar-brand" href="#">네비 게이션 바</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
