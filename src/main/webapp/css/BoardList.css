@@ -23,3 +23,17 @@
 	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
+
+div.center{
+	text-align: center;
+}
+ul.pagination{
+	display: inline-block;
+	padding: 0px;
+	margin: 0px;
+	
+}
+ul.pagination li{
+	display: inline;
+	
+}

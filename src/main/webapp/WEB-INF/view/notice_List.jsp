@@ -17,13 +17,13 @@
 	<div class="container">
 		<h2>공지사항 게시판</h2>
 		<form action="#" method="get">
-			<table class="table table-hover" style="width: 80%; margin: 0 auto">
+			<table class="table table-hover" style="width: 80%; height:210px; margin: 0 auto">
 				<colgroup>
 					<col width="10%">
 					<col width="15%">
 					<col width="30%">
-					<col width="30%">
 					<col width="15%">
+					<col width="30%">
 				</colgroup>
 				<thead>
 					<tr>

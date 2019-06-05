@@ -122,7 +122,7 @@ function room_event(){
   </div>
   
 
-  <div id='calendar'></div>
+  <div id='calendar' style="width: 700px;"></div>
   <c:choose>
   	<c:when test="${member.table eq 'Admin'}">
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2">강의실 추가</button>
