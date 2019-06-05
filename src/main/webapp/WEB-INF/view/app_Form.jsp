@@ -80,9 +80,9 @@
 
 <body>
 	<div class="container" id="main">
-    <div class="row">
+    <div class="row" style="width: 800px; margin: 0 auto;">
       <div class="col-lg-12 text-center">
-        <h1 class="mt-5">결석 신청</h1>
+        <h4 class="mt-5">결석 신청</h4>
 		<form action="" onsubmit="apply(); return false;">
 			<input type="hidden" name="student_id" value="${member.id}">
 			<input id="coursecode" type="hidden" name="coursecode" value="">

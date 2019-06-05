@@ -121,9 +121,9 @@
 
 <!-- Page Content -->
   <div class="container" id="main">
-    <div class="row">
+    <div class="row" style="width: 900px; margin: 0 auto;">
       <div class="col-lg-12 text-center">
-        <h1 class="mt-5">결석 신청 내역</h1>
+        <h4 class="mt-5">결석 신청 내역</h4>
         <div><br>
         	<select id="select_stm" name="select_stm" onchange="stmSelect(this.value)">
         		<option value="N" selected="selected">진행중</option>
@@ -176,7 +176,7 @@
         <br>
         <div>
         	<c:if test="${member.table eq 'Student'}">
-        		<button id="toAppForm" onclick="location.href='./to_app_form.do'">결석 신청</button>
+        		<button class="btn btn-outline-primary" id="toAppForm" onclick="location.href='./to_app_form.do'">결석 신청</button>
         	</c:if>
         	<c:if test="${member.table ne 'Student'}">
         		<button class="btn btn-outline-success" onclick="chkSignature()">사인 등록</button>

@@ -45,10 +45,12 @@
 <body>
 <%@include file="./include/header.jsp" %>
 <div class="container" id="main">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h1 class="mt-5">결석 신청 상세 조회</h1>
-        <table class="table">
+    <div class="row" style="width: 700px; margin: 0 auto;">
+      <div class="col-md-12">
+        <h4 class="mt-3">결석 신청 상세 조회</h4>
+       </div>
+       <div class="col-md-12">
+        <table class="table table-bordered">
 			<tr>
 				<td>
 					<label><b>이름</b></label><br/>
@@ -57,7 +59,7 @@
 				<td>
 					<label><b>결재란</b></label><br/>
 					<c:if test="${yesMap.dto.stm eq 'Y'}">
-						<img alt="signature" src="<c:url value='/upload/signature/${yesMap.newfilename}'/>" width="200px" height="120px">
+						<img alt="signature" src="<c:url value='/upload/signature/${yesMap.newfilename}'/>" width="150px" height="100px">
 					</c:if>
 				</td>
 				<td>
@@ -88,13 +90,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3"><label><b>결석 사유</b></label><br/>
+				<td colspan="3" style="text-align: center;"><label><b>결석 사유</b></label><br/>
 					<textarea rows="4" cols="70" readonly="readonly">${yesMap.dto.reason}</textarea>
 				</td>
 			</tr>
 			<c:if test="${yesMap.dto.filename ne null}">
 				<tr>
-					<td colspan="3">
+					<td colspan="3" style="text-align: center;">
 						<label><b>첨부 파일</b></label><br/>
 						<a href="./download.do?filename=${yesMap.dto.filename}&newfilename=${yesMap.dto.newfilename}">${yesMap.dto.filename}</a>
 					</td>
@@ -102,7 +104,7 @@
 			</c:if>
 			<c:if test="${yesMap.dto.stm eq 'R'}">
 				<tr>
-					<td colspan="3"><label><b>미승인 사유</b></label><br/>
+					<td colspan="3" style="text-align: center;"><label><b>미승인 사유</b></label><br/>
 						<textarea rows="4" cols="70" readonly="readonly">${yesMap.dto.unapproved_reason}</textarea>
 					</td>	
 				</tr>
@@ -117,12 +119,8 @@
 					</td>
 				</tr>
 			</c:if>
-			<tr>
-				<td colspan="3">
-					<button class="btn btn-outline-success" onclick="location.href='./absentListForm.do'">목록으로</button>
-				</td>
-			</tr>
 		</table>
+		<button class="btn btn-outline-success" onclick="location.href='./absentListForm.do'" style="float: left; margin-top: 0px;">목록으로</button>
       </div>
     </div>
   </div>
