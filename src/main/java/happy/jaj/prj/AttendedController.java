@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
@@ -101,7 +100,7 @@ public class AttendedController {
 		System.out.println(amap);
 		logger.info("AttendedController cal_monlist 실행");
 		
-		String a_check = attended_Iservice.cal_monlist(map);
+//		String a_check = attended_Iservice.cal_monlist(map);
 //		
 		return "attended_Teacher";
 	}
@@ -178,15 +177,15 @@ public class AttendedController {
 	
 	
 //		cal_attended : 출석 및 퇴실,결석
-	@RequestMapping(value="/beacon_Attended.do", method=RequestMethod.GET)
-	public String cal_attended(HttpServletRequest req, HttpServletResponse resp, String seq, String id, String name, String a_check, String regdate) {
-		logger.info("AttendedController cal_attended 실행");
-		Attended_DTO dto = new Attended_DTO(seq, id, name, a_check, regdate);
-	
-//		boolean isc = attended_Iservice.cal_attended(dto);
-		
-		return "attended_index";
-	}
+//	@RequestMapping(value="/beacon_Attended.do", method=RequestMethod.GET)
+//	public String cal_attended(HttpServletRequest req, HttpServletResponse resp, String seq, String id, String name, String a_check, String regdate) {
+//		logger.info("AttendedController cal_attended 실행");
+//		Attended_DTO dto = new Attended_DTO(seq, id, name, a_check, regdate);
+//	
+////		boolean isc = attended_Iservice.cal_attended(dto);
+//		
+//		return "attended_index";
+//	}
 	
 	
 	
