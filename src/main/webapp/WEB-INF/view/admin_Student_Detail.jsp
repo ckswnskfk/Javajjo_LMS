@@ -14,7 +14,8 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-<div id="user-profile-2" class="user-profile">
+<div class="container">
+	<div id="user-profile-2" class="user-profile">
 		<div class="tabbable">
 			<ul class="nav nav-tabs padding-18">
 				<li class="active">
@@ -70,7 +71,8 @@
 										<div class="profile-info-name"> Birth </div>
 	
 										<div class="profile-info-value">
-											<span>${dto.birth}</span>
+											
+										<span>${dto.birth}</span>
 										</div>
 									</div>
 								
@@ -99,6 +101,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>

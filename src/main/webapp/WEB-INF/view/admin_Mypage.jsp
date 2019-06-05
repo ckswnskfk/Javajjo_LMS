@@ -9,11 +9,12 @@
 <link rel= "stylesheet" type="text/css" href="./css/info.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script type="text/javascript" src="./js/info.js"></script>
-<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<div class="container">
 <div id="user-profile-2" class="user-profile">
 		<div class="tabbable">
 			<ul class="nav nav-tabs padding-18">
@@ -89,6 +90,7 @@
 				</div><!-- /#home -->
 			</div>
 		</div>
+	</div>
 	</div>
 	<%@ include file="./include/footer.jsp" %>
 </body>

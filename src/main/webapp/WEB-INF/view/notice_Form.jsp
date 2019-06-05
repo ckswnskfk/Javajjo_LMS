@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>공지사항 게시판</h2>
 		<form action="#" method="post">
 			<input type="hidden" name="id" value="${member.id}">
@@ -40,7 +40,7 @@
 			</table>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="글 등록" onclick="notice_write()"/>
 					<input type="button" class="btn btn-default"
 					 value="취소" onclick="history.back()"/>

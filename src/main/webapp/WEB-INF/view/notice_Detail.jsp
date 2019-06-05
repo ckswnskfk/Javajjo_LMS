@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>공지사항 게시판</h2>
 			<table class="table table-hover" style="width: 80%; margin: 0 auto">
 				<tbody>
@@ -42,7 +42,7 @@
 			</table>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="글 목록" onclick="history.back()"/>
 				</div>
 			</div>

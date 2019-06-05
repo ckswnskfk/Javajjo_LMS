@@ -14,8 +14,10 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
-		<h2>자료 게시판</h2>
+	<div class="container">
+		<div>
+			<h2>자료게시판</h2>
+		</div>
 		<form action="#" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="id" value="${member.id}">
 			<table class="table table-hover" style="width: 80%; margin: 0 auto">
@@ -39,14 +41,17 @@
 					<tr>
 						<th>파일 첨부 : </th>
 						<td>
-							<input type="file" id="originalfilename" name="originalfilename">
+							<div class="filebox"> 
+								<label for="originalfilename">업로드</label> 
+								<input type="file" id="originalfilename" name="originalfilename"> 
+							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="작성 완료" onclick="file_infowriteboard()"/>
 					<input type="button" class="btn btn-default"
 					 value="취소" onclick="history.back()"/>

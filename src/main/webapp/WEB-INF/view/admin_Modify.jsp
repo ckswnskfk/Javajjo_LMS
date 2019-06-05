@@ -15,6 +15,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
+<div class="container">
 <div id="user-profile-2" class="user-profile">
 		<div class="tabbable">
 			<ul class="nav nav-tabs padding-18">
@@ -81,6 +82,7 @@
 				</div><!-- /#home -->
 			</div>
 		</div>
+	</div>
 	</div>
 	<%@ include file="./include/footer.jsp" %>
 </body>

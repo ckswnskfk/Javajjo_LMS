@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-	<div id="container">
+	<div class="container">
 		<h2>자료 게시판</h2>
 		<form action="#" method="get">
 			<table class="table table-hover" style="width: 80%; margin: 0 auto">
@@ -75,7 +75,7 @@
 		    </div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-default"
+					<input type="button" class="btn btn-info"
 					 value="글 작성" onclick="file_infowriteboardform()"/>
 				</div>
 			</div>
