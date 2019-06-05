@@ -69,20 +69,6 @@ public class SubjectController {
 		return "addSubject";
 	}
 	
-//	// 해당 과정명의 전 회차 조회
-//	@RequestMapping(value="/subject_pre_course.do", method=RequestMethod.GET)
-//	public String subject_pre_course(HttpServletRequest req) {
-//		logger.info("SubjectController subject_pre_course 실행");
-//		String coursename = req.getParameter("coursename");
-//		String coursecnt = req.getParameter("coursecnt");
-//		Course_DTO dto = new Course_DTO();
-//		dto.setCoursename(coursename);
-//		dto.setCoursecnt(coursecnt);
-//		List<Subject_DTO> list = subject_IService.subject_pre_course(dto);
-//		req.setAttribute("list", list);
-//		return "chanju_index";
-//	}
-	
 	// 과정에 과목 추가
 	@RequestMapping(value="/subject_add_course.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String subject_add_course(HttpSession session, String[] code, String[] time, String[] content, String[] startday) {
