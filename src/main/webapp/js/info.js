@@ -183,21 +183,27 @@ function admin_student_cdelete() {
 
 function admin_student_cconnect() {
 	var con = confirm("과정을 추가 하시겠습니까?");
-	if (con) {
-		var obj = document.forms[0]; //form 요소 모두 가져올 수 있음
-		if (sessionStorage.getItem("num") == null) {
-			var num = 2;
-			sessionStorage.setItem("num", num);
+	var coursecode = document.getElementById("coursecode");
+	var sele = document.getElementById("Acoursecode");
+	if(coursecode == null || sele.value != coursecode.value){
+		if (con) {
+			var obj = document.forms[0]; //form 요소 모두 가져올 수 있음
+			if (sessionStorage.getItem("num") == null) {
+				var num = 2;
+				sessionStorage.setItem("num", num);
+			} else {
+				var num = parseInt(sessionStorage.getItem("num"));
+				num += 1;
+				sessionStorage.setItem("num", num);
+			}
+			obj.action = "./admin_student_cconnect.do";
+			obj.method = "post";
+			obj.submit();
 		} else {
-			var num = parseInt(sessionStorage.getItem("num"));
-			num += 1;
-			sessionStorage.setItem("num", num);
+			alert("취소하였습니다.");
 		}
-		obj.action = "./admin_student_cconnect.do";
-		obj.method = "post";
-		obj.submit();
-	} else {
-		alert("취소하였습니다.");
+	}else{
+		alert("같은 과정을 여러번 추가할 수 없습니다.");
 	}
 }
 
