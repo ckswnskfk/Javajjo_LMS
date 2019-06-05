@@ -40,7 +40,7 @@ function descexaminsert(){
 		allot.focus();
 		return false;
 	}else{
-		alert("해당없음");
+//		alert("해당없음");
 		return true;
 	}
 
@@ -121,10 +121,10 @@ function coursecnt(){
 //	});
 //}
 function examdesclist(){
-	window.open("./test_examdesclist.do", "문제리스트", "width=400, height=300, left=100, top=50");
+	window.open("./test_examdesclist.do", "문제리스트", "width=500, height=600, left=100, top=50");
 }
 function examsellist(){
-	window.open("./test_examsellist.do", "문제리스트", "width=400, height=300, left=100, top=50");
+	window.open("./test_examsellist.do", "문제리스트", "width=500, height=600, left=100, top=50");
 }
 function coursecnt(){
 	var coursecode = window.open("./test_Course_Cnt.do", "회차선택", "width=400, height=300, left=100, top=50"); 
@@ -137,7 +137,7 @@ function selectCoursecnt(){ // 팝업에서 선택완료 클릭시
 //	alert(coursecode[coursecode.selectedIndex].value);
 
 	window.opener.getReturnValue(coursecode);
-
+	opener.location.reload();
 //	window.close();
 //	alert(chk);
 	
@@ -174,6 +174,7 @@ function getReturnValue(coursecode){
 //                html += '</tr>';
 //			document.getElementById("append").innerHTML = "";
 			
+			window.close();
 		}
 	});
 }
@@ -248,7 +249,7 @@ function testExaminsert(){
 
 
 function testback(){
-	alert("뒤로가기 버튼");
+//	alert("뒤로가기 버튼");
 	window.history.back();
 }
 

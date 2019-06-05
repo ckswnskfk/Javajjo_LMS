@@ -69,7 +69,7 @@ public interface Test_IService {
 		//과목의 과목유형과 과제유형이 동일한 과제 조회
 		public Subject_Test_DTO se_select(Map<String, String> map);
 		//과목에 해당하는 과제 조회
-		public Subject_Test_DTO se_testselect(String seq);
+		public Subject_Test_DTO se_testselect(Map<String, String> map);
 		
 		
 		//문제 등록(서술형)
@@ -112,7 +112,7 @@ public interface Test_IService {
 		//과제에 해당하는 문제리시트 조회(서술형)
 		public List<Test_Exam_DTO> te_selectlist(String seq);
 		//과제에 해당하는 문제리시트 조회(선택형)
-		public List<Test_Exam_DTO> te_testselectlist(String seq);
+		public List<Test_Exam_DTO> te_testselectlist(Map<String, String> map);
 		
 		//학생 서술형 답안 등록
 		public boolean answerd_insert(Answer_Des_DTO dto);

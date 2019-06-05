@@ -7,9 +7,18 @@ public class Subject_Test_DTO {
 	private String testcode;
 	private String testname;
 	private String testday;
+	private String coursecode;
 	
 	
 	
+	public String getCoursecode() {
+		return coursecode;
+	}
+
+	public void setCoursecode(String coursecode) {
+		this.coursecode = coursecode;
+	}
+
 	public Subject_Test_DTO(String subjectcode, String subjectname, String testcode, String testname, String testday) {
 		super();
 		this.subjectcode = subjectcode;
@@ -81,9 +90,22 @@ public class Subject_Test_DTO {
 
 	@Override
 	public String toString() {
-		return "Subject_Test_DTO [subjectcode=" + subjectcode + ", testcode=" + testcode + ", testname=" + testname
-				+ ", testday=" + testday + "]";
+		return "Subject_Test_DTO [subjectcode=" + subjectcode + ", subjectname=" + subjectname + ", testcode="
+				+ testcode + ", testname=" + testname + ", testday=" + testday + ", coursecode=" + coursecode + "]";
 	}
+
+	public Subject_Test_DTO(String subjectcode, String subjectname, String testcode, String testname, String testday,
+			String coursecode) {
+		super();
+		this.subjectcode = subjectcode;
+		this.subjectname = subjectname;
+		this.testcode = testcode;
+		this.testname = testname;
+		this.testday = testday;
+		this.coursecode = coursecode;
+	}
+
+	
 
 	
 	

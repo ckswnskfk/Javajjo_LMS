@@ -11,16 +11,23 @@
 <title>과제 등록</title>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="./js/test.js"></script>
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+ #test_back{
+ 	float: right;
+ }
+</style>
 </head>
 <%
 	List<Course_DTO> list = (List<Course_DTO>)request.getAttribute("list");
 %>
 <body>
 
-
-<h1>회차</h1>
+<div style="margin-bottom: 20px; margin-top: 20px;">
+	<h4>&nbsp;&nbsp;&nbsp;&nbsp;▶ 회차를 선택하세요.</h4>
+</div>
  <form action="./test_CouresSel.do" method="post" onsubmit="return selectCoursecnt()"> 
- 	<table> 
+ 	<table class="table"> 
  		<tr> 
  			<td>과정명</td> 
  			<td>${testsession.coursename}</td> 
@@ -41,8 +48,8 @@
  			</td> 
  		</tr> 
  		<tr> 
- 			<td><input type="submit" value="선택완료"></td> 
- 			<td><input type="button" value="취소" onclick="javascript:window.close()"> 
+ 			<td><input type="submit" value="선택완료" class="btn btn-primary active"></td> 
+ 			<td><input type="button" value="취소" onclick="javascript:window.close()" class="btn btn-primary disabled"  id="test_back"> 
  		</tr> 
  	</table> 
  </form> 

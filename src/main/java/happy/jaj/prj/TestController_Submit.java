@@ -102,7 +102,10 @@ public class TestController_Submit {
 		testsession.setSubjecttype(dto.getSubjecttype());
 		testsession.setExamtype(dto.getExamtype());
 		
-		Subject_Test_DTO STdto = iService.se_testselect(dto.getSubjectcode());
+		Map<String, String> map = new HashMap<>();
+		map.put("subjectcode", dto.getSubjectcode());
+		map.put("coursecode", testsession.getCoursecode());
+		Subject_Test_DTO STdto = iService.se_testselect(map);
 		model.addAttribute("dto", STdto);
 		System.out.println("TSdto");
 		
@@ -576,8 +579,10 @@ public class TestController_Submit {
 			testsession.setExamtype(dto.getExamtype());	
 		}
 		
-		
-		Subject_Test_DTO test = iService.se_testselect(testsession.getSubjectcode());
+		Map<String, String> map = new HashMap<>();
+		map.put("subject", testsession.getSubjectcode());
+		map.put("coursecode", testsession.getCoursecode());
+		Subject_Test_DTO test = iService.se_testselect(map);
 		
 		testsession.setTestname(test.getTestname());
 		testsession.setTestday(test.getTestday());
@@ -587,10 +592,10 @@ public class TestController_Submit {
 		int[] intlist = new int[list.size()];
 		int i = 0;
 		for(Student_DTO stu : list) {
-			Map<String, String> map = new HashMap<>();
-			map.put("id", stu.getId());
-			map.put("testcode", testsession.getTestcode());
-			int cnt = iService.score_allcheck(map);
+			Map<String, String> map1 = new HashMap<>();
+			map1.put("id", stu.getId());
+			map1.put("testcode", testsession.getTestcode());
+			int cnt = iService.score_allcheck(map1);
 			intlist[i++] = cnt;
 			System.out.println(cnt);
 		}
@@ -768,8 +773,10 @@ public class TestController_Submit {
 			boolean isc = iService.answers_insert(pageanswer);
 			System.out.println("서술형 문제 답안 등록 성공 ? "+isc);
 		}
-		
-		List<Test_Exam_DTO> list = iService.te_testselectlist(testsession.getTestcode());
+		Map<String, String> map = new HashMap<>();
+		map.put("testcode", testsession.getTestcode());
+		map.put("coursecode", testsession.getCoursecode());
+		List<Test_Exam_DTO> list = iService.te_testselectlist(map);
 		for(int i=0; i< list.size();i++) {
 			Score_DTO dto = new Score_DTO(id, "", testsession.getTestcode(), list.get(i).getExamcode(), 0);
 			boolean isc = iService.score_inserts(dto);
@@ -875,7 +882,10 @@ public class TestController_Submit {
 		testsession.setSubjecttype(dto.getSubjecttype());
 		testsession.setExamtype(dto.getExamtype());
 		
-		Subject_Test_DTO STdto = iService.se_testselect(dto.getSubjectcode());
+		Map<String, String> map = new HashMap<>();
+		map.put("subjectcode", dto.getSubjectcode());
+		map.put("coursecode", testsession.getCoursecode());
+		Subject_Test_DTO STdto = iService.se_testselect(map);
 		model.addAttribute("dto", STdto);
 		System.out.println("TSdto");
 		
@@ -901,7 +911,10 @@ public class TestController_Submit {
 		testsession.setSubjecttype(dto.getSubjecttype());
 		testsession.setExamtype(dto.getExamtype());
 		
-		Subject_Test_DTO STdto = iService.se_testselect(dto.getSubjectcode());
+		Map<String, String> map = new HashMap<>();
+		map.put("subject", dto.getSubjectcode());
+		map.put("coursecode", testsession.getCoursecode());
+		Subject_Test_DTO STdto = iService.se_testselect(map);
 		model.addAttribute("dto", STdto);
 		System.out.println("TSdto");
 		

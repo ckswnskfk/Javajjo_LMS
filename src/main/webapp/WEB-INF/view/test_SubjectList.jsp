@@ -40,6 +40,15 @@
 		<h3>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h3>
 	</div>
 	<table class="table">
+	<%
+	if(list.size()==0){
+		%>
+		<tr>
+			<td>등록된 과목이 없습니다.</td>
+		</tr>
+		<% 
+	}else{
+	%>
 	<thead>
 		<tr>
 			<td>과목명</td>
@@ -52,14 +61,20 @@
 		for(Subject_DTO dto: list){
 			%>
 			<tr>
-				<td><a href="./test_Input.do?subjectcode=<%=dto.getsubjectcode()%>&subjecttype=<%=dto.getsubjecttype()%>&examtype=<%=dto.getexamtype()%>&subjectname=<%=dto.getsubjectname()%>"><%=dto.getsubjectname() %></a></td>
+				<td><a id="test_line" href="./test_Input.do?subjectcode=<%=dto.getsubjectcode()%>&subjecttype=<%=dto.getsubjecttype()%>&examtype=<%=dto.getexamtype()%>&subjectname=<%=dto.getsubjectname()%>"><%=dto.getsubjectname() %></a></td>
+				<label for="test_line">
 				<td><%=dto.getsubjecttype() %></td>
 				<td><%=dto.getexamtype() %></td>
+				</label>
 			</tr>
 			<% 
 		}
 		%>
 	</tbody>
+	<%
+	}
+	%>
+	
 	</table>
 	<div>
 		<input id="test_back" type="button" value="뒤로가기" class="btn btn-default" onclick="testback()">

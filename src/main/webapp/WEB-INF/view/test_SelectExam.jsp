@@ -22,7 +22,7 @@
 		var td1 = document.createElement("td"); 
 		td1.innerHTML = "<input type='hidden' value='"+trLen+"' name='contentnum'>"+trLen;
 		var td2 = document.createElement("td"); 
-		td2.innerHTML = "<input type='text' name='examcontent'>";
+		td2.innerHTML = "<div class='form-group'><input type='text' class='form-control' id='usr' name='examcontent'></div>";
 		tr.appendChild(td1);
 		tr.appendChild(td2);
 		
@@ -40,48 +40,95 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
-	<h1>과제등록</h1>
+<div class="container">
+	<h3 style="margin-top: 20px; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;▶ 선택형 문제 등록</h3>
 	<form action="./sel_ExamInput.do" method="post" onsubmit="return selexaminsert()">
-		<table>
+		<table  class="table">
 			<tr>
 				<td>문제번호</td>
-				<td><input name="examnum" readonly="readonly" value="${examnum}"></td>
+				<td>
+<%-- 					<input name="examnum" readonly="readonly" value="${examnum}"> --%>
+					<div class="form-group">
+						<input type="text" class="form-control" id="usr"  name="examnum"  readonly="readonly" value="${examnum}">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td>문제</td>
-				<td><textarea  rows="5" cols="30" name="exam" placeholder="문제를 입력해주세요."></textarea></td>
+				<td>
+<!-- 					<textarea  rows="5" cols="30" name="exam" placeholder="문제를 입력해주세요."></textarea> -->
+					<div class="form-group">
+	  					<textarea class="form-control" rows="2" id="comment" cols="30" name="exam"  placeholder="문제를 입력해주세요."></textarea>
+					</div>
+				</td>
 			</tr>
 		<tbody id="contentarea">
 			<tr>
 				<td><input type="hidden" value="1" name="contentnum">①</td>
-				<td><input type="text" name="examcontent"></td>
+				<td>
+<!-- 					<input type="text" name="examcontent"> -->
+					<div class="form-group">
+						<input type="text" class="form-control" id="usr"  name="examcontent">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td><input type="hidden" value="2" name="contentnum">②</td>
-				<td><input type="text" name="examcontent"></td>
+				<td>
+<!-- 					<input type="text" name="examcontent"> -->
+					<div class="form-group">
+						<input type="text" class="form-control" id="usr"  name="examcontent">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td><input type="hidden" value="3" name="contentnum">③</td>
-				<td><input type="text" name="examcontent"></td>
+				<td>
+<!-- 					<input type="text" name="examcontent"> -->
+					<div class="form-group">
+						<input type="text" class="form-control" id="usr"  name="examcontent">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td><input type="hidden" value="4" name="contentnum">④</td>
-				<td><input type="text" name="examcontent"></td>
+				<td>
+<!-- 					<input type="text" name="examcontent"> -->
+					<div class="form-group">
+						<input type="text" class="form-control" id="usr"  name="examcontent">
+					</div>
+				</td>
 			</tr>
 		</tbody>
+		<tr>
+			<td colspan="2" style="text-align: center">
+				<input type="button" value="+ 문항추가" onclick="pluscontent()" class="btn btn-success" style="margin-right: 20px;"><input type="button" value="- 문항삭제" onclick="delcontent()" class="btn btn-success">
+			</td>
+		</tr>
+		
 			<tr>
 				<td>정답</td>
-				<td><input type="text" name="c_answer" placeholder="정답을 입력해주세요."></textarea></td>
+				<td>
+<!-- 					<input type="text" name="c_answer" placeholder="정답을 입력해주세요."> -->
+					<div class="form-group">
+						<input type="text" class="form-control" id="usr"  name="c_answer"  placeholder="정답을 입력해주세요.">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td>배점</td>
-				<td><input type="text" name="allot" placeholder="배점을 입력해주세요."></td>
+				<td>
+<!-- 					<input type="text" name="allot" placeholder="배점을 입력해주세요."> -->
+					<div class="form-group">
+						<input type="text" class="form-control" id="usr"  name="allot" placeholder="배점을 입력해주세요.">
+					</div>
+				</td>
 			</tr>
 		</table>
-		<input type="button" value="+ 문항추가" onclick="pluscontent()"><input type="button" value="- 문항삭제" onclick="delcontent()"><br>
-		<input type="submit" value="문제등록">
-		<input type="button" value="취소" onclick="testback()">
+		<input type="submit" value="문제등록" class="btn btn-primary active">
+		<input type="button" value="취소" onclick="testback()"  class="btn btn-primary disabled" style="float: right">
 	</form>
+</div>
 <%@include file="./include/footer.jsp" %>
 
 </body>

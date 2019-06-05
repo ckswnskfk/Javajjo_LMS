@@ -44,10 +44,12 @@
 	}
 
 	function testForm() {
+		
 		location.href = "./division.do";
 	}
 </script>
 <body>
+
 <%@include file="./include/header.jsp" %>
 <div class="container">
 
@@ -88,12 +90,13 @@
 		<div class="test_session">
 			<h4>과제명 :${testsession.testname }</h4>
 			<h4>과제 날짜 : ${testsession.testday}</h4>
-		</div>
 			<input type="button" class="btn btn-success" value="다음" onclick="testForm()">
+		</div>
 			<% 
 		}
 		%>
-		
+			<input type="button" class="btn btn-success" value="뒤로가기" onclick="testForm()">
+	</div>	
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>
