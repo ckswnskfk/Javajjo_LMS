@@ -27,13 +27,17 @@
 					<tr>
 						<th>Title</th>
 						<td>
-							<input type="text" name="title" placeholder="${dto.title}">
+							<div class="form-group">
+								<input type="text" class="form-control" name="title" placeholder="${dto.title}">
+							</div>
 						</td>
 					</tr>
 					<tr>
 						<th>Content</th>
 						<td>
-							<textarea rows="20" cols="100" name="content" placeholder="${dto.content}"></textarea>
+							<div class="form-group">
+								<textarea rows="20" cols="100" class="form-control" name="content" placeholder="${dto.content}"></textarea>
+							</div>
 						</td>
 					</tr>
 					<tr>

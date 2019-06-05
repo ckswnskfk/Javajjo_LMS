@@ -27,13 +27,17 @@
 					<tr>
 						<th>Title</th>
 						<td>
-							<input type="text" name="title" placeholder="제목을 입력해 주세요">
+							<div class="form-group">
+								<input type="text" class="form-control" name="title" placeholder="제목을 입력해 주세요">
+							</div>
 						</td>
 					</tr>
 					<tr>
 						<th>Content</th>
 						<td>
-							<textarea rows="20" cols="100" name="content"></textarea>
+							<div class="form-group">
+							<textarea rows="20" class="form-control" cols="100" name="content"></textarea>
+							</div>
 						</td>
 					</tr>
 				</tbody>
