@@ -13,7 +13,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@include file="./include/header.jsp" %>
+<%@include file="./include/header2.jsp" %>
 <form action="#" method="post" id="formgo" onsubmit="return check()" >
 <b style="color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---in Course---</b>
 <table>
@@ -178,14 +178,6 @@ function subadd(){
 	}
 	
 function check(){
-// 	var chks=document.querySelector('input:checkbox[name="seq"]:checked').value;
-	
-// 	if(chks==""){
-// 		alert("하나이상 체크해주십시오.");
-// 	}else{
-// 		var doc=document.getElementById("formgo");
-// 		doc.action="./cosubDel.do"
-// 	}
 	var items=[];
 	$('input:checkbox[name="seq"]:checked').each(function(){
 		items.push($(this).val());
