@@ -59,9 +59,9 @@ public class Test_Dao implements Test_Interface {
 	}
 
 	@Override
-	public Subject_Test_DTO se_testselect(String seq) {
-		logger.info("Test_Dao se_testselect {}",seq);
-		return (Subject_Test_DTO)sqlSession.selectOne(NS+"se_testselect", seq);
+	public Subject_Test_DTO se_testselect(Map<String, String> map) {
+		logger.info("Test_Dao se_testselect {}",map);
+		return (Subject_Test_DTO)sqlSession.selectOne(NS+"se_testselect", map);
 	}
 
 	@Override
@@ -132,9 +132,9 @@ public class Test_Dao implements Test_Interface {
 	}
 	
 	@Override
-	public List<Test_Exam_DTO> te_testselectlist(String seq){
-		logger.info("Test_Dao te_testselectlist {}",seq);
-		return sqlSession.selectList(NS+"te_testselectlist",seq);
+	public List<Test_Exam_DTO> te_testselectlist(Map<String, String> map){
+		logger.info("Test_Dao te_testselectlist {}",map);
+		return sqlSession.selectList(NS+"te_testselectlist",map);
 	}
 
 	@Override

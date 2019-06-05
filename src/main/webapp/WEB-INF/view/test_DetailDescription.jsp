@@ -23,7 +23,7 @@
 	int maxexam=(int)request.getAttribute("maxexamnum");
 %>
 <form action="#" method="post" enctype="multipart/form-data">
-	<table>
+	<table class="table">
 		<tr>
 			<td></td>
 			<td>

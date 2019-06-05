@@ -9,6 +9,14 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<style type="text/css">
+	.test_session{
+	border: 1px solid black;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+</style>
 <script type="text/javascript">
 	function moveupdate(){
 		location.href= "./division.do";
@@ -20,17 +28,19 @@
 	List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)request.getAttribute("dto");
 %>
 <%@include file="./include/header.jsp" %>
-	<h1>과제 등록</h1>
-		<h4>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h4>
-		<h4>과목명 : ${testsession.subjectname}</h4>
-		<hr>
-		<h4>과목유형 : ${testsession.subjecttype}</h4>
-		<h4>과제유형 : ${testsession.examtype}</h4>
-		<hr>
-		<h4>과제명 : ${testsession.testname}</h4>
-		<h4>과제 날짜 : ${testsession.testday}</h4>
-		<hr>
-	<table>
+<div class="container">
+	<div class="test_session">
+		<h2>과제 등록</h2>
+			<h4>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h4>
+			<h4>과목명 : ${testsession.subjectname}</h4>
+			<hr>
+			<h4>과목유형 : ${testsession.subjecttype}</h4>
+			<h4>과제유형 : ${testsession.examtype}</h4>
+			<hr>
+			<h4>과제명 : ${testsession.testname}</h4>
+			<h4>과제 날짜 : ${testsession.testday}</h4>
+	</div>
+	<table class="table">
 		<tr>
 			<td>No.</td>
 			<td>문제</td>
@@ -49,9 +59,10 @@
 			}
 			%>	
 		<tr>
-			<td colspan="3"><input type="button" value="수정" onclick="moveupdate()"></td>
+			<td colspan="3"><input type="button" value="수정" onclick="moveupdate()"  class="btn btn-primary active"></td>
 		</tr>	
 	</table>
+</div>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

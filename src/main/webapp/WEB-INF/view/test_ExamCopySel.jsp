@@ -18,7 +18,7 @@
 	List<Exam_Sel_DTO> list = (List<Exam_Sel_DTO>) request.getAttribute("list");
 %>
 <body>
-	<%=examcode%>
+<%-- 	<%=examcode%> --%>
 	<form action="./test_typecopyexam.do" method="post" name="testForm"
 		onsubmit="return test()">
 		<table>
@@ -35,7 +35,7 @@
 				<td><input type="hidden" value="${testsession.testcode}"	name="testcode">
 				    <input type="hidden"value='<%=dto.getExamcode()%>' name="examcode">
 					 <input	type="hidden" value='<%=examnum%>' name="examnum"><%=examnum++%></td>
-				<td><input type="text" value='<%=dto.getExam()%>'	name="exam"><%=dto.getExam()%></td>
+				<td><input type="hidden" value='<%=dto.getExam()%>'	name="exam"><%=dto.getExam()%></td>
 				<td><input type="text" id="allot" name="allot"></td>
 			</tr>
 			<%
