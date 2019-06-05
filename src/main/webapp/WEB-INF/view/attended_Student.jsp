@@ -8,6 +8,46 @@
 <head>
 <meta charset="UTF-8">
 <title>학생 출석 상세조회</title>
+
+
+<style>
+
+
+body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+
+	table {
+		text-align: center;
+		max-width: 1000px;
+		margin: 0 auto;
+		
+	}
+
+td {
+		border: 1px solid blue;
+		border-collapse: collapse;
+	}
+
+#attended_Student{
+		margin: auto;
+		display: inline;
+		 border: 1px solid blue;
+		border-collapse: collapse;
+
+}
+
+</style>
+
+
+
+
+
+
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
@@ -27,7 +67,9 @@
 	</table>
 	</form>
 </div>
-<%-- <p>${lists.a_check}</p> --%>
+			<div>
+				<input class="btn btn-sm btn-primary btn-center" type="button" value="돌아가기" onclick="history.back(-1)">
+			</div>
 
 
 <%@include file="./include/footer.jsp" %>

@@ -60,6 +60,30 @@ public class AttendedController {
 	}
 	
 	
+//	  cal_stucos : 학생 과정 조회 (완)	
+	@RequestMapping(value="/attended_Student_Course.do", method=RequestMethod.GET)	
+	public String cal_stucos(Model model, String id) {	
+		logger.info("AttendedController cal_stucos 실행");	
+		List<Course_DTO> clists = attended_Iservice.cal_stucos(id);	
+		model.addAttribute("clists", clists);	
+		logger.info("결과 값 : {}",clists);	
+		return "attended_Student_Course";	
+
+	}
+	
+	
+//	cal_stuatt : 학생 출결 조회(완)	
+	@RequestMapping(value="/attended_Student.do", method=RequestMethod.GET)	
+	public String cal_stuatt(Model model, String id) {	
+		logger.info("AttendedController cal_stuatt 실행");	
+		List<Attended_DTO> alists = attended_Iservice.cal_stuatt(id);	
+		System.out.println(alists + "------------------");	
+		model.addAttribute("alists" , alists);	
+		return "attended_Student";	
+	}
+	
+	
+	
 //	cal_cosview : 강사 과정 조회  (완)
 	@RequestMapping(value="/attended_Teacher_Course.do", method=RequestMethod.GET)
 	public String cal_cosview(Model model , String id) {

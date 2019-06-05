@@ -12,12 +12,46 @@
 <head>
 <meta charset="UTF-8">
 <title>출결 상세</title>
+
+<style>
+
+	 body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+
+		table {
+		text-align: center;
+		max-width: 1000px;
+		margin: 0 auto;
+		
+	}
+
+
+
+	#attended_Detail{
+		margin: auto;
+	
+	}
+	
+	
+	
+	table, td{
+	text-align: center;
+	border-collapse: collapse;
+	}
+
+</style>
+
 </head>
 <body>
 
 
 
-<div>
+<div id= "detail">
 	<form action="#" method="get" id="attended_Detail">
 	<table class="table table-bordered">
 		<tr>
@@ -52,6 +86,7 @@
 	
 	</table>
 	</form>
+
 
 </div>
 </body>
