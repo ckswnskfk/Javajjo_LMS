@@ -9,8 +9,49 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+
+body {
+	 margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+
+	table,td {
+		text-align: center;
+		max-width: 1000px;
+		margin: 0 auto;
+			border: 1px solid blue;
+		border-collapse: collapse;
+	}
+	
+	
+	
+	
+	#rollbookform{
+		margin: auto;
+		display: inline;
+		 border: 1px solid blue;
+		border-collapse: collapse;
+		
+	}
+
+	#back{
+		margin-top: 15px;
+		margin-left: 250px;
+		
+	}
+</style>
+
 <title>출석부 조회</title>
+
 </head>
+
+
+
+
 
 <%
 	String chrome = (String)request.getAttribute("Chrome");
@@ -28,23 +69,6 @@
 
 <body>
 	<%@include file="./include/header.jsp"%>
-
-<link rel='stylesheet' type='text/css' href='./dist/tui-chart.css'/>
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-<!-- js -->
-
-<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/core.js'></script>
-<script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
-<script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
-<script src='./dist/tui-chart.js'></script>
-
-
 
 
 <script type="text/javascript">
@@ -160,10 +184,12 @@
 
 
 </script>
+			<div id="back">
+				<input class="btn btn-sm btn-primary btn-center" type="button" value="돌아가기" onclick="history.back(-1)">
+			</div>
 
-
-	<div>
-		<form action="#" method="get" id="rollbook">
+	<div id="rollbook">
+		<form action="#" method="get" id="rollbookform">
 			<table class="table table-bordered">
 				<tr>
 					<th>아이디</th>
@@ -187,7 +213,7 @@
 						
 						<c:choose>
 							<c:when test="${AttendedDTO.regdate eq null}">
-								<td><input type="button"  value="결석문자발송" onclick="sms('${AttendedDTO.id}','${regdate}')"></td>
+								<td><input class="btn btn-sm btn-primary"  value="결석문자발송" onclick="sms('${AttendedDTO.id}','${regdate}')"></td>
 							</c:when>
 							<c:otherwise>
 								<td>${AttendedDTO.regdate}</td>
@@ -207,7 +233,7 @@
 		}
 	</script>
 
-
+		
 
 
 	<%@include file="./include/footer.jsp"%>

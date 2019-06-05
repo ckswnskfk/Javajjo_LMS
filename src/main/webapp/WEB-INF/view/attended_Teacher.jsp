@@ -21,16 +21,38 @@
 <head>
 <meta charset="UTF-8">
     
-  <%	
- 	List<Attended_DTO> lists = (List<Attended_DTO>)request.getAttribute("lists");
-%>    
 
+<style>
+	body {
+	margin: 40px 10px;
+	padding: 0;
+	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 18px;
+	
 
+	}
+	
+	#calendar{
+		height: 689px;
+		max-width: 1000px;
+		margin: 0 auto;
+		border: 3px solid #827FFE;
+		border-collapse: collapse;
+	}
+		
+	
+	#menu{
+	
+		display: inline;
+		margin-left: 250px;
+	}
+	
+	
+</style>
 
-
-
-  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
 
 
@@ -42,27 +64,27 @@
 <body>
 
 
- <%@include file="./include/header.jsp" %>
+<%@include file="./include/header.jsp" %>
  
- <script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+<script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
 <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
-
-
-
- 
-	<h1>과정명 : ${cdto.coursename}</h1>	
-	
+<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/core.js'></script>
+<script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
+<script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+				
 	<div id="menu">
-		  <p id="now"></p>		  
-	      <button id="prev">◀</button>
-	      <button id="next">▶</button>      
+	 <h1>과정명 : ${cdto.coursename}</h1>
+	<p id="now"></p> 
+	      <button id="prev">◀</button><button id="next">▶</button>  
+	      <input class="btn btn-sm btn-primary btn-center" type="button" value="돌아가기" onclick="history.back(-1)">  
 	    </div>
 	    
-	<div id="calendar" style="height: 800px;" style="weight: 800px;"></div>	
+	<div id="calendar" style="height:600px;" >	
 	
 		<script type="text/javascript">
 	
@@ -170,45 +192,14 @@
 	 	});
 		 
 	</script>
-
-
-<script type="text/javascript">
 	
 	
-
-</script>
-<div>
-
-<div>
-		
-
+	
+	
 </div>
 
-	
 
 
-		<form action="#" method="get" id="rollbook">
-			<table>
-				<tr>
-					<th>아이디</th>
-					<th>이름</th>
-					<th>출결</th>
-					<th>시간</th>
-
-					<!-- 		<th>문자발송</th> -->
-				</tr>
-				<c:forEach var="AttendedDTO" items="${list}">
-					<tr>
-						<td><a href="./attended_Detail.do?id=${member.id}">${member.id}</a></td>
-						<td>${AttendedDTO.name}</td>
-						<td>${AttendedDTO.regdate}</td>
-						<td>${AttendedDTO.a_check}</td>
-						<td>${AttendedDTO.seq}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</form>
-	</div>
 
 
 
