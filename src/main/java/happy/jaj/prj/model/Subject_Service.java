@@ -95,5 +95,26 @@ public class Subject_Service implements Subject_IService {
 		logger.info("Subject_Service copySelectCnt 실행");
 		return subject_Interface.copySelectCnt(coursename);
 	}
+	@Override
+	public List<Subject_DTO> cntsel(Course_DTO dto) {
+		logger.info("Subject_Service copySelectCnt 실행");
+		return subject_Interface.cntsel(dto);
+	}
+	
+	@Override
+	public Subject_DTO timeset(String seq) {
+		logger.info("Subject_Service timeset 실행");
+		return subject_Interface.timeset(seq);
+	}
+	
+	@Override
+	public int endset(List<Subject_DTO> dto) {
+		logger.info("Course_Service codeDel 실행");
+		int cnt=0;
+		for (int i = 0; i < dto.size(); i++) {
+			cnt += subject_Interface.endset(dto.get(i));
+		}
+		return cnt;
+	}
 	
 }

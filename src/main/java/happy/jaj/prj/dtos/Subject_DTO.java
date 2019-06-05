@@ -11,9 +11,37 @@ public class Subject_DTO {
 	private String typecode;
 	private String seq;
 	private String subjecttime;
+	private String coursename;
+	private String coursecnt;
+	private String content;
+	private String startdate;
 	
 	
+	public String getStartdate() {
+		return startdate;
+	}
+
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public Subject_DTO() {
+	}
+
+	
+	public Subject_DTO(String coursecode, String seq, String startdate) {
+		super();
+		this.coursecode = coursecode;
+		this.seq = seq;
+		this.startdate = startdate;
 	}
 
 	public Subject_DTO(String subjectcode, String subjectname, String subjecttype, String examtype, String time) {
@@ -53,6 +81,23 @@ public class Subject_DTO {
 	}
 
 	
+
+	public String getCoursename() {
+		return coursename;
+	}
+
+	public void setCoursename(String coursename) {
+		this.coursename = coursename;
+	}
+
+	public String getCoursecnt() {
+		return coursecnt;
+	}
+
+	public void setCoursecnt(String coursecnt) {
+		this.coursecnt = coursecnt;
+	}
+
 	public String getSubjecttime() {
 		return subjecttime;
 	}

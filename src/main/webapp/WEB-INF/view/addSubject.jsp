@@ -13,7 +13,7 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
-<form action="./cosubDel.do" method="post">
+<form action="#" method="post" id="formgo" onsubmit="return check()" >
 <b style="color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---in Course---</b>
 <table>
 	<tr>
@@ -69,10 +69,10 @@
 </form>
 <input type="button" value="과목 등록" onclick="momo()">
 
-<%-- <c:if test="${lists[0] eq null}"> --%>
+<c:if test="${lists[0] eq null}">
 
-<%-- <input type="button" value="복사하기" onclick="location.href='./copySelect.do?coursename=${coursename}'"> --%>
-<%-- </c:if> --%>
+<input type="button" value="복사하기" onclick="location.href='./copySelect.do?coursename=${coursename}'">
+</c:if>
 
 
 <div id="myModal1" class="modal fade" role="dialog">
@@ -155,20 +155,43 @@ function subadd(){
 	});
 	var sosotest = soso.join();
 		var count = 0;
-		for (var i = 0; i < soso.length; i++) {
+		for (var i = 0; i < items.length; i++) {
 			if (sosotest.indexOf(items[i]) > -1) {
 				count++;
 			}
 		}
 		if (count >= 1) {
 			alert("이미 존재하는 과목이 있습니다.");
-		}else if(soso.lengt==null){
+		}else if(items==""){
 			alert("하나이상의 과목을 선택해주십시오.");
 		}
 		else {
 			location.href = "./submit.do?subjectcode=" + items;
 		}
 	}
+	
+function check(){
+// 	var chks=document.querySelector('input:checkbox[name="seq"]:checked').value;
+	
+// 	if(chks==""){
+// 		alert("하나이상 체크해주십시오.");
+// 	}else{
+// 		var doc=document.getElementById("formgo");
+// 		doc.action="./cosubDel.do"
+// 	}
+	var items=[];
+	$('input:checkbox[name="seq"]:checked').each(function(){
+		items.push($(this).val());
+	});
+	if(items==""){
+		alert("하나이상 선택해주십시오.");
+		return false;
+	}else{
+		var doc=document.getElementById("formgo");
+		doc.action="./cosubDel.do"
+		return true;
+	}
+}
 </script>
 </body>
 </html>
