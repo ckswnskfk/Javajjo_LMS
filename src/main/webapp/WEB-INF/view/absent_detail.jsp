@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>신청 내역 상세 조회 페이지</title>
+<link rel= "stylesheet" type="text/css" href="./css/main.css">
 <!-- <link href="./css/bootstrap.min.css" rel="stylesheet"> -->
 <!-- <link rel= "stylesheet" type="text/css" href="./css/main.css"> -->
 
@@ -15,16 +16,26 @@
 <script type="text/javascript">
 	function unapprove() {
 		var unapprove_reason = "<tr>"
-							+ "<td colspan='3'>"
-							+ "<form action='./insert_unapprove_reason.do' method='post'>"
+							+ "<td colspan='4'>"
+							+ "<b>미승인 사유</b>"
+							+ "<form action='./insert_unapprove_reason.do' method='post' onsubmit='return chkReason();'>"
 							+ "<input type='hidden' name='stm' value='R'>"
 							+ "<input type='hidden' name='seq' value='"+${yesMap.dto.form_seq}+"'>"
-							+ "<textarea name='unapproved_reason' rows='4' cols='70'></textarea>"
+							+ "<textarea id='unapproved_reason' name='unapproved_reason' rows='4' cols='70'></textarea>"
 							+ "<input type='submit'>"
 							+ "</form>"
 							+ "</td>"
 							+ "</tr>";
 		$("tr:last").html(unapprove_reason);
+	}
+	
+	function chkReason() {
+		if ($("#unapproved_reason").val() == "") {
+			alert("미승인 사유를 입력해주세요");
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	function signatureImgChk() {
@@ -42,8 +53,8 @@
 		});
 	}
 </script>
-<body>
 <%@include file="./include/header.jsp" %>
+<body style="position: relative;">
 <div class="container" id="main">
     <div class="row" style="width: 700px; margin: 0 auto;">
       <div class="col-md-12">
@@ -111,10 +122,10 @@
 			</c:if>
 			<c:if test="${yesMap.dto.stm eq 'N' and member.table ne 'Student'}">
 				<tr>
-					<td colspan="3">
+					<td colspan="2">
 						<button class="btn btn-primary" onclick="signatureImgChk()">승인</button>
 					</td>
-					<td colspan="3">
+					<td colspan="1" style="border-left: 1px solid white;">
 						<button class="btn btn-danger" onclick="unapprove()">미승인</button>
 					</td>
 				</tr>
@@ -124,6 +135,6 @@
       </div>
     </div>
   </div>
-<%@include file="./include/footer.jsp" %>
 </body>
+<%@include file="./include/footer.jsp" %>
 </html>
