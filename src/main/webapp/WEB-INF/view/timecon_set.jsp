@@ -9,12 +9,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
+<style type="text/css">
+table {
+	margin: auto;
+		margin-top: 5px;
+}
+</style>
 </head>
 <body>
 <%@include file="./include/header2.jsp" %>
 
 <form action="#" method="post" id="formgo" name="formgo" onsubmit="return chk()">
-<table>
+<table border="1">
 	<tr>
 		<th>과목명</th>
 		<th>시간</th>

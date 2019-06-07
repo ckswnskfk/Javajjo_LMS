@@ -20,7 +20,7 @@
 
 	<input type="hidden" id="coname" value="${cnt[0].coursename}">
 	
-	<table>
+	<table border="1">
 	<tr>
 		<th>과목명</th>
 		<th>수업시간</th>

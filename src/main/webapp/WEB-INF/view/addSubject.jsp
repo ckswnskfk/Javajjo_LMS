@@ -11,12 +11,18 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style type="text/css">
+table {
+	margin: auto;
+		margin-top: 5px;
+}
+</style>
 </head>
 <body>
 <%@include file="./include/header2.jsp" %>
 <form action="#" method="post" id="formgo" onsubmit="return check()" >
-<b style="color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---in Course---</b>
-<table>
+<div style="text-align: center; color: red; font-weight: bolder;"> ---in Course---</div>
+<table border="1">
 	<tr>
 		<th>과목이름</th>
 		<th>과목타입</th>
@@ -30,32 +36,30 @@
 				<input type="checkbox" name="seq" value="${dto.seq}">${dto.subjectname}
 			</td>
 			<td>${dto.subjecttype}</td>
-
 			<td>${dto.subjecttime}</td>
-			
 			<td>
 			<fmt:parseDate value="${dto.startdate}" pattern="yyyy-MM-dd HH:mm:ss" var="Stringdate"/>
 			<fmt:formatDate value="${Stringdate}" pattern="yyyy-MM-dd"/>
 			</td>
-
-			<td><input type="hidden" id="inin" value="${dto.subjectcode}"></td>
+			<td style="display: none"><input type="hidden" id="inin" value="${dto.subjectcode}"></td>
 
 		</tr>
 	</c:forEach>
 
 </table>
-<div>
+<div style="text-align: center; margin-top: 5px;">
 <input type="submit" value="▼빼기" >
 </div>
 </form>
+<div style="text-align: center; margin-top: 10px;">
 <input type="button" value="▲추가" onclick="subadd()">
-
+</div>
 
 
 
 <form action="./subDel.do" method="post">
-<b style="color: blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---All Subject---</b>
-<table>
+<div style="text-align: center; color: blue; font-weight: bolder;">---All Subject---</div>
+<table border="1">
 	<tr>
 		<th>과목이름</th>
 		<th>과목타입</th>
@@ -72,12 +76,12 @@
 		</tr>
 	</c:forEach>
 </table>
-<input type="button" value="과목삭제">
+<input type="button" value="과목삭제" style="display: none;">
 </form>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
 <input type="button" value="과목 등록" onclick="momo()">
-
+</div>
 <c:if test="${lists[0] eq null}">
-
 <input type="button" value="복사하기" onclick="location.href='./copySelect.do?coursename=${coursename}'">
 </c:if>
 
