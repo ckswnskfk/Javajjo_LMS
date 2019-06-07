@@ -16,8 +16,9 @@
 <body>
 <%@ include file="./include/header.jsp" %>
 <div class="container">
-<div id="user-profile-2" class="user-profile">
+	<div id="user-profile-2" class="user-profile">
 		<div class="tabbable">
+
 			<ul class="nav nav-tabs padding-18">
 				<li class="active">
 					<a data-toggle="tab" href="#home">
@@ -35,19 +36,19 @@
 			</ul>
 
 			<div class="tab-content no-border padding-14">
-				<div id="home" class="tab-pane in active">
+				<div id="home">
 					<div class="row">
-						<div class="col-xs-9 col-sm-9">
+						<div class="col-xs-9 col-sm-9" style="text-align: center">
 							<h4 class="dark">
-								<span class="middle">${dto.name} 님의 마이페이지</span>
+								<span class="middle" style="font-size: 25px; margin-top: 20px">${dto.name} 님의 마이페이지</span>
 							</h4>
 
-							<div class="profile-user-info">
+							<div class="profile-user-info" style="margin-top: 20px">
 								<div class="profile-info-row">
-									<div class="profile-info-name"> Id </div>
+									<div class="profile-info-name" > Id </div>
 
 									<div class="profile-info-value">
-										<span>${dto.id}</span>
+										<span style="font-size: 18px">${dto.id}</span>
 									</div>
 								</div>
 
@@ -56,7 +57,7 @@
 
 									<div class="profile-info-value">
 										<i class="fa fa-map-marker light-orange bigger-110"></i>
-										<span>${dto.name}</span>
+										<span style="font-size: 18px">${dto.name}</span>
 									</div>
 								</div>
 
@@ -64,16 +65,16 @@
 									<div class="profile-info-name">Course</div>
 
 									<div class="profile-info-value">
-										<span>${dto.coursename}</span>
+										<span style="font-size: 18px">${dto.coursename}</span>
 									</div>
 								</div>
 							</div>
-								<div class="form-group">
-									<div class="col-sm-offset-2 col-sm-10">
-										<input type="button" class="btn btn-info"
-										 value="수정하기" onclick="teacher_modify()"/>
-									</div>
-								</div>
+<!-- 								<div class="form-group"> -->
+<!-- 									<div class="col-sm-offset-2 col-md-10"> -->
+										<input type="button" class="btn btn-info btn-lg"
+										 value="수정하기" onclick="teacher_modify()"  style="font-size: 18px; margin-top: 20px; float: reft"/>
+<!-- 									</div> -->
+<!-- 								</div> -->
 							<div class="hr hr-5 dotted"></div>
 						</div><!-- /.col -->
 					</div><!-- /.row -->
@@ -82,7 +83,7 @@
 			</div>
 		</div>
 	</div>
-	</div>
+</div>
 	<%@ include file="./include/footer.jsp" %>
 </body>
 </html>

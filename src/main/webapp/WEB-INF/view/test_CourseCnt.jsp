@@ -24,7 +24,7 @@
 <body>
 
 <div style="margin-bottom: 20px; margin-top: 20px;">
-	<h4>&nbsp;&nbsp;&nbsp;&nbsp;▶ 회차를 선택하세요.</h4>
+	<h3 class="test_title">&nbsp;&nbsp;&nbsp;&nbsp;▶ 회차를 선택하세요.</h3>
 </div>
  <form action="./test_CouresSel.do" method="post" onsubmit="return selectCoursecnt()"> 
  	<table class="table"> 

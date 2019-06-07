@@ -16,7 +16,7 @@
 <body>
 <%@include file="./include/header.jsp" %>
 <div class="container">
-	<table style="margin-bottom: 20px; margin-top: 20px;">
+	<table style="margin-bottom: 20px; margin-top: 20px;  width:100%;margin-bottom:1rem;background-color:transparent;">
 		<thead>
 			<tr>
 				<td colspan="3"><p style="font-size: 20px;">▶ 과제 목록</p></td>

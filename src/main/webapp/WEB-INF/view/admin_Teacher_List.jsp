@@ -53,12 +53,12 @@
 						<div class="row">
 							<div class="col-xs-9 col-sm-9">
 								<h4 class="dark">
-									<span class="middle">${member.name} 님의 전체 강사 조회</span>
+									<span class="middle" style="font-size: 25px; margin-top: 20px">${member.name} 님의 전체 강사 조회</span>
 								</h4>
 	
-								<div class="profile-user-info">
+								<div class="profile-user-info" style="margin-top: 20px;">
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 
+										<div class="profile-info-name" style="width: 5%"> 
 											<input id="allChk" type="checkbox" onclick="allChk1(this)"/>
 										</div>
 									
@@ -96,10 +96,10 @@
 								</div>
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<input type="button" class="btn btn-default"
-										 value="강사탈퇴" onclick="admin_teacher_delete()"/>
-										 <input type="button" class="btn btn-default"
-										 value="강사등록" onclick="admin_teacher_add_form()"/>
+										 <input type="button" class="btn btn-primary active"
+										 value="강사등록" onclick="admin_teacher_add_form()"style="font-size: 18px"/>
+										<input type="button" class="btn btn-primary disabled"
+										 value="강사탈퇴" onclick="admin_teacher_delete()" style="font-size: 18px"/>
 									</div>
 								</div>
 							<div class="hr hr-5 dotted"></div>

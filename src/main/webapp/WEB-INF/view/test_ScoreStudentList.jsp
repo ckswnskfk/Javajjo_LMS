@@ -20,56 +20,57 @@
 <%-- ${list} --%>
 <!-- <hr> -->
 <%-- ${scorelist} --%>
-
-<table>
-	<%
-	if(list.size()==0){
-		%>
-		<tr>
-			<td>수강하는 학생이 없습니다.</td>
-		</tr>
-		<% 
-	}
-	%>
-	<tr>
-		<td>학생 평균 : </td>
-		<td colspan="2">${avg}</td>
-	</tr>
-	<tr>
-		<td>ID</td>
-		<td>NAME</td>
-		<td>SCORE</td>
-	</tr>
-	<%
-	for(int i=0; i<list.size(); i++){
-	 	Student_DTO dto = list.get(i);
-	 	Score_DTO score = scorelist.get(i);
-		%>
-		<tr>
-			<td><%=dto.getId() %></td>
-
-			<td><%=dto.getName() %></td>
-			<%
-			if(score.getScore()==(-1)){
-				%>
-			<td>
-				아직 채점 전입니다. 
-			</td>
-				<% 
-			}else{
-				%>
-				<td>
-				<%=score.getScore() %> 
-			</td>
-								
-				<%
-			}
+<div class="container">
+	<table class="table">
+		<%
+		if(list.size()==0){
 			%>
+			<tr>
+				<td>수강하는 학생이 없습니다.</td>
+			</tr>
+			<% 
+		}
+		%>
+		<tr>
+			<td>학생 평균 : </td>
+			<td colspan="2">${avg}</td>
 		</tr>
-		<% 
-	}
-	%>
-</table>
+		<tr>
+			<td>ID</td>
+			<td>NAME</td>
+			<td>SCORE</td>
+		</tr>
+		<%
+		for(int i=0; i<list.size(); i++){
+		 	Student_DTO dto = list.get(i);
+		 	Score_DTO score = scorelist.get(i);
+			%>
+			<tr>
+				<td><%=dto.getId() %></td>
+	
+				<td><%=dto.getName() %></td>
+				<%
+				if(score.getScore()==(-1)){
+					%>
+				<td>
+					아직 채점 전입니다. 
+				</td>
+					<% 
+				}else{
+					%>
+					<td>
+					<%=score.getScore() %> 
+				</td>
+									
+					<%
+				}
+				%>
+			</tr>
+			<% 
+		}
+		%>
+	</table>
+</div>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>
