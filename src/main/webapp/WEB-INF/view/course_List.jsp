@@ -13,15 +13,16 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style type="text/css">
 	table{
-		
+		margin: auto;
+		margin-top: 5px;
 	}
 </style>
 </head>
 <body>
 <%@include file="./include/header2.jsp" %>
 <form action="./codeDel.do" method="post">
-<table>
-	<tr>
+<table border="1">
+	<tr style="text-align: center;">
 		<th>과정 이름</th>
 		<th>시작 날짜</th>
 		<th>회차</th>
@@ -41,7 +42,9 @@
 	</tr>
 </c:forEach>
 </table>
+<div>
 <input type="date" id="date">
+</div>
 <div>
 <input type="submit" value="과정삭제">
 </div>
