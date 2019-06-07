@@ -36,7 +36,7 @@
 <div class="container">
 	<h3 style="margin-top: 20px; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;▶ 서술형 문제 등록</h3>
 	<form action="./desc_ExamInput.do" method="post" onsubmit="return descexaminsert()">
-		<table class="table">
+		<table class="table" style="margin-top: 20px">
 			<tr>
 				<td>문제번호</td>
 				<td>

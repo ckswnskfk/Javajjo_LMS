@@ -53,12 +53,12 @@
 						<div class="row">
 							<div class="col-xs-9 col-sm-9">
 								<h4 class="dark">
-									<span class="middle">${member.name} 님의 회원가입 신청 조회</span>
+									<span class="middle" style="font-size: 25px; margin-top: 20px">${member.name} 님의 회원가입 신청 조회</span>
 								</h4>
 	
-								<div class="profile-user-info">
+								<div class="profile-user-info" style="margin-top: 20px;">
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 
+										<div class="profile-info-name" style="width: 5%"> 
 											<input id="allChk" type="checkbox" onclick="allChk1(this)"/>
 										</div>
 									
@@ -72,7 +72,7 @@
 										
 										<div class="profile-info-name"> 생년월일 </div>
 										
-										<div class="profile-info-name"> 집주소 </div>
+										<div class="profile-info-name" style="width: 20%"> 집주소 </div>
 										
 									</div>
 									<c:forEach items="${lists}" var="dto" varStatus="vs">
@@ -96,15 +96,15 @@
 											<span><c:out value="${dto.birth}"></c:out></span>
 										</div>
 										<div class="profile-info-name">
-											<span><c:out value="${dto.addr}"></c:out></span>
+											<span style="width: 20%"><c:out value="${dto.addr}"></c:out></span>
 										</div>
 									</div>
 									</c:forEach>
 								</div>
 								<div class="form-group">        
 							      <div class="col-sm-offset-2 col-sm-10">
-							        <button type="button" class="btn btn-default" onclick="admin_accept()">승인</button>
-							        <button type="button" class="btn btn-default" onclick="admin_accept_refuse()">미승인</button>
+							        <button type="button" class="btn btn-primary active" onclick="admin_accept()" style="font-size: 18px">승인</button>
+							        <button type="button" class="btn btn-primary disabled" onclick="admin_accept_refuse()" style="font-size: 18px">미승인</button>
 							      </div>
 							    </div>
 							<div class="hr hr-5 dotted"></div>

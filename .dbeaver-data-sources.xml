@@ -34,5 +34,29 @@
 			<provider-property name="@dbeaver-always-show-dba@" value="false"/>
 		</connection>
 	</data-source>
+	<data-source id="oracle_thin-16b25713f73-bf4dddb07dd38bf" provider="oracle" driver="oracle_thin" name="Oracle - xe" save-password="true" show-system-objects="true" read-only="false">
+		<connection host="192.168.10.79" port="1521" server="" database="xe" url="jdbc:oracle:thin:@//192.168.10.79:1521/xe" user="JAJ" password="QlVXcSGi" home="C:\oraclexe\app\oracle\product\11.2.0\server" type="dev">
+			<provider-property name="@dbeaver-always-use-dba-views@" value="false"/>
+			<provider-property name="@dbeaver-sid-service@" value="SERVICE"/>
+			<provider-property name="@dbeaver-use-rule-hint@" value="false"/>
+			<provider-property name="@dbeaver-connection-type@" value="BASIC"/>
+			<provider-property name="@dbeaver-check-schema-content@" value="false"/>
+			<provider-property name="@dbeaver-always-show-dba@" value="false"/>
+		</connection>
+		<virtual-meta-data>
+			<container name="model">
+				<container name="JAJ">
+					<entity name="TEST_EXAM">
+						<constraint name="PRIMARY" type="VIRTUAL KEY">
+							<attribute name="TESTCODE"/>
+							<attribute name="EXAMCODE"/>
+							<attribute name="ALLOT"/>
+							<attribute name="EXAMNUM"/>
+						</constraint>
+					</entity>
+				</container>
+			</container>
+		</virtual-meta-data>
+	</data-source>
 	<filters/>
 </data-sources>

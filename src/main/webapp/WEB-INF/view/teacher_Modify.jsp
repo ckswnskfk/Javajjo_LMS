@@ -30,9 +30,9 @@
 			<div class="tab-content no-border padding-14">
 				<div id="home" class="tab-pane in active">
 					<div class="row">
-						<div class="col-xs-12 col-sm-9">
+						<div class="col-xs-12 col-sm-9" style="text-align: center">
 							<h4 class="dark">
-								<span class="middle">${member.name} 님의 정보 수정</span>
+								<span class="middle" style="font-size: 25px; margin-top: 20px;">${member.name} 님의 정보 수정</span>
 							</h4>
 							<form action="#" onsubmit="return tea_mod()">
 							<input type="hidden" name ="id" value="${member.id}">
@@ -41,7 +41,7 @@
 										<div class="profile-info-name"> Id </div>
 	
 										<div class="profile-info-value">
-											<span>${member.id}</span>
+											<span style="font-size: 18px">${member.id}</span>
 										</div>
 									</div>
 									
@@ -49,7 +49,7 @@
 										<div class="profile-info-name"> Pw </div>
 	
 										<div class="profile-info-value">
-											<span><input type="password" name="pw" id="pw"></span>
+											<span style="font-size: 18px"><input type="password" name="pw" id="pw"></span>
 											<span id="err_pw"></span>
 										</div>
 									</div>
@@ -59,7 +59,7 @@
 	
 										<div class="profile-info-value">
 											<i class="fa fa-map-marker light-orange bigger-110"></i>
-											<span><input type="text" name="name" id="name"></span>
+											<span style="font-size: 18px"{><input type="text" name="name" id="name"></span>
 											<span id="err_name"></span>
 										</div>
 									</div>
@@ -67,10 +67,10 @@
 								</div>
 									<div class="form-group">
 										<div class="col-sm-offset-2 col-sm-10">
-											<input type="submit" class="btn btn-info"
-											 value="수정하기"/>
-											<input type="button" class="btn btn-default"
-											 value="취소" onclick="history.back()"/>
+											<input type="submit" class="btn btn-primary active"
+											 value="수정하기" style="font-size: 18px"/>
+											<input type="button" class="btn btn-primary disabled"
+											 value="취소" onclick="history.back()" style="font-size: 18px"/>
 										</div>
 									</div>
 								<div class="hr hr-5 dotted"></div>

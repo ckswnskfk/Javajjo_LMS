@@ -51,14 +51,14 @@
 				<div class="tab-content no-border padding-14">
 					<div id="home" class="tab-pane in active">
 						<div class="row">
-							<div class="col-xs-9 col-sm-9">
+							<div class="col-xs-9 col-sm-9" style="width: 800px;" >
 								<h4 class="dark">
-									<span class="middle">${member.name} 님의 전체 학생 조회</span>
+									<span class="middle" style="font-size: 25px; margin-top: 20px">${member.name} 님의 전체 학생 조회</span>
 								</h4>
 	
-								<div class="profile-user-info">
+								<div class="profile-user-info" style="margin-top: 20px;">
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 
+										<div class="profile-info-name" style="width: 5%"> 
 											<input id="allChk" type="checkbox" onclick="allChk1(this)"/>
 										</div>
 									
@@ -72,7 +72,7 @@
 										
 										<div class="profile-info-name"> 생년월일 </div>
 										
-										<div class="profile-info-name"> 집주소 </div>
+										<div class="profile-info-name" style="width: 20%"> 집주소 </div>
 										
 									</div>
 									<c:forEach items="${lists}" var="dto" varStatus="vs">
@@ -98,15 +98,15 @@
 											<span><c:out value="${dto.birth}"></c:out></span>
 										</div>
 										<div class="profile-info-name">
-											<span><c:out value="${dto.addr}"></c:out></span>
+											<span style="width: 20%"><c:out value="${dto.addr}"></c:out></span>
 										</div>
 									</div>
 									</c:forEach>
 								</div>
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<input type="button" onclick="admin_student_delete()" class="btn btn-default"
-										 value="회원 탈퇴"/>
+										<input type="button" onclick="admin_student_delete()" class="btn btn-primary disabled"
+										 value="회원 탈퇴" style="font-size: 18px"/>
 									</div>
 								</div>
 							<div class="hr hr-5 dotted"></div>

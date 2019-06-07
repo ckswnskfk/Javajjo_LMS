@@ -37,9 +37,9 @@
 			<div class="tab-content no-border padding-14">
 				<div id="home" class="tab-pane in active">
 					<div class="row">
-						<div class="col-xs-9 col-sm-9">
+						<div class="col-xs-9 col-sm-9" style="text-align: center">
 							<h4 class="dark">
-								<span class="middle">${dto.name} 님의 마이페이지</span>
+								<span class="middle" style="font-size: 25px; margin-top: 20px;">${dto.name} 님의 마이페이지</span>
 							</h4>
 
 							<div class="profile-user-info">
@@ -47,7 +47,7 @@
 									<div class="profile-info-name"> Id </div>
 
 									<div class="profile-info-value">
-										<span>${dto.id}</span>
+										<span style="font-size: 18px">${dto.id}</span>
 									</div>
 								</div>
 
@@ -56,7 +56,7 @@
 
 									<div class="profile-info-value">
 										<i class="fa fa-map-marker light-orange bigger-110"></i>
-										<span>${dto.name}</span>
+										<span style="font-size: 18px">${dto.name}</span>
 									</div>
 								</div>
 
@@ -64,7 +64,7 @@
 									<div class="profile-info-name">Gender</div>
 
 									<div class="profile-info-value">
-										<span>${dto.gender}</span>
+										<span style="font-size: 18px">${dto.gender}</span>
 									</div>
 								</div>
 
@@ -72,7 +72,7 @@
 									<div class="profile-info-name">Birth</div>
 
 									<div class="profile-info-value">
-										<span>${dto.birth}</span>
+										<span style="font-size: 18px">${dto.birth}</span>
 									</div>
 								</div>
 
@@ -80,14 +80,14 @@
 									<div class="profile-info-name">Addr</div>
 
 									<div class="profile-info-value">
-										<span>${dto.addr}</span>
+										<span style="font-size: 18px">${dto.addr}</span>
 									</div>
 								</div>
 							</div>
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
 										<input type="button" class="btn btn-info"
-										 value="수정하기" onclick="student_modify()"/>
+										 value="수정하기" onclick="student_modify()" style="font-size: 18px; margin-top: 20px"/>
 									</div>
 								</div>
 							<div class="hr hr-5 dotted"></div>
