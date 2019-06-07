@@ -11,18 +11,18 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<style type="text/css">
-	table{
-		margin: auto;
-		margin-top: 5px;
-	}
-</style>
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
+
+<div class="container" id="main">
+	<div class="row" style="width: 900px; margin: 0 auto;">
+		<div class="col-lg-12">
+
 <form action="./codeDel.do" method="post">
-<table border="1">
-	<tr style="text-align: center;">
+ <div id="list">
+<table class="table">
+	<tr>
 		<th>과정 이름</th>
 		<th>시작 날짜</th>
 		<th>회차</th>
@@ -37,21 +37,24 @@
 		<fmt:parseDate value="${dto.startdate}" pattern="yyyy-MM-dd HH:mm:ss" var="Stringdate"/>
 		<fmt:formatDate value="${Stringdate}" pattern="yyyy-MM-dd"/>
 		</td>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;${dto.coursecnt }</td>
-		<td>&nbsp;&nbsp;<input type="checkbox" name="coursecode" value="${dto.coursecode}"></td>
+		<td><div style="text-align: center;">${dto.coursecnt}</div></td>
+		<td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="coursecode" value="${dto.coursecode}"></td>
 	</tr>
 </c:forEach>
 </table>
+</div>
 <div>
 <input type="date" id="date">
 </div>
-<div>
-<input type="submit" value="과정삭제">
+<div style="float: right;">
+<input class="btn btn-outline-success" type="submit" value="과정삭제">
+<input class="btn btn-outline-success" type="button" value="과정등록" onclick="momo()">
 </div>
 </form>
-	<button type="button" name="button" id="readioButton"  onclick="check(this.checked)">과정횟수증가</button>
-	<input type="button" value="과정등록" onclick="momo()">
-
+<div style="margin-top: 5px;">
+	<button class="btn btn-outline-success" type="button" name="button" id="readioButton"  onclick="check(this.checked)">과정회차증가</button>
+</div>
+</div>
 
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -65,6 +68,8 @@
 		<form action="#" role="form" method="post" id="frmModify"></form>
       </div>
     </div>
+  </div>
+  	</div>
   </div>
 </div>
 <%@include file="./include/footer.jsp" %>
@@ -144,15 +149,15 @@ function dateCheck(){
 	function check(bool){
 		var chks=document.querySelector('input[name="radio"]:checked').value;
 // 		var ddate=document.querySelector('input[id="date"]');
-		var mocontent = document.getElementById("date");
-		var date = new Date(mocontent.value);
+		var mocontent = document.getElementById("date").value;
+		var date = new Date(mocontent);
 		var today = new Date();
 		if(date < today){
 			alert("오늘 또는 과거에 과정을 생성할 수 없습니다.");	
 		}else if(mocontent==""){
 			alert("날짜를 선택 해주세요.")
 		}else{
-		location.href="./course_cnt.do?coursename="+chks+"&startdate="+mocontent
+		location.href="./course_cnt.do?coursename="+chks+"&startdate="+mocontent;
 			
 		}
 	}
