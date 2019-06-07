@@ -1,12 +1,12 @@
 <style>
-body {
+body, html {
   font-family: "Lato", sans-serif;
 }
 
 .sidebar {
   height: 100%;
   width: 0;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   top: 0;
   right: 0;
@@ -102,15 +102,18 @@ position: absolute;
 
 /* .dropdown:hover .dropbtn {background-color:white;} */
 #header{
-	background-color: #c0c0c0;
-	height: 5px;
+	background-color: white;
+	height: 80px;
 	width: 100%;
+/* 	position: fixed; */
+	border-bottom: 4px solid black;
 }
 #headerOne{
 	float:left;
 	width: 45%;
 	height: 100%;
 	margin-left: 15px;
+
 }
 #headerTwo{
 font-family: "Lato", sans-serif;
@@ -124,8 +127,8 @@ font-family: "Lato", sans-serif;
 	font-size: 18px;
 }
 hr.new1 {
-/* position:absolute; */
-  border-top: 6px solid #c0c0c0;
+position:absolute;
+/*   border-top: 6px solid #c0c0c0; */
   margin-top: 60px;
 }
 </style>

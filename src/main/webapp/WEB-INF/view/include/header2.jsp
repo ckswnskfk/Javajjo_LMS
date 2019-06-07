@@ -28,7 +28,7 @@
 			<c:when test="${member.table eq 'Admin'}"><a href="./admin_info.do">${member.name}</a>님 환영합니다.</c:when>
 		</c:choose>
 	</div>
-	<div id="main" style="display:inline-block; float:right;">
+	<div id="main" style="float:right;">
   		<button class="openbtn" onclick="openNav()">☰ </button>
 	</div>
 </div>
@@ -97,7 +97,7 @@
 
 <script>
 function openNav() {
-  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("mySidebar").style.width = "300px";
   document.getElementById("main").style.marginRight = "250px";
 }
 
