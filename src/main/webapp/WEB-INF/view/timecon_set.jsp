@@ -11,7 +11,7 @@
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 </head>
 <body>
-<%@include file="./include/header.jsp" %>
+<%@include file="./include/header2.jsp" %>
 
 <form action="#" method="post" id="formgo" name="formgo" onsubmit="return chk()">
 <table>

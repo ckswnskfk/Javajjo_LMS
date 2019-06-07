@@ -18,7 +18,7 @@
 </style>
 </head>
 <body>
-<%@include file="./include/header.jsp" %>
+<%@include file="./include/header2.jsp" %>
 <form action="./codeDel.do" method="post">
 <table>
 	<tr>
