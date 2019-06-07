@@ -22,9 +22,10 @@ body{margin-top:20px;}
 }
 
 .profile-info-name {
-    text-align: right;
+    text-align: center;
     padding: 6px 10px 6px 4px;
-    font-weight: 400;
+/*     font-weight: 400; */
+	font-size: 18px;
     color: #667E99;
     background-color: transparent;
     width: 110px;
@@ -1351,4 +1352,8 @@ body{margin-top:20px;}
 
 .grey {
     color: #777!important
+}
+
+.col-xs-9 col-sm-9{
+	text-align: center;
 }

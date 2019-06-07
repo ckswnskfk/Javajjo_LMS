@@ -34,11 +34,17 @@
 %>
 <%@include file="./include/header.jsp" %>
 <div class="container">
-	<div class="test_session">
-		<h2>▶ 과목 조회</h2>
-		<h3>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h3>
-	</div>
-	<table class="table">
+<!-- 	<div class="test_session"> -->
+<!-- 		<h2>▶ 과목 조회</h2> -->
+<%-- 		<h3>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</h3> --%>
+<!-- 	</div> -->
+	<table>
+			<tr>
+				<td><h3 style="margin-top: 20px">▶ 과목 조회</h3></td>
+			</tr>
+			<tr><td>과정명 : ${testsession.coursename} (${testsession.coursecnt}회차)</td></tr>
+		</table>
+	<table class="table" style="margin-top: 20px">
 		<thead>
 			<tr>
 				<th>과목명</th>

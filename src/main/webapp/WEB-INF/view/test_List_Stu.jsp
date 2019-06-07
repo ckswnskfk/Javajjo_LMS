@@ -20,7 +20,7 @@
 	<table style="margin-bottom: 20px; margin-top: 20px;">
 		<thead>
 			<tr>
-				<td colspan="3"><p style="font-size: 20px;">▶ 과제 목록</p></td>
+				<td colspan="3"><h3>▶ 과제 목록</h3></td>
 			</tr>
 		</thead>
 		<tr>

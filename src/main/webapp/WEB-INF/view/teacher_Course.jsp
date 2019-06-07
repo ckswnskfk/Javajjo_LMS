@@ -39,7 +39,7 @@
 						<div class="row">
 							<div class="col-xs-9 col-sm-9">
 								<h4 class="dark">
-									<span class="middle">${member.name} 님의 수강 과정 조회</span>
+									<span class="middle" style="font-size: 25px; margin-top: 20px;">${member.name} 님의 수강 과정 조회</span>
 								</h4>
 	
 								<div class="profile-user-info">

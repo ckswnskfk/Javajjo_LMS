@@ -27,9 +27,9 @@
 	</script>
 	<%@include file="./include/header.jsp"%>
 <div class="container">
-	<h2>▶ 수강학생 조회</h2>
+	<h3 style="margin-top: 20px">▶ 수강학생 조회</h3>
 
-	<table class="table">
+	<table class="table" style="margin-top: 20px">
 		<%
 			if (list == null) {
 		%>

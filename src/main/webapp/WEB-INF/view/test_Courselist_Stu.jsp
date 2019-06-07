@@ -24,9 +24,9 @@
 	}
 </script>
 <div class="container">
-	<h1>수강과정</h1>
+	<h3 style="margin-top: 20px">▶ 수강과정</h3>
 	<form action="">
-		<table class="table">
+		<table class="table" style="margin-top: 20px">
 		<% 
 			if(list==null){%>
 				<tr>

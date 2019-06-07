@@ -24,10 +24,10 @@
 	Course_DTO dto = (Course_DTO)request.getAttribute("dto");
 %>
 <div class="container">
-	<h2>담당과정</h2>
+	<h3 style="margin-top: 20px">▶ 담당과정</h3>
   	
 	<form action="">
-	<table class="table">
+	<table class="table" style="margin-top: 20px">
 		<thead>
 		<tr>
 			<td>과정명</td>
