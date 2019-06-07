@@ -103,10 +103,10 @@ position: absolute;
 /* .dropdown:hover .dropbtn {background-color:white;} */
 #header{
 	background-color: white;
-	height: 80px;
+	height: 70px;
 	width: 100%;
 /* 	position: fixed; */
-	border-bottom: 4px solid black;
+	border-bottom: 7px solid black;
 }
 #headerOne{
 	float:left;
