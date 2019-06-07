@@ -255,36 +255,36 @@ function testback(){
 
 function StuTest(testday){
 
-//	var today = new Date();
-//	var dd = today.getDate();
-//	var mm = today.getMonth()+1;
-//	var yyyy = today.getFullYear();
-//	
-//	var testday = new Date(testday); 
-//
-//	
-//	if(dd<10){
-//		dd='0'+dd;
-//	}
-//	if(mm<10){
-//		mm='0'+mm;
-//	}
-//
-//	var diff = (today.getTime()-testday.getTime());
-//    diff = Math.ceil(diff / (1000 * 3600 * 24));
-    location.href = "./division_Stu.do";
-    
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1;
+	var yyyy = today.getFullYear();
 	
-//	if(diff<0){
-//		alert("시험기간 전입니다.");
-//	}
-//	else if(diff==0){
-//		var chk = confirm("과제를 진행하시겠습니까?");
-//		if(chk){
-//		}
-//	}else{
-//		alert("과제 제출기간이 지났습니다.");
-//	}
+	var testday = new Date(testday); 
+
+	
+	if(dd<10){
+		dd='0'+dd;
+	}
+	if(mm<10){
+		mm='0'+mm;
+	}
+
+	var diff = (today.getTime()-testday.getTime());
+    diff = Math.ceil(diff / (1000 * 3600 * 24));
+    
+//	alert(diff);
+	if(diff<1){
+		alert("시험기간 전입니다.");
+	}
+	else if(diff==1){
+		var chk = confirm("과제를 진행하시겠습니까?");
+		if(chk){
+			location.href = "./division_Stu.do";
+		}
+	}else{
+		alert("과제 제출기간이 지났습니다.");
+	}
 }
 
 

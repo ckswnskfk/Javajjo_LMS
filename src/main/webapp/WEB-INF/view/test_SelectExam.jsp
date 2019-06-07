@@ -9,6 +9,8 @@
 <title>과제 관리</title>
 <script type="text/javascript" src="./js/test.js"></script>
 <script type="text/javascript">
+	var examnum = 9316;
+	
 	function pluscontent(){
 		var contentnum = document.getElementsByName("contentnum");
 
@@ -20,7 +22,8 @@
 		var content = document.getElementById("contentarea");
 		var tr = document.createElement("tr"); // 생성할 엘리먼트
 		var td1 = document.createElement("td"); 
-		td1.innerHTML = "<input type='hidden' value='"+trLen+"' name='contentnum'>"+trLen;
+		td1.innerHTML = "<input type='hidden' value='"+trLen+"' name='contentnum'>&#"+(examnum);
+		examnum += 1;
 		var td2 = document.createElement("td"); 
 		td2.innerHTML = "<div class='form-group'><input type='text' class='form-control' id='usr' name='examcontent'></div>";
 		tr.appendChild(td1);
@@ -31,6 +34,7 @@
 	function delcontent(){
 		var tbody = document.getElementById("contentarea");
 		var trLen = tbody.children.length;
+		examnum = examnum-1;
 		if(trLen>4){
 			var tbody = document.getElementById("contentarea");
 			tbody.removeChild(tbody.lastChild);	
@@ -128,7 +132,7 @@
 		<input type="submit" value="문제등록" class="btn btn-primary active">
 		<input type="button" value="취소" onclick="testback()"  class="btn btn-primary disabled" style="float: right">
 	</form>
-</div>
+ </div>
 <%@include file="./include/footer.jsp" %>
 
 </body>

@@ -22,11 +22,11 @@
 	Answer_Des_DTO answer = (Answer_Des_DTO)request.getAttribute("answer");
 	int maxexam=(int)request.getAttribute("maxexamnum");
 %>
+<div class="container">
 <form action="#" method="post" enctype="multipart/form-data">
 	<table class="table">
 		<tr>
-			<td></td>
-			<td>
+			<td colspan="10">
 			<%
 			for(int i=1; i<(maxexam+1);i++){
 				%>
@@ -37,31 +37,51 @@
 			</td>
 		</tr>
 		<tr>
-			<td><p style="font-size: 20px">
+			<td style="width: 30px"><p style="font-size: 20px">
+<!-- 				<div class="form-group"> -->
+<%-- 					<input type="text" class="form-control" id="usr"  name="examnum"  readonly="readonly" value="<%=dto.getExamnum() %>"> --%>
+<!-- 				</div> -->
+				<%=dto.getExamnum() %>
+			</p>
+			</td>
+			<td colspan="9"><%=dto.getExam() %><a style="color:red"><%=dto.getAllot() %></a>
 			<input type="hidden" name="examcode" value='<%=dto.getExamcode()%>'>
 			<input type="hidden" name="examnum" value='<%=dto.getExamnum()%>'>
 			<input type="hidden" name="page" >
-			<%=dto.getExamnum() %></p></td>
-			<td><%=dto.getExam() %><a style="color:red"><%=dto.getAllot() %></a></td>
+			</td>
 		</tr>
 		<tr>
 			<td>설명</td>
-			<td colspan="2"><%=dto.getExplanation() %></td>
+			<td colspan="9">
+<%-- 				<%=dto.getExplanation() %> --%>
+				<div class="form-group">
+  					<textarea class="form-control" rows="2" id="comment" cols="30" name="explanation" readonly="readonly"><%=dto.getExplanation() %></textarea>
+				</div>
+			</td>
 		</tr>
 		<tr>
 			<td>답안</td>
-			<td colspan="2"><textarea cols="50" rows="5" name="answer"><c:choose><c:when test="${answer.answer eq null}">널</c:when><c:otherwise>${answer.answer}</c:otherwise></c:choose></textarea></td>
+			<td colspan="9">
+				<div class="form-group">
+					<textarea class="form-control" cols="30" rows="2" name="answer"><c:choose><c:when test="${answer.answer eq null}">정답을 입력해 주세요.</c:when><c:otherwise>${answer.answer}</c:otherwise></c:choose></textarea>
+				</div>	
+			</td>
 		</tr>
 		<tr>
-			<td colspan="3"><input type="file" id="originalfilename" name="originalfilename">${answer.originfile}</td>
+			<td colspan="9">
+				<div class="form-group">
+					<input type="file"  class="form-control" id="originalfilename" name="originalfilename">${answer.originfile}
+				</div>
+			</td>
 		</tr>
-		<tr>
-			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
-			<td><input type="button" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
-			<td><input type="button" value="시험 제출" onclick="examsubmit()"></td>
+		<tr> 
+			<td><input type="button" class="btn btn-success" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
+			<td><input type="button" class="btn btn-success" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
+			<td colspan="8"><input type="button" class="btn btn-warning" value="시험 제출" onclick="examsubmit()"></td>
 		</tr>
 	</table>
 </form>
+</div>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

@@ -51,9 +51,9 @@
 	%>
 	<thead>
 		<tr>
-			<td>과목명</td>
-			<td>과목 유형</td>
-			<td>과제 유형</td>
+			<th>과목명</th>
+			<th>과목 유형</th>
+			<th>과제 유형</th>
 		</tr>
 	</thead>
 	<tbody>

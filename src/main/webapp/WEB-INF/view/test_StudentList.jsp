@@ -26,9 +26,10 @@
 		}
 	</script>
 	<%@include file="./include/header.jsp"%>
-	<h1>수강학생 조회</h1>
+<div class="container">
+	<h2>▶ 수강학생 조회</h2>
 
-	<table>
+	<table class="table">
 		<%
 			if (list == null) {
 		%>
@@ -38,11 +39,13 @@
 		<%
 			} else {
 		%>
-		<tr>
-			<td>ID</td>
-			<td>이름</td>
-			<td></td>
-		</tr>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>이름</th>
+				<th></th>
+			</tr>
+		</thead>
 		<%
 			for (int i = 0; i < list.size(); i++) {
 					Student_DTO dto = list.get(i);
@@ -55,7 +58,7 @@
 					if (countlist[i] > 0) {
 				%> &nbsp; 완료 <%
  	} else {
- %> <input type="button" value="채점"
+ %> <input type="button" value="채점" class="btn btn-info"
 				onclick="markStudent('<%=dto.getId()%>')"> <%
  	}
  %>
@@ -67,7 +70,7 @@
 			}
 		%>
 	</table>
-
+</div>
 	<%@include file="./include/footer.jsp"%>
 </body>
 </html>

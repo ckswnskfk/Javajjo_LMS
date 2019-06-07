@@ -17,7 +17,7 @@ table {
 </style>
 </head>
 <body>
-<%@include file="./include/header2.jsp" %>
+<%@include file="./include/header.jsp" %>
 
 <form action="#" method="post" id="formgo" name="formgo" onsubmit="return chk()">
 <table border="1">

@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="./include/header2.jsp" %>
+<%@ include file="./include/header.jsp" %>
 <table>
 	<tr>
 		<th>과정명</th>
