@@ -1,12 +1,13 @@
 	body,p,div{
 		margin: 0;
 	}
-	body {
+	body,html {
   background-color:#fff;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
+  height:100%;
 }
 	
 	

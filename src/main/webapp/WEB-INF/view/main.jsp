@@ -7,9 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
+<link rel= "stylesheet" type="text/css" href="./css/main.css">
 <title>로그인 화면</title>
 </head>
 <body>
+<div class="test" style="display:flex; flex-direction: column; height:100%">
 
 <%@include file="./include/header2.jsp" %>
   <!-- Page Content -->
@@ -18,5 +20,6 @@
   </div>
 
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>
