@@ -8,19 +8,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <style type="text/css">
-table {
-	margin: auto;
-		margin-top: 5px;
-}
 </style>
 </head>
 <body>
+<div class="content-wrapper"> 
 <%@include file="./include/header.jsp" %>
-
+<div class="container" id="main">
+	<div class="row" style="width: 900px; margin: 0 auto;">
+		<div class="col-lg-12">
 <form action="#" method="post" id="formgo" name="formgo" onsubmit="return chk()">
-<table border="1">
+<div id="list">
+<table class="table">
 	<tr>
 		<th>과목명</th>
 		<th>시간</th>
@@ -36,13 +37,18 @@ table {
 	</tr>
 </c:forEach>
 </table>
-<div>
-<input type="submit" value="등록하기">
+</div>
+<div style="float: right;">
+<input type="submit" value="등록하기" class="btn btn-outline-success">
 </div>
 </form>
+</div>
+</div>
+</div>
 
 
 <%@include file="./include/footer.jsp" %>
+</div>
 <script type="text/javascript">
 function chk(){
 // 	alert("safdasdf");

@@ -10,8 +10,10 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <title>Insert title here</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <body>
+<div class="content-wrapper">
 <%@ include file="./include/header.jsp" %>
 <div class="container" id="main">
 	<div class="row" style="width: 900px; margin: 0 auto;">
@@ -41,5 +43,6 @@
 </div>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

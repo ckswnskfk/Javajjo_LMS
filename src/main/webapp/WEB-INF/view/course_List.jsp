@@ -9,18 +9,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="content-wrapper"> 
 <%@include file="./include/header.jsp" %>
 
 <div class="container" id="main">
 	<div class="row" style="width: 900px; margin: 0 auto;">
 		<div class="col-lg-12">
 
-<form action="./codeDel.do" method="post">
- <div id="list">
+<form action="#" method="post" id="formgo" onsubmit="return red()">
+ <div id="list" class="checkbox">
 <table class="table">
 	<tr>
 		<th>과정 이름</th>
@@ -38,7 +40,7 @@
 		<fmt:formatDate value="${Stringdate}" pattern="yyyy-MM-dd"/>
 		</td>
 		<td><div style="text-align: center;">${dto.coursecnt}</div></td>
-		<td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="coursecode" value="${dto.coursecode}"></td>
+		<td><label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="coursecode" value="${dto.coursecode}"></label></td>
 	</tr>
 </c:forEach>
 </table>
@@ -47,12 +49,12 @@
 <input type="date" id="date">
 </div>
 <div style="float: right;">
-<input class="btn btn-outline-success" type="submit" value="과정삭제">
-<input class="btn btn-outline-success" type="button" value="과정등록" onclick="momo()">
+<input class="btn btn-outline-danger" type="submit" value="과정삭제">
+<input class="btn btn-outline-dark" type="button" value="과정등록" onclick="momo()">
 </div>
 </form>
-<div style="margin-top: 5px;">
-	<button class="btn btn-outline-success" type="button" name="button" id="readioButton"  onclick="check(this.checked)">과정회차증가</button>
+<div style="margin-top: 5px; margin-left: 20px;">
+	<button class="btn btn-outline-primary" type="button" name="button" id="readioButton"  onclick="check(this.checked)">과정회차증가</button>
 </div>
 </div>
 
@@ -73,7 +75,24 @@
   </div>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 <script type="text/javascript">
+function red(){
+	var items = [];
+	var itemtest = items.join();
+	$('input:checkbox[name="coursecode"]:checked').each(function () {
+	    items.push($(this).val());
+	});
+	if(items==""){
+		alert("하나이상 선택해주십시오.");
+		return false;
+	}else{
+		var doc=document.getElementById("formgo");
+		doc.action="./codeDel.do"
+		return true;
+	}
+}
+
 function nameCheck(){
 	var orgname=document.getElementsByName("radio");
 	var savename=document.getElementById("motitle").value;
@@ -122,8 +141,8 @@ function dateCheck(){
 						"<input type='date' name='date' id='mocontent' required='required'>"+
 						"</div>"+
 						"<div class='modal-footer'>"+
-						"<input class='btn btn-success' type='button' value='과정등록' onclick='update()'>"+
-						"<button type='button' class='btn btn-default' data-dismiss='modal'>취소</button>"+
+						"<input class='btn btn-outline-primary' type='button' value='과정등록' onclick='update()'>"+
+						"<button type='button' class='btn btn-outline-danger' data-dismiss='modal'>취소</button>"+
 						"</div>";
 						$("#frmModify").html(htmlModal);
 			}

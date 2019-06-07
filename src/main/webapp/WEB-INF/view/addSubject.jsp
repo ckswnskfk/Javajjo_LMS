@@ -11,8 +11,10 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <body>
+<div class="content-wrapper"> 
 <%@include file="./include/header.jsp" %>
 <div class="container" id="main">
 	<div class="row" style="width: 900px; margin: 0 auto;">
@@ -88,7 +90,9 @@
 <input class="btn btn-outline-dark" type="button" value="과목 등록" onclick="momo()">
 </div>
 <c:if test="${lists[0] eq null}">
-<input type="button" value="복사하기" onclick="location.href='./copySelect.do?coursename=${coursename}'">
+<div style="margin-top: 10px; margin-bottom: 10px; float: left;">
+<input type="button" value="복사하기" class="btn btn-outline-dark" onclick="location.href='./copySelect.do?coursename=${coursename}'">
+</div>
 </c:if>
 </div>
 </div>
@@ -111,7 +115,7 @@
 </div>
 
 <%@include file="./include/footer.jsp" %>
-
+</div>
 
 <script type="text/javascript">
 
@@ -143,8 +147,8 @@ var ajaxSubadd=function(){
 				"</select>"+
 				"</div>"+
 				"<div class='modal-footer'>"+
-				"<input class='btn btn-success' type='button' value='과목등록' onclick='update()'>"+
-				"<button type='button' class='btn btn-default' data-dismiss='modal'>취소</button>"+
+				"<input class='btn btn-outline-primary' type='button' value='과목등록' onclick='update()'>"+
+				"<button type='button' class='btn btn-outline-danger' data-dismiss='modal'>취소</button>"+
 				"</div>";
 				$("#frmModify").html(htmlModal);
 		}
