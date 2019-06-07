@@ -19,7 +19,7 @@
 </style>
 </head>
 <body>
-<%@include file="./include/header2.jsp" %>
+<%@include file="./include/header.jsp" %>
 <form action="./codeDel.do" method="post">
 <table border="1">
 	<tr style="text-align: center;">

@@ -13,7 +13,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@include file="./include/header2.jsp" %>
+<%@include file="./include/header.jsp" %>
 <form action="#" method="post" id="formgo" onsubmit="return check()" >
 <b style="color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---in Course---</b>
 <table>
