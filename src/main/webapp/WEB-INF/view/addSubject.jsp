@@ -11,18 +11,16 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<style type="text/css">
-table {
-	margin: auto;
-		margin-top: 5px;
-}
-</style>
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
+<div class="container" id="main">
+	<div class="row" style="width: 900px; margin: 0 auto;">
+		<div class="col-lg-12">
 <form action="#" method="post" id="formgo" onsubmit="return check()" >
-<div style="text-align: center; color: red; font-weight: bolder;"> ---in Course---</div>
-<table border="1">
+<div style="text-align: center; font-size: 30px; color: red; font-weight: bolder;"> ---in Course---</div>
+<div id="list">
+<table class="table">
 	<tr>
 		<th>과목이름</th>
 		<th>과목타입</th>
@@ -30,7 +28,7 @@ table {
 		<th>시작 날짜</th>
 	</tr>
 	<c:forEach items="${lists}" var="dto">
-	
+	 
 		<tr>
 			<td>
 				<input type="checkbox" name="seq" value="${dto.seq}">${dto.subjectname}
@@ -47,19 +45,26 @@ table {
 	</c:forEach>
 
 </table>
-<div style="text-align: center; margin-top: 5px;">
-<input type="submit" value="▼빼기" >
+</div>
+<div  style="text-align: center; margin-top: 5px;">
+<input class="btn btn-outline-danger" type="submit" value="▼빼기" >
 </div>
 </form>
+</div>
+</div>
+</div>
 <div style="text-align: center; margin-top: 10px;">
-<input type="button" value="▲추가" onclick="subadd()">
+<input class="btn btn-outline-success" type="button" value="▲추가" onclick="subadd()">
 </div>
 
 
-
+<div class="container" id="main">
+	<div class="row" style="width: 900px; margin: 0 auto;">
+		<div class="col-lg-12">
 <form action="./subDel.do" method="post">
-<div style="text-align: center; color: blue; font-weight: bolder;">---All Subject---</div>
-<table border="1">
+<div style="text-align: center; color: blue; font-size: 30px; font-weight: bolder;">---All Subject---</div>
+ <div id="list">
+<table class="table">
 	<tr>
 		<th>과목이름</th>
 		<th>과목타입</th>
@@ -76,14 +81,18 @@ table {
 		</tr>
 	</c:forEach>
 </table>
-<input type="button" value="과목삭제" style="display: none;">
+</div>
+<input  type="button" value="과목삭제" style="display: none;">
 </form>
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-<input type="button" value="과목 등록" onclick="momo()">
+<div style="margin-top: 10px; margin-bottom: 10px; float: right;">
+<input class="btn btn-outline-dark" type="button" value="과목 등록" onclick="momo()">
 </div>
 <c:if test="${lists[0] eq null}">
 <input type="button" value="복사하기" onclick="location.href='./copySelect.do?coursename=${coursename}'">
 </c:if>
+</div>
+</div>
+</div>
 
 
 <div id="myModal1" class="modal fade" role="dialog">

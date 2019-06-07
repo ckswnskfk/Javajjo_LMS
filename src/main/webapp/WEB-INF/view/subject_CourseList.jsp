@@ -13,7 +13,11 @@
 </head>
 <body>
 <%@ include file="./include/header.jsp" %>
-<table>
+<div class="container" id="main">
+	<div class="row" style="width: 900px; margin: 0 auto;">
+		<div class="col-lg-12">
+		<div id="list">
+<table class="table">
 	<tr>
 		<th>과정명</th>
 		<th>시작날짜</th>
@@ -32,6 +36,10 @@
 		</tr>
 	</c:forEach>
 </table>
+</div>
+</div>
+</div>
+</div>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

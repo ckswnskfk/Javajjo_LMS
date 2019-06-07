@@ -3,7 +3,7 @@
 	text-align:center;
 	background-color: #c0c0c0;
 	height: 50px;
-	position: absolute;
+	position: relative;
 	width: 100%;
 	bottom: 0;
 }
