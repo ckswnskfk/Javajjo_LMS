@@ -19,7 +19,7 @@ table {
 </style>
 </head>
 <body>
-<%@include file="./include/header2.jsp" %>
+<%@include file="./include/header.jsp" %>
 <form action="#" method="post" id="formgo" onsubmit="return check()" >
 <div style="text-align: center; color: red; font-weight: bolder;"> ---in Course---</div>
 <table border="1">

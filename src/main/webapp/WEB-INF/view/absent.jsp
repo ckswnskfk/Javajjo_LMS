@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>신청 내역 리스트 페이지</title>
 </head>
+<link rel= "stylesheet" type="text/css" href="./css/main.css">
 <body>
 <%@include file="./include/header.jsp" %>
 <script type="text/javascript">

@@ -73,8 +73,8 @@ public class TestController_Submit {
 		return "test_Courselist_Stu";
 	}
 	
-	@RequestMapping(value="/test_Subject_Submit.do", method=RequestMethod.GET)
-	public String Subjectlist(String coursecode, String coursename, HttpSession session, Model model) {
+	@RequestMapping(value="/test_Subject_Submit.do", method=RequestMethod.POST)
+	public String Subjectlist(String coursecode, String coursename,String coursecnt, HttpSession session, Model model) {
 		logger.info("Testcontroller Subjectlist");
 		
 		System.out.println("받아온 값 : "+coursecode);
@@ -86,6 +86,8 @@ public class TestController_Submit {
 		model.addAttribute("list", list);
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
+		testsession.setCoursecnt(coursecnt);
+		testsession.setCoursecode(coursecode);
 
 		session.setAttribute("testsession", testsession);
 		
@@ -439,7 +441,7 @@ public class TestController_Submit {
 				PrintWriter print;
 				try {
 					print = resp.getWriter();
-					print.append("<script>");
+					print.append("<script type='text/javascript'>");
 					print.append("alert('이미 제출한 과제는 응시하지 못합니다.');location.href='./test_Course_Submit.do';");
 					print.append("</script>");
 				} catch (IOException e) {
@@ -460,9 +462,9 @@ public class TestController_Submit {
 					System.out.println("1널이다2222.");
 //					resp.setContentType("text/html; charset=UTF-8"); 
 					print = resp.getWriter();
-					print.append("<script>");
-					print.append("alert('아직 과제가 등록 되어있지 않습니다.');location.href='./test_Course_Submit.do';");
-					print.append("</script>");
+					print.println("<script type='text/javascript'>");
+					print.println("alert('아직 과제가 등록 되어있지 않습니다.');location.href='./test_Course_Submit.do';");
+					print.println("</script>");
 
 				} catch (IOException e) {
 					System.out.println("1널이다333333.");
@@ -532,7 +534,7 @@ public class TestController_Submit {
 		return "test_DetailSelect";
 	}
 	
-	@RequestMapping(value="test_Course_Mark.do", method=RequestMethod.GET)
+	@RequestMapping(value="/test_Course_Mark.do", method=RequestMethod.GET)
 	public String markCourseList(HttpSession session, Model model) {
 		logger.info("TestController_Submit markCourseList");
 		
@@ -543,8 +545,8 @@ public class TestController_Submit {
 		return "test_Courselist_Mark";
 	}
 	
-	@RequestMapping(value="/test_Subject_Mark.do", method=RequestMethod.GET)
-	public String markSubjectList(String coursecode, String coursename, Model model, HttpSession session) {
+	@RequestMapping(value="/test_Subject_Mark.do", method=RequestMethod.POST)
+	public String markSubjectList(String coursecode, String coursename, String coursecnt, Model model, HttpSession session) {
 		logger.info("TestController markSubjectList");
 		System.out.println(coursecode+":"+coursename);
 		List<Subject_DTO> list1 = iService.test_subject(coursecode);
@@ -558,6 +560,7 @@ public class TestController_Submit {
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
 		testsession.setCoursecode(coursecode);
+		testsession.setCoursecnt(coursecnt);
 
 		session.setAttribute("testsession", testsession);
 		
@@ -580,7 +583,7 @@ public class TestController_Submit {
 		}
 		
 		Map<String, String> map = new HashMap<>();
-		map.put("subject", testsession.getSubjectcode());
+		map.put("subjectcode", testsession.getSubjectcode());
 		map.put("coursecode", testsession.getCoursecode());
 		Subject_Test_DTO test = iService.se_testselect(map);
 		
@@ -703,11 +706,32 @@ public class TestController_Submit {
 		return "test_StuDescAnswer";
 	}
 	
+	// 채점 완료 여부 확인 
 	@RequestMapping(value="/test_AllMark.do", method=RequestMethod.POST,
 			produces="application/text; charset=UTF-8")
 	@ResponseBody
-	public String AllCheckMark(String id, String testcode, String maxnum) {
+	public String AllCheckMark(String id, String testcode, String examcode, String score, String maxnum, HttpSession session) {
 		logger.info("TestController AllCheckMark");
+		
+		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
+		
+		// 현재 페이지 채점 
+		Map<String, String> pagemap = new HashMap<>();
+		pagemap.put("id", id);
+		pagemap.put("testcode", testsession.getTestcode());
+		pagemap.put("examcode", examcode);
+		Score_DTO pagedto = iService.score_select(pagemap);
+		if(pagedto==null) {
+			Score_DTO myscore = new Score_DTO(id, "", testsession.getTestcode(), examcode, Integer.parseInt(score));
+			boolean isc = iService.score_insertd(myscore);		
+			System.out.println("현재 페이지 점수 등록 성공?"+isc);
+		}else {
+			//수정
+			Score_DTO myscore = new Score_DTO(id, "", testsession.getTestcode(), examcode, Integer.parseInt(score));
+			boolean isc = iService.score_modify(myscore);
+			System.out.println("현재 페이지 점수 수정 성공?"+isc);
+		}
+		
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("id", id);
@@ -820,7 +844,7 @@ public class TestController_Submit {
 	}
 	
 	// 강사 과목 조회 
-	@RequestMapping(value="/test_Subject_Result.do", method=RequestMethod.GET)
+	@RequestMapping(value="/test_Subject_Result.do", method=RequestMethod.POST)
 	public String testSubjectResult(String coursecode, String coursename, String coursecnt, HttpSession session, Model model) {
 		logger.info("TestController testSubjectResult");
 		
@@ -841,7 +865,7 @@ public class TestController_Submit {
 	}
 	
 	// 학생 과목 조회 
-	@RequestMapping(value="/test_Subject_ResultStu.do",method=RequestMethod.GET)
+	@RequestMapping(value="/test_Subject_ResultStu.do",method=RequestMethod.POST)
 	public String testSubjectResultStu(String coursecode, String coursename, String coursecnt, HttpSession session, Model model) {
 		logger.info("TestController testSubjectResultStu");
 		
@@ -855,6 +879,7 @@ public class TestController_Submit {
 		TestSession_DTO testsession = new TestSession_DTO();
 		testsession.setCoursename(coursename);
 		testsession.setCoursecnt(coursecnt);
+		testsession.setCoursecode(coursecode);
 
 		session.setAttribute("testsession", testsession);
 		

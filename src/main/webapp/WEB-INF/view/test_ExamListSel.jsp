@@ -33,6 +33,13 @@
 		</tr>
 	</thead>
 	<%
+	if(list.size()==0){
+		%>
+		<tr>
+			<td colspan="3" style="text-align: center;">등록되어있는 문제가 없습니다. </td>
+		</tr>
+		<% 
+	}
 	for(Exam_Sel_DTO dto : list){
 		%>
 		<tr>	

@@ -14,9 +14,11 @@
 </head>
 <body>
 <%@include file="./include/header.jsp" %>
+
 <div class="container" id="main">
 	<div class="row" style="width: 900px; margin: 0 auto;">
 		<div class="col-lg-12">
+
 <form action="./codeDel.do" method="post">
  <div id="list">
 <table class="table">
