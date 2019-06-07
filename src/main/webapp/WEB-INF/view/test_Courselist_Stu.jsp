@@ -15,32 +15,46 @@
 	List<Course_DTO> list = (List<Course_DTO>)request.getAttribute("dto");
 %>
 <%@include file="./include/header.jsp" %>
-<h1>수강과정</h1>
-<table>
-<% 
-	if(list==null){%>
-		<tr>
-			<td colspan="3">수강중인 과정이 없습니다. </td>
-		</tr>
-<% 
-	}else{
-	%>
-	
-	<tr>
-		<td>과정명</td>
-		<td>시작날짜</td>
-		<td>회차</td>
-	</tr>
-	<% 
-		for(Course_DTO dto : list ){ %>
-	<tr>
-		<td><a href="./test_Subject_Submit.do?coursecode=<%=dto.getCoursecode() %>&coursename=<%=dto.getCoursename()%>"><%=dto.getCoursename() %></a></td>
-		<td><%=dto.getStartdate() %></td>
-		<td><%=dto.getCoursecnt() %></td>
-	</tr>
-	<% 
-	}}%>
-</table>
+<script type="text/javascript">
+	function subjectmove(){
+		var frm = document.forms[0];
+		frm.action="./test_Subject_Submit.do";
+		frm.method = "post";
+		frm.submit();
+	}
+</script>
+<div class="container">
+	<h1>수강과정</h1>
+	<form action="">
+		<table class="table">
+		<% 
+			if(list==null){%>
+				<tr>
+					<td colspan="3">수강중인 과정이 없습니다. </td>
+				</tr>
+		<% 
+			}else{
+			%>
+			<thead>
+				<tr>
+					<th>과정명</th>
+					<th>시작날짜</th>
+					<th>회차</th>
+				</tr>
+			</thead>
+			<% 
+				for(Course_DTO dto : list ){ %>
+			<tr>
+				<td><input type="hidden" name="coursename" value="<%=dto.getCoursename()%>"><%=dto.getCoursename() %></td>
+				<td><input type="hidden" name="coursecode" value="<%=dto.getCoursecode()%>"><%=dto.getStartdate() %></td>
+				<td><input type="hidden" name="coursecnt" value="<%=dto.getCoursecnt()%>"><%=dto.getCoursecnt() %></td>
+			</tr>
+			<% 
+			}}%>
+		</table>
+		<input type="button" class="btn btn-success" value="다음" onclick="subjectmove()">
+	</form>
+</div>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

@@ -75,16 +75,16 @@
 	int maxexam=(int)request.getAttribute("maxexamnum");
 	String answer = (String)request.getAttribute("answer");
 %>
+<div class="container">
 <form action="#" method="post">
- 
-	<table>
+	<table  class="table">
 		<tr>
 			<td></td>
 			<td>
 			<%
 			for(int i=1; i<(maxexam+1);i++){
 				%>
-				<input type="button" value="<%=i%>번" onclick="numberclicksel(<%=i%>)">
+					<input type="button" value="<%=i%>번" onclick="numberclicksel(<%=i%>)">
 				<% 
 			}
 			%>
@@ -95,7 +95,9 @@
 				<input type="hidden" name="examcode" value='<%=dto.getExamcode()%>'>
 				<input type="hidden" name="examnum" value='<%=dto.getExamnum()%>'>
 				<input type="hidden" name="page">
-				<%=dto.getExamnum() %></p>
+				
+				<%=dto.getExamnum() %>
+				</p>
 			</td>
 			<td colspan="2">
 				<%=dto.getExam() %><a style="color:red"><%=dto.getAllot() %></a>
@@ -118,13 +120,13 @@
 		}
 		%>
 		<tr>
-			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
-			<td><input type="button" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
-			<td><input type="button" value="시험 제출" onclick="examsubmit()"></td>
+			<td><input type="button" class="btn btn-success" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
+			<td><input type="button" class="btn btn-success" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
+			<td><input type="button" class="btn btn-warning" value="시험 제출" onclick="examsubmit()"></td>
 		</tr>
 	</table>
 </form>
-
+</div>
 <%@include file="./include/footer.jsp" %>
 
 </body>

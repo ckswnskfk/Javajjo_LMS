@@ -53,33 +53,47 @@ function pageUpDown(bool, examnum){ //보냄
 	frm.submit();
 }
 
-function markexam(id, testcode ,maxnum){
-	// 현재 학생의 모든 문제 채점 완료?
-	var allchk;
-	$.ajax({
-		url : "./test_AllMark.do",
-		type : "post",
-		data : {"id":id, "testcode":testcode, "maxnum":maxnum}, // id, testcode 
-		async : false,
-		success : function(exam){
-			allchk = exam;
-		}
-	});
-	alert("채점한 문제 갯수 : "+allchk);
-	if(allchk!=maxnum){
-		alert("모든 문제를 채점해주세요.");
-	}else{
-		// 모든 문제를 채점 했으면 EXAMCHECK를 Y로 바꾸어 준다. 
-		$.ajax({
-			url : "./score_chkupdate.do",
-			type : "post",
-			data : {"id":id, "testcode":testcode},
-			success: function (){
-// 				alert("성공");
-				location.href="./test_Student_List.do";
-				
+function markexam(id, testcode ,maxnum, examcode){
+	var score = document.getElementsByName("score")[0].value;
+	
+	var chk = confirm("채점을 완료하시면 다시 채점할 수 없습니다.");
+	if(chk){
+			
+		if(score==null || score=="" || score==" "){
+			alert("점수를 입력해주세요.");
+		}else if (isNaN(score)){
+			alert("점수는 숫자 입력만 가능합니다.");
+			document.getElementsName("score")[0].focus();
+		}else{
+		
+			// 현재 학생의 모든 문제 채점 완료?
+			var allchk;
+			$.ajax({
+				url : "./test_AllMark.do",
+				type : "post",
+				data : {"id":id, "testcode":testcode, "maxnum":maxnum, "examcode":examcode,"score":score}, // id, testcode 
+				async : false,
+				success : function(exam){
+					allchk = exam;
+				}
+			});
+			alert("채점한 문제 갯수 : "+allchk);
+			if(allchk!=maxnum){
+				alert("모든 문제를 채점해주세요.");
+			}else{
+				// 모든 문제를 채점 했으면 EXAMCHECK를 Y로 바꾸어 준다. 
+				$.ajax({
+					url : "./score_chkupdate.do",
+					type : "post",
+					data : {"id":id, "testcode":testcode},
+					success: function (){
+		// 				alert("성공");
+						location.href="./test_Student_List.do";
+						
+					}
+				});
 			}
-		});
+		}
 	}
 	
 }
@@ -94,55 +108,66 @@ function markexam(id, testcode ,maxnum){
 %>
 <body>
 <%@include file="./include/header.jsp" %>
-<form action="#" method="post">
-<table>
-	<tr>
-			<td><p style="font-size: 20px">
-			<input type="hidden" name="examcode" value='<%=dto.getExamcode()%>'>
-			<input type="hidden" name="examnum" value='<%=dto.getExamnum()%>'>
-			<input type="hidden" name="page" >
-			<input type="hidden" name="id" value="${id}">
-			<%=dto.getExamnum() %></p></td>
-			<td><%=dto.getExam() %></td>
-		</tr>
-		<tr>
-			<td>설명</td>
-			<td colspan="2"><%=dto.getExplanation() %></td>
-		</tr>
-		<tr>
-			<td>채점기준</td>
-			<td><%=dto.getStandard() %></td>
-		</tr>
-		<tr>
-			<td>답안</td>
-			<td colspan="2"><textarea cols="50" rows="5" name="answer"><c:choose><c:when test="${answer.answer eq null}">널</c:when><c:otherwise>${answer.answer}</c:otherwise></c:choose></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="3">
-				<c:choose>
-					<c:when test="${answer.originfile eq null}">
-									파일이 없습니다.
-					</c:when>
-				<c:otherwise>
-					<a href="./test_submitdownload.do?filename=${answer.originfile}&newfilename=${answer.newfilename}">${answer.originfile}</a>
-				</c:otherwise>
-				</c:choose>
-			</td>
-		</tr>
-		<tr>
-			<td>배점</td>
-			<td><%=dto.getAllot() %></td>
-		</tr>
-		<tr>
-			<td>점 수 </td>
-			<td><input type="text" placeholder="점수를 입력해주세요." name="score" value="<c:choose><c:when test="${scoredto eq null}"></c:when><c:otherwise>${scoredto}</c:otherwise></c:choose>"><td></tr>
-		<tr>
-			<td><input type="button" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
-			<td><input type="button" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
-			<td><input type="button" value="채점 완료" onclick="markexam('${id}', '${testsession.testcode}', <%=maxexam%>)"></td>
-		</tr>
-</table>
-</form>
+<div class="container">
+	<form action="#" method="post">
+		<table class="table">
+			<tr>
+					<td><p style="font-size: 20px">
+					<input type="hidden" name="examcode" value='<%=dto.getExamcode()%>'>
+					<input type="hidden" name="examnum" value='<%=dto.getExamnum()%>'>
+					<input type="hidden" name="page" >
+					<input type="hidden" name="id" value="${id}">
+					<%=dto.getExamnum() %></p></td>
+					<td><%=dto.getExam() %></td>
+				</tr>
+				<tr>
+					<td>설명</td>
+					<td colspan="2"><%=dto.getExplanation() %></td>
+				</tr>
+				<tr>
+					<td>채점기준</td>
+					<td><%=dto.getStandard() %></td>
+				</tr>
+				<tr>
+					<td>답안</td>
+					<td colspan="2">
+						<div class="form-group">
+							<textarea class="form-control" cols="30" rows="2" name="answer"><c:choose><c:when test="${answer.answer eq null}">정답을 작성해주세요.</c:when><c:otherwise>${answer.answer}</c:otherwise></c:choose></textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<c:choose>
+							<c:when test="${answer.originfile eq null}">
+											파일이 없습니다.
+							</c:when>
+						<c:otherwise>
+							<a href="./test_submitdownload.do?filename=${answer.originfile}&newfilename=${answer.newfilename}">${answer.originfile}</a>
+						</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<td>배점</td>
+					<td><%=dto.getAllot() %></td>
+				</tr>
+				<tr>
+					<td>점 수 </td>
+					<td>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="점수를 입력해주세요." name="score" value="<c:choose><c:when test="${scoredto eq null}"></c:when><c:otherwise>${scoredto}</c:otherwise></c:choose>">
+						</div>
+					<td>
+				</tr>
+				<tr>
+					<td><input type="button" class="btn btn-success" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
+					<td><input type="button" class="btn btn-success" value="다음 문제 →" onclick="pageexam(false,<%=maxexam%>)"></td>
+					<td><input type="button" class="btn btn-warning" value="채점 완료" onclick="markexam('${id}', '${testsession.testcode}', '<%=maxexam%>', '<%=dto.getExamcode()%>')"></td>
+				</tr>
+		</table>
+	</form>
+</td>
 <%@include file="./include/footer.jsp" %>
 </body>
 </html>

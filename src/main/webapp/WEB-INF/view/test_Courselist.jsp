@@ -36,7 +36,7 @@
 		</tr>
 		</thead>
 		<tr>
-			<td><input type="hidden" name="coursename" value='<%=dto.getCoursename()%>'><%=dto.getCoursename() %></a></td>
+			<td><input type="hidden" name="coursename" value='<%=dto.getCoursename()%>'><%=dto.getCoursename() %></td>
 			<td><input type="hidden" name="coursecode" value='<%=dto.getCoursecode()%>'><%=dto.getStartdate() %></td>
 			<td><input type="hidden" name="coursecnt" value='<%=dto.getCoursecnt()%>'><%=dto.getCoursecnt() %></td>
 		</tr>
