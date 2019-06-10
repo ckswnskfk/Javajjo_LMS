@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <script type="text/javascript" src="./js/test.js"></script>
 <script type="text/javascript">
 	var examnum = 9316;
@@ -43,6 +44,7 @@
 </script>
 </head>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <div class="container">
 	<h3 style="margin-top: 20px; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;▶ 선택형 문제 등록</h3>
@@ -134,6 +136,6 @@
 	</form>
  </div>
 <%@include file="./include/footer.jsp" %>
-
+</div>
 </body>
 </html>

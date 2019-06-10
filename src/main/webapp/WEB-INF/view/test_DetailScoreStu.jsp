@@ -7,8 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <div class="">
 	<table style="margin-bottom: 20px; margin-top: 20px;  width:100%;margin-bottom:1rem;background-color:transparent;">
@@ -41,5 +43,6 @@
 <%-- 	<h4>과제 날짜 : ${testsession.testday}</h4> --%>
 	
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

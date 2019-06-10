@@ -49,7 +49,7 @@
 	
 	
 </style>
-
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
@@ -62,7 +62,7 @@
 
 </head>
 <body>
-
+<div class="content-wrapper">
 
 <%@include file="./include/header.jsp" %>
  
@@ -204,5 +204,6 @@
 
 
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

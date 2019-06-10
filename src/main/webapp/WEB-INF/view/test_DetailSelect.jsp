@@ -11,8 +11,10 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <script type="text/javascript">
 
@@ -128,6 +130,6 @@
 </form>
 </div>
 <%@include file="./include/footer.jsp" %>
-
+</div>
 </body>
 </html>

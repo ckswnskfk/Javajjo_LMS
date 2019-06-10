@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <style type="text/css">
 	table{border-collapse:collapse}
 	caption{padding-top:.75rem;padding-bottom:.75rem;color:#6c757d;text-align:left;caption-side:bottom}
@@ -15,6 +16,7 @@
 <script type="text/javascript" src="./js/test.js"></script>
 </head>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <div class="container">
 	<table style="margin-bottom: 20px; margin-top: 20px;">
@@ -48,5 +50,6 @@
 	<input type="button" value="뒤로가기" class="btn btn-primary disabled"  onclick="javascript:location.href='./test_Course_Submit.do'" style="float: right"> 
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

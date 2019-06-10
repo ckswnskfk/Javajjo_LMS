@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <style type="text/css">
 	.test_session{
 	border: 1px solid black;
@@ -24,6 +25,7 @@
 </script>
 </head>
 <body>
+<div class="content-wrapper">
 <%
 	List<Test_Exam_DTO> list = (List<Test_Exam_DTO>)request.getAttribute("dto");
 %>
@@ -81,5 +83,6 @@
 	</table>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

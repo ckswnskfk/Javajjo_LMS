@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <head>
 <meta charset='utf-8' />
 <script type="text/javascript" src="./js/calendar.js"></script>
@@ -19,6 +20,7 @@
 </style>
 </head>
 <body>
+<div class="content-wrapper">
 <%@ include file="./include/header.jsp" %>
 <div class="container">
 	<table>
@@ -52,5 +54,6 @@
 	<input type="button" class="btn btn-default" value="취소" onclick="location.href='./room_main.do'">
 	</div>
 <%@ include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

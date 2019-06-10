@@ -15,7 +15,6 @@
 		/WEB-INF/spring/appServlet/applicationContext.xml
 		/WEB-INF/spring/appServlet/spring-security.xml
 		/WEB-INF/spring/appServlet/aop-context.xml
-		/WEB-INF/spring/appServlet/quartz-context.xml
 		</param-value>
 	</context-param>
 

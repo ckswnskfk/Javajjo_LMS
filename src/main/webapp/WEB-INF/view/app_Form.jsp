@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@include file="./include/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>결석 신청 페이지</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <script type="text/javascript">
 	var id = "${member.id}";
@@ -79,6 +79,9 @@
 </script>
 
 <body>
+<div class="content-wrapper">
+<%@include file="./include/header.jsp" %>
+
 	<div class="container" id="main">
     <div class="row" style="width: 800px; margin: 0 auto;">
       <div class="col-lg-12 text-center">
@@ -144,6 +147,7 @@
         </div>
       </div>
     </div>
+<%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>
-<%@include file="./include/footer.jsp" %>

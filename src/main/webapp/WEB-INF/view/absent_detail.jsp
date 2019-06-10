@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>신청 내역 상세 조회 페이지</title>
-<link rel= "stylesheet" type="text/css" href="./css/main.css">
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
+<!-- <link rel= "stylesheet" type="text/css" href="./css/main.css"> -->
 <!-- <link href="./css/bootstrap.min.css" rel="stylesheet"> -->
 <!-- <link rel= "stylesheet" type="text/css" href="./css/main.css"> -->
 
@@ -53,8 +54,9 @@
 		});
 	}
 </script>
+<body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
-<body style="position: relative;">
 <div class="container" id="main">
     <div class="row" style="width: 700px; margin: 0 auto;">
       <div class="col-md-12">
@@ -135,6 +137,7 @@
       </div>
     </div>
   </div>
-</body>
 <%@include file="./include/footer.jsp" %>
+  </div>
+</body>
 </html>

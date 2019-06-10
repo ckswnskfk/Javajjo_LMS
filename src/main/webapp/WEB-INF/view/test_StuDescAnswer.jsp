@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <script type="text/javascript">
 function pageexam(bool, max){ //판단
 	
@@ -107,6 +108,7 @@ function markexam(id, testcode ,maxnum, examcode){
 	int maxexam = (int)request.getAttribute("maxexamnum");
 %>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <div class="container">
 	<form action="#" method="post">
@@ -158,7 +160,7 @@ function markexam(id, testcode ,maxnum, examcode){
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="점수를 입력해주세요." name="score" value="<c:choose><c:when test="${scoredto eq null}"></c:when><c:otherwise>${scoredto}</c:otherwise></c:choose>">
 						</div>
-					<td>
+					</td>
 				</tr>
 				<tr>
 					<td><input type="button" class="btn btn-success" value="← 이전문제" onclick="pageexam(true,<%=maxexam%>)"></td>
@@ -167,7 +169,8 @@ function markexam(id, testcode ,maxnum, examcode){
 				</tr>
 		</table>
 	</form>
-</td>
+	</div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

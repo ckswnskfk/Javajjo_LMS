@@ -12,10 +12,11 @@
 <head>
 <meta charset="EUC-KR">
 <title>과제 관리</title>
-</script>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <script type="text/javascript" src="./js/test.js"></script>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <%
 	Exam_Des_DTO dto = (Exam_Des_DTO)request.getAttribute("dto");
@@ -83,5 +84,6 @@
 </form>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

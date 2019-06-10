@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>학생 출석 상세조회</title>
-
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 
 <style>
 
@@ -50,6 +50,7 @@ td {
 
 </head>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <div>
 	<form action="#" method="get" id="attended_Student">
@@ -73,5 +74,6 @@ td {
 
 
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>
