@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <style type="text/css">
 .test_session{
 	border: 1px solid black;
@@ -28,6 +29,7 @@
 </script>
 </head>
 <body>
+<div class="content-wrapper">
 <%
 	List<Subject_DTO> list = (List<Subject_DTO>)request.getAttribute("list");
 // 	String coursename = (String)session.getAttribute("coursename");
@@ -71,5 +73,6 @@
 	</div>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

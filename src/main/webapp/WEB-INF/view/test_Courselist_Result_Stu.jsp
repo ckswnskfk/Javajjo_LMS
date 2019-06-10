@@ -9,8 +9,10 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <body>
+<div class="content-wrapper">
 <%
 	List<Course_DTO> list = (List<Course_DTO>)request.getAttribute("dto");
 %>
@@ -55,6 +57,6 @@
 	<input type="button" class="btn btn-success" value="다음" onclick="subjectmove()">
 </div>
 <%@include file="./include/footer.jsp" %>
-
+</div>
 </body>
 </html>

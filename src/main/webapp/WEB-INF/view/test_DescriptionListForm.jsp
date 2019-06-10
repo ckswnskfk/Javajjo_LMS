@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <style type="text/css">
 	.test_session{
 	border: 1px solid black;
@@ -70,6 +71,7 @@
 		}
 </script>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <div class="container">
 		<table style="margin-bottom: 20px; margin-top: 20px;  width:100%;margin-bottom:1rem;background-color:transparent;">
@@ -154,5 +156,6 @@
 	</form>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

@@ -10,12 +10,14 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <%
 	List<Student_DTO> list = (List<Student_DTO>)request.getAttribute("list");
 	List<Score_DTO> scorelist = (List<Score_DTO>)request.getAttribute("scorelist");
 %>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <%-- ${list} --%>
 <!-- <hr> -->
@@ -72,5 +74,6 @@
 	</table>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

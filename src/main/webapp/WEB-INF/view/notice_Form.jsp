@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <link rel="stylesheet" href="./css/BoardList.css">
 <script type="text/javascript" src="./js/BoardList.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -13,6 +14,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="content-wrapper">
 <%@ include file="./include/header.jsp" %>
 	<div class="container">
 		<h2>공지사항 게시판</h2>
@@ -53,5 +55,6 @@
 		</form>
 	</div>
 <%@ include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

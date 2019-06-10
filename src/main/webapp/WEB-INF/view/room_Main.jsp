@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <link href='./css/cormain.css' rel='stylesheet' />
 <link href='./css/daymain.css' rel='stylesheet' />
 <script src='./js/cormain.js'></script>
@@ -87,6 +88,7 @@ function room_event(){
 </style>
 </head>
 <body>
+<div class="content-wrapper">
 <%@ include file="./include/header.jsp" %>
 <div class="container">
  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">강의실 목록</button>
@@ -165,5 +167,6 @@ function room_event(){
  </div>
 </div>
 <%@ include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

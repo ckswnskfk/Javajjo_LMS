@@ -46,7 +46,7 @@ body {
 </style>
 
 <title>출석부 조회</title>
-
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 
 
@@ -68,6 +68,7 @@ body {
 
 
 <body>
+<div class="content-wrapper">
 	<%@include file="./include/header.jsp"%>
 
 
@@ -237,5 +238,6 @@ body {
 
 
 	<%@include file="./include/footer.jsp"%>
+	</div>
 </body>
 </html>

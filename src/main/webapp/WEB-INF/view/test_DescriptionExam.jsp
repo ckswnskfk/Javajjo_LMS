@@ -13,8 +13,10 @@
  }
 </style>
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <body>
+<div class="content-wrapper">
 <script type="text/javascript">
 
 // 	window.onload=function(){
@@ -103,5 +105,6 @@
 	</form>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

@@ -11,6 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <script type="text/javascript" src="./js/test.js"></script>
 <script type="text/javascript">
 	function pluscontent(){
@@ -43,6 +44,7 @@
 </script>
 </head>
 <body>
+<div class="content-wrapper">
 <%-- <h1>${examcode}</h1> --%>
 <%
 	Exam_Sel_DTO dto = (Exam_Sel_DTO)request.getAttribute("dto");
@@ -123,5 +125,6 @@
 	</form>
 </div>
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

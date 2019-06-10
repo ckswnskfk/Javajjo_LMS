@@ -6,12 +6,14 @@
   <title>강사 등록</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel= "stylesheet" type="text/css" href="./css/template.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="./js/join.js"></script>
 </head>
 <body>
+<div class="content-wrapper">
 <%@ include file="./include/header.jsp" %>
 <div class="container">
   <h2>강사 등록</h2>
@@ -58,5 +60,6 @@
   </form>
 </div>
 <%@ include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

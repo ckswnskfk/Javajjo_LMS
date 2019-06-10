@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>학생과정조회</title>
-
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 <style>
 
 	 body {
@@ -55,6 +55,7 @@
 
 </head>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 
 			<div id="back">
@@ -82,5 +83,6 @@
 
 
 <%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>

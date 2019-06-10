@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>과제 관리</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <script type="text/javascript">
 	function StuScore(){
@@ -14,6 +15,7 @@
 	}
 </script>
 <body>
+<div class="content-wrapper">
 <%@include file="./include/header.jsp" %>
 <div class="container">
 <table style="margin-bottom: 20px; margin-top: 20px;  width:100%;margin-bottom:1rem;background-color:transparent;">
@@ -48,6 +50,6 @@
 	<input type="button" value="뒤로가기" class="btn btn-primary disabled" onclick="javascript:location.href='./test_Course_ResultStu.do'"> 
 </div>
 <%@include file="./include/footer.jsp" %>	
-
+</div>
 </body>
 </html>
