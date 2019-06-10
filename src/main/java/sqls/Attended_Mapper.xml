@@ -52,23 +52,24 @@ FROM STUDENT
 WHERE REGDATE IS NULL
 </select>	
 
-<!-- 출석 및 퇴실,결석 -->
-<insert id="cal_attended" parameterType="AttendedDTO">
+<!-- 입실 -->
+<insert id="cal_attended" parameterType="java.lang.String">
+INSERT INTO ATTENDEDCHECK(SEQ, A_CHECK, ID, REGDATE)
+VALUES(ATTENDEDCHECK_SEQ.NEXTVAL, 'Y', #{id}, SYSDATE)
+</insert>
+
+<!-- 퇴실 -->
+<insert id="cal_exit" parameterType="java.lang.String">
 INSERT INTO ATTENDEDCHECK(SEQ, A_CHECK, ID, REGDATE)
 VALUES(ATTENDEDCHECK_SEQ.NEXTVAL, 'N', #{id}, SYSDATE)
 </insert>
 
-
-
-<!-- 평일 오전 6시에 자동으로 실행 -->
-<insert id="cal_attended_null">
-INSERT INTO ATTENDEDCHECK(SEQ, A_CHECK, ID, REGDATE)
-VALUES(ATTENDEDCHECK_SEQ.NEXTVAL, '', (
-	SELECT ID FROM STUDENT
-), SYSDATE)
-</insert>
-
-
-
+<!-- 해당일 출석체크 돼있는지 확인 -->
+<select id="cal_chk" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT 1
+	FROM ATTENDEDCHECK
+	WHERE ID = #{id} 
+	AND TO_CHAR(REGDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')
+</select>
 
 </mapper>

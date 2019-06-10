@@ -69,20 +69,30 @@ public class Attended_Service implements Attended_IService {
 	}
 	
 	
-	//	cal_attended : 출석 및 퇴실,결석
+	//	cal_attended : 입실
 	@Override
-	public boolean cal_attended(Attended_DTO dto) {
+	public boolean cal_attended(String id) {
 		logger.info("Attended_Service cal_attended 실행");
-		return attended_Interface.cal_attended(dto);
+		return attended_Interface.cal_attended(id);
 	}
 
-//	cal_attended_null : 평일 오전 6시에 자동으로 실행
+	// 퇴실
 	@Override
-	public boolean cal_attended_null() {
-		logger.info("Attended_Service cal_attended_null 실행");
-		return  attended_Interface.cal_attended_null();
+	public boolean cal_exit(String id) {
+		logger.info("Attended_Service cal_exit 실행");
+		return attended_Interface.cal_exit(id);
 	}
 	
+	
+	// 해당일 출석체크 돼있는지 확인
+	@Override
+	public int cal_chk(String id) {
+		logger.info("Attended_Service cal_chk 실행");
+		return attended_Interface.cal_chk(id);
+	}
 
+
+
+	
 
 }

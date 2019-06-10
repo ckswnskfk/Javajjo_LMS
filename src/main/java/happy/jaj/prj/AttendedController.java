@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import happy.jaj.prj.dtos.Attended_DTO;
 import happy.jaj.prj.dtos.Course_DTO;
@@ -78,7 +80,7 @@ public class AttendedController {
 		List<Attended_DTO> alists = attended_Iservice.cal_stuatt(id);	
 		System.out.println(alists + "------------------");	
 		model.addAttribute("alists" , alists);	
-		return "attended_Student";	
+		return "attended_Student";
 	}
 	
 	
@@ -173,7 +175,36 @@ public class AttendedController {
 			return "redirect:/attended_Rollbook.do";
 	}
 	
+	// 해당일 출석체크 돼있는지 확인
+	@RequestMapping(value="/chk_Attended.do", method=RequestMethod.POST)
+	@ResponseBody
+	public int cal_chk(@RequestBody String id) {
+		logger.info("AttendedController cal_chk 실행");
+		System.out.println(id);
+		String inid = id.substring(0, 11);
+		System.out.println(inid);
+		int n = attended_Iservice.cal_chk(inid);
+		System.out.println(n);
+		return n;
+	}
 	
+	// 입실
+	@RequestMapping(value="/insert_Attended.do", method=RequestMethod.GET)
+	public String cal_attended(String id, Model model) {
+		boolean isc = attended_Iservice.cal_attended(id);
+		System.out.println(isc);
+		model.addAttribute("id", id);
+		return "redirect:/attended_Student.do";
+	}
+	
+	// 퇴실
+	@RequestMapping(value="/exit_Attended.do", method=RequestMethod.GET)
+	public String cal_exit(String id, Model model) {
+		boolean isc = attended_Iservice.cal_exit(id);
+		System.out.println(isc);
+		model.addAttribute("id", id);
+		return "redirect:/attended_Student.do";
+	}
 	
 	
 //		cal_attended : 출석 및 퇴실,결석
