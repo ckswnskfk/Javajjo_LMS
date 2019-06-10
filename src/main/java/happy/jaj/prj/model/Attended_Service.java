@@ -76,6 +76,13 @@ public class Attended_Service implements Attended_IService {
 		return attended_Interface.cal_attended(dto);
 	}
 
+//	cal_attended_null : 평일 오전 6시에 자동으로 실행
+	@Override
+	public boolean cal_attended_null() {
+		logger.info("Attended_Service cal_attended_null 실행");
+		return  attended_Interface.cal_attended_null();
+	}
+	
 
 
 }

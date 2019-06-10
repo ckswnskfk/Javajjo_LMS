@@ -32,4 +32,9 @@ public interface Attended_IService {
 	
 	//	cal_attended : 출석 및 퇴실,결석
 	public boolean cal_attended(Attended_DTO dto);
+	
+//	cal_attended_null : 평일 오전 6시에 자동으로 실행
+	public boolean cal_attended_null();
+	
+	
 }
