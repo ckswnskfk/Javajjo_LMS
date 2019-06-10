@@ -8,10 +8,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel= "stylesheet" type="text/css" href="./css/template.css">
 </head>
 <body>
+<div class="content-wrapper"> 
+<%@include file="./include/header.jsp" %>
+<div class="container" id="main">
+	<div class="row" style="width: 900px; margin: 0 auto;">
+		<div class="col-lg-12">
 <form action="./endset.do" method="post">
-<table>
+<div id="list">
+<table class="table">
 	<tr>
 		<th>과목명</th>
 		<th>수업시간</th>
@@ -32,7 +39,13 @@
 	
 	
 	</table>
+	</div>
 	<input type="submit" value="등록하기">
 	</form>
+	</div>
+	</div>
+	</div>
+	<%@include file="./include/footer.jsp" %>
+</div>
 </body>
 </html>
