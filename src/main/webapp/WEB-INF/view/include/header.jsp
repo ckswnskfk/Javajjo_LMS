@@ -49,10 +49,10 @@
 
   <c:choose>
             <c:when test="${member.table eq 'Student'}">
-				  <a href="./attended_Student_Course.do">출결 관리</a>
+				  <a href="./attended_Student_Course.do?id=${member.id}">출결 관리</a>
          	</c:when>
          	<c:when test="${member.table eq 'Teacher'}">
-         			<a href="./attended_Teacher_Course.do">출결 관리</a>
+         			<a href="./attended_Teacher_Course.do?id=${member.id}">출결 관리</a>
          	</c:when>
   </c:choose>
   

@@ -30,11 +30,12 @@ public interface Attended_IService {
 	// 결석 문자 발송 ( 생각중 )
 	public List<Student_DTO> cal_sms(String regdate);
 	
-	//	cal_attended : 출석 및 퇴실,결석
-	public boolean cal_attended(Attended_DTO dto);
+	//	cal_attended : 입실
+	public boolean cal_attended(String id);
 	
-//	cal_attended_null : 평일 오전 6시에 자동으로 실행
-	public boolean cal_attended_null();
+	// 퇴실
+	public boolean cal_exit(String id);
 	
-	
+	// 해당일 출석체크 돼있는지 확인
+	public int cal_chk(String id);
 }

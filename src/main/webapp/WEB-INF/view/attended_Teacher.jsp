@@ -23,29 +23,29 @@
     
 
 <style>
-	body {
-	margin: 40px 10px;
-	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 18px;
+  	body { 
+  		margin: 40px 10px; 
+  		padding: 0; 
+  		font-family: Arial, Helvetica Neue, Helvetica, sans-serif; 
+  	     font-size: 18px; 
 	
 
-	}
+  	} 
 	
 	#calendar{
 		height: 689px;
-		max-width: 1000px;
-		margin: 0 auto;
+  		max-width: 1000px;
+/* 		margin: auto; */
 		border: 3px solid #827FFE;
 		border-collapse: collapse;
-	}
+  	}  
 		
 	
-	#menu{
+ 	#menu{ 
 	
-		display: inline;
-		margin-left: 250px;
-	}
+ 		display: inline; 
+ 		margin-left: 250px; 
+ 	} 
 	
 	
 </style>
@@ -77,14 +77,14 @@
 <script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 				
+	<div class="container">
 	<div id="menu">
 	 <h1>과정명 : ${cdto.coursename}</h1>
 	<p id="now"></p> 
 	      <button id="prev">◀</button><button id="next">▶</button>  
 	      <input class="btn btn-sm btn-primary btn-center" type="button" value="돌아가기" onclick="history.back(-1)">  
 	    </div>
-	    
-	<div id="calendar" style="height:600px;" >	
+	<div id="calendar">	
 	
 		<script type="text/javascript">
 	
@@ -197,7 +197,7 @@
 	
 	
 </div>
-
+</div>
 
 
 

@@ -43,7 +43,28 @@ td {
 
 </style>
 
-
+<script type="text/javascript">
+	var id = '${member.id}';
+	
+	onload = (function() {
+		$.ajax({
+			url: "./chk_Attended.do",
+			data: id,
+			type: "POST",
+			success: function(n) {
+				if (n > 1) {
+					$("#attended_button").html("");
+				} else if (n == 1){
+					var html = "<button class='btn btn-sm btn-danger btn-center' onclick=\"location.href='./exit_Attended.do?id=${member.id}'\">퇴실</button>";
+					$("#attended_button").html(html);
+				} else if (n == 0) {
+					var html = "<button class='btn btn-sm btn-success btn-center' onclick=\"location.href='./insert_Attended.do?id=${member.id}'\">입실</button>";
+					$("#attended_button").html(html);
+				}
+			}
+		});
+	});
+</script>
 
 
 
@@ -71,7 +92,10 @@ td {
 			<div>
 				<input class="btn btn-sm btn-primary btn-center" type="button" value="돌아가기" onclick="history.back(-1)">
 			</div>
-
+			<div id="attended_button">
+<%-- 				<button class="btn btn-sm btn-success btn-center" onclick="location.href='./insert_Attended.do?id=${member.id}'">입실</button> --%>
+<%-- 				<button class="btn btn-sm btn-danger btn-center" onclick="location.href='./exit_Attended.do?id=${member.id}'">퇴실</button> --%>
+			</div>
 
 <%@include file="./include/footer.jsp" %>
 </div>

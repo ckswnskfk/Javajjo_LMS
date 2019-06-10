@@ -6,8 +6,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript">
+	onload = (function() {
+		alert("500에러 입니다. 초기페이지로 이동합니다.");
+		location.href="./main.do";
+	});
+</script>
 <body>
-<h1>500에러입니다. 죄송합니다...</h1>
-<a href="./main.do"><h2>메인페이지로</h2></a>
 </body>
 </html>

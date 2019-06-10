@@ -63,30 +63,37 @@ public class Attended_Dao implements Attended_Interface {
 	
 	
 	
-	//	cal_attended : 출석 및 퇴실,결석
+	//	cal_attended : 입실
 	@Override
-	public boolean cal_attended(Attended_DTO dto) {
-		logger.info("Attended_Dao cal_attended 실행{}", dto);
-		int n = sqlSessionTemplate.insert(NS_Attended+"cal_attended", dto);
+	public boolean cal_attended(String id) {
+		logger.info("Attended_Dao cal_attended 실행{}", id);
+		int n = sqlSessionTemplate.insert(NS_Attended+"cal_attended", id);
 		return n>0?true:false;
 	}
 	
-//	cal_attended_null : 평일 오전 6시에 자동으로 실행
+	// 퇴실
 	@Override
-	public boolean cal_attended_null() {
-		logger.info("Attended_Service cal_attended_null 실행");
-		int n = sqlSessionTemplate.insert(NS_Attended+"cal_attended_null");
+	public boolean cal_exit(String id) {
+		logger.info("Attended_Dao cal_exit 실행{}", id);
+		int n = sqlSessionTemplate.insert(NS_Attended+"cal_exit", id);
 		return n>0?true:false;
 	}
-	
-	
 	
 	// cal_sms : 결석 문자 발송
 	@Override
 	public List<Student_DTO> cal_sms(String regdate) {
-		logger.info("Attended_Dao cal_sms 실행{}");
+		logger.info("Attended_Dao cal_sms 실행{}", regdate);
 		return sqlSessionTemplate.selectList(NS_Attended+"cal_sms", regdate);
 	}
+	
+	// 해당일 출석체크 돼있는지 확인
+	@Override
+	public int cal_chk(String id) {
+		logger.info("Attended_Dao cal_chk 실행{}", id);
+		int n = sqlSessionTemplate.selectList(NS_Attended+"cal_chk", id).size();
+		return n;
+	}
+	
 
 	
 
