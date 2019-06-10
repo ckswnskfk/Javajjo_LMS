@@ -28,12 +28,13 @@ public interface Attended_Interface {
 	//	cal_monatt : 강사 학생 출석 상세 조회
 	public List<Student_DTO> cal_detail(String id);
 	
-	// 결석 문자 발송 ( 생각중 )
+	// 	cal_sms : 결석 문자 발송 
 	public List<Student_DTO> cal_sms(String regdate);
 	
 	//	cal_attended : 출석 및 퇴실,결석
 	public boolean cal_attended(Attended_DTO dto);
 
-	
+	//	cal_attended_null : 평일 오전 6시에 자동으로 실행
+	public boolean cal_attended_null();
 	
 }

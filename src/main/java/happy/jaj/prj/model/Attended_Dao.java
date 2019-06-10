@@ -19,8 +19,6 @@ public class Attended_Dao implements Attended_Interface {
 	
 	private Logger logger = LoggerFactory.getLogger(Attended_Dao.class);
 	private final String NS_Attended = "happy.jaj.prj.Attended_Mapper.";
-//	private final String NS_Course = "happy.jaj.prj.Course_Mapper.";
-//	private final String NS_Student ="happy.jaj.prj.Member_Mapper.";
 	
 	
 	@Autowired
@@ -65,14 +63,6 @@ public class Attended_Dao implements Attended_Interface {
 	
 	
 	
-	// 결석 문자 발송 ( 생각중 )
-//	@Override
-//	public boolean cal_sms() {
-//	logger.info("Attended_Dao cal_stucos 실행{}", seq);
-//		boolean isc = false;
-//		if()
-//		return false;
-//	}
 	//	cal_attended : 출석 및 퇴실,결석
 	@Override
 	public boolean cal_attended(Attended_DTO dto) {
@@ -80,6 +70,18 @@ public class Attended_Dao implements Attended_Interface {
 		int n = sqlSessionTemplate.insert(NS_Attended+"cal_attended", dto);
 		return n>0?true:false;
 	}
+	
+//	cal_attended_null : 평일 오전 6시에 자동으로 실행
+	@Override
+	public boolean cal_attended_null() {
+		logger.info("Attended_Service cal_attended_null 실행");
+		int n = sqlSessionTemplate.insert(NS_Attended+"cal_attended_null");
+		return n>0?true:false;
+	}
+	
+	
+	
+	// cal_sms : 결석 문자 발송
 	@Override
 	public List<Student_DTO> cal_sms(String regdate) {
 		logger.info("Attended_Dao cal_sms 실행{}");
