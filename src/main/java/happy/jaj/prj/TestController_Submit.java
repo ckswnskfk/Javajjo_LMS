@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -95,7 +96,7 @@ public class TestController_Submit {
 	}
 	
 	@RequestMapping(value="/test_List_Submit.do", method=RequestMethod.GET)
-	public String Testlist(HttpSession session, TestSession_DTO dto, Model model) {
+	public String Testlist(HttpSession session, TestSession_DTO dto, Model model, HttpServletResponse resp) {
 		logger.info("TestController Testlist");
 		System.out.println(dto);
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
@@ -108,16 +109,36 @@ public class TestController_Submit {
 		map.put("subjectcode", dto.getSubjectcode());
 		map.put("coursecode", testsession.getCoursecode());
 		Subject_Test_DTO STdto = iService.se_testselect(map);
-		model.addAttribute("dto", STdto);
-		System.out.println("TSdto");
 		
-
+		if(STdto==null){
+			System.out.println("널1");
+			PrintWriter print;
+			try {
+				resp.setContentType("text/html; charset=UTF-8");
+				System.out.println("널2");
+				print = resp.getWriter();
+				print.println("<script>alert('아직 과제가 등록 되어있지 않습니다.'); </script>");
+				System.out.println("널3");
+				print.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			
+			
+			model.addAttribute("dto", STdto);
+			System.out.println("TSdto");
+			
+			
+			
 			testsession.setTestname(STdto.getTestname());
 			testsession.setTestday(STdto.getTestday());
 			testsession.setTestcode(STdto.getTestcode());
-		
-		System.out.println("■■■■■■■■■■ session : "+testsession);
-		session.setAttribute("testsession", testsession);
+			
+			System.out.println("■■■■■■■■■■ session : "+testsession);
+			session.setAttribute("testsession", testsession);
+		}
 		
 		return "test_List_Stu";
 	}
@@ -164,39 +185,42 @@ public class TestController_Submit {
 		if(answerdto!=null) {
 			PrintWriter print;
 			try {
+				resp.setContentType("text/html; charset=UTF-8");
+				System.out.println("널3");
 				print = resp.getWriter();
-				print.append("<script>");
-				print.append("alert('이미 제출한 과제는 응시하지 못합니다.');location.href='./test_Course_Submit.do';");
-				print.append("</script>");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		// 다음 페이지 문제조회
-		System.out.println("--이동할 페이지 : "+examnum);
-		map.put("examnum", examnum);
-		Exam_Des_DTO dto = iService.te_select(map);
-		if(dto==null) {
-			System.out.println("널이다.");
-			try {
-				System.out.println("널이다2222.");
-				resp.setContentType("text/html; charset=UTF-8"); 
-				PrintWriter print = resp.getWriter();
-				print.println("<script  type=\"text/javascript\">");
-				print.println("alert('아직 과제가 등록 되어있지 않습니다.');location.href='./test_Course_Submit.do';");
-				print.println("</script>");
+				print.println("<script>alert('이미 제출한 과제는 응시하지 못합니다.');</script>");
 				print.flush();
 			} catch (IOException e) {
-				System.out.println("널이다333333.");
 				e.printStackTrace();
 			}
+			return "redirect:/test_Course_Submit.do";
 		}else {
-			System.out.println("널이다444444.");
-			model.addAttribute("dto", dto);
-			System.out.println("널이다555555.");
+			
+			// 다음 페이지 문제조회
+			System.out.println("--이동할 페이지 : "+examnum);
+			map.put("examnum", examnum);
+			Exam_Des_DTO dto = iService.te_select(map);
+			if(dto==null) {
+				System.out.println("널이다.");
+				try {
+					System.out.println("널이다2222.");
+					resp.setContentType("text/html; charset=UTF-8"); 
+					PrintWriter print = resp.getWriter();
+					print.println("<script>");
+					print.println("alert('아직 과제가 등록 되어있지 않습니다.');");
+					print.println("</script>");
+					print.flush();
+				} catch (IOException e) {
+					System.out.println("널이다333333.");
+					e.printStackTrace();
+				}
+			}else {
+				System.out.println("널이다444444.");
+				model.addAttribute("dto", dto);
+				System.out.println("널이다555555.");
+			}
+			return "test_DetailDescription";
 		}
-		return "test_DetailDescription";
 		
 	}
 	
@@ -568,7 +592,7 @@ public class TestController_Submit {
 	}
 	
 	@RequestMapping(value="/test_Student_List.do", method=RequestMethod.GET)
-	public String markStudentList(TestSession_DTO dto, HttpSession session, Model model) {
+	public String markStudentList(TestSession_DTO dto, HttpSession session, Model model, HttpServletResponse resp) {
 		logger.info("TestController markStudentList");
 		
 		System.out.println(dto);
@@ -592,21 +616,36 @@ public class TestController_Submit {
 		testsession.setTestcode(test.getTestcode());
 		
 		List<Student_DTO> list = iService.test_coursestu(testsession.getCoursecode());
-		int[] intlist = new int[list.size()];
-		int i = 0;
-		for(Student_DTO stu : list) {
-			Map<String, String> map1 = new HashMap<>();
-			map1.put("id", stu.getId());
-			map1.put("testcode", testsession.getTestcode());
-			int cnt = iService.score_allcheck(map1);
-			intlist[i++] = cnt;
-			System.out.println(cnt);
+		if(list.size()==0) {
+			// 여기
+			PrintWriter print;
+			try {
+				resp.setContentType("text/html; charset=UTF-8");
+				System.out.println("널3");
+				print = resp.getWriter();
+				print.println("<script>alert('수강하는 학생이없어서 채점을 진행할 수 없습니다.');location.href='./test_Course_Mark.do';</script>");
+				print.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
+		}else {
+			
+			int[] intlist = new int[list.size()];
+			int i = 0;
+			for(Student_DTO stu : list) {
+				Map<String, String> map1 = new HashMap<>();
+				map1.put("id", stu.getId());
+				map1.put("testcode", testsession.getTestcode());
+				int cnt = iService.score_allcheck(map1);
+				intlist[i++] = cnt;
+				System.out.println(cnt);
+			}
+			System.out.println(intlist[0]);System.out.println(Arrays.toString(intlist));
+			model.addAttribute("list", list);
+			model.addAttribute("countlist", intlist);
+			System.out.println("■■■■■■■■■■ session : "+testsession);
+			session.setAttribute("testsession", testsession);
 		}
-		System.out.println(intlist[0]);System.out.println(Arrays.toString(intlist));
-		model.addAttribute("list", list);
-		model.addAttribute("countlist", intlist);
-		System.out.println("■■■■■■■■■■ session : "+testsession);
-		session.setAttribute("testsession", testsession);
 		
 		return "test_StudentList";
 	}
@@ -897,7 +936,7 @@ public class TestController_Submit {
 	
 	//과제 조회(학생)
 	@RequestMapping(value="/test_Test_ResultStu.do" , method=RequestMethod.GET)
-	public String testSubjectResultStu(TestSession_DTO dto, HttpSession session, Model model) {
+	public String testSubjectResultStu(TestSession_DTO dto, HttpSession session, Model model, HttpServletResponse resp) {
 		logger.info("TestController testSubjectResultStu");
 		
 		System.out.println(dto);
@@ -911,23 +950,36 @@ public class TestController_Submit {
 		map.put("subjectcode", dto.getSubjectcode());
 		map.put("coursecode", testsession.getCoursecode());
 		Subject_Test_DTO STdto = iService.se_testselect(map);
-		model.addAttribute("dto", STdto);
-		System.out.println("TSdto");
-		
-
+		if(STdto==null) {
+			PrintWriter print;
+			try {
+				resp.setContentType("text/html; charset=UTF-8");
+				System.out.println("널3");
+				print = resp.getWriter();
+				print.println("<script>alert('성적조회기간 전입니다.');location.href='./test_Course_ResultStu.do';</script>");
+				print.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+		}else {
+			model.addAttribute("dto", STdto);
+			System.out.println("TSdto");
+			
+			
 			testsession.setTestname(STdto.getTestname());
 			testsession.setTestday(STdto.getTestday());
 			testsession.setTestcode(STdto.getTestcode());
-		
-		System.out.println("■■■■■■■■■■ session : "+testsession);
-		session.setAttribute("testsession", testsession);
 			
-		return "test_List_ResultStu";
+			System.out.println("■■■■■■■■■■ session : "+testsession);
+			session.setAttribute("testsession", testsession);
+			
+		}
+		return "test_List_ResultStu";		
 	}
 	
 	//과제 조회(강사)
 	@RequestMapping(value="/test_Test_Result.do", method=RequestMethod.GET)
-	public String testSubjectResult(TestSession_DTO dto, HttpSession session, Model model) {
+	public String testSubjectResult(TestSession_DTO dto, HttpSession session, Model model, HttpServletResponse resp) {
 		logger.info("TestController testSubjectResult");
 		System.out.println(dto);
 		TestSession_DTO testsession = (TestSession_DTO)session.getAttribute("testsession");
@@ -937,19 +989,37 @@ public class TestController_Submit {
 		testsession.setExamtype(dto.getExamtype());
 		
 		Map<String, String> map = new HashMap<>();
-		map.put("subject", dto.getSubjectcode());
+		map.put("subjectcode", dto.getSubjectcode());
 		map.put("coursecode", testsession.getCoursecode());
 		Subject_Test_DTO STdto = iService.se_testselect(map);
-		model.addAttribute("dto", STdto);
-		System.out.println("TSdto");
-		
-
+		if(STdto==null) {
+			
+			//여기2
+			PrintWriter print;
+			try {
+				System.out.println("값 없음1");
+				resp.setContentType("text/html; charset=UTF-8");
+				print = resp.getWriter();
+				print.println("<script>alert('과제등록을 먼저 진행해 주세요.');location.href='./test_Course_Result.do';</script>");
+				print.flush();
+			}catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
+		}else {
+			model.addAttribute("dto", STdto);
+			System.out.println("TSdto");
+			
+			
 			testsession.setTestname(STdto.getTestname());
 			testsession.setTestday(STdto.getTestday());
 			testsession.setTestcode(STdto.getTestcode());
-		
-		System.out.println("■■■■■■■■■■ session : "+testsession);
-		session.setAttribute("testsession", testsession);
+			
+			System.out.println("■■■■■■■■■■ session : "+testsession);
+			session.setAttribute("testsession", testsession);
+			
+		}
 		
 		return "test_List_Result";
 	}
@@ -982,6 +1052,9 @@ public class TestController_Submit {
 		}
 		
 		int avg = iService.test_avg(testsession.getTestcode());
+		if(avg==0) {
+			System.out.println("0이다.");
+		}
 		model.addAttribute("avg", avg);
 		model.addAttribute("list", list);
 		model.addAttribute("scorelist", scorelist);
@@ -1004,25 +1077,28 @@ public class TestController_Submit {
 		test.put("id", id);
 		test.put("testcode", testcode);
 		Score_DTO dto = iService.score_selectsum(test);
-		int total = dto.getScore();
-		model.addAttribute("total", total);
-		if(dto.getId() == null) {
+		if(dto == null) {
 			System.out.println("값 없음");
 			PrintWriter print;
 			try {
+				System.out.println("값 없음1");
+				resp.setContentType("text/html; charset=UTF-8");
 				print = resp.getWriter();
-				print.append("<script>");
-				print.append("alert('아직 채점 전인 과제입니다. ');location.href='./test_Course_Submit.do';");
-				print.append("</script>");
+				print.println("<script>alert('아직 채점 전인 과제입니다. ');location.href='./test_Course_ResultStu.do';</script>");
+				print.flush();
 			}catch (Exception e) {
 				// TODO: handle exception
+				e.printStackTrace();
 			}
+
+		}else{
+			int total = dto.getScore();
+			model.addAttribute("total", total);
+			
+			int avg = iService.test_avg(testsession.getTestcode());
+			model.addAttribute("avg", avg);
 			
 		}
-		
-		int avg = iService.test_avg(testsession.getTestcode());
-		model.addAttribute("avg", avg);
-		
 		return "test_DetailScoreStu";
 	}
 	

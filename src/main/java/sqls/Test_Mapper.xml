@@ -388,7 +388,7 @@
 	
 	<!-- 과제 평균 -->
 	<select id="test_avg" parameterType="java.lang.String" resultType="java.lang.Integer">
-	SELECT AVG(SCORE)
+	SELECT NVL(AVG(SCORE),0)
 FROM (SELECT SUM(SCORE) AS SCORE, ID, NAME
 		FROM SCORE JOIN STUDENT USING(ID) WHERE TESTCODE = #{testcode} GROUP BY ID,NAME)
 	</select>
