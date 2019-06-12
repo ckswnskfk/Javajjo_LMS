@@ -16,7 +16,7 @@
 		document.getElementById("coursecode").value = v2;
 	}
 	
-	$(document).ready(function() {
+	onload = (function() {
 // 		alert(id);
 		$.ajax({
 			url: "./absent_course.do",
