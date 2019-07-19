@@ -24,9 +24,7 @@
 	function stmSelect(stm) {
 		$.ajax({
 			url: url,
-			async : false,
 			data: stm,
-// 			dataType: "json",
 			type: "POST",
 			success: function(obj) {
 				var ob = JSON.parse(obj);
@@ -123,7 +121,7 @@
 
 <!-- Page Content -->
   <div class="container" id="main">
-    <div class="row" style="width: 900px; margin: 0 auto;">
+    <div class="row" style="width: 950px; margin: 0 auto;">
       <div class="col-lg-12 text-center">
         <h4 class="mt-5">결석 신청 내역</h4>
         <div><br>
