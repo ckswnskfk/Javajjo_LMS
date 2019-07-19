@@ -104,12 +104,12 @@ public class AbsentController {
 	public @ResponseBody String student_absent_list(@RequestBody String stm, HttpSession session) {
 		logger.info("AbsentController student_absent_list 실행 {}", stm);
 		Map<String, String> lmap = (Map<String, String>) session.getAttribute("member");
-		System.out.println(stm);
+		logger.info(stm);
 		String inStm = stm.substring(0, 1);
-		System.out.println(inStm);
+		logger.info(inStm);
 		lmap.put("stm", inStm);
 		List<App_Form_DTO> list = absent_IService.student_absent_list(lmap);
-		System.out.println(list.toString());
+		logger.info(list.toString());
 		JSONObject json = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		JSONObject data = null;
@@ -127,11 +127,10 @@ public class AbsentController {
 			
 			jArray.add(data);
 		}
-		System.out.println("===="+jArray);
+		logger.info("========"+jArray);
 		
 		json.put("lists", jArray);
-		System.out.println(json);
-		System.out.println(json.toJSONString());
+		logger.info(json.toJSONString());
 		return json.toJSONString();
 	}
 	

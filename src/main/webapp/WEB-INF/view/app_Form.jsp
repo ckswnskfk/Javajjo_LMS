@@ -11,6 +11,7 @@
 	var id = "${member.id}";
 	
 	function selsectCoursecode() {
+		
 		var v2 = $("#recipient_id  option:selected").attr("coursecode"); //지정 value2 값
 // 		alert(v2);
 		document.getElementById("coursecode").value = v2;
